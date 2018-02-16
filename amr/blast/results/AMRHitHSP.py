@@ -1,7 +1,8 @@
 class AMRHitHSP:
 
-    def __init__(self, file, hit, hsp):
+    def __init__(self, file, blast_record, hit, hsp):
         self._file = file
+        self._blast_record = blast_record
         self.hit = hit
         self.hsp = hsp
 
@@ -22,3 +23,12 @@ class AMRHitHSP:
 
     def get_file(self):
         return self._file
+
+    def get_contig(self):
+        return self._blast_record.query
+
+    def get_contig_start(self):
+        return self.hsp.query_start
+
+    def get_contig_end(self):
+        return self.hsp.query_end

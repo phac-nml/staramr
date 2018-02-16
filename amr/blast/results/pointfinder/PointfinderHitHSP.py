@@ -3,8 +3,8 @@ from amr.blast.results.AMRHitHSP import AMRHitHSP
 
 class PointfinderHitHSP(AMRHitHSP):
 
-    def __init__(self, file, hit, hsp):
-        super().__init__(file, hit, hsp)
+    def __init__(self, file, blast_record, hit, hsp):
+        super().__init__(file, blast_record, hit, hsp)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):

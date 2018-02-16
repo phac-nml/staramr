@@ -9,8 +9,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     def __init__(self, file_blast_map, pid_threshold, plength_threshold):
         super().__init__(file_blast_map, pid_threshold, plength_threshold)
 
-    def _create_hit(self, file, alignment, hsp):
-        return PointfinderHitHSP(file, alignment, hsp)
+    def _create_hit(self, file, blast_record, alignment, hsp):
+        return PointfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
         return pandas.DataFrame(results, columns=('File', 'Resistance gene', '% Identity', '% Overlap', 'HSP/Alignment'))

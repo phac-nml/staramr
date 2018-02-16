@@ -1,8 +1,12 @@
 import abc
 import os
 import sys
+import time
+import logging
 
 from Bio.Blast import NCBIXML
+
+logger = logging.getLogger('BlastResultsParser')
 
 class BlastResultsParser:
 
@@ -18,6 +22,7 @@ class BlastResultsParser:
         for file in self._file_blast_map:
             databases = self._file_blast_map[file]
             for database_name, blast_out in databases.items():
+                logger.debug(str(blast_out))
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
                 self._handle_blast_hit(file, database_name, blast_out, results)
@@ -31,7 +36,7 @@ class BlastResultsParser:
             hits = []
             for alignment in blast_record.alignments:
                 for hsp in alignment.hsps:
-                    hit = self._create_hit(in_file,alignment,hsp)
+                    hit = self._create_hit(in_file,blast_record,alignment,hsp)
                     if (hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold):
                         hits.append(hit)
             # sort by pid and then by plength

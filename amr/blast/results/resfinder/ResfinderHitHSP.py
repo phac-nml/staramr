@@ -7,8 +7,8 @@ logger = logging.getLogger('ResfinderHitHSP')
 
 class ResfinderHitHSP(AMRHitHSP):
 
-    def __init__(self, file, hit, hsp):
-        super().__init__(file, hit, hsp)
+    def __init__(self, file, blast_record, hit, hsp):
+        super().__init__(file, blast_record, hit, hsp)
 
         re_search = re.search("([^_]+)_([^_]+)_([^_\s]+)$", hit.hit_id)
         if not re_search:
