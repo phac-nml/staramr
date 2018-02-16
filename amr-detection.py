@@ -7,7 +7,7 @@ from os import path, mkdir
 from amr.blast.BlastHandler import BlastHandler
 from amr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from amr.blast.results.AMRDetectionSummary import AMRDetectionSummary
+from amr.results.AMRDetectionSummary import AMRDetectionSummary
 from amr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from amr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 
