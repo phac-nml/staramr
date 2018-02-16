@@ -13,14 +13,18 @@ class BlastResultsParser:
         self._plength_threshold = plength_threshold
 
     def _parse_blast_results(self, file_handle):
+        results = []
+
         for file in self._file_blast_map:
             databases = self._file_blast_map[file]
             for database_name, blast_out in databases.items():
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
-                self._handle_blast_hit(file, database_name, blast_out, file_handle)
+                self._handle_blast_hit(file, database_name, blast_out, results, file_handle)
 
-    def _handle_blast_hit(self, in_file, database_name, blast_file, file_handle):
+        return self._create_data_frame(results)
+
+    def _handle_blast_hit(self, in_file, database_name, blast_file, results, file_handle):
         blast_handle = open(blast_file)
         blast_records = NCBIXML.parse(blast_handle)
         for blast_record in blast_records:
@@ -32,27 +36,31 @@ class BlastResultsParser:
                         hits.append(hit)
             # sort by pid and then by plength
             hits.sort(key=lambda x: (x.get_pid(), x.get_plength()), reverse=True)
-            if (len(hits) >= 1):
+            if len(hits) >= 1:
                 hit = hits[0]
-                self._print_hit(hit, file_handle)
+                self._append_results_to(hit, results)
         blast_handle.close()
+
+    @abc.abstractmethod
+    def _create_data_frame(self, results):
+        pass
 
     @abc.abstractmethod
     def _create_hit(self, alignment, hsp):
         pass
 
     @abc.abstractmethod
-    def _print_hit(self, hit, file_handle):
+    def _append_results_to(self, hit, results):
         pass
 
     def print_to_file(self, file=None):
         file_handle = sys.stdout
 
-        if not file:
-            file_handle = open(file, 'w')
+        #if not file:
+            #file_handle = open(file, 'w')
 
-        file_handle.write("File\tResistance gene\tPhenotype\t% Identity\t% Overlap\tHSP/Alignment\tContig\n")
-        self._parse_blast_results(file_handle)
+        data_frame = self._parse_blast_results(file_handle)
+        data_frame.to_csv(file_handle, sep="\t", index=False, float_format="%0.2f")
 
-        if not file:
-            file_handle.close()
+        #if not file:
+         #   file_handle.close()

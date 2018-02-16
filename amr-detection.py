@@ -48,9 +48,9 @@ if __name__ == '__main__':
 
     resfinder_blast_map = blast_handler.get_resfinder_outputs()
     resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, args.pid_threshold, args.plength_threshold)
-    resfinder_parser.print_to_file("x")
+    resfinder_parser.print_to_file()
 
     if (blast_handler.is_pointfinder_configured()):
         pointfinder_blast_map = blast_handler.get_pointfinder_outputs()
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, args.pid_threshold, args.plength_threshold)
-        pointfinder_parser.print_to_file("x")
+        pointfinder_parser.print_to_file()
