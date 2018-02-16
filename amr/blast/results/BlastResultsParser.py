@@ -12,7 +12,7 @@ class BlastResultsParser:
         self._pid_threshold = pid_threshold
         self._plength_threshold = plength_threshold
 
-    def _parse_blast_results(self, file_handle):
+    def parse_results(self):
         results = []
 
         for file in self._file_blast_map:
@@ -20,11 +20,11 @@ class BlastResultsParser:
             for database_name, blast_out in databases.items():
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
-                self._handle_blast_hit(file, database_name, blast_out, results, file_handle)
+                self._handle_blast_hit(file, database_name, blast_out, results)
 
         return self._create_data_frame(results)
 
-    def _handle_blast_hit(self, in_file, database_name, blast_file, results, file_handle):
+    def _handle_blast_hit(self, in_file, database_name, blast_file, results):
         blast_handle = open(blast_file)
         blast_records = NCBIXML.parse(blast_handle)
         for blast_record in blast_records:
@@ -52,15 +52,3 @@ class BlastResultsParser:
     @abc.abstractmethod
     def _append_results_to(self, hit, results):
         pass
-
-    def print_to_file(self, file=None):
-        file_handle = sys.stdout
-
-        #if not file:
-            #file_handle = open(file, 'w')
-
-        data_frame = self._parse_blast_results(file_handle)
-        data_frame.to_csv(file_handle, sep="\t", index=False, float_format="%0.2f")
-
-        #if not file:
-         #   file_handle.close()
