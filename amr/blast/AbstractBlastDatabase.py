@@ -9,8 +9,12 @@ class AbstractBlastDatabase:
 
     @abc.abstractmethod
     def get_database_names(self):
-        return
+        pass
 
     @abc.abstractmethod
     def get_path(self, database_name):
-        return
+        pass
+
+    @abc.abstractmethod
+    def get_phenotype(self, gene):
+        pass

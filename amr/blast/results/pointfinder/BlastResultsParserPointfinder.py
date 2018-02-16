@@ -6,8 +6,8 @@ from amr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 
 class BlastResultsParserPointfinder(BlastResultsParser):
 
-    def __init__(self, file_blast_map, pid_threshold, plength_threshold):
-        super().__init__(file_blast_map, pid_threshold, plength_threshold)
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold):
+        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold)
 
     def _create_hit(self, file, blast_record, alignment, hsp):
         return PointfinderHitHSP(file, blast_record, alignment, hsp)

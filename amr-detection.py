@@ -68,7 +68,7 @@ if __name__ == '__main__':
     blast_handler.run_blasts(args.files)
 
     resfinder_blast_map = blast_handler.get_resfinder_outputs()
-    resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, args.pid_threshold, args.plength_threshold)
+    resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, resfinder_database, args.pid_threshold, args.plength_threshold)
     resfinder_dataframe = resfinder_parser.parse_results()
 
     if args.output_dir:
@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
     if (blast_handler.is_pointfinder_configured()):
         pointfinder_blast_map = blast_handler.get_pointfinder_outputs()
-        pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, args.pid_threshold, args.plength_threshold)
+        pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, pointfinder_database, args.pid_threshold, args.plength_threshold)
         pointfinder_dataframe = pointfinder_parser.parse_results()
 
         if args.output_dir:

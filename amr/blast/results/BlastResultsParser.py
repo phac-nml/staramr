@@ -10,9 +10,10 @@ logger = logging.getLogger('BlastResultsParser')
 
 class BlastResultsParser:
 
-    def __init__(self, file_blast_map, pid_threshold, plength_threshold):
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold):
         __metaclass__ = abc.ABCMeta
         self._file_blast_map = file_blast_map
+        self._blast_database = blast_database
         self._pid_threshold = pid_threshold
         self._plength_threshold = plength_threshold
 
@@ -37,7 +38,7 @@ class BlastResultsParser:
             for alignment in blast_record.alignments:
                 for hsp in alignment.hsps:
                     hit = self._create_hit(in_file,blast_record,alignment,hsp)
-                    if (hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold):
+                    if hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold:
                         hits.append(hit)
             # sort by pid and then by plength
             hits.sort(key=lambda x: (x.get_pid(), x.get_plength()), reverse=True)
