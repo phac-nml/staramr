@@ -4,7 +4,7 @@ class AMRDetectionSummary:
         self._resfinder_dataframe = resfinder_dataframe
         self._pointfinder_dataframe = pointfinder_dataframe
 
-        if pointfinder_dataframe:
+        if pointfinder_dataframe is not None:
             self._has_pointfinder = True
         else:
             self._has_pointfinder = False
