@@ -1,3 +1,5 @@
+import re
+
 class AMRHitHSP:
 
     def __init__(self, file, blast_record, hit, hsp):
@@ -25,7 +27,8 @@ class AMRHitHSP:
         return self._file
 
     def get_contig(self):
-        return self._blast_record.query
+        re_search = re.search("^(\S+)", self._blast_record.query)
+        return re_search.group(1)
 
     def get_contig_start(self):
         return self.hsp.query_start
