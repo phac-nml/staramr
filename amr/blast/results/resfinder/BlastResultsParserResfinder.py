@@ -13,12 +13,14 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return ResfinderHitHSP(file, alignment, hsp)
 
     def _create_data_frame(self, results):
-        return pandas.DataFrame(results, columns=('File', 'Resistance gene', '% Identity', '% Overlap', 'HSP/Alignment'))
+        return pandas.DataFrame(results, columns=('File', 'Resistance gene', '% Identity', '% Overlap', 'HSP/Alignment',
+                                                  'Accession'))
 
     def _append_results_to(self, hit, results):
         results.append([hit.get_file(),
                         hit.get_gene(),
                         hit.get_pid(),
                         hit.get_plength(),
-                        str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length())
+                        str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
+                        hit.get_accession()
                        ])

@@ -1,24 +1,29 @@
 import re
+import logging
 
 from amr.blast.results.AMRHitHSP import AMRHitHSP
 
+logger = logging.getLogger('ResfinderHitHSP')
 
 class ResfinderHitHSP(AMRHitHSP):
 
     def __init__(self, file, hit, hsp):
         super().__init__(file, hit, hsp)
 
-        re_search = re.search("(.+)_([^_]+)$", hit.hit_id)
+        re_search = re.search("([^_]+)_([^_]+)_([^_\s]+)$", hit.hit_id)
         if not re_search:
             raise Exception("Could not split up seq name for [" + hit.hit_id + "]")
-        self.gene = re_search.group(1)
-        self.accession = re_search.group(2)
+        self._gene = re_search.group(1)
+        self._gene_variant = re_search.group(2)
+        self._accession = re_search.group(3)
+
+        logger.debug("hit_id="+str(hit.hit_id))
 
     def get_gene(self):
-        return self.gene
+        return self._gene
 
     def get_accession(self):
-        return self.accession
+        return self._accession
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
