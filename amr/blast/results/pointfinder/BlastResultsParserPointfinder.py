@@ -20,21 +20,27 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                                          '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
 
     def _append_results_to(self, hit, results):
-        nucleotide_mutation_positions = hit.get_nucleotide_mutation_positions()
-        codon_mutation_positions = hit.get_codon_mutation_positions_at(nucleotide_mutation_positions)
-        codons = hit.get_nucleotide_codons_at(nucleotide_mutation_positions)
+        nucleotide_mutation_positions = hit.get_database_nucleotide_mutation_positions()
+        codon_mutation_positions = hit.get_database_codon_mutation_positions_at(nucleotide_mutation_positions)
         gene=hit.get_gene()
 
         resistance_codon_mutation_positions = self._blast_database.get_resistance_codon_mutation_positions(gene, codon_mutation_positions)
-        resistance_codons = self._blast_database.get_resistance_codons(gene, codon_mutation_positions)
+        resistance_codons_reference_extract = hit.get_database_nucleotide_codons_at(nucleotide_mutation_positions)
+        resistance_codons_reference = self._blast_database.get_resistance_codons(gene, codon_mutation_positions)
 
-        if len(resistance_codon_mutation_positions) == 0:
+        logger.info("resistance_codons_reference_extract="+str(resistance_codons_reference_extract))
+        logger.info("resistance_codons_reference="+str(resistance_codons_reference))
+
+        if (resistance_codons_reference_extract != resistance_codons_reference):
+            raise Exception("Error, did not extract identical codons from both blast database file and resfinder info file. blast="+
+                            str(resistance_codons_reference_extract) + ", resfinder info="+str(resistance_codons_reference))
+        elif len(resistance_codon_mutation_positions) == 0:
             logger.debug("No mutations for ["+hit.get_hit_id()+"]")
         elif len(resistance_codon_mutation_positions) == 1:
             results.append([hit.get_file(),
                             hit.get_hit_id(),
                             resistance_codon_mutation_positions[0],
-                            resistance_codons[0],
+                            resistance_codons_reference[0],
                             hit.get_pid(),
                             hit.get_plength(),
                             str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length())

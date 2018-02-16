@@ -24,7 +24,7 @@ class PointfinderHitHSP(AMRHitHSP):
         else:
             return frame
 
-    def get_nucleotide_mutation_positions(self):
+    def get_database_nucleotide_mutation_positions(self):
         start = self.hsp.sbjct_start
         mutations = []
         if self.get_database_frame() == 1:
@@ -36,17 +36,17 @@ class PointfinderHitHSP(AMRHitHSP):
         logger.info("sbjct_start: " + str(self.hsp.sbjct_start))
         logger.info("sbjct_start: " + str(self.hsp.sbjct_end))
         logger.info("nuc_mutations: "+str(mutations))
-        #logger.info("hsp: "+self.pp.pprint(vars(self.hsp)))
         return mutations
 
-    def get_codon_mutation_positions_at(self, nucleotide_mutation_positions):
+    def get_database_codon_mutation_positions_at(self, nucleotide_mutation_positions):
         codon_mutation_positions = [math.ceil(x/3) for x in nucleotide_mutation_positions]
         logger.info("codon_mutations: "+str(codon_mutation_positions))
         return codon_mutation_positions
 
-    def get_nucleotide_codons_at(self, nucleotide_mutation_positions):
-        codon_position_remainders_index_0 = [(x-1)%3 for x in nucleotide_mutation_positions]
-        return "X"
+    def get_database_nucleotide_codons_at(self, nucleotide_mutation_positions):
+        nucleotide_string = self.hsp.sbjct
+        codon_position_starts_index_0 = [(x - 1) - ((x - 1) % 3) for x in nucleotide_mutation_positions]
+        return [nucleotide_string[x:(x+3)].upper() for x in codon_position_starts_index_0]
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
