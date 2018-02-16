@@ -1,9 +1,10 @@
-import re
 import logging
+import re
 
 from amr.blast.results.AMRHitHSP import AMRHitHSP
 
 logger = logging.getLogger('ResfinderHitHSP')
+
 
 class ResfinderHitHSP(AMRHitHSP):
 
@@ -17,7 +18,7 @@ class ResfinderHitHSP(AMRHitHSP):
         self._gene_variant = re_search.group(2)
         self._accession = re_search.group(3)
 
-        logger.debug("hit_id="+str(hit.hit_id))
+        logger.debug("hit_id=" + str(hit.hit_id))
 
     def get_gene(self):
         return self._gene

@@ -1,8 +1,8 @@
-import os
 import pandas
 
 from amr.blast.results.BlastResultsParser import BlastResultsParser
 from amr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
+
 
 class BlastResultsParserResfinder(BlastResultsParser):
 
@@ -17,7 +17,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
                                                   'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION'))
 
     def _append_results_to(self, hit, results):
-        phenotype=self._blast_database.get_phenotype(hit.get_gene())
+        phenotype = self._blast_database.get_phenotype(hit.get_gene())
 
         results.append([hit.get_file(),
                         hit.get_gene(),
@@ -29,4 +29,4 @@ class BlastResultsParserResfinder(BlastResultsParser):
                         hit.get_contig_start(),
                         hit.get_contig_end(),
                         hit.get_accession()
-                       ])
+                        ])

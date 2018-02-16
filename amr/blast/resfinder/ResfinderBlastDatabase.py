@@ -1,4 +1,5 @@
 import os
+
 import pandas
 
 from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
@@ -11,8 +12,8 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
         self._parse_resfinder_info(os.path.join(database_dir, "notes.txt"))
 
     def _parse_resfinder_info(self, database_info_file):
-        self._resfinder_info=pandas.read_csv(database_info_file, sep=':', comment="#", header=None, index_col=False,
-                                             names=("gene","phenotype"))
+        self._resfinder_info = pandas.read_csv(database_info_file, sep=':', comment="#", header=None, index_col=False,
+                                               names=("gene", "phenotype"))
 
     def get_database_names(self):
         return [f[:-len(self.fasta_suffix)] for f in os.listdir(self.database_dir) if
@@ -25,6 +26,7 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
         table = self._resfinder_info
         phenotype = table[table['gene'] == gene]['phenotype']
         if phenotype.size != 1:
-            raise Exception("Error, invalid number of matches in resfinder info for gene ["+gene+"], got="+str(phenotype))
+            raise Exception(
+                "Error, invalid number of matches in resfinder info for gene [" + gene + "], got=" + str(phenotype))
         else:
             return phenotype.iloc[0]

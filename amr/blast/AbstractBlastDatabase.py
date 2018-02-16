@@ -1,7 +1,8 @@
 import abc
 
+
 class AbstractBlastDatabase:
-    fasta_suffix=".fsa"
+    fasta_suffix = ".fsa"
 
     def __init__(self, database_dir):
         __metaclass__ = abc.ABCMeta

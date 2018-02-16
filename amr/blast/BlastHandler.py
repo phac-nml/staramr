@@ -1,16 +1,16 @@
-from Bio.Blast import NCBIXML
-from Bio.Blast.Applications import NcbiblastnCommandline
-from concurrent.futures import ThreadPoolExecutor
+import logging
 import os
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
-import logging
+from Bio.Blast.Applications import NcbiblastnCommandline
 
 logger = logging.getLogger('BlastHandler')
 
+
 class BlastHandler:
 
-    def __init__(self, resfinder_database, pointfinder_database = None, threads = 1):
+    def __init__(self, resfinder_database, pointfinder_database=None, threads=1):
         self._resfinder_database = resfinder_database
         self._threads = threads
 
