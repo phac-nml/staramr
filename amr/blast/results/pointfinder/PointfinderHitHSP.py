@@ -48,19 +48,16 @@ class PointfinderHitHSP(AMRHitHSP):
 
     def get_codon_mutation_positions_at(self, nucleotide_mutation_positions):
         codon_mutation_positions = [math.ceil(x/3) for x in nucleotide_mutation_positions]
-        logger.info("codon_mutations: "+str(codon_mutation_positions))
         return codon_mutation_positions
 
-    def _get_nucleotide_codons_at(self, nucleotide_string, nucleotide_mutation_positions):
-        nucleotide_string = self.hsp.sbjct
-        codon_position_starts_index_0 = [(x - 1) - ((x - 1) % 3) for x in nucleotide_mutation_positions]
-        return [nucleotide_string[x:(x+3)].upper() for x in codon_position_starts_index_0]
+    def _get_codons_at(self, nucleotide_string, codon_mutation_positions):
+        return [nucleotide_string[(x-1)*3:((x-1)*3+3)].upper() for x in codon_mutation_positions]
 
-    def get_database_nucleotide_codons_at(self, nucleotide_mutation_positions):
-        return self._get_nucleotide_codons_at(self.hsp.sbjct, nucleotide_mutation_positions)
+    def get_database_codons_at(self, codon_mutation_positions):
+        return self._get_codons_at(self.hsp.sbjct, codon_mutation_positions)
 
-    def get_query_nucleotide_codons_at(self, nucleotide_mutation_positions):
-        return self._get_nucleotide_codons_at(self.hsp.query, nucleotide_mutation_positions)
+    def get_query_codons_at(self, codon_mutation_positions):
+        return self._get_codons_at(self.hsp.query, codon_mutation_positions)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):

@@ -24,10 +24,27 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         database_codon_mutation_positions = hit.get_codon_mutation_positions_at(database_nucleotide_mutation_positions)
         gene=hit.get_gene()
 
-        database_resistance_codon_mutation_positions = self._blast_database.get_resistance_codon_mutation_positions(gene, database_codon_mutation_positions)
-        database_resistance_codons_reference = hit.get_database_nucleotide_codons_at(database_nucleotide_mutation_positions)
-        database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_codon_mutation_positions)
+        logger.info("")
+        logger.info("gene="+str(gene))
+        logger.info("sbjct_start="+str(hit.hsp.sbjct_start))
+        logger.info("sbjct_end="+str(hit.hsp.sbjct_end))
+        logger.info("sbjct_frame="+str(hit.get_database_frame()))
+        logger.info("query_frame=" + str(hit.get_query_frame()))
+        logger.info("query_start="+str(hit.hsp.query_start))
+        logger.info("query_end="+str(hit.hsp.query_end))
+        logger.info("database_nucleotide_mutation_positions="+str(database_nucleotide_mutation_positions))
+        logger.info("database_codon_mutation_positions="+str(database_codon_mutation_positions))
 
+        database_resistance_codon_mutation_positions = self._blast_database.get_resistance_codon_mutation_positions(gene, database_codon_mutation_positions)
+        database_resistance_codons_reference = hit.get_database_codons_at(database_resistance_codon_mutation_positions)
+        database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_resistance_codon_mutation_positions)
+
+        query_nucleotide_mutation_positions = hit.get_query_nucleotide_mutation_positions()
+        query_codon_mutation_positions = hit.get_query_codons_at(query_nucleotide_mutation_positions)
+        logger.info("query_nucleotide_mutation_positions="+str(query_nucleotide_mutation_positions))
+        logger.info("query_codon_mutation_positions="+str(query_codon_mutation_positions))
+
+        logger.info("database_resistance_codon_mutation_positions="+str(database_resistance_codon_mutation_positions))
         logger.info("database_resistance_codons_reference="+str(database_resistance_codons_reference))
         logger.info("database_resistance_codons="+str(database_resistance_codons))
 
