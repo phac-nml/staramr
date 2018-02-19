@@ -68,7 +68,7 @@ class BlastHandler:
             file_name = os.path.basename(file)
             dir = tempfile.TemporaryDirectory()
 
-            # Forces temporary directories to not be cleaned up until program is finished
+            # Forces temporary directories to not be cleaned up until this object is destroyed
             self._temp_dirs.append(dir)
 
             blast_out = os.path.join(dir.name, file_name + ".blast.xml")
@@ -101,3 +101,8 @@ class BlastHandler:
         stdout, stderr = blastn_command()
         if stderr:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
+
+    def __del__(self):
+        for dir in self._temp_dirs:
+            logger.debug("Removing temporary directory "+str(dir))
+            dir.cleanup()
