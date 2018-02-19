@@ -10,14 +10,14 @@ from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        resfinder_database_dir = path.join("databases", "resfinder")
-        pointfinder_database_root_dir = path.join("databases", "pointfinder")
+        self.resfinder_database_dir = path.join("databases", "resfinder")
+        self.pointfinder_database_root_dir = path.join("databases", "pointfinder")
 
-        resfinder_database = ResfinderBlastDatabase(resfinder_database_dir)
+        self.resfinder_database = ResfinderBlastDatabase(self.resfinder_database_dir)
         pointfinder_database = None
-        blast_handler = BlastHandler(resfinder_database, pointfinder_database, threads=2)
+        blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
 
-        self.amr_detection = AMRDetection(resfinder_database, blast_handler, pointfinder_database)
+        self.amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
         self.test_data_dir = path.join("tests", "data")
 
@@ -62,6 +62,22 @@ class AMRDetectionIT(unittest.TestCase):
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
+
+
+    def testPointfinderSalmonellaA67PSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+
+        files = [path.join(self.test_data_dir, "gyrA-A67P.fsa")]
+        amr_detection.run_amr_detection(files, 99, 99)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['GENE'] == 'gyrA']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.962, places=3, msg='Wrong pid')
 
 if __name__ == '__main__':
     unittest.main()
