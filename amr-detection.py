@@ -4,32 +4,29 @@ import logging
 import sys
 from os import path, mkdir
 
+from amr.AMRDetection import AMRDetection
 from amr.blast.BlastHandler import BlastHandler
 from amr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from amr.results.AMRDetectionSummary import AMRDetectionSummary
-from amr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
-from amr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 
 logger = logging.getLogger("amr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 resfinder_database_dir = path.join("databases", "resfinder")
 pointfinder_database_root_dir = path.join("databases", "pointfinder")
-arg_drug_table_resfinder_file = path.join("data", "ARG_drug_key_resfinder.tsv")
-fasta_suffix = ".fsa"
 
 
 def print_to_file(dataframe, file=None):
     file_handle = sys.stdout
 
-    if file:
-        file_handle = open(file, 'w')
+    if dataframe is not None:
+        if file:
+            file_handle = open(file, 'w')
 
-    dataframe.to_csv(file_handle, sep="\t", index=False, float_format="%0.2f")
+        dataframe.to_csv(file_handle, sep="\t", index=False, float_format="%0.2f")
 
-    if file:
-        file_handle.close()
+        if file:
+            file_handle.close()
 
 
 if __name__ == '__main__':
@@ -64,35 +61,12 @@ if __name__ == '__main__':
         pointfinder_database = None
     blast_handler = BlastHandler(resfinder_database, pointfinder_database, threads=args.threads)
 
-    blast_handler.run_blasts(args.files)
-
-    resfinder_blast_map = blast_handler.get_resfinder_outputs()
-    resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, resfinder_database, args.pid_threshold,
-                                                   args.plength_threshold)
-    resfinder_dataframe = resfinder_parser.parse_results()
+    amr_detection = AMRDetection(resfinder_database, blast_handler, pointfinder_database)
+    amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold)
 
     if args.output_dir:
-        print_to_file(resfinder_dataframe, path.join(args.output_dir, "results_tab.tsv"))
+        print_to_file(amr_detection.get_resfinder_results(), path.join(args.output_dir, "results_tab.tsv"))
+        print_to_file(amr_detection.get_pointfinder_results(), path.join(args.output_dir, "results_tab.pointfinder.tsv"))
+        print_to_file(amr_detection.get_summary_results(), path.join(args.output_dir, "summary.tsv"))
     else:
-        print_to_file(resfinder_dataframe)
-
-    summary = None
-    if (blast_handler.is_pointfinder_configured()):
-        pointfinder_blast_map = blast_handler.get_pointfinder_outputs()
-        pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, pointfinder_database,
-                                                           args.pid_threshold, args.plength_threshold)
-        pointfinder_dataframe = pointfinder_parser.parse_results()
-
-        if args.output_dir:
-            print_to_file(pointfinder_dataframe, path.join(args.output_dir, "results_tab.pointfinder.tsv"))
-        else:
-            print_to_file(pointfinder_dataframe)
-
-        summary = AMRDetectionSummary(resfinder_dataframe, pointfinder_dataframe)
-    else:
-        summary = AMRDetectionSummary(resfinder_dataframe)
-
-    if args.output_dir:
-        print_to_file(summary.create_summary(), path.join(args.output_dir, "summary.tsv"))
-    else:
-        print_to_file(summary.create_summary())
+        print_to_file(amr_detection.get_summary_results())

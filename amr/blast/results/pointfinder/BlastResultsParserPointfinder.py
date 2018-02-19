@@ -1,10 +1,12 @@
-import pandas
 import logging
+
+import pandas
 
 from amr.blast.results.BlastResultsParser import BlastResultsParser
 from amr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
+
 
 class BlastResultsParserPointfinder(BlastResultsParser):
 
@@ -22,37 +24,40 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     def _append_results_to(self, hit, results):
         database_nucleotide_mutation_positions = hit.get_database_nucleotide_mutation_positions()
         database_codon_mutation_positions = hit.get_codon_mutation_positions_at(database_nucleotide_mutation_positions)
-        gene=hit.get_gene()
+        gene = hit.get_gene()
 
         logger.info("")
-        logger.info("gene="+str(gene))
-        logger.info("sbjct_start="+str(hit.hsp.sbjct_start))
-        logger.info("sbjct_end="+str(hit.hsp.sbjct_end))
-        logger.info("sbjct_frame="+str(hit.get_database_frame()))
+        logger.info("gene=" + str(gene))
+        logger.info("sbjct_start=" + str(hit.hsp.sbjct_start))
+        logger.info("sbjct_end=" + str(hit.hsp.sbjct_end))
+        logger.info("sbjct_frame=" + str(hit.get_database_frame()))
         logger.info("query_frame=" + str(hit.get_query_frame()))
-        logger.info("query_start="+str(hit.hsp.query_start))
-        logger.info("query_end="+str(hit.hsp.query_end))
-        logger.info("database_nucleotide_mutation_positions="+str(database_nucleotide_mutation_positions))
-        logger.info("database_codon_mutation_positions="+str(database_codon_mutation_positions))
+        logger.info("query_start=" + str(hit.hsp.query_start))
+        logger.info("query_end=" + str(hit.hsp.query_end))
+        logger.info("database_nucleotide_mutation_positions=" + str(database_nucleotide_mutation_positions))
+        logger.info("database_codon_mutation_positions=" + str(database_codon_mutation_positions))
 
-        database_resistance_codon_mutation_positions = self._blast_database.get_resistance_codon_mutation_positions(gene, database_codon_mutation_positions)
+        database_resistance_codon_mutation_positions = self._blast_database.get_resistance_codon_mutation_positions(
+            gene, database_codon_mutation_positions)
         database_resistance_codons_reference = hit.get_database_codons_at(database_resistance_codon_mutation_positions)
-        database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_resistance_codon_mutation_positions)
+        database_resistance_codons = self._blast_database.get_resistance_codons(gene,
+                                                                                database_resistance_codon_mutation_positions)
 
         query_nucleotide_mutation_positions = hit.get_query_nucleotide_mutation_positions()
         query_codon_mutation_positions = hit.get_query_codons_at(query_nucleotide_mutation_positions)
-        logger.info("query_nucleotide_mutation_positions="+str(query_nucleotide_mutation_positions))
-        logger.info("query_codon_mutation_positions="+str(query_codon_mutation_positions))
+        logger.info("query_nucleotide_mutation_positions=" + str(query_nucleotide_mutation_positions))
+        logger.info("query_codon_mutation_positions=" + str(query_codon_mutation_positions))
 
-        logger.info("database_resistance_codon_mutation_positions="+str(database_resistance_codon_mutation_positions))
-        logger.info("database_resistance_codons_reference="+str(database_resistance_codons_reference))
-        logger.info("database_resistance_codons="+str(database_resistance_codons))
+        logger.info("database_resistance_codon_mutation_positions=" + str(database_resistance_codon_mutation_positions))
+        logger.info("database_resistance_codons_reference=" + str(database_resistance_codons_reference))
+        logger.info("database_resistance_codons=" + str(database_resistance_codons))
 
         if (database_resistance_codons_reference != database_resistance_codons):
-            raise Exception("Error, did not extract identical codons from both blast database file and resfinder info file. blast="+
-                            str(database_resistance_codons_reference) + ", resfinder info="+str(database_resistance_codons))
+            raise Exception(
+                "Error, did not extract identical codons from both blast database file and resfinder info file. blast=" +
+                str(database_resistance_codons_reference) + ", resfinder info=" + str(database_resistance_codons))
         elif len(database_resistance_codon_mutation_positions) == 0:
-            logger.debug("No mutations for ["+hit.get_hit_id()+"]")
+            logger.debug("No mutations for [" + hit.get_hit_id() + "]")
         elif len(database_resistance_codon_mutation_positions) == 1:
             results.append([hit.get_file(),
                             hit.get_hit_id(),
@@ -63,4 +68,5 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                             str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length())
                             ])
         else:
-            raise Exception("Error, multiple resistance mutations for ["+hit.get_hit_id()+"], mutations "+str(database_resistance_codon_mutation_positions))
+            raise Exception("Error, multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
+                database_resistance_codon_mutation_positions))

@@ -1,11 +1,10 @@
-from amr.blast.results.AMRHitHSP import AMRHitHSP
-
 import logging
-import pprint
 import math
 
+from amr.blast.results.AMRHitHSP import AMRHitHSP
 
 logger = logging.getLogger('PointfinderHitHSP')
+
 
 class PointfinderHitHSP(AMRHitHSP):
 
@@ -39,19 +38,19 @@ class PointfinderHitHSP(AMRHitHSP):
     def get_database_nucleotide_mutation_positions(self):
         start = self.hsp.sbjct_start
         frame = self.get_database_frame()
-        return self._get_nucleotide_mutation_positions(start,frame)
+        return self._get_nucleotide_mutation_positions(start, frame)
 
     def get_query_nucleotide_mutation_positions(self):
         start = self.hsp.query_start
         frame = self.get_query_frame()
-        return self._get_nucleotide_mutation_positions(start,frame)
+        return self._get_nucleotide_mutation_positions(start, frame)
 
     def get_codon_mutation_positions_at(self, nucleotide_mutation_positions):
-        codon_mutation_positions = [math.ceil(x/3) for x in nucleotide_mutation_positions]
+        codon_mutation_positions = [math.ceil(x / 3) for x in nucleotide_mutation_positions]
         return codon_mutation_positions
 
     def _get_codons_at(self, nucleotide_string, codon_mutation_positions):
-        return [nucleotide_string[(x-1)*3:((x-1)*3+3)].upper() for x in codon_mutation_positions]
+        return [nucleotide_string[(x - 1) * 3:((x - 1) * 3 + 3)].upper() for x in codon_mutation_positions]
 
     def get_database_codons_at(self, codon_mutation_positions):
         return self._get_codons_at(self.hsp.sbjct, codon_mutation_positions)

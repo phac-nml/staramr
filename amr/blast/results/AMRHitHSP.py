@@ -1,5 +1,6 @@
 import re
 
+
 class AMRHitHSP:
 
     def __init__(self, file, blast_record, hit, hsp):

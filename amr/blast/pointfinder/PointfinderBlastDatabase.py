@@ -1,4 +1,5 @@
 from os import path, listdir
+
 import pandas
 
 from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
@@ -31,9 +32,9 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         return table[(table['#Gene_ID'] == gene) & (table['Codon_pos'].isin(codon_mutation_positions))]
 
     def get_resistance_codon_mutation_positions(self, gene, codon_mutation_positions):
-        matches = self._select_from_gene_codon_positions(gene,codon_mutation_positions)
+        matches = self._select_from_gene_codon_positions(gene, codon_mutation_positions)
         return matches['Codon_pos'].tolist()
 
     def get_resistance_codons(self, gene, codon_mutation_positions):
-        matches = self._select_from_gene_codon_positions(gene,codon_mutation_positions)
+        matches = self._select_from_gene_codon_positions(gene, codon_mutation_positions)
         return matches['Ref_nuc'].tolist()
