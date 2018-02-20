@@ -1,10 +1,13 @@
-import logging
-import math
-
 from amr.blast.results.AMRHitHSP import AMRHitHSP
 
-logger = logging.getLogger('PointfinderHitHSP')
+import logging
+import pprint
+import math
 
+
+from amr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
+
+logger = logging.getLogger('PointfinderHitHSP')
 
 class PointfinderHitHSP(AMRHitHSP):
 
@@ -27,36 +30,17 @@ class PointfinderHitHSP(AMRHitHSP):
     def get_query_frame(self):
         return self._get_hsp_frame(0)
 
-    def _get_nucleotide_mutation_positions(self, start, frame):
-        mutations = []
-        if frame == 1:
-            mutations = [start + i for i, c in enumerate(self.hsp.match) if c == ' ']
-        else:
-            mutations = [start - i for i, c in enumerate(self.hsp.match) if c == ' ']
-        return mutations
+    def _get_match_positions(self):
+        return [i for i, c in enumerate(self.hsp.match) if c == ' ']
 
-    def get_database_nucleotide_mutation_positions(self):
+    def _get_nucleotide_mutation_positions(self, start, database_frame, query_frame):
+        return [NucleotideMutationPosition(i, self.hsp.sbjct, self.hsp.query, start, database_frame, query_frame) for i in self._get_match_positions()]
+
+    def get_nucleotide_mutations(self):
         start = self.hsp.sbjct_start
-        frame = self.get_database_frame()
-        return self._get_nucleotide_mutation_positions(start, frame)
-
-    def get_query_nucleotide_mutation_positions(self):
-        start = self.hsp.query_start
-        frame = self.get_query_frame()
-        return self._get_nucleotide_mutation_positions(start, frame)
-
-    def get_codon_mutation_positions_at(self, nucleotide_mutation_positions):
-        codon_mutation_positions = [math.ceil(x / 3) for x in nucleotide_mutation_positions]
-        return codon_mutation_positions
-
-    def _get_codons_at(self, nucleotide_string, codon_mutation_positions):
-        return [nucleotide_string[(x - 1) * 3:((x - 1) * 3 + 3)].upper() for x in codon_mutation_positions]
-
-    def get_database_codons_at(self, codon_mutation_positions):
-        return self._get_codons_at(self.hsp.sbjct, codon_mutation_positions)
-
-    def get_query_codons_at(self, codon_mutation_positions):
-        return self._get_codons_at(self.hsp.query, codon_mutation_positions)
+        database_frame = self.get_database_frame()
+        query_frame = self.get_query_frame()
+        return self._get_nucleotide_mutation_positions(start, database_frame, query_frame)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
