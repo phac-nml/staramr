@@ -14,9 +14,10 @@ class NucleotideMutationPosition:
         self._codon_start = math.ceil(self._nucleotide_position/3)
 
         frame_shift = (self._nucleotide_position - 1) % 3
-        codon_start_index = match_position-database_frame
+        codon_start_index = match_position-frame_shift
 
         self._database_codon = database_string[codon_start_index:(codon_start_index+3)].upper()
+        self._query_codon = query_string[codon_start_index:(codon_start_index + 3)].upper()
 
     def get_nucleotide_position(self):
         return self._nucleotide_position
