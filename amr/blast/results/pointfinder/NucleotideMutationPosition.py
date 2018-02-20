@@ -3,8 +3,11 @@ import math
 class NucleotideMutationPosition:
 
     def __init__(self, match_position, database_string, query_string, database_start, database_frame, query_frame):
+        self._preconditions(match_position, database_string, query_string, database_start, database_frame, query_frame)
+
         self._database_start = database_start
         self._database_frame = database_frame
+        self._query_frame = query_frame
 
         if database_frame == 1:
             self._nucleotide_position = database_start + match_position
@@ -19,6 +22,14 @@ class NucleotideMutationPosition:
         self._database_codon = database_string[codon_start_index:(codon_start_index+3)].upper()
         self._query_codon = query_string[codon_start_index:(codon_start_index + 3)].upper()
 
+    def _preconditions(self, match_position, database_string, query_string, database_start, database_frame, query_frame):
+        self._check_frame(database_frame)
+        self._check_frame(query_frame)
+
+    def _check_frame(self, frame):
+        if frame not in [1, -1]:
+            raise Exception("Error, frame="+frame + " not in [1, -1].")
+
     def get_nucleotide_position(self):
         return self._nucleotide_position
 
@@ -32,6 +43,6 @@ class NucleotideMutationPosition:
         return self._query_codon
 
     def __repr__(self):
-        return "[database_start="+str(self._database_start)+", database_frame="+str(self._database_frame)+", nucleotide_position="\
+        return "[database_start="+str(self._database_start)+", database_frame="+str(self._database_frame)+", query_frame="+str(self._query_frame)+", nucleotide_position="\
                                                 +str(self._nucleotide_position)+", codon_start="+str(self._codon_start)\
                                                 +", codon="+self._database_codon+"]"
