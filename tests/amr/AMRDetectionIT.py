@@ -85,5 +85,17 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '2637/2637', msg='Wrong lengths')
 
+
+    def testPointfinderSalmonellaA67PFailPID(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+
+        files = [path.join(self.test_data_dir, "gyrA-A67P.fsa")]
+        amr_detection.run_amr_detection(files, 99.97, 99)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
+
 if __name__ == '__main__':
     unittest.main()
