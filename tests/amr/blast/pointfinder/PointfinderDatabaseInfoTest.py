@@ -68,3 +68,13 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation_missing])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
+
+
+    def testGetResfinderPhenotype(self):
+        phenotype = self.database.get_phenotype('gyrA', self.mutation1)
+
+        self.assertEqual(phenotype, 'Quinolones')
+
+
+    def testGetResfinderPhenotypeMissingFail(self):
+        self.assertRaises(Exception, self.database.get_phenotype, 'gyrA', self.mutation_missing)

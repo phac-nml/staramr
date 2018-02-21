@@ -15,7 +15,3 @@ class AbstractBlastDatabase:
     @abc.abstractmethod
     def get_path(self, database_name):
         pass
-
-    @abc.abstractmethod
-    def get_phenotype(self, gene):
-        pass

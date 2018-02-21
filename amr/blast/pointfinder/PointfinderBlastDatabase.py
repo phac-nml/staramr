@@ -24,3 +24,6 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_resistance_codons(self, gene, codon_mutations):
         return self._pointfinder_info.get_resistance_codons(gene, codon_mutations)
+
+    def get_phenotype(self, gene, codon_mutation):
+        return self._pointfinder_info.get_phenotype(gene, codon_mutation)

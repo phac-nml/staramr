@@ -16,8 +16,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _create_data_frame(self, results):
         return pandas.DataFrame(results,
-                                columns=('FILE', 'GENE', 'CODON_POSITION', 'NUCLEOTIDE', 'AMINO_ACID',
-                                         '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
+                                columns=('FILE', 'GENE', 'POINTFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE',
+                                         'AMINO_ACID', '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
 
     def _append_results_to(self, hit, results):
         database_nucleotide_mutations = hit.get_nucleotide_mutations()
@@ -46,6 +46,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             db_codon = database_resistance_codons[0]
             results.append([hit.get_file(),
                             hit.get_hit_id(),
+                            self._blast_database.get_phenotype(hit.get_hit_id(), db_codon),
                             db_codon.get_codon_start(),
                             db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon(),
                             db_codon.get_database_amino_acid() + ' -> ' + db_codon.get_query_amino_acid(),
