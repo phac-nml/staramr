@@ -97,5 +97,17 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
 
+
+    def testPointfinderSalmonellaA67TFail(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+
+        files = [path.join(self.test_data_dir, "gyrA-A67T.fsa")]
+        amr_detection.run_amr_detection(files, 99, 99)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
+
 if __name__ == '__main__':
     unittest.main()

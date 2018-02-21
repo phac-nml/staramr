@@ -4,6 +4,7 @@ import pandas
 
 from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 
+
 class PointfinderBlastDatabase(AbstractBlastDatabase):
     def __init__(self, database_dir, organism):
         super().__init__(database_dir)
@@ -27,7 +28,15 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         return path.join(self.pointfinder_database_dir, database_name + self.fasta_suffix)
 
     def get_resistance_codons(self, gene, codon_mutations):
+        resistance_mutations = []
+
         table = self._pointfinder_info
-        codon_mutation_positions = [x.get_codon_start() for x in codon_mutations]
-        matches = table[(table['#Gene_ID'] == gene) & (table['Codon_pos'].isin(codon_mutation_positions))]['Codon_pos'].tolist()
-        return [x for x in codon_mutations if x.get_codon_start() in matches]
+        for codon_mutation in codon_mutations:
+            matches = table[(table['#Gene_ID'] == gene)
+                            & (table['Codon_pos'] == codon_mutation.get_codon_start())
+                            & (table['Ref_codon'] == codon_mutation.get_database_amino_acid())
+                            & (table['Res_codon'] == codon_mutation.get_query_amino_acid())]
+            if len(matches.index) > 0:
+                resistance_mutations.append(codon_mutation)
+
+        return resistance_mutations
