@@ -1,5 +1,7 @@
 import math
 
+import Bio.Seq
+
 class NucleotideMutationPosition:
 
     def __init__(self, match_position, database_string, query_string, database_start, database_frame, query_frame):
@@ -38,6 +40,12 @@ class NucleotideMutationPosition:
 
     def get_database_codon(self):
         return self._database_codon
+
+    def get_database_amino_acid(self):
+        return Bio.Seq.translate(self.get_database_codon(), table='Standard')
+
+    def get_query_amino_acid(self):
+        return Bio.Seq.translate(self.get_query_codon(), table='Standard')
 
     def get_query_codon(self):
         return self._query_codon

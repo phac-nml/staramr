@@ -18,6 +18,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'TTC', 'Incorrect query codon')
+        self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
+        self.assertEqual(mutation.get_query_amino_acid(), 'F', 'Incorrect query amino acid')
 
 
     def testMutationPositionMiddleCodon1(self):
@@ -33,6 +35,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AGC', 'Incorrect query codon')
+        self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
+        self.assertEqual(mutation.get_query_amino_acid(), 'S', 'Incorrect query amino acid')
 
 
     def testMutationPositionEndCodon1(self):
@@ -48,6 +52,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATG', 'Incorrect query codon')
+        self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
+        self.assertEqual(mutation.get_query_amino_acid(), 'M', 'Incorrect query amino acid')
 
 
     def testMutationPositionStartCodon2(self):
@@ -63,6 +69,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'GAT', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AAT', 'Incorrect query codon')
+        self.assertEqual(mutation.get_database_amino_acid(), 'D', 'Incorrect database amino acid')
+        self.assertEqual(mutation.get_query_amino_acid(), 'N', 'Incorrect query amino acid')
 
 
     def testMutationPositionEndCodon2(self):
@@ -78,6 +86,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'GAT', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'GAC', 'Incorrect query codon')
+        self.assertEqual(mutation.get_database_amino_acid(), 'D', 'Incorrect database amino acid')
+        self.assertEqual(mutation.get_query_amino_acid(), 'D', 'Incorrect query amino acid')
 
     def testMutationPositionStartCodon3(self):
         mutation_position  = 6
@@ -92,3 +102,5 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_codon_start(), 3, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'CGA', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'GGA', 'Incorrect query codon')
+        self.assertEqual(mutation.get_database_amino_acid(), 'R', 'Incorrect database amino acid')
+        self.assertEqual(mutation.get_query_amino_acid(), 'G', 'Incorrect query amino acid')
