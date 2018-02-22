@@ -22,25 +22,24 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _append_results_to(self, hit, results):
         database_nucleotide_mutations = hit.get_nucleotide_mutations()
-        database_codon_start_positions = [x.get_codon_start() for x in database_nucleotide_mutations]
 
         gene=hit.get_gene()
 
-        logger.info("")
-        logger.info("gene="+str(gene))
-        logger.info("sbjct_start="+str(hit.hsp.sbjct_start))
-        logger.info("sbjct_end="+str(hit.hsp.sbjct_end))
-        logger.info("sbjct_frame="+str(hit.get_database_frame()))
-        logger.info("query_frame=" + str(hit.get_query_frame()))
-        logger.info("query_start="+str(hit.hsp.query_start))
-        logger.info("query_end="+str(hit.hsp.query_end))
+        logger.debug("")
+        logger.debug("gene="+str(gene))
+        logger.debug("sbjct_start="+str(hit.hsp.sbjct_start))
+        logger.debug("sbjct_end="+str(hit.hsp.sbjct_end))
+        logger.debug("sbjct_frame="+str(hit.get_database_frame()))
+        logger.debug("query_frame=" + str(hit.get_query_frame()))
+        logger.debug("query_start="+str(hit.hsp.query_start))
+        logger.debug("query_end="+str(hit.hsp.query_end))
         for x in database_nucleotide_mutations:
-            logger.info("database_nucleotide_mutation_positions codon="+str(x.get_database_codon())+", aa="+x.get_query_amino_acid())
+            logger.debug("database_nucleotide_mutation_positions codon="+str(x.get_database_codon())+", aa="+x.get_query_amino_acid())
 
         database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_nucleotide_mutations)
-        logger.info("database_resistance_codons="+str(database_resistance_codons))
+        logger.debug("database_resistance_codons="+str(database_resistance_codons))
 
-        logger.info("gaps="+str(hit.hsp.gaps))
+        logger.debug("gaps="+str(hit.hsp.gaps))
 
         if len(database_resistance_codons) == 0:
             logger.debug("No mutations for ["+hit.get_hit_id()+"]")
