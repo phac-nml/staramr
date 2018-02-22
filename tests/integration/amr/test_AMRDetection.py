@@ -104,5 +104,28 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
 
 
+    def testPointfinderSalmonellaA67PReverseComplementSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+
+        files = [path.join(self.test_data_dir, "gyrA-A67P-rc.fsa")]
+        amr_detection.run_amr_detection(files, 99, 99)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['GENE'] == 'gyrA (A67P)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'gyrA-A67P-rc.fsa', msg='Wrong file')
+        self.assertEqual(result['RESFINDER_PHENOTYPE'].iloc[0], 'Quinolones', msg='Wrong phenotype')
+        self.assertEqual(result['CODON_POSITION'].iloc[0], 67, msg='Wrong codon position')
+        self.assertEqual(result['NUCLEOTIDE'].iloc[0], 'GCC -> CCC', msg='Wrong nucleotide')
+        self.assertEqual(result['AMINO_ACID'].iloc[0], 'A -> P', msg='Wrong amino acid')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '2637/2637', msg='Wrong lengths')
+
+
 if __name__ == '__main__':
     unittest.main()
