@@ -13,8 +13,9 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return ResfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
-        return pandas.DataFrame(results, columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE', '%IDENTITY', '%OVERLAP',
+        df = pandas.DataFrame(results, columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE', '%IDENTITY', '%OVERLAP',
                                                   'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION'))
+        return df.set_index('FILE')
 
     def _append_results_to(self, hit, results):
         phenotype = self._blast_database.get_phenotype(hit.get_gene())

@@ -77,7 +77,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         result = pointfinder_results[pointfinder_results['GENE'] == 'gyrA']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-        self.assertEqual(result['FILE'].iloc[0], 'gyrA-A67P.fsa', msg='Wrong file')
+        self.assertEqual(result.index[0], 'gyrA-A67P.fsa', msg='Wrong file')
         self.assertEqual(result['RESFINDER_PHENOTYPE'].iloc[0], 'Quinolones', msg='Wrong phenotype')
         self.assertEqual(result['CODON_POSITION'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['NUCLEOTIDE'].iloc[0], 'GCC -> CCC', msg='Wrong nucleotide')

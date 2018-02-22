@@ -15,9 +15,10 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         return PointfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
-        return pandas.DataFrame(results,
+        df = pandas.DataFrame(results,
                                 columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE',
                                          'AMINO_ACID', '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
+        return df.set_index('FILE')
 
     def _append_results_to(self, hit, results):
         database_nucleotide_mutations = hit.get_nucleotide_mutations()

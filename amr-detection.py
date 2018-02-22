@@ -23,7 +23,7 @@ def print_to_file(dataframe, file=None):
         if file:
             file_handle = open(file, 'w')
 
-        dataframe.to_csv(file_handle, sep="\t", index=False, float_format="%0.2f")
+        dataframe.to_csv(file_handle, sep="\t", float_format="%0.2f")
 
         if file:
             file_handle.close()

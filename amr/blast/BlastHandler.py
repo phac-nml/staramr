@@ -35,7 +35,7 @@ class BlastHandler:
 
     def run_blasts(self, files):
         database_names_resfinder = self._resfinder_database.get_database_names()
-        logger.info("Resfinder Databases: " + str(database_names_resfinder))
+        logger.debug("Resfinder Databases: " + str(database_names_resfinder))
 
         if self.is_pointfinder_configured():
             database_names_pointfinder = self._pointfinder_database.get_database_names()
