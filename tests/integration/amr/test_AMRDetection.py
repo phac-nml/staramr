@@ -19,7 +19,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
-        self.test_data_dir = path.join("tests", "data")
+        self.test_data_dir = path.join("tests", "integration", "data")
 
 
     def testResfinderBetaLactam2MutationsSuccess(self):
