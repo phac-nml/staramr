@@ -7,8 +7,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionStartCodon1(self):
         mutation_position = 0
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "TTCGATCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -24,8 +26,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionMiddleCodon1(self):
         mutation_position = 1
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "AGCGATCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -41,8 +45,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionEndCodon1(self):
         mutation_position = 2
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "ATGGATCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -58,8 +64,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionStartCodon2(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "ATCAATCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -75,8 +83,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionEndCodon2(self):
         mutation_position = 5
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "ATCGACCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -92,8 +102,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionStartCodon3(self):
         mutation_position = 6
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "ATCGATGGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -109,8 +121,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionStartCodon1StartMethionine(self):
         mutation_position = 0
+        # @formatter:off
         database_string = "ATCGATCGA"
         query_string    = "ATGGATCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -126,8 +140,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionStartCodon1Stop(self):
         mutation_position = 2
+        # @formatter:off
         database_string = "TACGATCGA"
         query_string    = "TAAGATCGA"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -141,11 +157,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'Y', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), '*', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapStart(self):
         mutation_position = 0
+        # @formatter:off
         database_string = "ATCG"
         query_string    = "-TCG"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -159,11 +176,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'S', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapMiddle(self):
         mutation_position = 1
+        # @formatter:off
         database_string = "ATCG"
         query_string    = "A-CG"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -177,11 +195,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'T', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapEnd(self):
         mutation_position = 2
+        # @formatter:off
         database_string = "ATCG"
         query_string    = "AT-G"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -194,12 +213,13 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_query_codon(), 'ATG', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'M', 'Incorrect query amino acid')
-
 
     def testMutationPositionGapMiddleEnd(self):
         mutation_position = 2
+        # @formatter:off
         database_string = "ATCGG"
         query_string    = "AT--G"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -213,12 +233,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'M', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapStartMiddleEnd(self):
         mutation_position = 3
-        #@formatter:off
+        # @formatter:off
         database_string = "CCCATCGAC"
         query_string    = "CCC---GAC"
+        #@formatter:on
         # @formatter:on
         database_start = 1
         database_frame = 1
@@ -233,11 +253,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'D', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapPreviousCodon(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "CCCATCGACT"
         query_string    = "CC----GACT"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -251,11 +272,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'T', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapLargerPreviousCodon(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "CCCATCGACTT"
         query_string    = "C-----GACTT"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -269,11 +291,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'L', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapLargerPreviousCodonAmbiguous(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "CCCATCGACT"
         query_string    = "C-----GACT"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -287,11 +310,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'X', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapPreviousBegin(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "CCCATCGACTCC"
         query_string    = "------GACTCC"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -305,11 +329,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_query_amino_acid(), 'S', 'Incorrect query amino acid')
 
-
     def testMutationPositionGapBefore(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "CCCATCGAC"
         query_string    = "-CCA--GAC"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
@@ -325,8 +350,10 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testMutationPositionGapBeforeAfter(self):
         mutation_position = 3
+        # @formatter:off
         database_string = "CCCATCGACT"
         query_string    = "-CCA--GA-T"
+        #@formatter:on
         database_start = 1
         database_frame = 1
         query_frame = 1
