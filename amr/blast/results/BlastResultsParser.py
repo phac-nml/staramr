@@ -30,6 +30,7 @@ class BlastResultsParser:
         return self._create_data_frame(results)
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results):
+        logger.info("blast_file="+blast_file)
         blast_handle = open(blast_file)
         blast_records = NCBIXML.parse(blast_handle)
         for blast_record in blast_records:
