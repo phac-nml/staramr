@@ -39,6 +39,14 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         query_frame     = 1
         self.mutation_missing = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
 
+        mutation_position  = 3
+        database_string = "ATCGATCGA"
+        query_string    = "ATCGAACGA"
+        database_start  = 1
+        database_frame  = 1
+        query_frame     = 1
+        self.mutation_aa_not_match = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
+
 
     def testGetResistanceCodons1Mutation1Codon(self):
         resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation1])
@@ -66,6 +74,12 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
 
     def testGetResistanceCodons1Mutation1Missing(self):
         resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation_missing])
+
+        self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
+
+
+    def testGetResistanceCodons1Mutation1MissingAANotMatch(self):
+        resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation_aa_not_match])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
 
