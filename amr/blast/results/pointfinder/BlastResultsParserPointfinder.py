@@ -34,7 +34,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         logger.info("query_frame=" + str(hit.get_query_frame()))
         logger.info("query_start="+str(hit.hsp.query_start))
         logger.info("query_end="+str(hit.hsp.query_end))
-        logger.info("database_nucleotide_mutation_positions="+str(database_nucleotide_mutations))
+        for x in database_nucleotide_mutations:
+            logger.info("database_nucleotide_mutation_positions codon="+str(x.get_database_codon())+", aa="+x.get_query_amino_acid())
 
         database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_nucleotide_mutations)
         logger.info("database_resistance_codons="+str(database_resistance_codons))

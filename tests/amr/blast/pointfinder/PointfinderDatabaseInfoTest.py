@@ -39,14 +39,6 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         query_frame     = 1
         self.mutation_missing = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
 
-        mutation_position  = 3
-        database_string = "ATCGATCGA"
-        query_string    = "ATCGAACGA"
-        database_start  = 1
-        database_frame  = 1
-        query_frame     = 1
-        self.mutation_aa_not_match = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
-
 
     def testGetResistanceCodons1Mutation1Codon(self):
         resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation1])
@@ -78,8 +70,41 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
 
 
-    def testGetResistanceCodons1Mutation1MissingAANotMatch(self):
-        resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation_aa_not_match])
+    def testGetResistanceCodons1MutationAANotMatch(self):
+        mutation_position  = 3
+        database_string = "ATCGATCGA"
+        query_string    = "ATCGAACGA"
+        database_start  = 1
+        database_frame  = 1
+        query_frame     = 1
+        mutation_aa_not_match = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
+        resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_aa_not_match])
+
+        self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
+
+
+    def testGetResistanceCodons1MutationStartCodon(self):
+        mutation_position  = 0
+        database_string = "ATCGATCGA"
+        query_string    = "ATGGATCGA"
+        database_start  = 1
+        database_frame  = 1
+        query_frame     = 1
+        mutation_start_methionine = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
+        resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_start_methionine])
+
+        self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
+
+
+    def testGetResistanceCodons1MutationStopCodon(self):
+        mutation_position  = 2
+        database_string = "TACGATCGA"
+        query_string    = "TAAGATCGA"
+        database_start  = 1
+        database_frame  = 1
+        query_frame     = 1
+        mutation_stop = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start, database_frame, query_frame)
+        resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_stop])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
 
