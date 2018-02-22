@@ -46,7 +46,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         elif len(database_resistance_codons) == 1:
             db_codon = database_resistance_codons[0]
             results.append([hit.get_file(),
-                            hit.get_hit_id(),
+                            hit.get_hit_id() + " (" + db_codon.get_database_amino_acid() + str(db_codon.get_codon_start()) + db_codon.get_query_amino_acid() + ")",
                             self._blast_database.get_phenotype(hit.get_hit_id(), db_codon),
                             db_codon.get_codon_start(),
                             db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon(),
