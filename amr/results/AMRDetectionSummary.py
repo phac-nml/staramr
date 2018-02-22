@@ -11,8 +11,8 @@ class AMRDetectionSummary:
 
     def _compile_results(self, df):
         df_summary = df.groupby(['FILE']).aggregate(lambda x: {'GENE': "%s" % ', '.join(x['GENE']),
-                                                                       'RESFINDER_PHENOTYPE': "%s" % ', '.join(
-                                                                           x['RESFINDER_PHENOTYPE'])})
+                                                               'RESFINDER_PHENOTYPE': "%s" % ', '.join(
+                                                                   x['RESFINDER_PHENOTYPE'])})
         return df_summary[['GENE', 'RESFINDER_PHENOTYPE']]
 
     def create_summary(self):

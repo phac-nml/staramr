@@ -1,11 +1,11 @@
-from os import path
-
 import unittest
+from os import path
 
 from amr.AMRDetection import AMRDetection
 from amr.blast.BlastHandler import BlastHandler
 from amr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+
 
 class AMRDetectionIT(unittest.TestCase):
 
@@ -21,7 +21,6 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.test_data_dir = path.join("tests", "integration", "data")
 
-
     def testResfinderBetaLactam2MutationsSuccess(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
         self.amr_detection.run_amr_detection(files, 99, 90)
@@ -34,14 +33,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['RESFINDER_PHENOTYPE'].iloc[0], 'Beta-lactam resistance', 'Wrong phenotype')
         self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.73, places=2, msg='Wrong pid')
 
-
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
         self.amr_detection.run_amr_detection(files, 99.8, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
-
 
     def testResfinderBetaLactamDelStartSuccess(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")]
@@ -55,14 +52,12 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['RESFINDER_PHENOTYPE'].iloc[0], 'Beta-lactam resistance', 'Wrong phenotype')
         self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 100.00, places=2, msg='Wrong pid')
 
-
     def testResfinderBetaLactamDelStartFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")]
         self.amr_detection.run_amr_detection(files, 99, 92)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
-
 
     def testPointfinderSalmonellaA67PSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
@@ -86,7 +81,6 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '2637/2637', msg='Wrong lengths')
 
-
     def testPointfinderSalmonellaA67PFailPID(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
@@ -98,7 +92,6 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
 
-
     def testPointfinderSalmonellaA67TFail(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
@@ -109,6 +102,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
+
 
 if __name__ == '__main__':
     unittest.main()

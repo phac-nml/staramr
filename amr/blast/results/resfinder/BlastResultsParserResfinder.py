@@ -14,7 +14,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
 
     def _create_data_frame(self, results):
         df = pandas.DataFrame(results, columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE', '%IDENTITY', '%OVERLAP',
-                                                  'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION'))
+                                                'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION'))
         return df.set_index('FILE')
 
     def _append_results_to(self, hit, results):

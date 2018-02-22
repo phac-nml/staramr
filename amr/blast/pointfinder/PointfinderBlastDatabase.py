@@ -3,6 +3,7 @@ from os import path, listdir
 from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from amr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
 
+
 class PointfinderBlastDatabase(AbstractBlastDatabase):
     def __init__(self, database_dir, organism):
         super().__init__(database_dir)
@@ -13,7 +14,8 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
             raise Exception(
                 "Error, pointfinder organism [" + organism + "] is either incorrect or pointfinder database not installed properly")
 
-        self._pointfinder_info = PointfinderDatabaseInfo.from_file(path.join(self.pointfinder_database_dir, "resistens-overview.txt"))
+        self._pointfinder_info = PointfinderDatabaseInfo.from_file(
+            path.join(self.pointfinder_database_dir, "resistens-overview.txt"))
 
     def get_database_names(self):
         return [f[:-len(self.fasta_suffix)] for f in listdir(self.pointfinder_database_dir) if

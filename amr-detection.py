@@ -66,7 +66,8 @@ if __name__ == '__main__':
 
     if args.output_dir:
         print_to_file(amr_detection.get_resfinder_results(), path.join(args.output_dir, "results_tab.tsv"))
-        print_to_file(amr_detection.get_pointfinder_results(), path.join(args.output_dir, "results_tab.pointfinder.tsv"))
+        print_to_file(amr_detection.get_pointfinder_results(),
+                      path.join(args.output_dir, "results_tab.pointfinder.tsv"))
         print_to_file(amr_detection.get_summary_results(), path.join(args.output_dir, "summary.tsv"))
     else:
         print_to_file(amr_detection.get_resfinder_results())

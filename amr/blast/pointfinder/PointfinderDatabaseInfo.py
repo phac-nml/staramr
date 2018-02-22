@@ -1,5 +1,6 @@
 import pandas
 
+
 class PointfinderDatabaseInfo:
 
     def __init__(self, table):
@@ -23,7 +24,7 @@ class PointfinderDatabaseInfo:
                         & (table['Res_codon'].str.contains(codon_mutation.get_query_amino_acid().upper(), regex=False))]
 
         if len(matches.index) > 1:
-            raise Exception("Error, multiple matches for gene="+str(gene)+", codon_mutation="+str(codon_mutation))
+            raise Exception("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
         else:
             return matches
 
@@ -33,7 +34,7 @@ class PointfinderDatabaseInfo:
         if len(match.index) > 0:
             return match['Resistance'].iloc[0]
         else:
-            raise Exception("Error, no match for gene="+str(gene)+", codon_mutation="+str(codon_mutation))
+            raise Exception("Error, no match for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
 
     def get_resistance_codons(self, gene, codon_mutations):
         resistance_mutations = []

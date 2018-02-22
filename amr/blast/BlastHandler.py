@@ -104,5 +104,5 @@ class BlastHandler:
 
     def __del__(self):
         for dir in self._temp_dirs:
-            logger.debug("Removing temporary directory "+str(dir))
+            logger.debug("Removing temporary directory " + str(dir))
             dir.cleanup()
