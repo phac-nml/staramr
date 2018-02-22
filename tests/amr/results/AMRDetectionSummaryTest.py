@@ -4,13 +4,12 @@ import pandas
 
 from amr.results.AMRDetectionSummary import AMRDetectionSummary
 
-
 class AMRDetectionSummaryTest(unittest.TestCase):
 
     def setUp(self):
         self.columns_resfinder = ('FILE', 'GENE', 'RESFINDER_PHENOTYPE', '%IDENTITY', '%OVERLAP',
                      'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION')
-        self.columns_pointfinder = ('FILE', 'GENE', 'POINTFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE', 'AMINO_ACID',
+        self.columns_pointfinder = ('FILE', 'GENE', 'RESFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE', 'AMINO_ACID',
                      '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP')
 
         # Resfinder tables
@@ -77,7 +76,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42', summary['GENE'].iloc[0], 'Genes not equal')
         self.assertEqual('Beta-lactam resistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Resfinder phenotype not equal')
 
@@ -89,7 +88,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42, newGene', summary['GENE'].iloc[0], 'Genes not equal')
         self.assertEqual('Beta-lactam resistance, New resistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Resfinder phenotype not equal')
 
@@ -101,7 +100,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42, newGene', summary['GENE'].iloc[0], 'Genes not equal')
         self.assertEqual('Beta-lactam resistance, Beta-lactam resistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Resfinder phenotype not equal')
 
@@ -113,7 +112,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42, blaIMP-42', summary['GENE'].iloc[0], 'Genes not equal')
         self.assertEqual('Beta-lactam resistance, Beta-lactam resistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Resfinder phenotype not equal')
 
@@ -125,10 +124,10 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(2, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42, newGene', summary['GENE'].iloc[0], 'Genes not equal')
         self.assertEqual('Beta-lactam resistance, New resistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Resfinder phenotype not equal')
-        self.assertEqual('file2', summary['FILE'].iloc[1], 'File name not equal')
+        self.assertEqual('file2', summary.index[1], 'File name not equal')
         self.assertEqual('blaIMP-42', summary['GENE'].iloc[1], 'Genes not equal')
         self.assertEqual('Beta-lactam resistance', summary['RESFINDER_PHENOTYPE'].iloc[1], 'Resfinder phenotype not equal')
 
@@ -140,9 +139,9 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('gyrA', summary['GENE'].iloc[0], 'Genes not equal')
-        self.assertEqual('pfResistance', summary['POINTFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
+        self.assertEqual('pfResistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
 
 
     def testPointfinderSingleMultipleGene(self):
@@ -152,9 +151,9 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('gyrA, gyrAB', summary['GENE'].iloc[0], 'Genes not equal')
-        self.assertEqual('pfResistance, pfResistance2', summary['POINTFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
+        self.assertEqual('pfResistance, pfResistance2', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
 
 
     def testPointfinderSingleMultipleGeneSame(self):
@@ -170,6 +169,18 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
-        self.assertEqual('file1', summary['FILE'].iloc[0], 'File name not equal')
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('gyrA, gyrA', summary['GENE'].iloc[0], 'Genes not equal')
-        self.assertEqual('pfResistance, pfResistance', summary['POINTFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
+        self.assertEqual('pfResistance, pfResistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
+
+
+    def testPointfinderResfinderSingleGene(self):
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1, self.pointfinder_table)
+
+        summary = amr_detection_summary.create_summary()
+
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
+        self.assertEqual('blaIMP-42, gyrA', summary['GENE'].iloc[0], 'Genes not equal')
+        self.assertEqual('Beta-lactam resistance, pfResistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')

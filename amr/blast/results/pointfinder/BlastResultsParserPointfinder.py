@@ -16,7 +16,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _create_data_frame(self, results):
         return pandas.DataFrame(results,
-                                columns=('FILE', 'GENE', 'POINTFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE',
+                                columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE',
                                          'AMINO_ACID', '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
 
     def _append_results_to(self, hit, results):
