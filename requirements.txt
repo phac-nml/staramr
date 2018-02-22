@@ -1,0 +1,4 @@
+biopython>=1.70
+pandas>=0.22.0
+six>=1.11.0
+tox>=2.9.1
