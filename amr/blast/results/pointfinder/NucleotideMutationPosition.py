@@ -26,12 +26,7 @@ class NucleotideMutationPosition:
         self._query_codon = self._find_query_codon(query_string, codon_start_index)
 
     def _find_query_codon(self, query_string, codon_start_index):
-        query_string_no_gaps = query_string.replace('-', '')
-
-        if (codon_start_index + 3) > len(query_string_no_gaps):
-            return 'NNN'
-        else:
-            return query_string_no_gaps[codon_start_index:(codon_start_index + 3)].upper()
+            return query_string[codon_start_index:(codon_start_index + 3)].upper()
 
     def _preconditions(self, match_position, database_string, query_string, database_start, database_frame,
                        query_frame):
@@ -52,10 +47,16 @@ class NucleotideMutationPosition:
         return self._database_codon
 
     def get_database_amino_acid(self):
-        return Bio.Seq.translate(self.get_database_codon(), table='Standard')
+        if '-' in self.get_database_codon():
+            return 'X'
+        else:
+            return Bio.Seq.translate(self.get_database_codon(), table='Standard')
 
     def get_query_amino_acid(self):
-        return Bio.Seq.translate(self.get_query_codon(), table='Standard')
+        if '-' in self.get_query_codon():
+            return 'X'
+        else:
+            return Bio.Seq.translate(self.get_query_codon(), table='Standard')
 
     def get_query_codon(self):
         return self._query_codon
