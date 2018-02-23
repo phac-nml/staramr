@@ -5,7 +5,7 @@ from os import path
 import sys
 
 from amr.subcommand.Search import Search
-from amr.subcommand.Build import Build
+from amr.subcommand.Database import Database
 
 logger = logging.getLogger("amr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     subparsers = parser.add_subparsers(dest='command', help='sub-command --help')
 
     search = Search(subparsers.add_parser('search', help='Search for AMR genes'), resfinder_database_dir, pointfinder_database_root_dir)
-    db_download = Build(subparsers.add_parser('build', help='Download ResFinder/PointFinder databases'))
+    db_download = Database(subparsers.add_parser('db', help='Download ResFinder/PointFinder databases'))
 
     args = parser.parse_args()
     if args.command is None:
