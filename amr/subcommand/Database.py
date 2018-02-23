@@ -11,11 +11,11 @@ class Database(SubCommand):
         super().__init__(arg_parser)
 
     def _setup_args(self, arg_parser):
-        subparsers = arg_parser.add_subparsers(dest='db_command', help='db --help')
+        subparsers = arg_parser.add_subparsers(dest='db_command', help='Subcommand for ResFinder/PointFinder databases.')
 
-        Build(subparsers.add_parser('build', help='Builds ResFinder/PointFinder databases'))
-        Update(subparsers.add_parser('update', help='Updates ResFinder/PointFinder databases'))
-        Info(subparsers.add_parser('info', help='Prints information on ResFinder/PointFinder databases'))
+        Build(subparsers.add_parser('build', help='Downloads and builds databases in the given directory.'))
+        Update(subparsers.add_parser('update', help='Updates databases in the given directories.'))
+        Info(subparsers.add_parser('info', help='Prints information on databases in the given directories.'))
 
     def run(self, args):
         if args.db_command is None:
