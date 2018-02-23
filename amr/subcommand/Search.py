@@ -17,14 +17,13 @@ class Search(SubCommand):
         self._resfinder_database_dir = default_resfinder_dir
         self._pointfinder_database_root_dir = default_pointfinder_dir
 
-
     def _setup_args(self, arg_parser):
         arg_parser.add_argument('--threads', action='store', dest='threads', type=int, help='The number of threads to use [1].',
                             default=1, required=False)
         arg_parser.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
-                            help='The % identity threshold [98.0].', default=98.0, required=False)
+                            help='The percent identity threshold [98.0].', default=98.0, required=False)
         arg_parser.add_argument('--percent-length-overlap', action='store', dest='plength_threshold', type=float,
-                            help='The % length overlap [60.0].', default=60.0, required=False)
+                            help='The percent length overlap [60.0].', default=60.0, required=False)
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                             help='The organism to use for pointfinder [None].', default=None, required=False)
         arg_parser.add_argument('--output-dir', action='store', dest='output_dir', type=str,
