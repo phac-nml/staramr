@@ -19,9 +19,6 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
         return [f[:-len(self.fasta_suffix)] for f in os.listdir(self.database_dir) if
                 (os.path.isfile(os.path.join(self.database_dir, f)) and f.endswith(self.fasta_suffix))]
 
-    def get_database_paths(self):
-        return [self.get_path(x) for x in self.get_database_names()]
-
     def get_path(self, database_name):
         return os.path.join(self.database_dir, database_name + self.fasta_suffix)
 

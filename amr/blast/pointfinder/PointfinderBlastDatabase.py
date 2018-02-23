@@ -1,3 +1,5 @@
+import pandas
+
 from os import path, listdir
 
 from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
@@ -29,3 +31,12 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_phenotype(self, gene, codon_mutation):
         return self._pointfinder_info.get_phenotype(gene, codon_mutation)
+
+    @classmethod
+    def get_organisms(cls, database_dir):
+        config = pandas.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,  names=['db_prefix','name','description'])
+        return config['db_prefix'].tolist()
+
+    @classmethod
+    def build_databases(cls, database_dir):
+        return [PointfinderBlastDatabase(database_dir, organism) for organism in cls.get_organisms(database_dir)]

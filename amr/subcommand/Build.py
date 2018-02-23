@@ -10,7 +10,7 @@ class Build(SubCommand):
         super().__init__(arg_parser)
 
     def _setup_args(self, arg_parser):
-        arg_parser.add_argument('--destination', action='store', dest='destination', type=str, help='The destination to download the databases into [databases].',
+        arg_parser.add_argument('--dir', action='store', dest='destination', type=str, help='The directory to download the databases into [databases].',
                             default='databases', required=False)
 
     def run(self, args):

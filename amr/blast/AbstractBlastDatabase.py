@@ -16,6 +16,5 @@ class AbstractBlastDatabase:
     def get_path(self, database_name):
         pass
 
-    @abc.abstractmethod
     def get_database_paths(self):
-        pass
+        return [self.get_path(x) for x in self.get_database_names()]
