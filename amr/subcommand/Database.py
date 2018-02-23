@@ -2,6 +2,7 @@ import argparse
 from os import path,mkdir
 
 from amr.SubCommand import SubCommand
+from amr.exceptions.CommandParseException import CommandParseException
 from amr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 class Database(SubCommand):
@@ -33,7 +34,7 @@ class Build(Database):
         super(Build, self).run(args)
 
         if path.exists(args.destination):
-            raise Exception("Error, destination [" + args.destination + "] already exists")
+            raise CommandParseException("Error, destination [" + args.destination + "] already exists")
         else:
             mkdir(args.destination)
 

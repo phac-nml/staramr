@@ -8,6 +8,7 @@ from amr.blast.BlastHandler import BlastHandler
 from amr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from amr.SubCommand import SubCommand
+from amr.exceptions.CommandParseException import CommandParseException
 
 class Search(SubCommand):
 
@@ -45,11 +46,11 @@ class Search(SubCommand):
 
     def run(self, args):
         if (len(args.files) == 0):
-            raise Exception("Must pass a fasta file to process")
+            raise CommandParseException("Must pass a fasta file to process")
 
         if args.output_dir:
             if path.exists(args.output_dir):
-                raise Exception("Error, output directory [" + args.output_dir + "] already exists")
+                raise CommandParseException("Error, output directory [" + args.output_dir + "] already exists")
             else:
                 mkdir(args.output_dir)
 

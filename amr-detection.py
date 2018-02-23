@@ -6,6 +6,7 @@ import sys
 
 from amr.subcommand.Search import Search
 from amr.subcommand.Database import Database
+from amr.exceptions.CommandParseException import CommandParseException
 
 logger = logging.getLogger("amr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
@@ -20,11 +21,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
     subparsers = parser.add_subparsers(dest='command', help='sub-command --help')
 
-    search = Search(subparsers.add_parser('search', help='Search for AMR genes'), resfinder_database_dir, pointfinder_database_root_dir)
-    db_download = Database(subparsers.add_parser('db', help='Download ResFinder/PointFinder databases'))
+    Search(subparsers.add_parser('search', help='Search for AMR genes'), resfinder_database_dir, pointfinder_database_root_dir)
+    Database(subparsers.add_parser('db', help='Download ResFinder/PointFinder databases'))
 
     args = parser.parse_args()
     if args.command is None:
         parser.print_help()
     else:
-        args.run_command(args)
+        try:
+            args.run_command(args)
+        except CommandParseException as e:
+            logger.error(str(e))
+            parser.print_help()
