@@ -16,6 +16,10 @@ class Database(SubCommand):
         Update(subparsers.add_parser('update', help='Updates ResFinder/PointFinder databases'))
         Info(subparsers.add_parser('info', help='Prints information on ResFinder/PointFinder databases'))
 
+    def run(self, args):
+        if args.db_command is None:
+            self._root_arg_parser.print_help()
+
 class Build(Database):
 
     def __init__(self, arg_parser):
@@ -26,6 +30,8 @@ class Build(Database):
                             default='databases', required=False)
 
     def run(self, args):
+        super(Build, self).run(args)
+
         if path.exists(args.destination):
             raise Exception("Error, destination [" + args.destination + "] already exists")
         else:
@@ -43,8 +49,10 @@ class Update(Database):
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
 
     def run(self, args):
+        super(Update, self).run(args)
+
         for directory in args.directories:
-            database_handler = AMRDatabaseHandler(args.directory)
+            database_handler = AMRDatabaseHandler(directory)
             database_handler.update()
 
 class Info(Database):
@@ -56,6 +64,8 @@ class Info(Database):
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
 
     def run(self, args):
+        super(Info, self).run(args)
+
         if len(args.directories) == 1:
             database_handler = AMRDatabaseHandler(args.directories[0])
             database_handler.info()

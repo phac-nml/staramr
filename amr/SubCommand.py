@@ -4,6 +4,7 @@ class SubCommand:
 
     def __init__(self, arg_parser):
         __metaclass__ = abc.ABCMeta
+        self._root_arg_parser = arg_parser
 
         self._setup_args(arg_parser)
         arg_parser.set_defaults(run_command=self.run)
