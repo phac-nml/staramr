@@ -2,6 +2,7 @@
 import argparse
 import logging
 from os import path
+import sys
 
 from amr.subcommand.Search import Search
 from amr.subcommand.Build import Build
@@ -9,8 +10,11 @@ from amr.subcommand.Build import Build
 logger = logging.getLogger("amr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
-resfinder_database_dir = path.join("databases", "resfinder")
-pointfinder_database_root_dir = path.join("databases", "pointfinder")
+script_dir = path.dirname(path.realpath(sys.argv[0]))
+
+default_database_dir = path.join(script_dir, "databases")
+resfinder_database_dir = path.join(default_database_dir, "resfinder")
+pointfinder_database_root_dir = path.join(default_database_dir, "pointfinder")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
