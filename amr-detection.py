@@ -13,8 +13,11 @@ pointfinder_database_root_dir = path.join("databases", "pointfinder")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
-    subparsers = parser.add_subparsers(help='sub-command help')
+    subparsers = parser.add_subparsers(dest='command', help='sub-command --help')
     search = Search(subparsers.add_parser('search', help='Search for AMR genes'), resfinder_database_dir, pointfinder_database_root_dir)
 
     args = parser.parse_args()
-    args.func(args)
+    if args.command is None:
+        parser.print_help()
+    else:
+        args.run_command(args)

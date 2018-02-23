@@ -6,7 +6,7 @@ class SubCommand:
         __metaclass__ = abc.ABCMeta
 
         self._setup_args(arg_parser)
-        arg_parser.set_defaults(func=self.run)
+        arg_parser.set_defaults(run_command=self.run)
 
     @abc.abstractmethod
     def _setup_args(self, arg_parser):
