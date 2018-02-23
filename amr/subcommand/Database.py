@@ -34,7 +34,7 @@ class Build(Database):
         super(Build, self).run(args)
 
         if path.exists(args.destination):
-            raise CommandParseException("Error, destination [" + args.destination + "] already exists")
+            raise CommandParseException("Error, destination [" + args.destination + "] already exists", self._root_arg_parser)
         else:
             mkdir(args.destination)
 
@@ -52,9 +52,12 @@ class Update(Database):
     def run(self, args):
         super(Update, self).run(args)
 
-        for directory in args.directories:
-            database_handler = AMRDatabaseHandler(directory)
-            database_handler.update()
+        if len(args.directories) == 0:
+            raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
+        else:
+            for directory in args.directories:
+                database_handler = AMRDatabaseHandler(directory)
+                database_handler.update()
 
 class Info(Database):
 
@@ -67,6 +70,8 @@ class Info(Database):
     def run(self, args):
         super(Info, self).run(args)
 
+        if len(args.directories) == 0:
+            raise CommandParseException("Must pass at least one directory", self._root_arg_parser)
         if len(args.directories) == 1:
             database_handler = AMRDatabaseHandler(args.directories[0])
             database_handler.info()

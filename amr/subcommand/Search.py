@@ -46,11 +46,11 @@ class Search(SubCommand):
 
     def run(self, args):
         if (len(args.files) == 0):
-            raise CommandParseException("Must pass a fasta file to process")
+            raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
 
         if args.output_dir:
             if path.exists(args.output_dir):
-                raise CommandParseException("Error, output directory [" + args.output_dir + "] already exists")
+                raise CommandParseException("Error, output directory [" + args.output_dir + "] already exists", self._root_arg_parser)
             else:
                 mkdir(args.output_dir)
 

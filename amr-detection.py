@@ -32,4 +32,4 @@ if __name__ == '__main__':
             args.run_command(args)
         except CommandParseException as e:
             logger.error(str(e))
-            parser.print_help()
+            e.get_parser().print_help()
