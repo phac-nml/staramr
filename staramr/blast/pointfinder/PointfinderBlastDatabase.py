@@ -15,6 +15,12 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         if (not path.isdir(self.pointfinder_database_dir)):
             raise Exception(
                 "Error, pointfinder organism [" + organism + "] is either incorrect or pointfinder database not installed properly")
+        elif organism not in PointfinderBlastDatabase.get_organisms(database_dir):
+            raise Exception("Pointfinder organism [" + organism + "] is not valid")
+        elif organism not in PointfinderBlastDatabase.get_available_organisms():
+            raise Exception(
+                "Pointfinder organism [" + organism + "] is not currently supported. Supported organisms are " + str(
+                    PointfinderBlastDatabase.get_available_organisms()))
 
         self._pointfinder_info = PointfinderDatabaseInfo.from_file(
             path.join(self.pointfinder_database_dir, "resistens-overview.txt"))
@@ -31,6 +37,10 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_phenotype(self, gene, codon_mutation):
         return self._pointfinder_info.get_phenotype(gene, codon_mutation)
+
+    @classmethod
+    def get_available_organisms(cls):
+        return ['salmonella']
 
     @classmethod
     def get_organisms(cls, database_dir):

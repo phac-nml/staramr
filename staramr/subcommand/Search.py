@@ -28,9 +28,12 @@ class Search(SubCommand):
         arg_parser.add_argument('--percent-length-overlap', action='store', dest='plength_threshold', type=float,
                                 help='The percent length overlap [60.0].', default=60.0, required=False)
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
-                                help='The organism to use for pointfinder [None].', default=None, required=False)
+                                help='The organism to use for pointfinder {' + ', '.join(
+                                    PointfinderBlastDatabase.get_available_organisms()) + '} [None].', default=None,
+                                required=False)
         arg_parser.add_argument('--include-negatives', action='store_true', dest='include_negatives',
-                                help='Inclue negative results (those sensitive to antimicrobials) [False].', required=False)
+                                help='Inclue negative results (those sensitive to antimicrobials) [False].',
+                                required=False)
         arg_parser.add_argument('--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
@@ -61,6 +64,9 @@ class Search(SubCommand):
 
         resfinder_database = ResfinderBlastDatabase(self._resfinder_database_dir)
         if (args.pointfinder_organism):
+            if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
+                raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
+                    PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
             pointfinder_database = PointfinderBlastDatabase(self._pointfinder_database_root_dir,
                                                             args.pointfinder_organism)
         else:
