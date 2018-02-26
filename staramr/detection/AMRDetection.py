@@ -5,10 +5,11 @@ from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
 class AMRDetection:
 
-    def __init__(self, resfinder_database, amr_detection_handler, pointfinder_database=None):
+    def __init__(self, resfinder_database, amr_detection_handler, pointfinder_database=None, include_negative_results=False):
         self._resfinder_database = resfinder_database
         self._amr_detection_handler = amr_detection_handler
         self._pointfinder_database = pointfinder_database
+        self._include_negative_results = include_negative_results
 
         if pointfinder_database is None:
             self._has_pointfinder = False
@@ -31,8 +32,8 @@ class AMRDetection:
         else:
             self._pointfinder_dataframe = None
 
-        amr_detection_summary = AMRDetectionSummary(self._resfinder_dataframe, self._pointfinder_dataframe)
-        self._summary_dataframe = amr_detection_summary.create_summary()
+        amr_detection_summary = AMRDetectionSummary(files, self._resfinder_dataframe, self._pointfinder_dataframe)
+        self._summary_dataframe = amr_detection_summary.create_summary(self._include_negative_results)
 
     def get_resfinder_results(self):
         return self._resfinder_dataframe

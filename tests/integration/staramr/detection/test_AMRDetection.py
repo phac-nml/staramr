@@ -1,11 +1,11 @@
 import unittest
 from os import path
+import pandas
 
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.detection.AMRDetection import AMRDetection
-
 
 class AMRDetectionIT(unittest.TestCase):
 
@@ -14,10 +14,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.pointfinder_database_root_dir = path.join("databases", "pointfinder")
 
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_database_dir)
-        pointfinder_database = None
-        blast_handler = BlastHandler(self.resfinder_database, pointfinder_database, threads=2)
+        self.pointfinder_database = None
+        self.blast_handler = BlastHandler(self.resfinder_database, self.pointfinder_database, threads=2)
 
-        self.amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+        self.amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database)
 
         self.test_data_dir = path.join("tests", "integration", "data")
 
@@ -124,6 +124,49 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.962, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '2637/2637', msg='Wrong lengths')
+
+    def testResfinderExcludeNonMatches(self):
+        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, False)
+        files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa"),
+                 path.join(self.test_data_dir, "non-match.fsa")]
+        amr_detection.run_amr_detection(files, 99, 90)
+
+        summary_results = amr_detection.get_summary_results()
+        self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
+
+        summary_results.loc['beta-lactam-blaIMP-42-mut-2.fsa']
+
+    def testResfinderIncludeNonMatches(self):
+        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True)
+        files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa"),
+                 path.join(self.test_data_dir, "non-match.fsa")]
+        amr_detection.run_amr_detection(files, 99, 90)
+
+        summary_results = amr_detection.get_summary_results()
+        self.assertEqual(len(summary_results.index), 2, 'Wrong number of rows in result')
+
+        result_beta_lactam = summary_results.loc['beta-lactam-blaIMP-42-mut-2.fsa']
+        self.assertTrue(isinstance(result_beta_lactam, pandas.Series), 'Wrong type of results returned')
+        self.assertEqual(result_beta_lactam['GENE'], 'blaIMP-42', 'Wrong genotype')
+        self.assertEqual(result_beta_lactam['RESFINDER_PHENOTYPE'], 'Beta-lactam resistance', 'Wrong phenotype')
+
+        result_sensitive = summary_results.loc['non-match.fsa']
+        self.assertTrue(isinstance(result_sensitive, pandas.Series), 'Wrong type of results returned')
+        self.assertEqual(result_sensitive['GENE'], 'None', 'Wrong genotype')
+        self.assertEqual(result_sensitive['RESFINDER_PHENOTYPE'], 'Sensitive', 'Wrong phenotype')
+
+    def testNonMatches(self):
+        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True)
+        files = [path.join(self.test_data_dir, "non-match.fsa")]
+        amr_detection.run_amr_detection(files, 99, 90)
+
+        summary_results = amr_detection.get_summary_results()
+        self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
+
+        result_sensitive = summary_results.loc['non-match.fsa']
+        self.assertTrue(isinstance(result_sensitive, pandas.Series), 'Wrong number of results detected')
+        self.assertEqual(result_sensitive['GENE'], 'None', 'Wrong genotype')
+        self.assertEqual(result_sensitive['RESFINDER_PHENOTYPE'], 'Sensitive', 'Wrong phenotype')
 
 
 if __name__ == '__main__':

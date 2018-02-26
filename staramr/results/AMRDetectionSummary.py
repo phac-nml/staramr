@@ -1,6 +1,11 @@
+import pandas
+from os import path
+
+
 class AMRDetectionSummary:
 
-    def __init__(self, resfinder_dataframe, pointfinder_dataframe=None):
+    def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
+        self._names = [path.basename(x) for x in files]
         self._resfinder_dataframe = resfinder_dataframe
 
         if pointfinder_dataframe is not None:
@@ -15,9 +20,28 @@ class AMRDetectionSummary:
                                                                    x['RESFINDER_PHENOTYPE'])})
         return df_summary[['GENE', 'RESFINDER_PHENOTYPE']]
 
-    def create_summary(self):
+    def _include_negatives(self, df):
+        result_names_set = set(df.index.tolist())
+        names_set = set(self._names)
+
+        negative_names_set = names_set - result_names_set
+        negative_entries = pandas.DataFrame([[x, 'None', 'Sensitive'] for x in negative_names_set],
+                                            columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE')).set_index('FILE')
+        return df.append(negative_entries)
+
+    def create_summary(self, include_negatives=False):
+        df = None
+
         if self._has_pointfinder:
-            res_point_df = self._resfinder_dataframe.append(self._pointfinder_dataframe)
-            return self._compile_results(res_point_df)
+            if include_negatives:
+                df = self._include_negatives(
+                    self._compile_results(self._resfinder_dataframe.append(self._pointfinder_dataframe)))
+            else:
+                df = self._compile_results(self._resfinder_dataframe.append(self._pointfinder_dataframe))
         else:
-            return self._compile_results(self._resfinder_dataframe)
+            if include_negatives:
+                df = self._include_negatives(self._compile_results(self._resfinder_dataframe))
+            else:
+                df = self._compile_results(self._resfinder_dataframe)
+
+        return df.sort_index()

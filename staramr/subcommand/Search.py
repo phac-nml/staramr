@@ -29,10 +29,11 @@ class Search(SubCommand):
                                 help='The percent length overlap [60.0].', default=60.0, required=False)
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                                 help='The organism to use for pointfinder [None].', default=None, required=False)
+        arg_parser.add_argument('--include-negatives', action='store_true', dest='include_negatives',
+                                help='Inclue negative results (those sensitive to antimicrobials) [False].', required=False)
         arg_parser.add_argument('--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
-                                default=None,
-                                required=False)
+                                default=None, required=False)
         arg_parser.add_argument('files', nargs=argparse.REMAINDER)
 
     def _print_dataframe_to_file(self, dataframe, file=None):
@@ -66,7 +67,7 @@ class Search(SubCommand):
             pointfinder_database = None
         blast_handler = BlastHandler(resfinder_database, pointfinder_database, threads=args.threads)
 
-        amr_detection = AMRDetection(resfinder_database, blast_handler, pointfinder_database)
+        amr_detection = AMRDetection(resfinder_database, blast_handler, pointfinder_database, args.include_negatives)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold)
 
         if args.output_dir:
