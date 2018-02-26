@@ -1,9 +1,10 @@
 import os
-
+import logging
 import pandas
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 
+logger = logging.getLogger('ResfinderBlastDatabase')
 
 class ResfinderBlastDatabase(AbstractBlastDatabase):
 
@@ -25,8 +26,11 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
     def get_phenotype(self, gene):
         table = self._resfinder_info
         phenotype = table[table['gene'] == gene]['phenotype']
-        if phenotype.size != 1:
-            raise Exception(
-                "Error, invalid number of matches in resfinder info for gene [" + gene + "], got=" + str(phenotype))
-        else:
+        if phenotype.size == 0:
+            logger.warn("No phenotype matches in resfinder info for gene [" + gene + "]")
+            return 'None'
+        elif phenotype.size == 1:
             return phenotype.iloc[0]
+        else:
+            raise Exception(
+                "Invalid number of matches in resfinder info for gene [" + gene + "], got=" + str(phenotype))
