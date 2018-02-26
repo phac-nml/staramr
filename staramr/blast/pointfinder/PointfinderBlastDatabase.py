@@ -1,6 +1,6 @@
-import pandas
-
 from os import path, listdir
+
+import pandas
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
@@ -34,7 +34,8 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     @classmethod
     def get_organisms(cls, database_dir):
-        config = pandas.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,  names=['db_prefix','name','description'])
+        config = pandas.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
+                                 names=['db_prefix', 'name', 'description'])
         return config['db_prefix'].tolist()
 
     @classmethod

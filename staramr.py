@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 import argparse
 import logging
-from os import path
 import sys
+from os import path
 
-from staramr.subcommand.Search import Search
-from staramr.subcommand.Database import Database
 from staramr.exceptions.CommandParseException import CommandParseException
-from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.subcommand.Database import Database
+from staramr.subcommand.Search import Search
 
 logger = logging.getLogger("staramr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')

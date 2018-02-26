@@ -1,5 +1,6 @@
 import abc
 
+
 class SubCommand:
 
     def __init__(self, arg_parser, script_dir):

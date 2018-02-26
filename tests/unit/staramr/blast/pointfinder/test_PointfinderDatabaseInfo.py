@@ -14,8 +14,8 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
             ['gyrA', 'gyrA', 1, 2, 'GAT', 'D', 'N,H', 'Quinolones', 15848289],
         ],
             columns=(
-            '#Gene_ID', 'Gene_name', 'No of mutations needed', 'Codon_pos', 'Ref_nuc', 'Ref_codon', 'Res_codon',
-            'Resistance', 'PMID'))
+                '#Gene_ID', 'Gene_name', 'No of mutations needed', 'Codon_pos', 'Ref_nuc', 'Ref_codon', 'Res_codon',
+                'Resistance', 'PMID'))
 
         self.database = PointfinderDatabaseInfo.from_pandas_table(pandas_pointfinder_table)
 

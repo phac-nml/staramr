@@ -1,10 +1,10 @@
 import unittest
 from os import path
 
-from staramr.detection.AMRDetection import AMRDetection
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.detection.AMRDetection import AMRDetection
 
 
 class AMRDetectionIT(unittest.TestCase):
@@ -102,7 +102,6 @@ class AMRDetectionIT(unittest.TestCase):
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
-
 
     def testPointfinderSalmonellaA67PReverseComplementSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
