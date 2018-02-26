@@ -3,12 +3,12 @@ import logging
 import sys
 from os import path, mkdir
 
-from amr.detection.AMRDetection import AMRDetection
-from amr.blast.BlastHandler import BlastHandler
-from amr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
-from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from amr.SubCommand import SubCommand
-from amr.exceptions.CommandParseException import CommandParseException
+from staramr.detection.AMRDetection import AMRDetection
+from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.SubCommand import SubCommand
+from staramr.exceptions.CommandParseException import CommandParseException
 
 class Search(SubCommand):
 

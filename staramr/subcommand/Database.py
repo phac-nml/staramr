@@ -1,9 +1,9 @@
 import argparse
 from os import path,mkdir
 
-from amr.SubCommand import SubCommand
-from amr.exceptions.CommandParseException import CommandParseException
-from amr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.SubCommand import SubCommand
+from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 class Database(SubCommand):
 

@@ -2,8 +2,8 @@ import pandas
 
 from os import path, listdir
 
-from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
-from amr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
+from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
+from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
 
 
 class PointfinderBlastDatabase(AbstractBlastDatabase):

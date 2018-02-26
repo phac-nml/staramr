@@ -2,7 +2,7 @@ import unittest
 
 import pandas
 
-from amr.results.AMRDetectionSummary import AMRDetectionSummary
+from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
 
 class AMRDetectionSummaryTest(unittest.TestCase):

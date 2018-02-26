@@ -1,6 +1,6 @@
-from amr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
-from amr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
-from amr.results.AMRDetectionSummary import AMRDetectionSummary
+from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
+from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
+from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
 
 class AMRDetection:

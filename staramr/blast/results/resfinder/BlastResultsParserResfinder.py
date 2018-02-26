@@ -1,7 +1,7 @@
 import pandas
 
-from amr.blast.results.BlastResultsParser import BlastResultsParser
-from amr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
+from staramr.blast.results.BlastResultsParser import BlastResultsParser
+from staramr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
 
 
 class BlastResultsParserResfinder(BlastResultsParser):

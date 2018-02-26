@@ -1,7 +1,7 @@
 import logging
 
-from amr.blast.results.AMRHitHSP import AMRHitHSP
-from amr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
+from staramr.blast.results.AMRHitHSP import AMRHitHSP
+from staramr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
 
 logger = logging.getLogger('PointfinderHitHSP')
 

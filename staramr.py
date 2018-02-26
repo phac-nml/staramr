@@ -4,11 +4,11 @@ import logging
 from os import path
 import sys
 
-from amr.subcommand.Search import Search
-from amr.subcommand.Database import Database
-from amr.exceptions.CommandParseException import CommandParseException
+from staramr.subcommand.Search import Search
+from staramr.subcommand.Database import Database
+from staramr.exceptions.CommandParseException import CommandParseException
 
-logger = logging.getLogger("amr-detection")
+logger = logging.getLogger("staramr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 script_dir = path.dirname(path.realpath(sys.argv[0]))

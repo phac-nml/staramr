@@ -1,7 +1,7 @@
 import logging
 import re
 
-from amr.blast.results.AMRHitHSP import AMRHitHSP
+from staramr.blast.results.AMRHitHSP import AMRHitHSP
 
 logger = logging.getLogger('ResfinderHitHSP')
 

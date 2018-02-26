@@ -1,10 +1,10 @@
 import unittest
 from os import path
 
-from amr.detection.AMRDetection import AMRDetection
-from amr.blast.BlastHandler import BlastHandler
-from amr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
-from amr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.detection.AMRDetection import AMRDetection
+from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 
 
 class AMRDetectionIT(unittest.TestCase):

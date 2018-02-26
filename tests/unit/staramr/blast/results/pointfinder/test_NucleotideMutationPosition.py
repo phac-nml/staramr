@@ -1,6 +1,6 @@
 import unittest
 
-from amr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
+from staramr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
 
 
 class AMRDetectionIT(unittest.TestCase):

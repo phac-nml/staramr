@@ -2,8 +2,8 @@ import unittest
 
 import pandas
 
-from amr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
-from amr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
+from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
+from staramr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
 
 
 class PointfinderDatabaseInfoTest(unittest.TestCase):

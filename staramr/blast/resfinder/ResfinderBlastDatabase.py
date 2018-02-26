@@ -2,7 +2,7 @@ import os
 
 import pandas
 
-from amr.blast.AbstractBlastDatabase import AbstractBlastDatabase
+from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 
 
 class ResfinderBlastDatabase(AbstractBlastDatabase):

@@ -2,8 +2,8 @@ import logging
 
 import pandas
 
-from amr.blast.results.BlastResultsParser import BlastResultsParser
-from amr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
+from staramr.blast.results.BlastResultsParser import BlastResultsParser
+from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
 
