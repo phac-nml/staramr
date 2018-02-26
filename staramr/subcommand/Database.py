@@ -48,13 +48,20 @@ class Update(Database):
         super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
+        default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        arg_parser.add_argument('-d', '--update-default', action='store_true', dest='update_default',
+                                help='Updates default database directory (' + default_dir + ').', required=False)
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
 
     def run(self, args):
         super(Update, self).run(args)
 
         if len(args.directories) == 0:
-            raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
+            if not args.update_default:
+                raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
+            else:
+                database_handler = AMRDatabaseHandler.create_default_handler(self._script_dir)
+                database_handler.update()
         else:
             for directory in args.directories:
                 database_handler = AMRDatabaseHandler(directory)
