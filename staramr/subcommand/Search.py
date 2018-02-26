@@ -9,13 +9,15 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.SubCommand import SubCommand
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 class Search(SubCommand):
 
-    def __init__(self, arg_parser, default_resfinder_dir, default_pointfinder_dir):
-        super().__init__(arg_parser)
-        self._resfinder_database_dir = default_resfinder_dir
-        self._pointfinder_database_root_dir = default_pointfinder_dir
+    def __init__(self, arg_parser, script_dir):
+        super().__init__(arg_parser, script_dir)
+        default_database_dir = AMRDatabaseHandler.get_default_database_directory(script_dir)
+        self._resfinder_database_dir = path.join(default_database_dir, 'resfinder')
+        self._pointfinder_database_root_dir = path.join(default_database_dir, 'pointfinder')
 
     def _setup_args(self, arg_parser):
         arg_parser.add_argument('--threads', action='store', dest='threads', type=int, help='The number of threads to use [1].',

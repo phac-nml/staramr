@@ -7,15 +7,15 @@ from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 class Database(SubCommand):
 
-    def __init__(self, arg_parser):
-        super().__init__(arg_parser)
+    def __init__(self, arg_parser, script_dir):
+        super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
         subparsers = arg_parser.add_subparsers(dest='db_command', help='Subcommand for ResFinder/PointFinder databases.')
 
-        Build(subparsers.add_parser('build', help='Downloads and builds databases in the given directory.'))
-        Update(subparsers.add_parser('update', help='Updates databases in the given directories.'))
-        Info(subparsers.add_parser('info', help='Prints information on databases in the given directories.'))
+        Build(subparsers.add_parser('build', help='Downloads and builds databases in the given directory.'), self._script_dir)
+        Update(subparsers.add_parser('update', help='Updates databases in the given directories.'), self._script_dir)
+        Info(subparsers.add_parser('info', help='Prints information on databases in the given directories.'), self._script_dir)
 
     def run(self, args):
         if args.db_command is None:
@@ -23,12 +23,13 @@ class Database(SubCommand):
 
 class Build(Database):
 
-    def __init__(self, arg_parser):
-        super().__init__(arg_parser)
+    def __init__(self, arg_parser, script_dir):
+        super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
-        arg_parser.add_argument('--dir', action='store', dest='destination', type=str, help='The directory to download the databases into [databases].',
-                            default='databases', required=False)
+        default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        arg_parser.add_argument('--dir', action='store', dest='destination', type=str, help='The directory to download the databases into ['+default_dir+'].',
+                            default=default_dir, required=False)
 
     def run(self, args):
         super(Build, self).run(args)
@@ -43,8 +44,8 @@ class Build(Database):
 
 class Update(Database):
 
-    def __init__(self, arg_parser):
-        super().__init__(arg_parser)
+    def __init__(self, arg_parser, script_dir):
+        super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
@@ -61,8 +62,8 @@ class Update(Database):
 
 class Info(Database):
 
-    def __init__(self, arg_parser):
-        super().__init__(arg_parser)
+    def __init__(self, arg_parser, script_dir):
+        super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
@@ -71,12 +72,13 @@ class Info(Database):
         super(Info, self).run(args)
 
         if len(args.directories) == 0:
-            raise CommandParseException("Must pass at least one directory", self._root_arg_parser)
-        if len(args.directories) == 1:
+            database_handler = AMRDatabaseHandler.create_default_handler(self._script_dir)
+            database_handler.info()
+        elif len(args.directories) == 1:
             database_handler = AMRDatabaseHandler(args.directories[0])
             database_handler.info()
         else:
             for directory in args.directories:
                 database_handler = AMRDatabaseHandler(directory)
-                print()
                 database_handler.info()
+                print()

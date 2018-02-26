@@ -7,22 +7,19 @@ import sys
 from staramr.subcommand.Search import Search
 from staramr.subcommand.Database import Database
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 logger = logging.getLogger("staramr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 script_dir = path.dirname(path.realpath(sys.argv[0]))
 
-default_database_dir = path.join(script_dir, "databases")
-resfinder_database_dir = path.join(default_database_dir, "resfinder")
-pointfinder_database_root_dir = path.join(default_database_dir, "pointfinder")
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
-    Search(subparsers.add_parser('search', help='Search for AMR genes'), resfinder_database_dir, pointfinder_database_root_dir)
-    Database(subparsers.add_parser('db', help='Download ResFinder/PointFinder databases'))
+    Search(subparsers.add_parser('search', help='Search for AMR genes'), script_dir)
+    Database(subparsers.add_parser('db', help='Download ResFinder/PointFinder databases'), script_dir)
 
     args = parser.parse_args()
     if args.command is None:
