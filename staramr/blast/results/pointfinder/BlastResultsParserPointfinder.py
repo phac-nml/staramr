@@ -22,7 +22,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                                        'AMINO_ACID', '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
         return df.set_index('FILE')
 
-    def _append_results_to(self, hit, results):
+    def _append_results_to(self, hit, database_name, results):
         database_nucleotide_mutations = hit.get_nucleotide_mutations()
 
         gene = hit.get_gene()

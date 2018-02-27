@@ -17,7 +17,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
                                                 'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION'))
         return df.set_index('FILE')
 
-    def _append_results_to(self, hit, results):
+    def _append_results_to(self, hit, database_name, results):
         phenotype = self._blast_database.get_phenotype(hit.get_gene())
 
         results.append([hit.get_file(),

@@ -43,7 +43,7 @@ class BlastResultsParser:
             hits.sort(key=lambda x: (x.get_pid(), x.get_plength()), reverse=True)
             if len(hits) >= 1:
                 hit = hits[0]
-                self._append_results_to(hit, results)
+                self._append_results_to(hit, database_name, results)
         blast_handle.close()
 
     @abc.abstractmethod
@@ -51,9 +51,9 @@ class BlastResultsParser:
         pass
 
     @abc.abstractmethod
-    def _create_hit(self, alignment, hsp):
+    def _create_hit(self, file, blast_record, alignment, hsp):
         pass
 
     @abc.abstractmethod
-    def _append_results_to(self, hit, results):
+    def _append_results_to(self, hit, database_name, results):
         pass
