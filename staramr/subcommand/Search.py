@@ -15,11 +15,10 @@ class Search(SubCommand):
 
     def __init__(self, arg_parser, script_dir):
         super().__init__(arg_parser, script_dir)
-        default_database_dir = AMRDatabaseHandler.get_default_database_directory(script_dir)
-        self._resfinder_database_dir = path.join(default_database_dir, 'resfinder')
-        self._pointfinder_database_root_dir = path.join(default_database_dir, 'pointfinder')
 
     def _setup_args(self, arg_parser):
+        self._default_database_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+
         arg_parser.add_argument('--threads', action='store', dest='threads', type=int,
                                 help='The number of threads to use [1].',
                                 default=1, required=False)
@@ -34,6 +33,9 @@ class Search(SubCommand):
         arg_parser.add_argument('--include-negatives', action='store_true', dest='include_negatives',
                                 help='Inclue negative results (those sensitive to antimicrobials) [False].',
                                 required=False)
+        arg_parser.add_argument('--database', action='store', dest='database', type=str,
+                                help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
+                                default=self._default_database_dir, required=False)
         arg_parser.add_argument('--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
@@ -57,17 +59,23 @@ class Search(SubCommand):
 
         if args.output_dir:
             if path.exists(args.output_dir):
-                raise CommandParseException("Error, output directory [" + args.output_dir + "] already exists",
+                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
                                             self._root_arg_parser)
             else:
                 mkdir(args.output_dir)
 
-        resfinder_database = ResfinderBlastDatabase(self._resfinder_database_dir)
+        if not path.isdir(args.database):
+            raise CommandParseException("Database directory [" + args.database + "] does not exist")
+
+        resfinder_database_dir = path.join(args.database, 'resfinder')
+        pointfinder_database_root_dir = path.join(args.database, 'pointfinder')
+
+        resfinder_database = ResfinderBlastDatabase(resfinder_database_dir)
         if (args.pointfinder_organism):
             if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
                 raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
                     PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
-            pointfinder_database = PointfinderBlastDatabase(self._pointfinder_database_root_dir,
+            pointfinder_database = PointfinderBlastDatabase(pointfinder_database_root_dir,
                                                             args.pointfinder_organism)
         else:
             pointfinder_database = None
