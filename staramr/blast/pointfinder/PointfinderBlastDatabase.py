@@ -34,6 +34,9 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
     def get_phenotype(self, gene, codon_mutation):
         return self._pointfinder_info.get_phenotype(gene, codon_mutation)
 
+    def get_organism(self):
+        return self.organism
+
     @classmethod
     def get_available_organisms(cls):
         return ['salmonella']
