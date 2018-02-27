@@ -23,6 +23,9 @@ class ResfinderHitHSP(AMRHitHSP):
     def get_gene(self):
         return self._gene
 
+    def get_gene_with_variant(self):
+        return self.get_gene() + '_' + self._gene_variant
+
     def get_accession(self):
         return self._accession
 
