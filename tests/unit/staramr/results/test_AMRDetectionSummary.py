@@ -76,7 +76,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.pointfinder_table_multiple_gene_files = ['file1']
 
     def testResfinderSingleGene(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, 'RESFINDER_PHENOTYPE', self.resfinder_table1)
 
         summary = amr_detection_summary.create_summary()
 
@@ -89,7 +89,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithNegativesNonIncluded(self):
         files = ['file1', 'file2']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', self.resfinder_table1)
 
         summary = amr_detection_summary.create_summary()
 
@@ -102,7 +102,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithNegativesIncluded(self):
         files = ['file1', 'file2']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', self.resfinder_table1)
 
         summary = amr_detection_summary.create_summary(True)
 
@@ -119,7 +119,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithTwoNegativesIncluded(self):
         files = ['file1', 'file2', 'file3']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', self.resfinder_table1)
 
         summary = amr_detection_summary.create_summary(True)
 
@@ -140,7 +140,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithTwoNegativesIncludedDifferentOrder(self):
         files = ['file2', 'file1', 'file3']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', self.resfinder_table1)
 
         summary = amr_detection_summary.create_summary(True)
 
@@ -160,7 +160,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                          'Resfinder negative phenotype not equal')
 
     def testResfinderMultipleGeneResistance(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_resistance_files, self.resfinder_table_mult_resistance)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_resistance_files, 'RESFINDER_PHENOTYPE', self.resfinder_table_mult_resistance)
 
         summary = amr_detection_summary.create_summary()
 
@@ -172,7 +172,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                          'Resfinder phenotype not equal')
 
     def testResfinderMultipleGeneSameResistance(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_gene_same_resistance_files, self.resfinder_table_mult_gene_same_resistance)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_gene_same_resistance_files, 'RESFINDER_PHENOTYPE', self.resfinder_table_mult_gene_same_resistance)
 
         summary = amr_detection_summary.create_summary()
 
@@ -184,7 +184,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                          'Resfinder phenotype not equal')
 
     def testResfinderMultipleSameGeneSameResistance(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_same_gene_same_resistance_files, self.resfinder_table_mult_same_gene_same_resistance)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_same_gene_same_resistance_files, 'RESFINDER_PHENOTYPE', self.resfinder_table_mult_same_gene_same_resistance)
 
         summary = amr_detection_summary.create_summary()
 
@@ -196,7 +196,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                          'Resfinder phenotype not equal')
 
     def testResfinderMultipleFile(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_file_files, self.resfinder_table_mult_file)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_file_files, 'RESFINDER_PHENOTYPE', self.resfinder_table_mult_file)
 
         summary = amr_detection_summary.create_summary()
 
@@ -212,7 +212,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                          'Resfinder phenotype not equal')
 
     def testPointfinderSingleGene(self):
-        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_files, self.resfinder_table_empty, self.pointfinder_table)
+        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_files, 'RESFINDER_PHENOTYPE', self.resfinder_table_empty, self.pointfinder_table)
 
         summary = amr_detection_summary.create_summary()
 
@@ -223,7 +223,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('pfResistance', summary['RESFINDER_PHENOTYPE'].iloc[0], 'Pointfinder phenotype not equal')
 
     def testPointfinderSingleMultipleGene(self):
-        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_multiple_gene_files, self.resfinder_table_empty, self.pointfinder_table_multiple_gene)
+        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_multiple_gene_files, 'RESFINDER_PHENOTYPE', self.resfinder_table_empty, self.pointfinder_table_multiple_gene)
 
         summary = amr_detection_summary.create_summary()
 
@@ -242,7 +242,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             columns=self.columns_pointfinder)
         files = ['file1']
 
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, df)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', self.resfinder_table_empty, df)
 
         summary = amr_detection_summary.create_summary()
 
@@ -255,7 +255,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testPointfinderResfinderSingleGene(self):
         files = ['file1']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.pointfinder_table)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', self.resfinder_table1, self.pointfinder_table)
 
         summary = amr_detection_summary.create_summary()
 
