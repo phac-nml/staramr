@@ -16,6 +16,10 @@ class AMRDetection:
         else:
             self._has_pointfinder = True
 
+    def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe):
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe, pointfinder_dataframe)
+        return amr_detection_summary.create_summary(self._include_negative_results)
+
     def run_amr_detection(self, files, pid_threshold, plength_threshold):
         self._amr_detection_handler.run_blasts(files)
 
@@ -32,8 +36,7 @@ class AMRDetection:
         else:
             self._pointfinder_dataframe = None
 
-        amr_detection_summary = AMRDetectionSummary(files, self._resfinder_dataframe, self._pointfinder_dataframe)
-        self._summary_dataframe = amr_detection_summary.create_summary(self._include_negative_results)
+        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe, self._pointfinder_dataframe)
 
     def get_resfinder_results(self):
         return self._resfinder_dataframe
