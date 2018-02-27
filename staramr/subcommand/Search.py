@@ -13,8 +13,9 @@ from staramr.exceptions.CommandParseException import CommandParseException
 
 class Search(SubCommand):
 
-    def __init__(self, arg_parser, script_dir):
+    def __init__(self, amr_detection_factory, arg_parser, script_dir):
         super().__init__(arg_parser, script_dir)
+        self._amr_detection_factory = amr_detection_factory
 
     def _setup_args(self, arg_parser):
         self._default_database_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
@@ -81,7 +82,7 @@ class Search(SubCommand):
             pointfinder_database = None
         blast_handler = BlastHandler(resfinder_database, pointfinder_database, threads=args.threads)
 
-        amr_detection = AMRDetection(resfinder_database, blast_handler, pointfinder_database, args.include_negatives)
+        amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database, args.include_negatives)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold)
 
         if args.output_dir:
