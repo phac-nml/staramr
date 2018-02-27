@@ -27,7 +27,7 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
         table = self._resfinder_info
         phenotype = table[table['gene'] == gene]['phenotype']
         if phenotype.size == 0:
-            logger.warn("No phenotype matches in resfinder info for gene [" + gene + "]")
+            logger.warning("No phenotype matches in resfinder info for gene [" + gene + "]")
             return 'None'
         elif phenotype.size == 1:
             return phenotype.iloc[0]
