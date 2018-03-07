@@ -16,18 +16,29 @@ Class for searching for AMR resistance genes.
 
 class Search(SubCommand):
 
-    def __init__(self, amr_detection_factory, subparser, script_dir):
+    def __init__(self, amr_detection_factory, subparser, script_dir, script_name):
         """
         Creates a new Search sub-command instance.
         :param amr_detection_factory: A factory of type staramr.detection.AMRDetectionFactory for building necessary objects for AMR detection.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
+        :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir)
+        super().__init__(subparser, script_dir, script_name)
         self._amr_detection_factory = amr_detection_factory
 
     def _setup_args(self, arg_parser):
-        arg_parser = self._subparser.add_parser('search', help='Search for AMR genes')
+        name = self._script_name
+        epilog=("Example:\n"
+               "\t"+name+" search --output-dir out *.fasta\n"
+               "\t\tSearches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.\n\n"+
+               "\t"+name+" search --pointfinder-organism salmonella --output-dir out *.fasta\n"+
+               "\t\tSearches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in out/.")
+
+        arg_parser = self._subparser.add_parser('search',
+                                                epilog=epilog,
+                                                formatter_class=argparse.RawTextHelpFormatter,
+                                                help='Search for AMR genes')
 
         self._default_database_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
 

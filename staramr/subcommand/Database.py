@@ -15,22 +15,23 @@ Base class for interacting with a database.
 
 class Database(SubCommand):
 
-    def __init__(self, subparser, script_dir):
+    def __init__(self, subparser, script_dir, script_name):
         """
         Builds a SubCommand for interacting with databases.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
+        :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir)
+        super().__init__(subparser, script_dir, script_name)
 
     def _setup_args(self, arg_parser):
         arg_parser = self._subparser.add_parser('db', help='Download ResFinder/PointFinder databases')
         subparser = arg_parser.add_subparsers(dest='db_command',
                                               help='Subcommand for ResFinder/PointFinder databases.')
 
-        Build(subparser, self._script_dir)
-        Update(subparser, self._script_dir)
-        Info(subparser, self._script_dir)
+        Build(subparser, self._script_dir, self._script_name + " db")
+        Update(subparser, self._script_dir, self._script_name + " db")
+        Info(subparser, self._script_dir, self._script_name + " db")
 
         return arg_parser
 
@@ -46,17 +47,28 @@ Class for building a new database.
 
 class Build(Database):
 
-    def __init__(self, subparser, script_dir):
+    def __init__(self, subparser, script_dir, script_name):
         """
         Creates a SubCommand for building a new database.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
+        :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir)
+        super().__init__(subparser, script_dir, script_name)
 
     def _setup_args(self, arg_parser):
-        arg_parser = self._subparser.add_parser('build', help='Downloads and builds databases in the given directory.')
+        name = self._script_name
         default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        epilog=("Example:\n"
+               "\t"+name+" build\n"
+               "\t\tBuilds a new ResFinder/PointFinder database under "+default_dir+" if it does not exist\n\n"+
+               "\t"+name+" build --dir databases\n"+
+               "\t\tBuilds a new ResFinder/PointFinder database under databases/")
+
+        arg_parser = self._subparser.add_parser('build',
+                                                epilog=epilog,
+                                                formatter_class=argparse.RawTextHelpFormatter,
+                                                help='Downloads and builds databases in the given directory.')
         arg_parser.add_argument('--dir', action='store', dest='destination', type=str,
                                 help='The directory to download the databases into [' + default_dir + '].',
                                 default=default_dir, required=False)
@@ -82,18 +94,28 @@ Class for updating an existing database.
 
 class Update(Database):
 
-    def __init__(self, subparser, script_dir):
+    def __init__(self, subparser, script_dir, script_name):
         """
         Creates a SubCommand for updating an existing database.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
+        :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir)
+        super().__init__(subparser, script_dir, script_name)
 
     def _setup_args(self, arg_parser):
-        arg_parser = self._subparser.add_parser('update', help='Updates databases in the given directories.')
-
         default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        name = self._script_name
+        epilog=("Example:\n"
+               "\t"+name+" update databases/\n"
+               "\t\tUpdates the ResFinder/PointFinder database under databases/\n\n"+
+               "\t"+name+" update -d\n"+
+               "\t\tUpdates the default ResFinder/PointFinder database under "+default_dir)
+        arg_parser = self._subparser.add_parser('update',
+                                                epilog=epilog,
+                                                formatter_class=argparse.RawTextHelpFormatter,
+                                                help='Updates databases in the given directories.')
+
         arg_parser.add_argument('-d', '--update-default', action='store_true', dest='update_default',
                                 help='Updates default database directory (' + default_dir + ').', required=False)
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
@@ -122,16 +144,26 @@ Class for getting information from an existing database.
 
 class Info(Database):
 
-    def __init__(self, subparser, script_dir):
+    def __init__(self, subparser, script_dir, script_name):
         """
         Creates a SubCommand for printing information about a database.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
+        :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir)
+        super().__init__(subparser, script_dir, script_name)
 
     def _setup_args(self, arg_parser):
+        name = self._script_name
+        default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        epilog=("Example:\n"
+               "\t"+name+" info\n"
+               "\t\tPrints information about the default database in "+default_dir+"\n\n"+
+               "\t"+name+" info databases\n"+
+               "\t\tPrints information on the database stored in databases/")
         arg_parser = self._subparser.add_parser('info',
+                                                epilog=epilog,
+                                                formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Prints information on databases in the given directories.')
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
 

@@ -16,13 +16,14 @@ logger = logging.getLogger("staramr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 script_dir = path.dirname(path.realpath(sys.argv[0]))
+script_name = path.basename(path.realpath(sys.argv[0]))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
-    Search(AMRDetectionFactory(), subparsers, script_dir)
-    Database(subparsers, script_dir)
+    Search(AMRDetectionFactory(), subparsers, script_dir, script_name)
+    Database(subparsers, script_dir, script_name)
 
     args = parser.parse_args()
     if args.command is None:
