@@ -7,10 +7,10 @@ import logging
 import sys
 from os import path
 
+from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.subcommand.Database import Database
 from staramr.subcommand.Search import Search
-from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 
 logger = logging.getLogger("staramr-detection")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
@@ -21,8 +21,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
-    Search(AMRDetectionFactory(), subparsers.add_parser('search', help='Search for AMR genes'), script_dir)
-    Database(subparsers.add_parser('db', help='Download ResFinder/PointFinder databases'), script_dir)
+    Search(AMRDetectionFactory(), subparsers, script_dir)
+    Database(subparsers, script_dir)
 
     args = parser.parse_args()
     if args.command is None:
