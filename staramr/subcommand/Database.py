@@ -1,3 +1,6 @@
+"""
+Classes for interacting with the (ResFinder/PointFinder) databases used to detect AMR genes.
+"""
 import argparse
 from os import path, mkdir
 
@@ -5,10 +8,19 @@ from staramr.SubCommand import SubCommand
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.CommandParseException import CommandParseException
 
+"""
+Base class for interacting with a database.
+"""
+
 
 class Database(SubCommand):
 
     def __init__(self, arg_parser, script_dir):
+        """
+        Builds a SubCommand for interacting with databases.
+        :param arg_parser: The argparse.ArgumentParser to use.
+        :param script_dir: The directory containing the main application script.
+        """
         super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
@@ -26,9 +38,19 @@ class Database(SubCommand):
             self._root_arg_parser.print_help()
 
 
+"""
+Class for building a new database.
+"""
+
+
 class Build(Database):
 
     def __init__(self, arg_parser, script_dir):
+        """
+        Creates a SubCommand for building a new database.
+        :param arg_parser: The argparse.ArgumentParser to use.
+        :param script_dir: The directory containing the main application script.
+        """
         super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
@@ -50,9 +72,19 @@ class Build(Database):
         database_handler.build()
 
 
+"""
+Class for updating an existing database.
+"""
+
+
 class Update(Database):
 
     def __init__(self, arg_parser, script_dir):
+        """
+        Creates a SubCommand for updating an existing database.
+        :param arg_parser: The argparse.ArgumentParser to use.
+        :param script_dir: The directory containing the main application script.
+        """
         super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):
@@ -76,9 +108,19 @@ class Update(Database):
                 database_handler.update()
 
 
+"""
+Class for getting information from an existing database.
+"""
+
+
 class Info(Database):
 
     def __init__(self, arg_parser, script_dir):
+        """
+        Creates a SubCommand for printing information about a database.
+        :param arg_parser: The argparse.ArgumentParser to use.
+        :param script_dir: The directory containing the main application script.
+        """
         super().__init__(arg_parser, script_dir)
 
     def _setup_args(self, arg_parser):

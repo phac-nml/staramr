@@ -7,10 +7,20 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 
 logger = logging.getLogger('BlastHandler')
 
+"""
+Class for handling scheduling of BLAST jobs.
+"""
+
 
 class BlastHandler:
 
     def __init__(self, resfinder_database, pointfinder_database=None, threads=1):
+        """
+        Creates a new BlastHandler.
+        :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
+        :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
+        :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
+        """
         self._resfinder_database = resfinder_database
         self._threads = threads
 
@@ -24,6 +34,10 @@ class BlastHandler:
         self.reset()
 
     def reset(self):
+        """
+        Resets this BlastHandler.
+        :return: None
+        """
         if self._thread_pool_executor is not None:
             self._thread_pool_executor.shutdown()
         self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
@@ -34,6 +48,11 @@ class BlastHandler:
         self._temp_dirs = []
 
     def run_blasts(self, files):
+        """
+        Scans all files with BLAST against the ResFinder/PointFinder databases.
+        :param files: The files to scan.
+        :return: None
+        """
         database_names_resfinder = self._resfinder_database.get_database_names()
         logger.debug("Resfinder Databases: " + str(database_names_resfinder))
 
@@ -78,15 +97,30 @@ class BlastHandler:
             self._pointfinder_future_blasts.append(future_blast)
 
     def is_pointfinder_configured(self):
+        """
+        Whether or not PointFinder is being used.
+        :return: True if PointFinder is being used, False otherwise.
+        """
         return self._pointfinder_configured
 
     def get_resfinder_outputs(self):
+        """
+        Gets the ResFinder output files in the form of a dictionary which looks like:
+            { 'input_file_name' => 'blast_results_file.xml' }
+        :return: A dictionary mapping input file names to ResFinder BLAST output files.
+        """
+
         # Forces any exceptions to be thrown if error with blasts
         for future_blast in self._resfinder_future_blasts:
             future_blast.result()
         return self._resfinder_blast_map
 
     def get_pointfinder_outputs(self):
+        """
+        Gets the PointFinder output files in the form of a dictionary which looks like:
+            { 'input_file_name' => 'blast_results_file.xml' }
+        :return: A dictionary mapping input file names to PointFinder BLAST output files.
+        """
         if (self.is_pointfinder_configured()):
             # Forces any exceptions to be thrown if error with blasts
             for future_blast in self._pointfinder_future_blasts:

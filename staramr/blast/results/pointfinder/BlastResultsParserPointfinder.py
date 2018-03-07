@@ -7,10 +7,21 @@ from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHS
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
 
+"""
+A Class for parsing BLAST results specific to PointFinder.
+"""
+
 
 class BlastResultsParserPointfinder(BlastResultsParser):
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold):
+        """
+        Creates a new BlastResultsParserPointfinder.
+        :param file_blast_map: A map/dictionary linking input files to BLAST results files.
+        :param blast_database: The particular staramr.blast.AbstractBlastDatabase to use.
+        :param pid_threshold: A percent identity threshold for BLAST results.
+        :param plength_threshold: A percent length threshold for results.
+        """
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold)
 
     def _create_hit(self, file, blast_record, alignment, hsp):

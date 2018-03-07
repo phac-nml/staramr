@@ -2,11 +2,22 @@ from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import Blas
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
+"""
+A Class to handle scanning files for AMR genes.
+"""
+
 
 class AMRDetection:
 
     def __init__(self, resfinder_database, amr_detection_handler, pointfinder_database=None,
                  include_negative_results=False):
+        """
+        Builds a new AMRDetection object.
+        :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
+        :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
+        :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
+        :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
+        """
         self._resfinder_database = resfinder_database
         self._amr_detection_handler = amr_detection_handler
         self._pointfinder_database = pointfinder_database
@@ -18,7 +29,8 @@ class AMRDetection:
             self._has_pointfinder = True
 
     def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe):
-        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', resfinder_dataframe, pointfinder_dataframe)
+        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', resfinder_dataframe,
+                                                    pointfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold):
@@ -32,6 +44,13 @@ class AMRDetection:
         return pointfinder_parser.parse_results()
 
     def run_amr_detection(self, files, pid_threshold, plength_threshold):
+        """
+        Scans the passed files for AMR genes.
+        :param files: The files to scan.
+        :param pid_threshold: The percent identity threshold for BLAST results.
+        :param plength_threshold: The percent length identity for BLAST results.
+        :return: None
+        """
         self._amr_detection_handler.run_blasts(files)
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
@@ -49,10 +68,22 @@ class AMRDetection:
                                                            self._pointfinder_dataframe)
 
     def get_resfinder_results(self):
+        """
+        Gets a pandas.DataFrame for the ResFinder results.
+        :return: A pandas.DataFrame for the ResFinder results.
+        """
         return self._resfinder_dataframe
 
     def get_pointfinder_results(self):
+        """
+        Gets a pandas.DataFrame for the PointFinder results.
+        :return: A pandas.DataFrame for the PointFinder results.
+        """
         return self._pointfinder_dataframe
 
     def get_summary_results(self):
+        """
+        Gets a pandas.DataFrame for a summary table of the results.
+        :return: A pandas.DataFrame for a summary table of the results.
+        """
         return self._summary_dataframe

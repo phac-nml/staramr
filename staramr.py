@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+A script to run the staramr commands. Used to scan a list of files against the ResFinder/PointFinder databases.
+"""
 import argparse
 import logging
 import sys

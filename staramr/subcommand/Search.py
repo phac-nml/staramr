@@ -7,13 +7,22 @@ from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
-from staramr.detection.AMRDetection import AMRDetection
 from staramr.exceptions.CommandParseException import CommandParseException
+
+"""
+Class for searching for AMR resistance genes.
+"""
 
 
 class Search(SubCommand):
 
     def __init__(self, amr_detection_factory, arg_parser, script_dir):
+        """
+        Creates a new Search sub-command instance.
+        :param amr_detection_factory: A factory of type staramr.detection.AMRDetectionFactory for building necessary objects for AMR detection.
+        :param arg_parser: The argparse.ArgumentParser to use.
+        :param script_dir: The directory containing the main application script.
+        """
         super().__init__(arg_parser, script_dir)
         self._amr_detection_factory = amr_detection_factory
 
@@ -82,7 +91,8 @@ class Search(SubCommand):
             pointfinder_database = None
         blast_handler = BlastHandler(resfinder_database, pointfinder_database, threads=args.threads)
 
-        amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database, args.include_negatives)
+        amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
+                                                          args.include_negatives)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold)
 
         if args.output_dir:

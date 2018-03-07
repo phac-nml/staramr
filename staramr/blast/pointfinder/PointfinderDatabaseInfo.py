@@ -1,19 +1,38 @@
 import pandas
 
+"""
+A Class storing information about the specific PointFinder database.
+"""
+
 
 class PointfinderDatabaseInfo:
 
-    def __init__(self, table):
-        self._pointfinder_info = table
+    def __init__(self, database_info_dataframe):
+        """
+        Creates a new PointfinderDatabaseInfo.
+        :param database_info_dataframe: A pandas.DataFrame containing the information in PointFinder.
+        """
+        self._pointfinder_info = database_info_dataframe
 
     @classmethod
     def from_file(cls, file):
+        """
+        Builds a new PointfinderDatabaseInfo from the passed file containing PointFinder information on drug resistance
+        mutations.
+        :param file: The file containing drug resistance mutations.
+        :return: A new PointfinderDatabaseInfo.
+        """
         pointfinder_info = pandas.read_csv(file, sep="\t", index_col=False)
         return cls(pointfinder_info)
 
     @classmethod
-    def from_pandas_table(cls, table):
-        return cls(table)
+    def from_pandas_table(cls, database_info_dataframe):
+        """
+        Builds a new PointfinderDatabaseInfo from the passed pandas.DataFrame.
+        :param database_info_dataframe: A pandas.DataFrame containing the information in PointFinder.
+        :return: A new PointfinderDatabaseInfo.
+        """
+        return cls(database_info_dataframe)
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
         table = self._pointfinder_info
@@ -29,6 +48,12 @@ class PointfinderDatabaseInfo:
             return matches
 
     def get_phenotype(self, gene, codon_mutation):
+        """
+        Gets the phenotype for a given gene and codon mutation from PointFinder.
+        :param gene: The gene.
+        :param codon_mutation: The codon mutation.
+        :return: A string describing the phenotype.
+        """
         match = self._get_resistance_codon_match(gene, codon_mutation)
 
         if len(match.index) > 0:
@@ -37,6 +62,12 @@ class PointfinderDatabaseInfo:
             raise Exception("Error, no match for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
 
     def get_resistance_codons(self, gene, codon_mutations):
+        """
+        Gets a list of resistance codons from the given gene and codon mutations.
+        :param gene: The gene.
+        :param codon_mutations: The codon mutations.
+        :return: The resistance codons.
+        """
         resistance_mutations = []
 
         table = self._pointfinder_info

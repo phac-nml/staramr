@@ -5,9 +5,18 @@ import pandas
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
 
+"""
+A Class for a PointFinder database for a particular organism.
+"""
+
 
 class PointfinderBlastDatabase(AbstractBlastDatabase):
     def __init__(self, database_dir, organism):
+        """
+        Creates a new PointfinderBlastDatabase.
+        :param database_dir: The root directory for the PointFinder organisms.
+        :param organism: The particular organism.
+        """
         super().__init__(database_dir)
         self.organism = organism
         self.pointfinder_database_dir = path.join(self.database_dir, organism)
@@ -29,24 +38,54 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         return path.join(self.pointfinder_database_dir, database_name + self.fasta_suffix)
 
     def get_resistance_codons(self, gene, codon_mutations):
+        """
+        Gets a list of resistance codons from the given gene and codon mutations.
+        :param gene: The gene.
+        :param codon_mutations: The codon mutations.
+        :return: The resistance codons.
+        """
         return self._pointfinder_info.get_resistance_codons(gene, codon_mutations)
 
     def get_phenotype(self, gene, codon_mutation):
+        """
+        Gets the phenotype for a given gene and codon mutation from PointFinder.
+        :param gene: The gene.
+        :param codon_mutation: The codon mutation.
+        :return: A string describing the phenotype.
+        """
         return self._pointfinder_info.get_phenotype(gene, codon_mutation)
 
     def get_organism(self):
+        """
+        Gets the particular organism of this database.
+        :return: The organism.
+        """
         return self.organism
 
     @classmethod
     def get_available_organisms(cls):
+        """
+        A Class Method to get a list of organisms that are currently supported by staramr.
+        :return: The list of organisms currently supported by staramr.
+        """
         return ['salmonella']
 
     @classmethod
     def get_organisms(cls, database_dir):
+        """
+        A Class Method to get the list of organisms from the PointFinder database root directory.
+        :param database_dir: The PointFinder database root directory.
+        :return: A list of organisms.
+        """
         config = pandas.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
                                  names=['db_prefix', 'name', 'description'])
         return config['db_prefix'].tolist()
 
     @classmethod
     def build_databases(cls, database_dir):
+        """
+        A Class Method to build a list of PointfinderBlastDatabase for all organisms in PointFinder.
+        :param database_dir: The root PointFinder database directory.
+        :return: A list of PointfinderBlastDatabase objects for all organisms in PointFinder.
+        """
         return [PointfinderBlastDatabase(database_dir, organism) for organism in cls.get_organisms(database_dir)]

@@ -6,10 +6,21 @@ from Bio.Blast import NCBIXML
 
 logger = logging.getLogger('BlastResultsParser')
 
+"""
+Class for parsing BLAST results.
+"""
+
 
 class BlastResultsParser:
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold):
+        """
+        Creates a new class for parsing BLAST results.
+        :param file_blast_map: A map/dictionary linking input files to BLAST results files.
+        :param blast_database: The particular staramr.blast.AbstractBlastDatabase to use.
+        :param pid_threshold: A percent identity threshold for BLAST results.
+        :param plength_threshold: A percent length threshold for results.
+        """
         __metaclass__ = abc.ABCMeta
         self._file_blast_map = file_blast_map
         self._blast_database = blast_database
@@ -17,6 +28,10 @@ class BlastResultsParser:
         self._plength_threshold = plength_threshold
 
     def parse_results(self):
+        """
+        Parses the BLAST files passed to this particular object.
+        :return: A pandas.DataFrame containing the AMR matches from BLAST.
+        """
         results = []
 
         for file in self._file_blast_map:
