@@ -14,14 +14,18 @@ Class for handling scheduling of BLAST jobs.
 
 class BlastHandler:
 
-    def __init__(self, resfinder_database, pointfinder_database=None, threads=1):
+    def __init__(self, resfinder_database, threads, pointfinder_database=None):
         """
         Creates a new BlastHandler.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
-        :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
+        :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         """
         self._resfinder_database = resfinder_database
+
+        if threads is None:
+            raise Exception("threads is None")
+
         self._threads = threads
 
         if (pointfinder_database == None):
