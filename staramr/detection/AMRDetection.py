@@ -29,7 +29,7 @@ class AMRDetection:
             self._has_pointfinder = True
 
     def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe):
-        amr_detection_summary = AMRDetectionSummary(files, 'RESFINDER_PHENOTYPE', resfinder_dataframe,
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
                                                     pointfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 

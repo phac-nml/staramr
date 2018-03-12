@@ -29,7 +29,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _create_data_frame(self, results):
         df = pandas.DataFrame(results,
-                              columns=('FILE', 'GENE', 'RESFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE',
+                              columns=('FILE', 'GENE', 'CODON_POSITION', 'NUCLEOTIDE',
                                        'AMINO_ACID', '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
         return df.set_index('FILE')
 
@@ -37,7 +37,6 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         results.append([hit.get_file(),
                         hit.get_hit_id() + " (" + db_codon.get_database_amino_acid() + str(
                             db_codon.get_codon_start()) + db_codon.get_query_amino_acid() + ")",
-                        self._blast_database.get_phenotype(hit.get_hit_id(), db_codon),
                         db_codon.get_codon_start(),
                         db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon(),
                         db_codon.get_database_amino_acid() + ' -> ' + db_codon.get_query_amino_acid(),
