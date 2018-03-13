@@ -1,9 +1,9 @@
 __pycache__
 *.swp
-databases
-example
-.idea
+/databases
+/example
+/.idea
 *.pyc
-build
-dist
-staramr.egg-info
+/build
+/dist
+/staramr.egg-info
