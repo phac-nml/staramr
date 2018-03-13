@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/phac-nml/staramr.svg?branch=development)](https://travis-ci.org/phac-nml/staramr)
+
 # `staramr`
 
 `staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases and complies a summary report of detected antimicrobial resistance genes.
