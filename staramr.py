@@ -46,7 +46,7 @@ from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.subcommand.Database import Database
 from staramr.subcommand.Search import Search
 
-logger = logging.getLogger("staramr-detection")
+logger = logging.getLogger("staramr")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 script_dir = path.dirname(path.realpath(sys.argv[0]))
