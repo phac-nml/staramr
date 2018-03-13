@@ -4,3 +4,6 @@ databases
 example
 .idea
 *.pyc
+build
+dist
+staramr.egg-info
