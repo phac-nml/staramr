@@ -105,7 +105,8 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  --threads THREADS     The number of threads to use [16].
+  -t THREADS, --threads THREADS
+                        The number of threads to use [MAX CPUs].
   --pid-threshold PID_THRESHOLD
                         The percent identity threshold [98.0].
   --percent-length-overlap PLENGTH_THRESHOLD
@@ -113,8 +114,9 @@ optional arguments:
   --pointfinder-organism POINTFINDER_ORGANISM
                         The organism to use for pointfinder {salmonella} [None].
   --include-negatives   Inclue negative results (those sensitive to antimicrobials) [False].
-  --database DATABASE   The directory containing the resfinder/pointfinder databases [staramr/databases].
-  --output-dir OUTPUT_DIR
+  -d DATABASE, --database DATABASE
+                        The directory containing the resfinder/pointfinder databases [staramr/databases].
+  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
                         The output directory for results.  If unset prints all results to stdout.
 
 Example:
