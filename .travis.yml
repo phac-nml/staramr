@@ -7,6 +7,5 @@ install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq git ncbi-blast+
   - python setup.py install
-  - python -c 'import sys; print(sys.path)'
 
 script: ./run-tests.sh
