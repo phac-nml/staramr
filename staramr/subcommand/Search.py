@@ -1,6 +1,7 @@
 import argparse
-import sys
+import logging
 import multiprocessing
+import sys
 from os import path, mkdir
 
 from staramr.SubCommand import SubCommand
@@ -9,6 +10,8 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.CommandParseException import CommandParseException
+
+logger = logging.getLogger("Search")
 
 """
 Class for searching for AMR resistance genes.
@@ -30,11 +33,11 @@ class Search(SubCommand):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        epilog=("Example:\n"
-               "\t"+name+" search --output-dir out *.fasta\n"
-               "\t\tSearches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.\n\n"+
-               "\t"+name+" search --pointfinder-organism salmonella --output-dir out *.fasta\n"+
-               "\t\tSearches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in out/.")
+        epilog = ("Example:\n"
+                  "\t" + name + " search --output-dir out *.fasta\n"
+                                "\t\tSearches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.\n\n" +
+                  "\t" + name + " search --pointfinder-organism salmonella --output-dir out *.fasta\n" +
+                  "\t\tSearches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in out/.")
 
         arg_parser = self._subparser.add_parser('search',
                                                 epilog=epilog,
@@ -44,8 +47,8 @@ class Search(SubCommand):
         self._default_database_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
         cpu_count = multiprocessing.cpu_count()
 
-        arg_parser.add_argument('--threads', action='store', dest='threads', type=int,
-                                help='The number of threads to use ['+str(cpu_count)+'].',
+        arg_parser.add_argument('-t', '--threads', action='store', dest='threads', type=int,
+                                help='The number of threads to use [' + str(cpu_count) + '].',
                                 default=cpu_count, required=False)
         arg_parser.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
                                 help='The percent identity threshold [98.0].', default=98.0, required=False)
@@ -58,10 +61,10 @@ class Search(SubCommand):
         arg_parser.add_argument('--include-negatives', action='store_true', dest='include_negatives',
                                 help='Inclue negative results (those sensitive to antimicrobials) [False].',
                                 required=False)
-        arg_parser.add_argument('--database', action='store', dest='database', type=str,
+        arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
                                 default=self._default_database_dir, required=False)
-        arg_parser.add_argument('--output-dir', action='store', dest='output_dir', type=str,
+        arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
         arg_parser.add_argument('files', nargs=argparse.REMAINDER)
@@ -119,6 +122,8 @@ class Search(SubCommand):
                                           path.join(args.output_dir, "results_tab.pointfinder.tsv"))
             self._print_dataframe_to_file(amr_detection.get_summary_results(),
                                           path.join(args.output_dir, "summary.tsv"))
+
+            logger.info("Finished. Output files in " + args.output_dir)
         else:
             self._print_dataframe_to_file(amr_detection.get_resfinder_results())
             self._print_dataframe_to_file(amr_detection.get_pointfinder_results())
