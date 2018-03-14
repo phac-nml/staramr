@@ -1,7 +1,7 @@
 import logging
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
-from staramr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
+from staramr.blast.results.pointfinder.CodonMutationPosition import CodonMutationPosition
 
 logger = logging.getLogger('PointfinderHitHSP')
 
@@ -54,7 +54,7 @@ class PointfinderHitHSP(AMRHitHSP):
         return [i for i, c in enumerate(self.hsp.match) if c == ' ']
 
     def _get_nucleotide_mutation_positions(self, start, database_frame, query_frame):
-        return [NucleotideMutationPosition(i, self.hsp.sbjct, self.hsp.query, start, database_frame, query_frame) for i
+        return [CodonMutationPosition(i, self.hsp.sbjct, self.hsp.query, start, database_frame, query_frame) for i
                 in self._get_match_positions()]
 
     def get_nucleotide_mutations(self):

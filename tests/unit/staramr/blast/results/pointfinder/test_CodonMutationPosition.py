@@ -1,9 +1,9 @@
 import unittest
 
-from staramr.blast.results.pointfinder.NucleotideMutationPosition import NucleotideMutationPosition
+from staramr.blast.results.pointfinder.CodonMutationPosition import CodonMutationPosition
 
 
-class AMRDetectionIT(unittest.TestCase):
+class CodonMutationPositionTest(unittest.TestCase):
 
     def testMutationPositionStartCodon1(self):
         mutation_position = 0
@@ -14,8 +14,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -33,8 +33,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -52,8 +52,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -71,8 +71,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -90,8 +90,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 6, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -109,8 +109,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 7, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 3, 'Incorrect codon start')
@@ -128,8 +128,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -147,8 +147,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -166,8 +166,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -185,8 +185,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -204,8 +204,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -223,8 +223,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -243,8 +243,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -262,8 +262,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -281,8 +281,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -300,8 +300,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -319,8 +319,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -338,8 +338,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -357,8 +357,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -376,8 +376,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -395,8 +395,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 9
         database_frame = -1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -414,8 +414,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 9
         database_frame = -1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -433,8 +433,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 9
         database_frame = -1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -452,8 +452,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 9
         database_frame = -1
         query_frame = 1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -471,8 +471,8 @@ class AMRDetectionIT(unittest.TestCase):
         database_start = 1
         database_frame = 1
         query_frame = -1
-        mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
+                                         database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
