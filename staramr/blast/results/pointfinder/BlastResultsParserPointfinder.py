@@ -36,8 +36,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     def _do_append(self, hit, db_codon, results):
         results.append([hit.get_file(),
                         hit.get_hit_id() + " (" + db_codon.get_database_amino_acid() + str(
-                            db_codon.get_codon_start()) + db_codon.get_query_amino_acid() + ")",
-                        db_codon.get_codon_start(),
+                            db_codon.get_mutation_start()) + db_codon.get_query_amino_acid() + ")",
+                        db_codon.get_mutation_start(),
                         db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon(),
                         db_codon.get_database_amino_acid() + ' -> ' + db_codon.get_query_amino_acid(),
                         hit.get_pid(),

@@ -18,7 +18,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'TTC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -37,7 +37,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AGC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -56,7 +56,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATG', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -75,7 +75,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'GAT', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AAT', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'D', 'Incorrect database amino acid')
@@ -94,7 +94,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 6, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'GAT', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'GAC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'D', 'Incorrect database amino acid')
@@ -113,7 +113,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 7, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 3, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 3, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'CGA', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'GGA', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'R', 'Incorrect database amino acid')
@@ -132,7 +132,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATG', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -151,7 +151,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'TAC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'TAA', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'Y', 'Incorrect database amino acid')
@@ -170,7 +170,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), '-TC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -189,7 +189,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'A-C', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -208,7 +208,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AT-', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -227,7 +227,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AT-', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -247,7 +247,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), '---', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -266,7 +266,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), '---', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -285,7 +285,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), '---', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -304,7 +304,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'A--', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -323,7 +323,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'A--', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -342,7 +342,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), '-TC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'X', 'Incorrect database amino acid')
@@ -361,7 +361,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'A-C', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'X', 'Incorrect database amino acid')
@@ -380,7 +380,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'AT-', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'X', 'Incorrect database amino acid')
@@ -399,7 +399,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'TTC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -418,7 +418,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ACC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -437,7 +437,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'ATA', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
@@ -456,7 +456,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 2, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'GAT', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'AAT', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'D', 'Incorrect database amino acid')
@@ -475,7 +475,7 @@ class CodonMutationPositionTest(unittest.TestCase):
                                          database_frame, query_frame)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
+        self.assertEqual(mutation.get_mutation_start(), 1, 'Incorrect codon start')
         self.assertEqual(mutation.get_database_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_query_codon(), 'TTC', 'Incorrect query codon')
         self.assertEqual(mutation.get_database_amino_acid(), 'I', 'Incorrect database amino acid')
