@@ -17,7 +17,7 @@ class NucleotideMutationPosition(MutationPosition):
         :param database_frame: The frame (strand) of the BLAST database.
         :param query_frame: The frame (strand) of the BLAST query.
         """
-        super().__init__(match_position, database_string, query_string, database_start, database_frame, query_frame)
+        super().__init__(match_position, database_start, database_frame, query_frame)
 
         self._database_nucleotide = database_string[match_position].upper()
         self._query_nucleotide = query_string[match_position].upper()
@@ -29,10 +29,10 @@ class NucleotideMutationPosition(MutationPosition):
         return self.get_nucleotide_position()
 
     def get_database_mutation(self):
-        self._database_nucleotide
+        return self._database_nucleotide
 
     def get_query_mutation(self):
-        self._query_nucleotide
+        return self._query_nucleotide
 
     def get_mutation_string(self):
         return self.get_database_mutation() + ' -> ' + self.get_query_mutation()
