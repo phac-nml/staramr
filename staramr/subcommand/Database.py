@@ -2,8 +2,10 @@
 Classes for interacting with the (ResFinder/PointFinder) databases used to detect AMR genes.
 """
 import argparse
+import sys
 from os import path, mkdir
 
+from staramr.Utils import get_string_with_spacing
 from staramr.SubCommand import SubCommand
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.CommandParseException import CommandParseException
@@ -176,12 +178,11 @@ class Info(Database):
 
         if len(args.directories) == 0:
             database_handler = AMRDatabaseHandler.create_default_handler(self._script_dir)
-            database_handler.info()
+            sys.stdout.write(get_string_with_spacing(database_handler.info()))
         elif len(args.directories) == 1:
             database_handler = AMRDatabaseHandler(args.directories[0])
-            database_handler.info()
+            sys.stdout.write(get_string_with_spacing(database_handler.info()))
         else:
             for directory in args.directories:
                 database_handler = AMRDatabaseHandler(directory)
-                database_handler.info()
-                print()
+                sys.stdout.write(get_string_with_spacing(database_handler.info()))

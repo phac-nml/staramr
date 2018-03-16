@@ -80,8 +80,8 @@ class AMRDatabaseHandler:
 
     def info(self):
         """
-        Prints out information on the ResFinder/PointFinder databases.
-        :return: None
+        Gets information on the ResFinder/PointFinder databases.
+        :return: Database information as a list containing key/value pairs.
         """
         data = []
 
@@ -100,13 +100,9 @@ class AMRDatabaseHandler:
         data.append(['pointfinder_db_date',
                      time.strftime("%a, %d %b %Y %H:%M", time.gmtime(pointfinder_repo_head.committed_date))])
 
+        return data
+
         self._print_data(data)
-
-    def _print_data(self, data):
-        max_width = max([len(w[0]) for w in data])
-
-        for item in data:
-            print(item[0].ljust(max_width) + " = " + item[1])
 
     def _blast_format(self):
 

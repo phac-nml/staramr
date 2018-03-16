@@ -125,8 +125,7 @@ class Search(SubCommand):
             self._print_dataframe_to_file(amr_detection.get_summary_results(),
                                           path.join(args.output_dir, "summary.tsv"))
 
+
             logger.info("Finished. Output files in " + args.output_dir)
         else:
-            self._print_dataframe_to_file(amr_detection.get_resfinder_results())
-            self._print_dataframe_to_file(amr_detection.get_pointfinder_results())
             self._print_dataframe_to_file(amr_detection.get_summary_results())
