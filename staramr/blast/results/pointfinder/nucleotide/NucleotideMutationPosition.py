@@ -1,3 +1,6 @@
+import Bio.Seq
+
+
 from staramr.blast.results.pointfinder.MutationPosition import MutationPosition
 
 """
@@ -21,6 +24,10 @@ class NucleotideMutationPosition(MutationPosition):
 
         self._database_nucleotide = database_string[match_position].upper()
         self._query_nucleotide = query_string[match_position].upper()
+
+        if self._database_frame == -1:
+            self._database_nucleotide = Bio.Seq.reverse_complement(self._database_nucleotide)
+            self._query_nucleotide = Bio.Seq.reverse_complement(self._query_nucleotide)
 
     def get_type(self):
         return 'nucleotide'
