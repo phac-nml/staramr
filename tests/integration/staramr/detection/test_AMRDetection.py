@@ -142,6 +142,82 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '1544/1544', msg='Wrong lengths')
 
+    def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+
+        files = [path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")]
+        amr_detection.run_amr_detection(files, 99, 99)
+
+        resfinder_results = amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['GENE'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.73, places=2, msg='Wrong pid')
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['GENE'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S_gyrA_beta-lactam.fsa', msg='Wrong file')
+        self.assertEqual(result['TYPE'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['POSITION'].iloc[0], 1065, msg='Wrong codon position')
+        self.assertEqual(result['MUTATION'].iloc[0], 'C -> T', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.935, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '1544/1544', msg='Wrong lengths')
+
+        result = pointfinder_results[pointfinder_results['GENE'] == 'gyrA (A67P)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S_gyrA_beta-lactam.fsa', msg='Wrong file')
+        self.assertEqual(result['TYPE'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['POSITION'].iloc[0], 67, msg='Wrong codon position')
+        self.assertEqual(result['MUTATION'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '2637/2637', msg='Wrong lengths')
+
+    def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
+
+        files = [path.join(self.test_data_dir, "16S-rc_gyrA-rc_beta-lactam.fsa")]
+        amr_detection.run_amr_detection(files, 99, 99)
+
+        resfinder_results = amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['GENE'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.73, places=2, msg='Wrong pid')
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['GENE'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S-rc_gyrA-rc_beta-lactam.fsa', msg='Wrong file')
+        self.assertEqual(result['TYPE'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['POSITION'].iloc[0], 1065, msg='Wrong codon position')
+        self.assertEqual(result['MUTATION'].iloc[0], 'C -> T', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.935, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '1544/1544', msg='Wrong lengths')
+
+        result = pointfinder_results[pointfinder_results['GENE'] == 'gyrA (A67P)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S-rc_gyrA-rc_beta-lactam.fsa', msg='Wrong file')
+        self.assertEqual(result['TYPE'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['POSITION'].iloc[0], 67, msg='Wrong codon position')
+        self.assertEqual(result['MUTATION'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%OVERLAP'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['DB_SEQ_LENGTH/QUERY_HSP'].iloc[0], '2637/2637', msg='Wrong lengths')
+
     def testResfinderExcludeNonMatches(self):
         amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, False)
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa"),
