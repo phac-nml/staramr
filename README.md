@@ -4,7 +4,7 @@
 
 `staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases and complies a summary report of detected antimicrobial resistance genes.
 
-For example, **summary.tsv**:
+For example:
 
 | FILE           | GENE                               |
 |----------------|------------------------------------|
@@ -76,16 +76,17 @@ Now, you may run `staramr`:
 To run the test suite, please run:
 
 ```
-python -m unittest discover
+./run-tests.sh
 ```
 
 # Output
 
-There are 3 different output files produced by `staramr`:
+There are 4 different output files produced by `staramr`:
 
 1. `summary.tsv`:  A summary of all detected AMR genes/mutations in each genome, one genome per line.
-2. `results_tab.tsv`: A tabular file of each AMR gene and additional BLAST information from the ResFinder database, one gene per line.
-3. `results_tab.pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the PointFinder database, one gene per line.
+2. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
+3. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
+4. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
 
 # Usage
 
@@ -94,12 +95,10 @@ There are 3 different output files produced by `staramr`:
 Searches input FASTA files for AMR genes.
 
 ```
-usage: staramr.py search [-h] [--threads THREADS]
-                         [--pid-threshold PID_THRESHOLD]
+usage: staramr.py search [-h] [-n NPROCS] [--pid-threshold PID_THRESHOLD]
                          [--percent-length-overlap PLENGTH_THRESHOLD]
                          [--pointfinder-organism POINTFINDER_ORGANISM]
-                         [--include-negatives] [--database DATABASE]
-                         [--output-dir OUTPUT_DIR]
+                         [--include-negatives] [-d DATABASE] [-o OUTPUT_DIR]
                          ...
 
 positional arguments:
@@ -107,8 +106,8 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t THREADS, --threads THREADS
-                        The number of threads to use [MAX CPUs].
+  -n NPROCS, --nprocs NPROCS
+                        The number of processing cores to use [16].
   --pid-threshold PID_THRESHOLD
                         The percent identity threshold [98.0].
   --percent-length-overlap PLENGTH_THRESHOLD
@@ -124,11 +123,11 @@ optional arguments:
 Example:
         staramr.py search --output-dir out *.fasta
                 Searches the files *.fasta for AMR genes using only the ResFinder database,
-                  storing results in the out/ directory.
+                storing results in the out/ directory.
 
         staramr.py search --pointfinder-organism salmonella --output-dir out *.fasta
                 Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism,
-                  storing results in out/.
+                storing results in out/.
 ```
 
 ## Database Build
