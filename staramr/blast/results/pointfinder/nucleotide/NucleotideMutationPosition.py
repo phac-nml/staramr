@@ -43,3 +43,9 @@ class NucleotideMutationPosition(MutationPosition):
 
     def get_mutation_string(self):
         return self.get_database_mutation() + ' -> ' + self.get_query_mutation()
+
+    def __repr__(self):
+        return "[database_start=" + str(self._database_start) + ", database_frame=" + str(
+            self._database_frame) + ", query_frame=" + str(self._query_frame) + ", nucleotide_position=" \
+               + str(self._nucleotide_position_database) + ", mutation_start=" + str(self.get_mutation_position()) \
+               + ", mutation=" + self.get_mutation_string() + "]"

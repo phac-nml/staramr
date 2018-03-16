@@ -55,6 +55,15 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self._pointfinder_info.get_phenotype(gene, codon_mutation)
 
+    def get_resistance_nucleotides(self, gene, nucleotide_mutations):
+        """
+        Gets a list of resistance nucleotides from the given gene and nucleotide mutations.
+        :param gene: The gene.
+        :param nucleotide_mutations: The nucleotide mutations.
+        :return: The resistance nucleotides.
+        """
+        return self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_mutations)
+
     def get_organism(self):
         """
         Gets the particular organism of this database.

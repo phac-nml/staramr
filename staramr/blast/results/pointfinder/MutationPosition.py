@@ -48,6 +48,9 @@ class MutationPosition:
         """
         return self._nucleotide_position_database
 
+    def get_mutation_string_short(self):
+        return self.get_database_mutation() + str(self.get_mutation_position()) + self.get_query_mutation()
+
     @abc.abstractmethod
     def get_type(self):
         """

@@ -27,8 +27,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold)
 
     def _create_hit(self, file, database_name, blast_record, alignment, hsp):
-        logger.info("database_name="+database_name)
-        if database_name == '16S_rrSD':
+        logger.debug("database_name="+database_name)
+        if database_name == '16S_rrsD':
             return PointfinderHitHSPRNA(file, blast_record, alignment, hsp)
         else:
             return PointfinderHitHSP(file, blast_record, alignment, hsp)
@@ -41,8 +41,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _do_append(self, hit, db_mutation, results):
         results.append([hit.get_file(),
-                        hit.get_hit_id() + " (" + db_mutation.get_database_amino_acid() + str(
-                            db_mutation.get_codon_start()) + db_mutation.get_query_amino_acid() + ")",
+                        hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")",
                         db_mutation.get_type(),
                         db_mutation.get_mutation_position(),
                         db_mutation.get_mutation_string(),
@@ -65,9 +64,9 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         logger.debug("query_start=" + str(hit.hsp.query_start))
         logger.debug("query_end=" + str(hit.hsp.query_end))
         for x in database_mutations:
-            logger.debug("database_mutations codon=" + x.get_mutation_string())
+            logger.debug("database_mutations: position=" + str(x.get_mutation_position()) + ", mutation=" + x.get_mutation_string())
 
-        if database_name == '16S_rrSD':
+        if database_name == '16S_rrsD':
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)

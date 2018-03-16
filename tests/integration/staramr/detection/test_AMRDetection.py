@@ -135,7 +135,7 @@ class AMRDetectionIT(unittest.TestCase):
         result = pointfinder_results[pointfinder_results['GENE'] == '16S_rrsD (C1065T)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], '16S_rrsD-1T1065.fsa', msg='Wrong file')
-        self.assertEqual(result['TYPE'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['TYPE'].iloc[0], 'nucleotide', msg='Wrong type')
         self.assertEqual(result['POSITION'].iloc[0], 1065, msg='Wrong codon position')
         self.assertEqual(result['MUTATION'].iloc[0], 'C -> T', msg='Wrong mutation')
         self.assertAlmostEqual(result['%IDENTITY'].iloc[0], 99.935, places=3, msg='Wrong pid')
