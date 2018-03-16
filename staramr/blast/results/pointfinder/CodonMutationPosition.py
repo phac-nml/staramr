@@ -37,13 +37,6 @@ class CodonMutationPosition(MutationPosition):
             codon_end_index = match_position + frame_shift
             return Bio.Seq.reverse_complement(string[(codon_end_index - 3 + 1):(codon_end_index + 1)].upper())
 
-    def get_nucleotide_position(self):
-        """
-        Gets the nucleotide position in the BLAST database (1-based coords).
-        :return: The nucleotide position.
-        """
-        return self._nucleotide_position_database
-
     def get_codon_start(self):
         """
         Gets the codon start in the BLAST database for PointFinder (1-based).

@@ -38,3 +38,10 @@ class MutationPosition:
     def _check_frame(self, frame):
         if frame not in [1, -1]:
             raise Exception("Error, frame=" + frame + " not in [1, -1].")
+
+    def get_nucleotide_position(self):
+        """
+        Gets the nucleotide position in the BLAST database (1-based coords).
+        :return: The nucleotide position.
+        """
+        return self._nucleotide_position_database
