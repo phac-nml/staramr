@@ -39,20 +39,20 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                                        '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
         return df.set_index('FILE')
 
-    def _do_append(self, hit, db_codon, results):
+    def _do_append(self, hit, db_mutation, results):
         results.append([hit.get_file(),
-                        hit.get_hit_id() + " (" + db_codon.get_database_amino_acid() + str(
-                            db_codon.get_codon_start()) + db_codon.get_query_amino_acid() + ")",
-                        'codon',
-                        db_codon.get_codon_start(),
-                        db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon() + ' (' + db_codon.get_database_amino_acid() + ' -> ' + db_codon.get_query_amino_acid() +')',
+                        hit.get_hit_id() + " (" + db_mutation.get_database_amino_acid() + str(
+                            db_mutation.get_codon_start()) + db_mutation.get_query_amino_acid() + ")",
+                        db_mutation.get_type(),
+                        db_mutation.get_mutation_position(),
+                        db_mutation.get_mutation_string(),
                         hit.get_pid(),
                         hit.get_plength(),
                         str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length())
                         ])
 
     def _append_results_to(self, hit, database_name, results):
-        database_nucleotide_mutations = hit.get_mutations()
+        database_mutations = hit.get_mutations()
 
         gene = hit.get_gene()
 
@@ -64,11 +64,10 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         logger.debug("query_frame=" + str(hit.get_query_frame()))
         logger.debug("query_start=" + str(hit.hsp.query_start))
         logger.debug("query_end=" + str(hit.hsp.query_end))
-        for x in database_nucleotide_mutations:
-            logger.debug("database_nucleotide_mutation_positions codon=" + str(
-                x.get_database_codon()) + ", aa=" + x.get_query_amino_acid())
+        for x in database_mutations:
+            logger.debug("database_mutations codon=" + x.get_mutation_string())
 
-        database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_nucleotide_mutations)
+        database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_codons=" + str(database_resistance_codons))
 
         logger.debug("gaps=" + str(hit.hsp.gaps))
@@ -76,8 +75,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         if len(database_resistance_codons) == 0:
             logger.debug("No mutations for [" + hit.get_hit_id() + "]")
         elif len(database_resistance_codons) == 1:
-            db_codon = database_resistance_codons[0]
-            self._do_append(hit, db_codon, results)
+            db_mutation = database_resistance_codons[0]
+            self._do_append(hit, db_mutation, results)
         else:
             raise Exception("Error, multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
                 database_resistance_codons))

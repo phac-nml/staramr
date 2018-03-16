@@ -18,3 +18,9 @@ class NucleotideMutationPosition(CodonMutationPosition):
         :param query_frame: The frame (strand) of the BLAST query.
         """
         super().__init__(match_position, database_string, query_string, database_start, database_frame, query_frame)
+
+    def get_type(self):
+        return 'nucleotide'
+
+    def get_mutation_position(self):
+        return self.get_nucleotide_position()

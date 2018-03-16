@@ -1,3 +1,4 @@
+import abc
 
 """
 A Class defining a nucleotide-based mutation for PointFinder.
@@ -14,6 +15,7 @@ class MutationPosition:
         :param database_frame: The frame (strand) of the BLAST database.
         :param query_frame: The frame (strand) of the BLAST query.
         """
+        __metaclass__ = abc.ABCMeta
 
         # TODO: I realise that frame and strand are different, and that I want to account for the strand here since I'm
         #  parsing BLASTN results <http://biopython.org/DIST/docs/api/Bio.Blast.Record.HSP-class.html>.
@@ -45,3 +47,27 @@ class MutationPosition:
         :return: The nucleotide position.
         """
         return self._nucleotide_position_database
+
+    @abc.abstractmethod
+    def get_type(self):
+        """
+        Gets the type of this mutation.
+        :return: The type of this mutation.
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_mutation_position(self):
+        """
+        Gets the position of this mutation.
+        :return: The position of this mutation.
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_mutation_string(self):
+        """
+        Gets the mutation as a string.
+        :return: The mutation as a string.
+        """
+        pass

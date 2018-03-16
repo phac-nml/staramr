@@ -78,6 +78,16 @@ class CodonMutationPosition(MutationPosition):
         """
         return self._query_codon
 
+    def get_mutation_position(self):
+        return self.get_codon_start()
+
+    def get_mutation_string(self):
+        return self.get_database_codon() + ' -> ' + self.get_query_codon() + ' (' + self.get_database_amino_acid() \
+               + ' -> ' + self.get_query_amino_acid() + ')'
+
+    def get_type(self):
+        return 'codon'
+
     def __repr__(self):
         return "[database_start=" + str(self._database_start) + ", database_frame=" + str(
             self._database_frame) + ", query_frame=" + str(self._query_frame) + ", nucleotide_position=" \
