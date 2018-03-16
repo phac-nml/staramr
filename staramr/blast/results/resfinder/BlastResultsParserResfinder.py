@@ -20,7 +20,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
         """
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold)
 
-    def _create_hit(self, file, blast_record, alignment, hsp):
+    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
         return ResfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):

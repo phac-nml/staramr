@@ -4,12 +4,14 @@ import pandas
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
+from staramr.blast.results.pointfinder.PointfinderHitHSPRNA import PointfinderHitHSPRNA
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
 
 """
 A Class for parsing BLAST results specific to PointFinder.
 """
+logger = logging.getLogger('BlastResultsParserPointfinder')
 
 
 class BlastResultsParserPointfinder(BlastResultsParser):
@@ -24,8 +26,12 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         """
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold)
 
-    def _create_hit(self, file, blast_record, alignment, hsp):
-        return PointfinderHitHSP(file, blast_record, alignment, hsp)
+    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
+        logger.info("database_name="+database_name)
+        if database_name == '16S_rrSD':
+            return PointfinderHitHSPRNA(file, blast_record, alignment, hsp)
+        else:
+            return PointfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
         df = pandas.DataFrame(results,

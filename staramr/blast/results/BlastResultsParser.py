@@ -51,7 +51,7 @@ class BlastResultsParser:
             hits = []
             for alignment in blast_record.alignments:
                 for hsp in alignment.hsps:
-                    hit = self._create_hit(in_file, blast_record, alignment, hsp)
+                    hit = self._create_hit(in_file, database_name, blast_record, alignment, hsp)
                     if hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold:
                         hits.append(hit)
             # sort by pid and then by plength
@@ -66,7 +66,7 @@ class BlastResultsParser:
         pass
 
     @abc.abstractmethod
-    def _create_hit(self, file, blast_record, alignment, hsp):
+    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
         pass
 
     @abc.abstractmethod
