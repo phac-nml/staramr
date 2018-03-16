@@ -1,4 +1,5 @@
 import abc
+import logging
 
 """
 Abstract class for any sub-commands for the command-line application.
@@ -28,11 +29,13 @@ class SubCommand:
     def _setup_args(self, arg_parser):
         pass
 
-    @abc.abstractmethod
     def run(self, args):
         """
         Runs this sub-command with the passed arguments.
         :param args: The dictionary, as returned from argparse.ArgumentParser.parse_args()
         :return: None
         """
-        pass
+        if args.verbose:
+            logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
+        else:
+            logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')

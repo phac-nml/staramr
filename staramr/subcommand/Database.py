@@ -36,6 +36,8 @@ class Database(SubCommand):
         return arg_parser
 
     def run(self, args):
+        super(Database, self).run(args)
+
         if args.db_command is None:
             self._root_arg_parser.print_help()
 

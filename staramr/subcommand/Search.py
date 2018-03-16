@@ -84,6 +84,8 @@ class Search(SubCommand):
                 file_handle.close()
 
     def run(self, args):
+        super(Search, self).run(args)
+
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
 
