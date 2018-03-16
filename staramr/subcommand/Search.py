@@ -134,9 +134,9 @@ class Search(SubCommand):
 
         if args.output_dir:
             self._print_dataframe_to_file(amr_detection.get_resfinder_results(),
-                                          path.join(args.output_dir, "results_tab.tsv"))
+                                          path.join(args.output_dir, "resfinder.tsv"))
             self._print_dataframe_to_file(amr_detection.get_pointfinder_results(),
-                                          path.join(args.output_dir, "results_tab.pointfinder.tsv"))
+                                          path.join(args.output_dir, "pointfinder.tsv"))
             self._print_dataframe_to_file(amr_detection.get_summary_results(),
                                           path.join(args.output_dir, "summary.tsv"))
 
