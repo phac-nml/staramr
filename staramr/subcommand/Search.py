@@ -2,6 +2,7 @@ import argparse
 import logging
 import multiprocessing
 import sys
+import datetime
 from os import path, mkdir
 
 from staramr.Utils import get_string_with_spacing
@@ -92,6 +93,8 @@ class Search(SubCommand):
     def run(self, args):
         super(Search, self).run(args)
 
+        start_time = datetime.datetime.now()
+
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
 
@@ -123,6 +126,12 @@ class Search(SubCommand):
                                                           args.include_negatives)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold)
 
+        end_time = datetime.datetime.now()
+        time_difference = end_time - start_time
+        time_difference_minutes = "%0.2f" % (time_difference.total_seconds()/60)
+
+        logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
+
         if args.output_dir:
             self._print_dataframe_to_file(amr_detection.get_resfinder_results(),
                                           path.join(args.output_dir, "results_tab.tsv"))
@@ -132,8 +141,13 @@ class Search(SubCommand):
                                           path.join(args.output_dir, "summary.tsv"))
 
             database_handler = AMRDatabaseHandler(args.database)
-            self._print_settings_to_file(database_handler.info(), path.join(args.output_dir, "settings.txt"))
+            settings = database_handler.info()
+            settings.insert(0, ['command_line', ' '.join(sys.argv)])
+            settings.insert(1, ['start_time', start_time.strftime("%Y-%m-%d %H:%M:%S")])
+            settings.insert(2, ['end_time', end_time.strftime("%Y-%m-%d %H:%M:%S")])
+            settings.insert(3, ['total_minutes', time_difference_minutes])
+            self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
-            logger.info("Finished. Output files in " + args.output_dir)
+            logger.info("Output files in " + args.output_dir)
         else:
             self._print_dataframe_to_file(amr_detection.get_summary_results())
