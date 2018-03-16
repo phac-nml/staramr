@@ -44,7 +44,7 @@ class CodonMutationPosition(MutationPosition):
         """
         return self._nucleotide_position_database
 
-    def get_mutation_start(self):
+    def get_codon_start(self):
         """
         Gets the codon start in the BLAST database for PointFinder (1-based).
         :return: The codon start.
