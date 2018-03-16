@@ -35,17 +35,17 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _create_data_frame(self, results):
         df = pandas.DataFrame(results,
-                              columns=('FILE', 'GENE', 'CODON_POSITION', 'NUCLEOTIDE',
-                                       'AMINO_ACID', '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
+                              columns=('FILE', 'GENE', 'TYPE', 'POSITION', 'MUTATION',
+                                       '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP'))
         return df.set_index('FILE')
 
     def _do_append(self, hit, db_codon, results):
         results.append([hit.get_file(),
                         hit.get_hit_id() + " (" + db_codon.get_database_amino_acid() + str(
                             db_codon.get_codon_start()) + db_codon.get_query_amino_acid() + ")",
+                        'codon',
                         db_codon.get_codon_start(),
-                        db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon(),
-                        db_codon.get_database_amino_acid() + ' -> ' + db_codon.get_query_amino_acid(),
+                        db_codon.get_database_codon() + ' -> ' + db_codon.get_query_codon() + ' (' + db_codon.get_database_amino_acid() + ' -> ' + db_codon.get_query_amino_acid() +')',
                         hit.get_pid(),
                         hit.get_plength(),
                         str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length())
