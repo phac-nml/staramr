@@ -4,6 +4,7 @@ import multiprocessing
 import sys
 from os import path, mkdir
 
+from staramr.Utils import get_string_with_spacing
 from staramr.SubCommand import SubCommand
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
@@ -83,6 +84,11 @@ class Search(SubCommand):
             if file:
                 file_handle.close()
 
+    def _print_settings_to_file(self, settings, file):
+        file_handle = open(file, 'w')
+        file_handle.write(get_string_with_spacing(settings))
+        file_handle.close()
+
     def run(self, args):
         super(Search, self).run(args)
 
@@ -125,6 +131,8 @@ class Search(SubCommand):
             self._print_dataframe_to_file(amr_detection.get_summary_results(),
                                           path.join(args.output_dir, "summary.tsv"))
 
+            database_handler = AMRDatabaseHandler(args.database)
+            self._print_settings_to_file(database_handler.info(), path.join(args.output_dir, "settings.txt"))
 
             logger.info("Finished. Output files in " + args.output_dir)
         else:
