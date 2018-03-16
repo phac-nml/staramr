@@ -3,7 +3,7 @@ import unittest
 import pandas
 
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
-from staramr.blast.results.pointfinder.CodonMutationPosition import CodonMutationPosition
+from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 
 
 class PointfinderDatabaseInfoTest(unittest.TestCase):

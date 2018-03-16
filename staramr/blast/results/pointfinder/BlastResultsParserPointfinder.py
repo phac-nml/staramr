@@ -4,7 +4,7 @@ import pandas
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
-from staramr.blast.results.pointfinder.PointfinderHitHSPRNA import PointfinderHitHSPRNA
+from staramr.blast.results.pointfinder.nucleotide.PointfinderHitHSPRNA import PointfinderHitHSPRNA
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
 
@@ -52,7 +52,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                         ])
 
     def _append_results_to(self, hit, database_name, results):
-        database_nucleotide_mutations = hit.get_nucleotide_mutations()
+        database_nucleotide_mutations = hit.get_mutations()
 
         gene = hit.get_gene()
 

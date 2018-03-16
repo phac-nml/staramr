@@ -1,8 +1,4 @@
-import math
-
-import Bio.Seq
-
-from staramr.blast.results.pointfinder.CodonMutationPosition import CodonMutationPosition
+from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 
 """
 A Class defining a nucleotide-based mutation for PointFinder.

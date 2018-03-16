@@ -1,6 +1,6 @@
 import unittest
 
-from staramr.blast.results.pointfinder.CodonMutationPosition import CodonMutationPosition
+from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 
 
 class CodonMutationPositionTest(unittest.TestCase):
