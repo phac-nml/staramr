@@ -29,7 +29,6 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return df.set_index('FILE')
 
     def _append_results_to(self, hit, database_name, results):
-
         results.append([hit.get_file(),
                         hit.get_gene(),
                         hit.get_pid(),

@@ -1,12 +1,12 @@
 import argparse
+import datetime
 import logging
 import multiprocessing
 import sys
-import datetime
 from os import path, mkdir
 
-from staramr.Utils import get_string_with_spacing
 from staramr.SubCommand import SubCommand
+from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
@@ -128,7 +128,7 @@ class Search(SubCommand):
 
         end_time = datetime.datetime.now()
         time_difference = end_time - start_time
-        time_difference_minutes = "%0.2f" % (time_difference.total_seconds()/60)
+        time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
 
         logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
 

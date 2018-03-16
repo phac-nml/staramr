@@ -1,8 +1,6 @@
 import logging
 import os
 
-import pandas
-
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 
 logger = logging.getLogger('ResfinderBlastDatabase')

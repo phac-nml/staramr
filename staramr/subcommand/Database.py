@@ -5,8 +5,8 @@ import argparse
 import sys
 from os import path, mkdir
 
-from staramr.Utils import get_string_with_spacing
 from staramr.SubCommand import SubCommand
+from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.CommandParseException import CommandParseException
 
@@ -63,11 +63,11 @@ class Build(Database):
     def _setup_args(self, arg_parser):
         name = self._script_name
         default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
-        epilog=("Example:\n"
-               "\t"+name+" build\n"
-               "\t\tBuilds a new ResFinder/PointFinder database under "+default_dir+" if it does not exist\n\n"+
-               "\t"+name+" build --dir databases\n"+
-               "\t\tBuilds a new ResFinder/PointFinder database under databases/")
+        epilog = ("Example:\n"
+                  "\t" + name + " build\n"
+                                "\t\tBuilds a new ResFinder/PointFinder database under " + default_dir + " if it does not exist\n\n" +
+                  "\t" + name + " build --dir databases\n" +
+                  "\t\tBuilds a new ResFinder/PointFinder database under databases/")
 
         arg_parser = self._subparser.add_parser('build',
                                                 epilog=epilog,
@@ -110,11 +110,11 @@ class Update(Database):
     def _setup_args(self, arg_parser):
         default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
         name = self._script_name
-        epilog=("Example:\n"
-               "\t"+name+" update databases/\n"
-               "\t\tUpdates the ResFinder/PointFinder database under databases/\n\n"+
-               "\t"+name+" update -d\n"+
-               "\t\tUpdates the default ResFinder/PointFinder database under "+default_dir)
+        epilog = ("Example:\n"
+                  "\t" + name + " update databases/\n"
+                                "\t\tUpdates the ResFinder/PointFinder database under databases/\n\n" +
+                  "\t" + name + " update -d\n" +
+                  "\t\tUpdates the default ResFinder/PointFinder database under " + default_dir)
         arg_parser = self._subparser.add_parser('update',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
@@ -160,11 +160,11 @@ class Info(Database):
     def _setup_args(self, arg_parser):
         name = self._script_name
         default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
-        epilog=("Example:\n"
-               "\t"+name+" info\n"
-               "\t\tPrints information about the default database in "+default_dir+"\n\n"+
-               "\t"+name+" info databases\n"+
-               "\t\tPrints information on the database stored in databases/")
+        epilog = ("Example:\n"
+                  "\t" + name + " info\n"
+                                "\t\tPrints information about the default database in " + default_dir + "\n\n" +
+                  "\t" + name + " info databases\n" +
+                  "\t\tPrints information on the database stored in databases/")
         arg_parser = self._subparser.add_parser('info',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,

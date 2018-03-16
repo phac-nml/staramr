@@ -4,13 +4,15 @@ import pandas
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
+
 class AMRDetectionSummaryTest(unittest.TestCase):
 
     def setUp(self):
         self.columns_resfinder = ('FILE', 'GENE', '%IDENTITY', '%OVERLAP',
                                   'DB_SEQ_LENGTH/QUERY_HSP', 'CONTIG', 'START', 'END', 'ACCESSION')
-        self.columns_pointfinder = ('FILE', 'GENE', 'POINTFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE', 'AMINO_ACID',
-                                    '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP')
+        self.columns_pointfinder = (
+        'FILE', 'GENE', 'POINTFINDER_PHENOTYPE', 'CODON_POSITION', 'NUCLEOTIDE', 'AMINO_ACID',
+        '%IDENTITY', '%OVERLAP', 'DB_SEQ_LENGTH/QUERY_HSP')
 
         # Resfinder tables
         self.resfinder_table_empty = pandas.DataFrame([],
@@ -140,7 +142,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('None', summary['GENE'].iloc[2], 'Negative gene not valid')
 
     def testResfinderMultipleGeneResistance(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_resistance_files, self.resfinder_table_mult_resistance)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_resistance_files,
+                                                    self.resfinder_table_mult_resistance)
 
         summary = amr_detection_summary.create_summary()
 
@@ -150,7 +153,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('blaIMP-42, newGene', summary['GENE'].iloc[0], 'Genes not equal')
 
     def testResfinderMultipleGeneSameResistance(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_gene_same_resistance_files, self.resfinder_table_mult_gene_same_resistance)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_gene_same_resistance_files,
+                                                    self.resfinder_table_mult_gene_same_resistance)
 
         summary = amr_detection_summary.create_summary()
 
@@ -160,7 +164,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('blaIMP-42, newGene', summary['GENE'].iloc[0], 'Genes not equal')
 
     def testResfinderMultipleSameGeneSameResistance(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_same_gene_same_resistance_files, self.resfinder_table_mult_same_gene_same_resistance)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_same_gene_same_resistance_files,
+                                                    self.resfinder_table_mult_same_gene_same_resistance)
 
         summary = amr_detection_summary.create_summary()
 
@@ -170,7 +175,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('blaIMP-42, blaIMP-42', summary['GENE'].iloc[0], 'Genes not equal')
 
     def testResfinderMultipleFile(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_file_files, self.resfinder_table_mult_file)
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_file_files,
+                                                    self.resfinder_table_mult_file)
 
         summary = amr_detection_summary.create_summary()
 
@@ -182,7 +188,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('blaIMP-42', summary['GENE'].iloc[1], 'Genes not equal')
 
     def testPointfinderSingleGene(self):
-        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_files, self.resfinder_table_empty, self.pointfinder_table)
+        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_files, self.resfinder_table_empty,
+                                                    self.pointfinder_table)
 
         summary = amr_detection_summary.create_summary()
 
@@ -192,7 +199,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('gyrA', summary['GENE'].iloc[0], 'Genes not equal')
 
     def testPointfinderSingleMultipleGene(self):
-        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_multiple_gene_files, self.resfinder_table_empty, self.pointfinder_table_multiple_gene)
+        amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_multiple_gene_files,
+                                                    self.resfinder_table_empty, self.pointfinder_table_multiple_gene)
 
         summary = amr_detection_summary.create_summary()
 

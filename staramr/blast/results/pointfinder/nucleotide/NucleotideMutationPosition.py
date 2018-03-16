@@ -1,6 +1,5 @@
 import Bio.Seq
 
-
 from staramr.blast.results.pointfinder.MutationPosition import MutationPosition
 
 """

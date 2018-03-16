@@ -1,11 +1,13 @@
 import unittest
 from os import path
+
 import pandas
 
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.detection.AMRDetection import AMRDetection
+
 
 class AMRDetectionIT(unittest.TestCase):
 

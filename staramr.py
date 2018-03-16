@@ -54,7 +54,7 @@ script_name = path.basename(path.realpath(sys.argv[0]))
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
     parser.add_argument('--verbose', action='store_true', dest='verbose',
-                            help='Turn on verbose logging [False].', required=False)
+                        help='Turn on verbose logging [False].', required=False)
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
     Search(AMRDetectionFactory(), subparsers, script_dir, script_name)

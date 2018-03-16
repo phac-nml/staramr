@@ -1,6 +1,7 @@
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 from staramr.blast.results.pointfinder.nucleotide.NucleotideMutationPosition import NucleotideMutationPosition
 
+
 class PointfinderHitHSPRNA(PointfinderHitHSP):
 
     def __init__(self, file, blast_record, hit, hsp):
