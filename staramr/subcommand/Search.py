@@ -49,8 +49,8 @@ class Search(SubCommand):
         self._default_database_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
         cpu_count = multiprocessing.cpu_count()
 
-        arg_parser.add_argument('-t', '--threads', action='store', dest='threads', type=int,
-                                help='The number of threads to use [' + str(cpu_count) + '].',
+        arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
+                                help='The number of processing cores to use [' + str(cpu_count) + '].',
                                 default=cpu_count, required=False)
         arg_parser.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
                                 help='The percent identity threshold [98.0].', default=98.0, required=False)
@@ -120,7 +120,7 @@ class Search(SubCommand):
                                                             args.pointfinder_organism)
         else:
             pointfinder_database = None
-        blast_handler = BlastHandler(resfinder_database, args.threads, pointfinder_database)
+        blast_handler = BlastHandler(resfinder_database, args.nprocs, pointfinder_database)
 
         amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                           args.include_negatives)
