@@ -26,7 +26,8 @@ class AMRDetectionSummary:
             self._has_pointfinder = False
 
     def _compile_results(self, df):
-        df_summary = df.groupby(['FILE']).aggregate(lambda x: {'GENE': "%s" % ', '.join(x['GENE'])})
+        df_summary = df.sort_values(by=['GENE']).groupby(['FILE']).aggregate(
+            lambda x: {'GENE': "%s" % ', '.join(x['GENE'])})
         return df_summary[['GENE']]
 
     def _include_negatives(self, df):
