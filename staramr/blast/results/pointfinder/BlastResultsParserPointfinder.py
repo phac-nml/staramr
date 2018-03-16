@@ -67,16 +67,19 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         for x in database_mutations:
             logger.debug("database_mutations codon=" + x.get_mutation_string())
 
-        database_resistance_codons = self._blast_database.get_resistance_codons(gene, database_mutations)
-        logger.debug("database_resistance_codons=" + str(database_resistance_codons))
+        if database_name == '16S_rrSD':
+            database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
+        else:
+            database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
+        logger.debug("database_resistance_mutations=" + str(database_resistance_mutations))
 
         logger.debug("gaps=" + str(hit.hsp.gaps))
 
-        if len(database_resistance_codons) == 0:
+        if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for [" + hit.get_hit_id() + "]")
-        elif len(database_resistance_codons) == 1:
-            db_mutation = database_resistance_codons[0]
+        elif len(database_resistance_mutations) == 1:
+            db_mutation = database_resistance_mutations[0]
             self._do_append(hit, db_mutation, results)
         else:
             raise Exception("Error, multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
-                database_resistance_codons))
+                database_resistance_mutations))

@@ -85,6 +85,12 @@ class CodonMutationPosition(MutationPosition):
         return self.get_database_codon() + ' -> ' + self.get_query_codon() + ' (' + self.get_database_amino_acid() \
                + ' -> ' + self.get_query_amino_acid() + ')'
 
+    def get_database_mutation(self):
+        return self.get_database_amino_acid().upper()
+
+    def get_query_mutation(self):
+        return self.get_query_amino_acid().upper()
+
     def get_type(self):
         return 'codon'
 

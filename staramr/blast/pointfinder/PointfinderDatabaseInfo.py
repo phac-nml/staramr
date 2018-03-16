@@ -38,14 +38,17 @@ class PointfinderDatabaseInfo:
         table = self._pointfinder_info
 
         matches = table[(table['#Gene_ID'] == gene)
-                        & (table['Codon_pos'] == codon_mutation.get_codon_start())
-                        & (table['Ref_codon'] == codon_mutation.get_database_amino_acid())
-                        & (table['Res_codon'].str.contains(codon_mutation.get_query_amino_acid().upper(), regex=False))]
+                        & (table['Codon_pos'] == codon_mutation.get_mutation_position())
+                        & (table['Ref_codon'] == codon_mutation.get_database_mutation())
+                        & (table['Res_codon'].str.contains(codon_mutation.get_query_mutation(), regex=False))]
 
         if len(matches.index) > 1:
             raise Exception("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
         else:
             return matches
+
+    def _get_resistance_nucleotide_match(self, gene, nucleotide_mutations):
+        return self._get_resistance_codon_match(gene, nucleotide_mutations)
 
     def get_phenotype(self, gene, codon_mutation):
         """
@@ -75,5 +78,22 @@ class PointfinderDatabaseInfo:
             match = self._get_resistance_codon_match(gene, codon_mutation)
             if len(match.index) > 0:
                 resistance_mutations.append(codon_mutation)
+
+        return resistance_mutations
+
+    def get_resistance_nucleotides(self, gene, nucleotide_mutations):
+        """
+        Gets a list of resistance nucleotides from the given gene and nucleotide mutations.
+        :param gene: The gene.
+        :param nucleotide_mutations: The nucleotide mutations.
+        :return: The resistance nucleotides.
+        """
+        resistance_mutations = []
+
+        table = self._pointfinder_info
+        for nucleotide_mutation in nucleotide_mutations:
+            match = self._get_resistance_nucleotide_match(gene, nucleotide_mutation)
+            if len(match.index) > 0:
+                resistance_mutations.append(nucleotide_mutation)
 
         return resistance_mutations

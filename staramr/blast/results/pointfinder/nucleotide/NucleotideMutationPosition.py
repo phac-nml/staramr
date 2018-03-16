@@ -1,11 +1,11 @@
-from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
+from staramr.blast.results.pointfinder.MutationPosition import MutationPosition
 
 """
 A Class defining a nucleotide-based mutation for PointFinder.
 """
 
 
-class NucleotideMutationPosition(CodonMutationPosition):
+class NucleotideMutationPosition(MutationPosition):
 
     def __init__(self, match_position, database_string, query_string, database_start, database_frame, query_frame):
         """
@@ -19,8 +19,20 @@ class NucleotideMutationPosition(CodonMutationPosition):
         """
         super().__init__(match_position, database_string, query_string, database_start, database_frame, query_frame)
 
+        self._database_nucleotide = database_string[match_position].upper()
+        self._query_nucleotide = query_string[match_position].upper()
+
     def get_type(self):
         return 'nucleotide'
 
     def get_mutation_position(self):
         return self.get_nucleotide_position()
+
+    def get_database_mutation(self):
+        self._database_nucleotide
+
+    def get_query_mutation(self):
+        self._query_nucleotide
+
+    def get_mutation_string(self):
+        return self.get_database_mutation() + ' -> ' + self.get_query_mutation()

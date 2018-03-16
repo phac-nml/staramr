@@ -65,6 +65,22 @@ class MutationPosition:
         pass
 
     @abc.abstractmethod
+    def get_database_mutation(self):
+        """
+        Gets the database characters corresponding to the mutation.
+        :return: The database characters..
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_query_mutation(self):
+        """
+        Gets the query characters corresponding to the mutation.
+        :return: The query characters..
+        """
+        pass
+
+    @abc.abstractmethod
     def get_mutation_string(self):
         """
         Gets the mutation as a string.
