@@ -59,6 +59,6 @@ class AMRDetectionSummary:
             else:
                 df = self._compile_results(self._resfinder_dataframe)
 
-        df.rename(columns={'Gene':'Genotype'},inplace=True)
+        df.rename(columns={'Gene': 'Genotype'}, inplace=True)
 
         return df.sort_index()

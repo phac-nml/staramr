@@ -79,9 +79,9 @@ class Search(SubCommand):
                                    settings_dataframe):
         writer = pandas.ExcelWriter(outfile_path, engine='xlsxwriter')
 
-        summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1,1])
-        resfinder_dataframe.to_excel(writer, 'ResFinder', freeze_panes=[1,1])
-        pointfinder_dataframe.to_excel(writer, 'PointFinder', freeze_panes=[1,1])
+        summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1, 1])
+        resfinder_dataframe.to_excel(writer, 'ResFinder', freeze_panes=[1, 1])
+        pointfinder_dataframe.to_excel(writer, 'PointFinder', freeze_panes=[1, 1])
         settings_dataframe.to_excel(writer, 'Settings')
 
         writer.save()
@@ -161,7 +161,7 @@ class Search(SubCommand):
             settings.insert(3, ['total_minutes', time_difference_minutes])
             self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
-            settings_dataframe = pandas.DataFrame(settings, columns=('Key','Value')).set_index('Key')
+            settings_dataframe = pandas.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
 
             self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
                                             amr_detection.get_summary_results(), amr_detection.get_resfinder_results(),
