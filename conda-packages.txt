@@ -53,5 +53,6 @@ tk=8.5.18=0
 tox=2.9.1=py_0
 virtualenv=15.1.0=py36_0
 wheel=0.30.0=py36hfd4bba0_1
+xlsxwriter=1.0.2=py36h3de1aca_0
 xz=5.2.3=h55aa19d_2
 zlib=1.2.8=3
