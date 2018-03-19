@@ -81,12 +81,13 @@ To run the test suite, please run:
 
 # Output
 
-There are 4 different output files produced by `staramr`:
+There are 5 different output files produced by `staramr`:
 
 1. `summary.tsv`:  A summary of all detected AMR genes/mutations in each genome, one genome per line.
 2. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
 3. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
 4. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
+5. `results.xlsx`: An Excel spreadsheet containing the previous 4 files as separate worksheets.
 
 # Usage
 

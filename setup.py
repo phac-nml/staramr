@@ -16,6 +16,7 @@ setup(name='staramr',
           'six>=1.11.0',
           'tox>=2.9.1',
           'GitPython>=2.1.3',
+          'xlsxwriter>=1.0.2',
       ],
       packages=find_packages(exclude=['tests']),
       )

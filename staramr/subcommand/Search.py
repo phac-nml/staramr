@@ -5,6 +5,8 @@ import multiprocessing
 import sys
 from os import path, mkdir
 
+import pandas
+
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
@@ -73,7 +75,18 @@ class Search(SubCommand):
 
         return arg_parser
 
-    def _print_dataframe_to_file(self, dataframe, file=None):
+    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
+                                   settings_dataframe):
+        writer = pandas.ExcelWriter(outfile_path, engine='xlsxwriter')
+
+        summary_dataframe.to_excel(writer, 'Summary')
+        resfinder_dataframe.to_excel(writer, 'ResFinder')
+        pointfinder_dataframe.to_excel(writer, 'PointFinder')
+        settings_dataframe.to_excel(writer, 'Settings')
+
+        writer.save()
+
+    def _print_dataframe_to_text_file(self, dataframe, file=None):
         file_handle = sys.stdout
 
         if dataframe is not None:
@@ -133,12 +146,12 @@ class Search(SubCommand):
         logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
 
         if args.output_dir:
-            self._print_dataframe_to_file(amr_detection.get_resfinder_results(),
-                                          path.join(args.output_dir, "resfinder.tsv"))
-            self._print_dataframe_to_file(amr_detection.get_pointfinder_results(),
-                                          path.join(args.output_dir, "pointfinder.tsv"))
-            self._print_dataframe_to_file(amr_detection.get_summary_results(),
-                                          path.join(args.output_dir, "summary.tsv"))
+            self._print_dataframe_to_text_file(amr_detection.get_resfinder_results(),
+                                               path.join(args.output_dir, "resfinder.tsv"))
+            self._print_dataframe_to_text_file(amr_detection.get_pointfinder_results(),
+                                               path.join(args.output_dir, "pointfinder.tsv"))
+            self._print_dataframe_to_text_file(amr_detection.get_summary_results(),
+                                               path.join(args.output_dir, "summary.tsv"))
 
             database_handler = AMRDatabaseHandler(args.database)
             settings = database_handler.info()
@@ -148,6 +161,13 @@ class Search(SubCommand):
             settings.insert(3, ['total_minutes', time_difference_minutes])
             self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
+            settings_dataframe = pandas.DataFrame(settings, columns=('Key','Value')).set_index('Key')
+
+            self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
+                                            amr_detection.get_summary_results(), amr_detection.get_resfinder_results(),
+                                            amr_detection.get_pointfinder_results(),
+                                            settings_dataframe)
+
             logger.info("Output files in " + args.output_dir)
         else:
-            self._print_dataframe_to_file(amr_detection.get_summary_results())
+            self._print_dataframe_to_text_file(amr_detection.get_summary_results())
