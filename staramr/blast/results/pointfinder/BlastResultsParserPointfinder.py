@@ -36,7 +36,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     def _create_data_frame(self, results):
         df = pandas.DataFrame(results,
                               columns=('Isolate ID', 'Gene', 'Type', 'Position', 'Mutation',
-                                       '%Identity', '%Overlap', 'HSP Length/Total Length'))
+                                       '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End'))
         return df.set_index('Isolate ID')
 
     def _do_append(self, hit, db_mutation, results):
@@ -47,7 +47,10 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                         db_mutation.get_mutation_string(),
                         hit.get_pid(),
                         hit.get_plength(),
-                        str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length())
+                        str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
+                        hit.get_contig(),
+                        hit.get_contig_start(),
+                        hit.get_contig_end()
                         ])
 
     def _append_results_to(self, hit, database_name, results):
