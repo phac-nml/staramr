@@ -6,12 +6,17 @@
 
 For example:
 
-| FILE           | GENE                               |
-|----------------|------------------------------------|
-| sample-1.fasta | gyrA (D87N)                        |
-| sample-2.fasta | fosA7                              |
-| sample-3.fasta | sul2, tet(D), aph(6)-Id, blaTEM-1B |
-| sample-4.fasta | fosA7                              |
+```
+staramr.py --output out --pointfinder-organism salmonella file1.fasta file2.fasta file3.fasta file4.fasta
+```
+
+**out/summary.tsv**:
+| Isolate ID | Genotype                           |
+|------------|------------------------------------|
+| file1      | gyrA (D87N)                        |
+| file2      | fosA7                              |
+| file3      | sul2, tet(D), aph(6)-Id, blaTEM-1B |
+| file4      | fosA7                              |
 
 # Quick Usage
 

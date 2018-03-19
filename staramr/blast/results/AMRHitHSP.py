@@ -1,3 +1,4 @@
+import os
 import re
 
 """
@@ -61,6 +62,13 @@ class AMRHitHSP:
         :return: The corresponding input file.
         """
         return self._file
+
+    def get_isolate_id(self):
+        """
+        Gets isolate id for the file.
+        :return: The isolate id for the file
+        """
+        return os.path.splitext(self._file)[0]
 
     def get_contig(self):
         """

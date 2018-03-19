@@ -26,17 +26,17 @@ class AMRDetectionSummary:
             self._has_pointfinder = False
 
     def _compile_results(self, df):
-        df_summary = df.sort_values(by=['GENE']).groupby(['FILE']).aggregate(
-            lambda x: {'GENE': "%s" % ', '.join(x['GENE'])})
-        return df_summary[['GENE']]
+        df_summary = df.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
+            lambda x: {'Gene': "%s" % ', '.join(x['Gene'])})
+        return df_summary[['Gene']]
 
     def _include_negatives(self, df):
         result_names_set = set(df.index.tolist())
         names_set = set(self._names)
 
         negative_names_set = names_set - result_names_set
-        negative_entries = pandas.DataFrame([[x, 'None'] for x in negative_names_set],
-                                            columns=('FILE', 'GENE')).set_index('FILE')
+        negative_entries = pandas.DataFrame([[path.splitext(x)[0], 'None'] for x in negative_names_set],
+                                            columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
         return df.append(negative_entries)
 
     def create_summary(self, include_negatives=False):
@@ -58,5 +58,7 @@ class AMRDetectionSummary:
                 df = self._include_negatives(self._compile_results(self._resfinder_dataframe))
             else:
                 df = self._compile_results(self._resfinder_dataframe)
+
+        df.rename(columns={'Gene':'Genotype'},inplace=True)
 
         return df.sort_index()
