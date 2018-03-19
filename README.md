@@ -11,6 +11,7 @@ staramr.py --output out --pointfinder-organism salmonella file1.fasta file2.fast
 ```
 
 **out/summary.tsv**:
+
 | Isolate ID | Genotype                           |
 |------------|------------------------------------|
 | file1      | gyrA (D87N)                        |
