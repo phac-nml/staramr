@@ -79,10 +79,9 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         logger.debug("gaps=" + str(hit.hsp.gaps))
 
         if len(database_resistance_mutations) == 0:
-            logger.debug("No mutations for [" + hit.get_hit_id() + "]")
-        elif len(database_resistance_mutations) == 1:
-            db_mutation = database_resistance_mutations[0]
-            self._do_append(hit, db_mutation, results)
+            logger.debug("No mutations for [id=" + hit.get_hit_id() + ", file=" + hit.get_file() + "]")
         else:
-            raise Exception("Error, multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
-                database_resistance_mutations))
+            for db_mutation in database_resistance_mutations:
+                logger.debug("multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
+                    database_resistance_mutations) + ", file=" + hit.get_file() + "]")
+                self._do_append(hit, db_mutation, results)
