@@ -16,7 +16,7 @@ class AMRDetectionSummary:
         :param resfinder_dataframe: The pandas.DataFrame containing the ResFinder results.
         :param pointfinder_dataframe: The pandas.DataFrame containing the PointFinder results.
         """
-        self._names = [path.basename(x) for x in files]
+        self._names = [path.splitext(path.basename(x))[0] for x in files]
         self._resfinder_dataframe = resfinder_dataframe
 
         if pointfinder_dataframe is not None:
@@ -35,7 +35,7 @@ class AMRDetectionSummary:
         names_set = set(self._names)
 
         negative_names_set = names_set - result_names_set
-        negative_entries = pandas.DataFrame([[path.splitext(x)[0], 'None'] for x in negative_names_set],
+        negative_entries = pandas.DataFrame([[x, 'None'] for x in negative_names_set],
                                             columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
         return df.append(negative_entries)
 
