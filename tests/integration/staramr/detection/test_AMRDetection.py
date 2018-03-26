@@ -59,6 +59,27 @@ class AMRDetectionIT(unittest.TestCase):
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
 
+    def testResfinderBetaLactamTwoCopies(self):
+        files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies.fsa")]
+        self.amr_detection.run_amr_detection(files, 99, 90)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 2, 'Wrong number of rows in result')
+
+        result = resfinder_results.iloc[0]
+        self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
+        self.assertAlmostEqual(result['%Identity'], 99.73, places=2, msg='Wrong pid')
+        self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
+        self.assertEqual(result['Start'], 61, msg='Wrong start')
+        self.assertEqual(result['End'], 801, msg='Wrong end')
+
+        result = resfinder_results.iloc[1]
+        self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
+        self.assertAlmostEqual(result['%Identity'], 99.73, places=2, msg='Wrong pid')
+        self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
+        self.assertEqual(result['Start'], 841, msg='Wrong start')
+        self.assertEqual(result['End'], 1581, msg='Wrong end')
+
     def testPointfinderSalmonellaA67PSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
