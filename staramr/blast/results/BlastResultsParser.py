@@ -4,6 +4,8 @@ import os
 
 from Bio.Blast import NCBIXML
 
+from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
+
 logger = logging.getLogger('BlastResultsParser')
 
 """
@@ -48,17 +50,18 @@ class BlastResultsParser:
         blast_handle = open(blast_file)
         blast_records = NCBIXML.parse(blast_handle)
         for blast_record in blast_records:
-            hits = []
+            partitions = BlastHitPartitions()
             for alignment in blast_record.alignments:
                 for hsp in alignment.hsps:
                     hit = self._create_hit(in_file, database_name, blast_record, alignment, hsp)
                     if hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold:
-                        hits.append(hit)
-            # sort by pid and then by plength
-            hits.sort(key=lambda x: (x.get_pid(), x.get_plength()), reverse=True)
-            if len(hits) >= 1:
-                hit = hits[0]
-                self._append_results_to(hit, database_name, results)
+                        partitions.append(hit)
+            for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
+                # sort by pid and then by plength
+                hits_non_overlapping.sort(key=lambda x: (x.get_pid(), x.get_plength()), reverse=True)
+                if len(hits_non_overlapping) >= 1:
+                    hit = hits_non_overlapping[0]
+                    self._append_results_to(hit, database_name, results)
         blast_handle.close()
 
     @abc.abstractmethod
