@@ -91,3 +91,24 @@ class AMRHitHSP:
         :return: The end of the HSP.
         """
         return self.hsp.query_end
+
+    def _get_hsp_frame(self, index):
+        frame = self.hsp.frame[index]
+        if frame not in [1, -1]:
+            raise Exception("frame=" + str(frame) + ", is unexpected")
+        else:
+            return frame
+
+    def get_database_frame(self):
+        """
+        Gets the frame (strand) of the BLAST database for the hit/hsp.
+        :return: The frame (strand) of the BLAST database.
+        """
+        return self._get_hsp_frame(1)
+
+    def get_query_frame(self):
+        """
+        Gets the frame (strand) of the BLAST query for the hit/hsp.
+        :return: The frame (strand) of the BLAST query.
+        """
+        return self._get_hsp_frame(0)
