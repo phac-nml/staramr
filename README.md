@@ -7,7 +7,7 @@
 For example:
 
 ```
-staramr.py --output out --pointfinder-organism salmonella file1.fasta file2.fasta file3.fasta file4.fasta
+staramr.py --output out --pointfinder-organism salmonella *.fasta
 ```
 
 **out/summary.tsv**:
