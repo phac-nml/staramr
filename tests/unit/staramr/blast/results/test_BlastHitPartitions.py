@@ -9,6 +9,7 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartition(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
@@ -26,6 +27,7 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionIdenticalHits(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
@@ -45,11 +47,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHitEndGreater(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=11)
@@ -69,11 +73,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHitEndGreaterStartGreater(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=2)
         hit2.get_contig_end = MagicMock(return_value=11)
@@ -93,11 +99,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHitEndLesser(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=9)
@@ -117,11 +125,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHitEndLesserStartLesser(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=2)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=9)
@@ -141,11 +151,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHitEndGreaterStartLesser(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=2)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=11)
@@ -165,11 +177,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHit2InHit1(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=2)
         hit2.get_contig_end = MagicMock(return_value=9)
@@ -189,11 +203,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHit2EdgeHit1Lesser(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=5)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=5)
@@ -213,11 +229,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testSinglePartitionHit2EdgeHit1Greater(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=5)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=10)
         hit2.get_contig_end = MagicMock(return_value=15)
@@ -237,11 +255,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testTwoPartitionsHit2EdgeHit1Lesser(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=5)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=4)
@@ -265,11 +285,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testTwoPartitionsHit2EdgeHit1Greater(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=5)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig1")
         hit2.get_contig_start = MagicMock(return_value=11)
         hit2.get_contig_end = MagicMock(return_value=15)
@@ -293,11 +315,13 @@ class BlastHitPartitionsTest(unittest.TestCase):
 
     def testTwoPartitionsDifferentContigNames(self):
         hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=1)
         hit1.get_contig_end = MagicMock(return_value=10)
 
         hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
         hit2.get_contig = MagicMock(return_value="contig2")
         hit2.get_contig_start = MagicMock(return_value=1)
         hit2.get_contig_end = MagicMock(return_value=10)
