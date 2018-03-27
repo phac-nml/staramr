@@ -61,7 +61,7 @@ if __name__ == '__main__':
                         help='Prints version information.', required=False)
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
-    Search(AMRDetectionFactory(), subparsers, script_dir, script_name)
+    Search(AMRDetectionFactory(), subparsers, script_dir, script_name, __version__)
     Database(subparsers, script_dir, script_name)
 
     args = parser.parse_args()

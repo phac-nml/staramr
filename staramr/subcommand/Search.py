@@ -14,6 +14,7 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr import __version__
 
 logger = logging.getLogger("Search")
 
@@ -25,16 +26,18 @@ Class for searching for AMR resistance genes.
 class Search(SubCommand):
     blank = '-'
 
-    def __init__(self, amr_detection_factory, subparser, script_dir, script_name):
+    def __init__(self, amr_detection_factory, subparser, script_dir, script_name, version):
         """
         Creates a new Search sub-command instance.
         :param amr_detection_factory: A factory of type staramr.detection.AMRDetectionFactory for building necessary objects for AMR detection.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
         :param script_name: The name of the script being run.
+        :param version: The version of this software.
         """
         super().__init__(subparser, script_dir, script_name)
         self._amr_detection_factory = amr_detection_factory
+        self._version = version
 
     def _setup_args(self, arg_parser):
         name = self._script_name
@@ -159,9 +162,10 @@ class Search(SubCommand):
             database_handler = AMRDatabaseHandler(args.database)
             settings = database_handler.info()
             settings.insert(0, ['command_line', ' '.join(sys.argv)])
-            settings.insert(1, ['start_time', start_time.strftime("%Y-%m-%d %H:%M:%S")])
-            settings.insert(2, ['end_time', end_time.strftime("%Y-%m-%d %H:%M:%S")])
-            settings.insert(3, ['total_minutes', time_difference_minutes])
+            settings.insert(1, ['version', self._version])
+            settings.insert(2, ['start_time', start_time.strftime("%Y-%m-%d %H:%M:%S")])
+            settings.insert(3, ['end_time', end_time.strftime("%Y-%m-%d %H:%M:%S")])
+            settings.insert(4, ['total_minutes', time_difference_minutes])
             self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
             settings_dataframe = pandas.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
