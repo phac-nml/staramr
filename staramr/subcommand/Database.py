@@ -30,6 +30,8 @@ class Database(SubCommand):
         arg_parser = self._subparser.add_parser('db', help='Download ResFinder/PointFinder databases')
         subparser = arg_parser.add_subparsers(dest='db_command',
                                               help='Subcommand for ResFinder/PointFinder databases.')
+        arg_parser.add_argument('--version', action='store_true', dest='version',
+                                help='Prints version information.', required=False)
 
         Build(subparser, self._script_dir, self._script_name + " db")
         Update(subparser, self._script_dir, self._script_name + " db")

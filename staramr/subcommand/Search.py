@@ -23,7 +23,6 @@ Class for searching for AMR resistance genes.
 
 
 class Search(SubCommand):
-
     blank = '-'
 
     def __init__(self, amr_detection_factory, subparser, script_dir, script_name):
@@ -73,6 +72,8 @@ class Search(SubCommand):
         arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
+        arg_parser.add_argument('--version', action='store_true', dest='version',
+                                help='Prints version information.', required=False)
         arg_parser.add_argument('files', nargs=argparse.REMAINDER)
 
         return arg_parser

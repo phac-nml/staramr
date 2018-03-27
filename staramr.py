@@ -41,6 +41,8 @@ import logging
 import sys
 from os import path
 
+from staramr import __version__
+
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.subcommand.Database import Database
@@ -55,13 +57,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Do AMR detection for genes and point mutations')
     parser.add_argument('--verbose', action='store_true', dest='verbose',
                         help='Turn on verbose logging [False].', required=False)
+    parser.add_argument('--version', action='store_true', dest='version',
+                        help='Prints version information.', required=False)
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
     Search(AMRDetectionFactory(), subparsers, script_dir, script_name)
     Database(subparsers, script_dir, script_name)
 
     args = parser.parse_args()
-    if args.command is None:
+    if args.version:
+        print(script_name + ' ' + __version__)
+    elif args.command is None:
         parser.print_help()
     else:
         try:
