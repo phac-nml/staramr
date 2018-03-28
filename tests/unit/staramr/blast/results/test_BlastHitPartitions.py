@@ -201,7 +201,33 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual([1, 2], [x.get_contig_start() for x in return_list[0]], "Should have correct contig starts")
         self.assertEqual([10, 9], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
-    def testSinglePartitionHit2EdgeHit1Lesser(self):
+    def testSinglePartitionHit2EdgeWithinHit1Lesser(self):
+        hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
+        hit1.get_contig = MagicMock(return_value="contig1")
+        hit1.get_contig_start = MagicMock(return_value=5)
+        hit1.get_contig_end = MagicMock(return_value=10)
+
+        hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
+        hit2.get_contig = MagicMock(return_value="contig1")
+        hit2.get_contig_start = MagicMock(return_value=1)
+        hit2.get_contig_end = MagicMock(return_value=6)
+
+        parts = BlastHitPartitions()
+
+        parts.append(hit1)
+        parts.append(hit2)
+
+        return_list = parts.get_hits_nonoverlapping_regions()
+        self.assertEqual(1, len(return_list), "Should only be one partition")
+        self.assertEqual(2, len(return_list[0]), "Should be two hits")
+        self.assertEqual(['contig1', 'contig1'], [x.get_contig() for x in return_list[0]],
+                         "Should have correct contig names")
+        self.assertEqual([5, 1], [x.get_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual([10, 6], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
+
+    def testSinglePartitionHit2EdgeSameHit1Lesser(self):
         hit1 = AMRHitHSP(None, None, None, None)
         hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
@@ -220,19 +246,23 @@ class BlastHitPartitionsTest(unittest.TestCase):
         parts.append(hit2)
 
         return_list = parts.get_hits_nonoverlapping_regions()
-        self.assertEqual(1, len(return_list), "Should only be one partition")
-        self.assertEqual(2, len(return_list[0]), "Should be two hits")
-        self.assertEqual(['contig1', 'contig1'], [x.get_contig() for x in return_list[0]],
-                         "Should have correct contig names")
-        self.assertEqual([5, 1], [x.get_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 5], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual(2, len(return_list), "Should be two partitions")
+        self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
+        self.assertEqual(['contig1'], [x.get_contig() for x in return_list[0]], "Should have correct contig names")
+        self.assertEqual([5], [x.get_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual([10], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
-    def testSinglePartitionHit2EdgeHit1Greater(self):
+        self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
+        self.assertEqual(['contig1'], [x.get_contig() for x in return_list[1]], "Should have correct contig names")
+        self.assertEqual([1], [x.get_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual([5], [x.get_contig_end() for x in return_list[1]], "Should have correct contig ends")
+
+    def testSinglePartitionHit2EdgeWithinHit1Greater(self):
         hit1 = AMRHitHSP(None, None, None, None)
         hit1.get_query_frame = MagicMock(return_value=1)
         hit1.get_contig = MagicMock(return_value="contig1")
         hit1.get_contig_start = MagicMock(return_value=5)
-        hit1.get_contig_end = MagicMock(return_value=10)
+        hit1.get_contig_end = MagicMock(return_value=11)
 
         hit2 = AMRHitHSP(None, None, None, None)
         hit2.get_query_frame = MagicMock(return_value=1)
@@ -251,7 +281,37 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(['contig1', 'contig1'], [x.get_contig() for x in return_list[0]],
                          "Should have correct contig names")
         self.assertEqual([5, 10], [x.get_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 15], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([11, 15], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
+
+    def testSinglePartitionHit2EdgeSameHit1Greater(self):
+        hit1 = AMRHitHSP(None, None, None, None)
+        hit1.get_query_frame = MagicMock(return_value=1)
+        hit1.get_contig = MagicMock(return_value="contig1")
+        hit1.get_contig_start = MagicMock(return_value=5)
+        hit1.get_contig_end = MagicMock(return_value=10)
+
+        hit2 = AMRHitHSP(None, None, None, None)
+        hit2.get_query_frame = MagicMock(return_value=1)
+        hit2.get_contig = MagicMock(return_value="contig1")
+        hit2.get_contig_start = MagicMock(return_value=10)
+        hit2.get_contig_end = MagicMock(return_value=15)
+
+        parts = BlastHitPartitions()
+
+        parts.append(hit1)
+        parts.append(hit2)
+
+        return_list = parts.get_hits_nonoverlapping_regions()
+        self.assertEqual(2, len(return_list), "Should be two partitions")
+        self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
+        self.assertEqual(['contig1'], [x.get_contig() for x in return_list[0]], "Should have correct contig names")
+        self.assertEqual([5], [x.get_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual([10], [x.get_contig_end() for x in return_list[0]], "Should have correct contig ends")
+
+        self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
+        self.assertEqual(['contig1'], [x.get_contig() for x in return_list[1]], "Should have correct contig names")
+        self.assertEqual([10], [x.get_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual([15], [x.get_contig_end() for x in return_list[1]], "Should have correct contig ends")
 
     def testTwoPartitionsHit2EdgeHit1Lesser(self):
         hit1 = AMRHitHSP(None, None, None, None)

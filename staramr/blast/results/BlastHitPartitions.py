@@ -58,9 +58,9 @@ class BlastHitPartitions:
         if partition['name'] == hit.get_contig():
             start = hit.get_contig_start()
             end = hit.get_contig_end()
-            if end >= partition['start'] and end <= partition['end']:
+            if end > partition['start'] and end < partition['end']:
                 return True
-            elif start <= partition['end'] and start >= partition['start']:
+            elif start < partition['end'] and start > partition['start']:
                 return True
             elif start <= partition['start'] and end >= partition['end']:
                 return True
