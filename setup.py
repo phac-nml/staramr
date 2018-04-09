@@ -18,6 +18,8 @@ setup(name='staramr',
           'GitPython>=2.1.3',
           'xlsxwriter>=1.0.2',
       ],
+      test_suite='nose.collector',
+      tests_require=['nose'],
       packages=find_packages(exclude=['tests']),
       include_package_data=True,
       scripts=['bin/staramr']

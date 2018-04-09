@@ -7,4 +7,4 @@ then
 	python staramr.py db build
 fi
 
-python -m unittest discover
+nosetests
