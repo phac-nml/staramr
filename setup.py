@@ -19,4 +19,5 @@ setup(name='staramr',
           'xlsxwriter>=1.0.2',
       ],
       packages=find_packages(exclude=['tests']),
+      scripts=['bin/staramr']
       )

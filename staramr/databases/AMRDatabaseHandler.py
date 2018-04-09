@@ -36,7 +36,7 @@ class AMRDatabaseHandler:
         :param script_dir: The directory containing the main application script.
         :return: The default database root directory.
         """
-        return path.join(script_dir, 'databases')
+        return path.join(script_dir, '..', 'databases')
 
     @classmethod
     def create_default_handler(cls, script_dir):

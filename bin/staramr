@@ -24,16 +24,16 @@ of detected AMR genes.
 
 USAGE:
 
-staramr.py --help
-staramr.py db --help
-staramr.py search --help
+staramr --help
+staramr db --help
+staramr search --help
 
-staramr.py search --output-dir [OUTPUT_DIR] [INPUT_FILE] ..
+staramr search --output-dir [OUTPUT_DIR] [INPUT_FILE] ..
 
 EXAMPLE:
 
-staramr.py db build
-staramr.py search --output-dir out *.fasta
+staramr db build
+staramr search --output-dir out *.fasta
 
 """
 import argparse

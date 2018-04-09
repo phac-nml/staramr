@@ -7,7 +7,7 @@
 For example:
 
 ```
-staramr.py --output out --pointfinder-organism salmonella *.fasta
+staramr --output out --pointfinder-organism salmonella *.fasta
 ```
 
 **out/summary.tsv**:
@@ -26,7 +26,7 @@ staramr.py --output out --pointfinder-organism salmonella *.fasta
 To construct the ResFinder and PointFinder database please run:
 
 ```bash
-staramr.py db build
+staramr db build
 ```
 
 ## Search contigs
@@ -34,7 +34,7 @@ staramr.py db build
 To search a list of contigs (in **fasta** format) for AMR genes using ResFinder please run:
 
 ```bash
-staramr.py search -o out *.fasta
+staramr search -o out *.fasta
 ```
 
 Output files will be located in the directory `out/`.
@@ -42,7 +42,7 @@ Output files will be located in the directory `out/`.
 To include acquired point-mutation resistances using PointFinder, please run:
 
  ```bash
-staramr.py search --pointfinder-organism salmonella -o out *.fasta
+staramr search --pointfinder-organism salmonella -o out *.fasta
 ```
 
 Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella* is supported).
@@ -67,7 +67,7 @@ source activate staramr
 Now, you may run `staramr`:
 
 ```
-./staramr.py
+./staramr
 ```
 
 ## Dependencies
@@ -102,7 +102,7 @@ There are 5 different output files produced by `staramr`:
 Searches input FASTA files for AMR genes.
 
 ```
-usage: staramr.py search [-h] [-n NPROCS] [--pid-threshold PID_THRESHOLD]
+usage: staramr search [-h] [-n NPROCS] [--pid-threshold PID_THRESHOLD]
                          [--percent-length-overlap PLENGTH_THRESHOLD]
                          [--pointfinder-organism POINTFINDER_ORGANISM]
                          [--include-negatives] [-d DATABASE] [-o OUTPUT_DIR]
@@ -128,11 +128,11 @@ optional arguments:
                         The output directory for results.  If unset prints all results to stdout.
 
 Example:
-        staramr.py search --output-dir out *.fasta
+        staramr search --output-dir out *.fasta
                 Searches the files *.fasta for AMR genes using only the ResFinder database,
                 storing results in the out/ directory.
 
-        staramr.py search --pointfinder-organism salmonella --output-dir out *.fasta
+        staramr search --pointfinder-organism salmonella --output-dir out *.fasta
                 Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism,
                 storing results in out/.
 ```
@@ -142,17 +142,17 @@ Example:
 Downloads and builds the ResFinder and PointFinder databases.
 
 ```
-usage: staramr.py db build [-h] [--dir DESTINATION]
+usage: staramr db build [-h] [--dir DESTINATION]
 
 optional arguments:
   -h, --help         show this help message and exit
   --dir DESTINATION  The directory to download the databases into [staramr/databases].
 
 Example:
-        staramr.py db build
+        staramr db build
                 Builds a new ResFinder/PointFinder database under staramr/databases if it does not exist
 
-        staramr.py db build --dir databases
+        staramr db build --dir databases
                 Builds a new ResFinder/PointFinder database under databases/
 ```
 
@@ -161,7 +161,7 @@ Example:
 Updates an existing download of the ResFinder and PointFinder databases.
 
 ```
-usage: staramr.py db update [-h] [-d] ...
+usage: staramr db update [-h] [-d] ...
 
 positional arguments:
   directories
@@ -171,10 +171,10 @@ optional arguments:
   -d, --update-default  Updates default database directory (staramr/databases).
 
 Example:
-        staramr.py db update databases/
+        staramr db update databases/
                 Updates the ResFinder/PointFinder database under databases/
 
-        staramr.py db update -d
+        staramr db update -d
                 Updates the default ResFinder/PointFinder database under staramr/databases
 ```
 
@@ -183,7 +183,7 @@ Example:
 Prints information about an existing build of the ResFinder/PointFinder databases.
 
 ```
-usage: staramr.py db info [-h] ...
+usage: staramr db info [-h] ...
 
 positional arguments:
   directories
@@ -192,10 +192,10 @@ optional arguments:
   -h, --help   show this help message and exit
 
 Example:
-        staramr.py db info
+        staramr db info
                 Prints information about the default database in staramr/databases
 
-        staramr.py db info databases
+        staramr db info databases
                 Prints information on the database stored in databases/
 ```
 
