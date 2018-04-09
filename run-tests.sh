@@ -4,7 +4,7 @@ SCRIPT_DIR=`pwd`
 
 if [ ! -e $SCRIPT_DIR/databases ];
 then
-	python staramr.py db build
+	python bin/staramr db build
 fi
 
 nosetests
