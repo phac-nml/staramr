@@ -50,7 +50,6 @@ from staramr.subcommand.Search import Search
 
 logger = logging.getLogger("staramr")
 
-script_dir = path.dirname(path.realpath(sys.argv[0]))
 script_name = path.basename(path.realpath(sys.argv[0]))
 
 if __name__ == '__main__':
@@ -61,8 +60,8 @@ if __name__ == '__main__':
                         help='Prints version information.', required=False)
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
-    Search(AMRDetectionFactory(), subparsers, script_dir, script_name, __version__)
-    Database(subparsers, script_dir, script_name)
+    Search(AMRDetectionFactory(), subparsers, script_name, __version__)
+    Database(subparsers, script_name)
 
     args = parser.parse_args()
     if args.version:

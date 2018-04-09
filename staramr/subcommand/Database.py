@@ -17,14 +17,13 @@ Base class for interacting with a database.
 
 class Database(SubCommand):
 
-    def __init__(self, subparser, script_dir, script_name):
+    def __init__(self, subparser, script_name):
         """
         Builds a SubCommand for interacting with databases.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
-        :param script_dir: The directory containing the main application script.
         :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir, script_name)
+        super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
         arg_parser = self._subparser.add_parser('db', help='Download ResFinder/PointFinder databases')
@@ -33,9 +32,9 @@ class Database(SubCommand):
         arg_parser.add_argument('--version', action='store_true', dest='version',
                                 help='Prints version information.', required=False)
 
-        Build(subparser, self._script_dir, self._script_name + " db")
-        Update(subparser, self._script_dir, self._script_name + " db")
-        Info(subparser, self._script_dir, self._script_name + " db")
+        Build(subparser, self._script_name + " db")
+        Update(subparser, self._script_name + " db")
+        Info(subparser, self._script_name + " db")
 
         return arg_parser
 
@@ -53,18 +52,17 @@ Class for building a new database.
 
 class Build(Database):
 
-    def __init__(self, subparser, script_dir, script_name):
+    def __init__(self, subparser, script_name):
         """
         Creates a SubCommand for building a new database.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
-        :param script_dir: The directory containing the main application script.
         :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir, script_name)
+        super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        default_dir = AMRDatabaseHandler.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " build\n"
                                 "\t\tBuilds a new ResFinder/PointFinder database under " + default_dir + " if it does not exist\n\n" +
@@ -100,17 +98,16 @@ Class for updating an existing database.
 
 class Update(Database):
 
-    def __init__(self, subparser, script_dir, script_name):
+    def __init__(self, subparser, script_name):
         """
         Creates a SubCommand for updating an existing database.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
-        :param script_dir: The directory containing the main application script.
         :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir, script_name)
+        super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
-        default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        default_dir = AMRDatabaseHandler.get_default_database_directory()
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " update databases/\n"
@@ -135,7 +132,7 @@ class Update(Database):
             if not args.update_default:
                 raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
             else:
-                database_handler = AMRDatabaseHandler.create_default_handler(self._script_dir)
+                database_handler = AMRDatabaseHandler.create_default_handler()
                 database_handler.update()
         else:
             for directory in args.directories:
@@ -150,18 +147,18 @@ Class for getting information from an existing database.
 
 class Info(Database):
 
-    def __init__(self, subparser, script_dir, script_name):
+    def __init__(self, subparser, script_name):
         """
         Creates a SubCommand for printing information about a database.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_dir: The directory containing the main application script.
         :param script_name: The name of the script being run.
         """
-        super().__init__(subparser, script_dir, script_name)
+        super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        default_dir = AMRDatabaseHandler.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " info\n"
                                 "\t\tPrints information about the default database in " + default_dir + "\n\n" +
@@ -179,7 +176,7 @@ class Info(Database):
         super(Info, self).run(args)
 
         if len(args.directories) == 0:
-            database_handler = AMRDatabaseHandler.create_default_handler(self._script_dir)
+            database_handler = AMRDatabaseHandler.create_default_handler()
             sys.stdout.write(get_string_with_spacing(database_handler.info()))
         elif len(args.directories) == 1:
             database_handler = AMRDatabaseHandler(args.directories[0])

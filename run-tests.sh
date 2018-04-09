@@ -2,7 +2,7 @@
 cd `dirname $0`
 SCRIPT_DIR=`pwd`
 
-if [ ! -e $SCRIPT_DIR/databases ];
+if [ ! -e $SCRIPT_DIR/staramr/databases/data ];
 then
 	python bin/staramr db build
 fi

@@ -26,16 +26,15 @@ Class for searching for AMR resistance genes.
 class Search(SubCommand):
     blank = '-'
 
-    def __init__(self, amr_detection_factory, subparser, script_dir, script_name, version):
+    def __init__(self, amr_detection_factory, subparser, script_name, version):
         """
         Creates a new Search sub-command instance.
         :param amr_detection_factory: A factory of type staramr.detection.AMRDetectionFactory for building necessary objects for AMR detection.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
-        :param script_dir: The directory containing the main application script.
         :param script_name: The name of the script being run.
         :param version: The version of this software.
         """
-        super().__init__(subparser, script_dir, script_name)
+        super().__init__(subparser, script_name)
         self._amr_detection_factory = amr_detection_factory
         self._version = version
 
@@ -52,7 +51,7 @@ class Search(SubCommand):
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Search for AMR genes')
 
-        self._default_database_dir = AMRDatabaseHandler.get_default_database_directory(self._script_dir)
+        self._default_database_dir = AMRDatabaseHandler.get_default_database_directory()
         cpu_count = multiprocessing.cpu_count()
 
         arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,

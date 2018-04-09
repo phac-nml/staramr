@@ -30,22 +30,20 @@ class AMRDatabaseHandler:
         self._pointfinder_url = "https://bitbucket.org/genomicepidemiology/pointfinder_db.git"
 
     @classmethod
-    def get_default_database_directory(cls, script_dir):
+    def get_default_database_directory(cls):
         """
         Class method for getting the default database root directory.
-        :param script_dir: The directory containing the main application script.
         :return: The default database root directory.
         """
-        return path.join(script_dir, '..', 'databases')
+        return path.join(path.dirname(__file__), 'data')
 
     @classmethod
-    def create_default_handler(cls, script_dir):
+    def create_default_handler(cls):
         """
         Class method for getting the default database handler.
-        :param script_dir: The directory containing the main application script.
         :return: The default database handler.
         """
-        return cls(cls.get_default_database_directory(script_dir))
+        return cls(cls.get_default_database_directory())
 
     def build(self):
         """
