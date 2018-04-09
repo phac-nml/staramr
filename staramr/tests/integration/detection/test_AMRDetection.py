@@ -12,8 +12,8 @@ from staramr.detection.AMRDetection import AMRDetection
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        self.resfinder_database_dir = path.join(path.dirname(__file__), '..','..','..', '..', '..', 'databases', 'resfinder')
-        self.pointfinder_database_root_dir = path.join(path.dirname(__file__), '..','..','..', '..', '..', 'databases', 'pointfinder')
+        self.resfinder_database_dir = path.join(path.dirname(__file__), '..','..', '..', '..', 'databases', 'resfinder')
+        self.pointfinder_database_root_dir = path.join(path.dirname(__file__), '..','..', '..', '..', 'databases', 'pointfinder')
 
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_database_dir)
         self.pointfinder_database = None
@@ -21,7 +21,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database)
 
-        self.test_data_dir = path.join(path.dirname(__file__), '..', '..', 'data')
+        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
 
     def testResfinderBetaLactam2MutationsSuccess(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
