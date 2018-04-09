@@ -20,7 +20,7 @@ setup(name='staramr',
       ],
       test_suite='nose.collector',
       tests_require=['nose'],
-      packages=find_packages(exclude=['tests']),
+      packages=find_packages(),
       include_package_data=True,
       scripts=['bin/staramr']
       )

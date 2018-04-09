@@ -2,3 +2,4 @@ include LICENSE
 include NOTICE
 include README.md
 include MANIFEST.in
+include staramr/tests/integration/data/*.fsa
