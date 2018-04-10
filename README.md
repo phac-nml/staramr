@@ -64,10 +64,16 @@ conda create --name staramr --file conda-packages.txt
 source activate staramr
 ```
 
-Now, you may run `staramr`:
+Now, you may install using `pip`:
 
 ```
-./staramr
+pip install .
+```
+
+Now you may run with `staramr`.  Before running the software please make sure to build a database:
+
+```
+staramr db build
 ```
 
 ## Dependencies
