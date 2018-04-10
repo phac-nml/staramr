@@ -125,15 +125,20 @@ class Search(SubCommand):
         if not path.isdir(args.database):
             raise CommandParseException("Database directory [" + args.database + "] does not exist")
 
-        resfinder_database_dir = path.join(args.database, 'resfinder')
-        pointfinder_database_root_dir = path.join(args.database, 'pointfinder')
+        if args.database == AMRDatabaseHandlerFactory.get_default_database_directory():
+            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        else:
+            database_handler = AMRDatabaseHandlerFactory(args.database)
+
+        resfinder_database_dir = database_handler.get_resfinder_dir()
+        pointfinder_database_dir = database_handler.get_pointfinder_dir()
 
         resfinder_database = ResfinderBlastDatabase(resfinder_database_dir)
         if (args.pointfinder_organism):
             if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
                 raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
                     PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
-            pointfinder_database = PointfinderBlastDatabase(pointfinder_database_root_dir,
+            pointfinder_database = PointfinderBlastDatabase(pointfinder_database_dir,
                                                             args.pointfinder_organism)
         else:
             pointfinder_database = None
@@ -157,8 +162,6 @@ class Search(SubCommand):
             self._print_dataframe_to_text_file(amr_detection.get_summary_results(),
                                                path.join(args.output_dir, "summary.tsv"))
 
-            handler_factory = AMRDatabaseHandlerFactory(args.database)
-            database_handler = handler_factory.get_database_handler()
             settings = database_handler.info()
             settings.insert(0, ['command_line', ' '.join(sys.argv)])
             settings.insert(1, ['version', self._version])
