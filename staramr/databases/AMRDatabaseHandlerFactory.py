@@ -17,12 +17,12 @@ class AMRDatabaseHandlerFactory:
         """
         Builds a new AMRDatabaseHandlerFactory with the passed directory.
         :param database_dir: The directory containing the ResFinder/PointFinder databases.
-        :param strip_git: If True, assumes we are using subdirectories to store databases
+        :param sub_dirs: If True, assumes we are using subdirectories to store databases
                             and searching for stripped git directories.
         """
         self._database_dir = database_dir
-        self._git_database_dir = path.join(database_dir, 'git')
-        self._git_strip_database_dir = path.join(database_dir, 'strip')
+        self._git_database_dir = path.join(database_dir, 'update')
+        self._git_strip_database_dir = path.join(database_dir, 'dist')
         self._sub_dirs = sub_dirs
 
     def get_database_handler(self, force_use_git=False):

@@ -73,5 +73,5 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         data_matrix = data.as_matrix().tolist()
         data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
         data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
-        
+
         return data_matrix
