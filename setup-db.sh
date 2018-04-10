@@ -7,5 +7,3 @@ if [ ! -e $SCRIPT_DIR/staramr/databases/data/dist ];
 then
 	python bin/staramr db build
 fi
-
-python $SCRIPT_DIR/setup.py test
