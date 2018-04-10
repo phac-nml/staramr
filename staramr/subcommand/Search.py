@@ -14,7 +14,6 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.exceptions.CommandParseException import CommandParseException
-from staramr import __version__
 
 logger = logging.getLogger("Search")
 

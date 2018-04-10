@@ -1,14 +1,10 @@
 import logging
-import subprocess
-import time
 from os import path
-import shutil
 
-import git
 import pandas
 
-from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 import staramr.Utils as Utils
+from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
 
@@ -37,13 +33,13 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         """
         super().build()
 
-        database_info=super().info()
+        database_info = super().info()
         self._write_database_info_to_file(database_info, self._info_file)
 
         logger.info("Removing " + self._resfinder_dir_git)
-        #shutil.rmtree(self._resfinder_dir_git)
+        # shutil.rmtree(self._resfinder_dir_git)
         logger.info("Removing " + self._pointfinder_dir_git)
-        #shutil.rmtree(self._pointfinder_dir_git)
+        # shutil.rmtree(self._pointfinder_dir_git)
 
     def _write_database_info_to_file(self, database_info, file):
         file_handle = open(file, 'w')
