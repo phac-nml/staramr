@@ -106,3 +106,17 @@ class AMRDatabaseHandler:
         command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
         logger.debug(' '.join(command))
         subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).check_returncode()
+
+    def get_resfinder_dir(self):
+        """
+        Gets the ResFinder database directory.
+        :return: The ResFinder database directory.
+        """
+        return self._resfinder_dir
+
+    def get_pointfinder_dir(self):
+        """
+        Gets the PointFinder database directory.
+        :return: The PointFinder database directory.
+        """
+        return self._pointfinder_dir

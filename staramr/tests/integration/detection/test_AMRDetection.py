@@ -13,11 +13,11 @@ from staramr.detection.AMRDetection import AMRDetection
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        self.resfinder_database_dir = path.join(AMRDatabaseHandlerFactory.get_default_database_directory(), 'resfinder')
-        self.pointfinder_database_root_dir = path.join(AMRDatabaseHandlerFactory.get_default_database_directory(),
-                                                       'pointfinder')
+        database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        self.resfinder_dir = database_handler.get_resfinder_dir()
+        self.pointfinder_dir = database_handler.get_pointfinder_dir()
 
-        self.resfinder_database = ResfinderBlastDatabase(self.resfinder_database_dir)
+        self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.pointfinder_database = None
         self.blast_handler = BlastHandler(self.resfinder_database, 2, self.pointfinder_database)
 
@@ -104,7 +104,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['End'], 1581, msg='Wrong end')
 
     def testPointfinderSalmonellaA67PSuccess(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -125,7 +125,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
 
     def testPointfinderSalmonellaA67PFailPID(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -136,7 +136,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
 
     def testPointfinderSalmonellaA67TFail(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -147,7 +147,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
 
     def testPointfinderSalmonellaA67PReverseComplementSuccess(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -168,7 +168,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
 
     def testPointfinderSalmonella_16S_rrSD_C1065T_Success(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -189,7 +189,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -227,7 +227,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
 
     def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_database_root_dir, 'salmonella')
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database)
 
@@ -272,8 +272,6 @@ class AMRDetectionIT(unittest.TestCase):
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
-
-        summary_results.loc['beta-lactam-blaIMP-42-mut-2']
 
     def testResfinderIncludeNonMatches(self):
         amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True)
