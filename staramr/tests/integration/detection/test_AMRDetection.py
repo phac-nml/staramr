@@ -7,14 +7,14 @@ from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.detection.AMRDetection import AMRDetection
-from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 
 
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        self.resfinder_database_dir = path.join(AMRDatabaseHandler.get_default_database_directory(), 'resfinder')
-        self.pointfinder_database_root_dir = path.join(AMRDatabaseHandler.get_default_database_directory(), 'pointfinder')
+        self.resfinder_database_dir = path.join(AMRDatabaseHandlerFactory.get_default_database_directory(), 'resfinder')
+        self.pointfinder_database_root_dir = path.join(AMRDatabaseHandlerFactory.get_default_database_directory(), 'pointfinder')
 
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_database_dir)
         self.pointfinder_database = None

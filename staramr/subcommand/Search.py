@@ -12,7 +12,7 @@ from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.exceptions.CommandParseException import CommandParseException
 from staramr import __version__
 
@@ -51,7 +51,7 @@ class Search(SubCommand):
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Search for AMR genes')
 
-        self._default_database_dir = AMRDatabaseHandler.get_default_database_directory()
+        self._default_database_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
         cpu_count = multiprocessing.cpu_count()
 
         arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
@@ -158,7 +158,8 @@ class Search(SubCommand):
             self._print_dataframe_to_text_file(amr_detection.get_summary_results(),
                                                path.join(args.output_dir, "summary.tsv"))
 
-            database_handler = AMRDatabaseHandler(args.database)
+            handler_factory = AMRDatabaseHandlerFactory(args.database)
+            database_handler = handler_factory.get_database_handler()
             settings = database_handler.info()
             settings.insert(0, ['command_line', ' '.join(sys.argv)])
             settings.insert(1, ['version', self._version])

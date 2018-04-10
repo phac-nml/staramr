@@ -7,7 +7,7 @@ from os import path, mkdir
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
-from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.exceptions.CommandParseException import CommandParseException
 
 """
@@ -62,7 +62,7 @@ class Build(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandler.get_default_database_directory()
+        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " build\n"
                                 "\t\tBuilds a new ResFinder/PointFinder database under " + default_dir + " if it does not exist\n\n" +
@@ -87,7 +87,7 @@ class Build(Database):
         else:
             mkdir(args.destination)
 
-        database_handler = AMRDatabaseHandler(args.destination)
+        database_handler = AMRDatabaseHandlerFactory(args.destination).get_database_handler()
         database_handler.build()
 
 
@@ -107,7 +107,7 @@ class Update(Database):
         super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
-        default_dir = AMRDatabaseHandler.get_default_database_directory()
+        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " update databases/\n"
@@ -132,11 +132,11 @@ class Update(Database):
             if not args.update_default:
                 raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
             else:
-                database_handler = AMRDatabaseHandler.create_default_handler()
+                database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
                 database_handler.update()
         else:
             for directory in args.directories:
-                database_handler = AMRDatabaseHandler(directory)
+                database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
                 database_handler.update()
 
 
@@ -158,7 +158,7 @@ class Info(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandler.get_default_database_directory()
+        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " info\n"
                                 "\t\tPrints information about the default database in " + default_dir + "\n\n" +
@@ -176,12 +176,12 @@ class Info(Database):
         super(Info, self).run(args)
 
         if len(args.directories) == 0:
-            database_handler = AMRDatabaseHandler.create_default_handler()
+            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
             sys.stdout.write(get_string_with_spacing(database_handler.info()))
         elif len(args.directories) == 1:
-            database_handler = AMRDatabaseHandler(args.directories[0])
+            database_handler = AMRDatabaseHandlerFactory(args.directories[0]).get_database_handler()
             sys.stdout.write(get_string_with_spacing(database_handler.info()))
         else:
             for directory in args.directories:
-                database_handler = AMRDatabaseHandler(directory)
+                database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
                 sys.stdout.write(get_string_with_spacing(database_handler.info()))

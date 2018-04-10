@@ -29,22 +29,6 @@ class AMRDatabaseHandler:
         self._resfinder_url = "https://bitbucket.org/genomicepidemiology/resfinder_db.git"
         self._pointfinder_url = "https://bitbucket.org/genomicepidemiology/pointfinder_db.git"
 
-    @classmethod
-    def get_default_database_directory(cls):
-        """
-        Class method for getting the default database root directory.
-        :return: The default database root directory.
-        """
-        return path.join(path.dirname(__file__), 'data')
-
-    @classmethod
-    def create_default_handler(cls):
-        """
-        Class method for getting the default database handler.
-        :return: The default database handler.
-        """
-        return cls(cls.get_default_database_directory())
-
     def build(self):
         """
         Downloads and builds a new ResFinder/PointFinder database.
@@ -99,8 +83,6 @@ class AMRDatabaseHandler:
                      time.strftime("%a, %d %b %Y %H:%M", time.gmtime(pointfinder_repo_head.committed_date))])
 
         return data
-
-        self._print_data(data)
 
     def _blast_format(self):
 
