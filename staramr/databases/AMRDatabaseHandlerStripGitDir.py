@@ -35,7 +35,14 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         super().build()
 
         database_info = super().info()
-        self._write_database_info_to_file(database_info, self._info_file)
+
+        # remove directories from info as they are unimportant here
+        database_info_stripped = []
+        for i in database_info:
+            if i[0] != 'resfinder_db_dir' and i[0] != 'pointfinder_db_dir':
+                database_info_stripped.append(i)
+
+        self._write_database_info_to_file(database_info_stripped, self._info_file)
 
         logger.info("Removing " + self._resfinder_dir_git)
         shutil.rmtree(self._resfinder_dir_git)
@@ -48,7 +55,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         file_handle.close()
 
     def _read_database_info_from_file(self, file):
-        return pandas.read_csv(file, sep="=", index_col=False)
+        return pandas.read_csv(file, sep="=", index_col=False, header=None)
 
     def update(self):
         """
