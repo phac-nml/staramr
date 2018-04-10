@@ -49,12 +49,6 @@ Where `--pointfinder-organism` is the specific organism you are interested in (c
 
 # Installation
 
-To get the latest code, please run:
-
-```
-git clone https://github.com/phac-nml/staramr
-```
-
 `staramr` requires the dependencies listed below.  The easiest way to install these is through a [Bioconda][] environment (a full conda package will be made when code is stable).  Assuming you have `conda` installed, you may run:
 
 ```bash
@@ -67,10 +61,10 @@ source activate staramr
 Now, you may install using `pip`:
 
 ```
-pip install .
+pip install git+https://github.com/phac-nml/staramr.git
 ```
 
-Now you may run with `staramr`.  Before running the software please make sure to build a database:
+You can now run `staramr`.  Before using the software please make sure to build a database:
 
 ```
 staramr db build
