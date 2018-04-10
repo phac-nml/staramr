@@ -87,7 +87,10 @@ class Build(Database):
         else:
             mkdir(args.destination)
 
-        database_handler = AMRDatabaseHandlerFactory(args.destination).get_database_handler()
+        if args.destination == AMRDatabaseHandlerFactory.get_default_database_directory():
+            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        else:
+            database_handler = AMRDatabaseHandlerFactory(args.destination).get_database_handler()
         database_handler.build()
 
 
@@ -132,7 +135,7 @@ class Update(Database):
             if not args.update_default:
                 raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
             else:
-                database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+                database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler(force_use_git=True)
                 database_handler.update()
         else:
             for directory in args.directories:

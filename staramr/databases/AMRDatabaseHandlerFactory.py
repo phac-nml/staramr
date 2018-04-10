@@ -13,25 +13,31 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 class AMRDatabaseHandlerFactory:
 
-    def __init__(self, database_dir):
+    def __init__(self, database_dir, sub_dirs=False):
         """
         Builds a new AMRDatabaseHandlerFactory with the passed directory.
         :param database_dir: The directory containing the ResFinder/PointFinder databases.
+        :param strip_git: If True, assumes we are using subdirectories to store databases
+                            and searching for stripped git directories.
         """
         self._database_dir = database_dir
         self._git_database_dir = path.join(database_dir, 'git')
         self._git_strip_database_dir = path.join(database_dir, 'strip')
+        self._sub_dirs = sub_dirs
 
-    def get_database_handler(self, strip_git=False):
+    def get_database_handler(self, force_use_git=False):
         """
         Gets the appropriate database handler.
-        :param strip_git: Whether or not to strip out the .git directory from the databases.
+        :param force_use_git: Force use of git database handler.
         :return: The database handler.
         """
-        if strip_git:
-            return AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
+        if self._sub_dirs:
+            if force_use_git or path.exists(self._git_database_dir):
+                return AMRDatabaseHandler(self._git_database_dir)
+            else:
+                return AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
         else:
-            return AMRDatabaseHandler(self._git_database_dir)
+            return AMRDatabaseHandler(self._database_dir)
 
     @classmethod
     def get_default_database_directory(cls):
@@ -47,4 +53,4 @@ class AMRDatabaseHandlerFactory:
         Class method for getting the default database handler factory.
         :return: The default database handler factory.
         """
-        return cls(cls.get_default_database_directory())
+        return cls(cls.get_default_database_directory(), sub_dirs=True)

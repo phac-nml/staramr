@@ -47,18 +47,22 @@ class AMRDatabaseHandler:
         Updates an existing ResFinder/PointFinder database to the latest revisions.
         :return: None
         """
-        resfinder_repo = git.Repo(self._resfinder_dir)
-        pointfinder_repo = git.Repo(self._pointfinder_dir)
 
-        logger.info("Updating " + self._resfinder_dir)
-        resfinder_repo.heads.master.checkout()
-        resfinder_repo.remotes.origin.pull()
+        if not path.exists(self._database_dir):
+            self.build()
+        else:
+            resfinder_repo = git.Repo(self._resfinder_dir)
+            pointfinder_repo = git.Repo(self._pointfinder_dir)
 
-        logger.info("Updating " + self._pointfinder_dir)
-        pointfinder_repo.heads.master.checkout()
-        pointfinder_repo.remotes.origin.pull()
+            logger.info("Updating " + self._resfinder_dir)
+            resfinder_repo.heads.master.checkout()
+            resfinder_repo.remotes.origin.pull()
 
-        self._blast_format()
+            logger.info("Updating " + self._pointfinder_dir)
+            pointfinder_repo.heads.master.checkout()
+            pointfinder_repo.remotes.origin.pull()
+
+            self._blast_format()
 
     def info(self):
         """
