@@ -1,8 +1,8 @@
 import logging
+import shutil
 from os import path
 
 import pandas
-import shutil
 
 import staramr.Utils as Utils
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
@@ -70,5 +70,8 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         :return: Database information as a list containing key/value pairs.
         """
         data = self._read_database_info_from_file(self._info_file)
-
-        return data.values
+        data_matrix = data.as_matrix().tolist()
+        data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
+        data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
+        
+        return data_matrix
