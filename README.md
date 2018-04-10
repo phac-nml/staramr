@@ -52,7 +52,7 @@ Where `--pointfinder-organism` is the specific organism you are interested in (c
 `staramr` requires the dependencies listed below.  The easiest way to install these is through a [Bioconda][] environment (a full conda package will be made when code is stable).  Assuming you have `conda` installed, you may run:
 
 ```bash
-conda create --name staramr --file conda-packages.txt
+conda create --name staramr --file https://raw.githubusercontent.com/phac-nml/staramr/development/conda-packages.txt
 
 # Activate environment
 source activate staramr
@@ -82,8 +82,11 @@ staramr db build
 To run the test suite, please run:
 
 ```
-./run-tests.sh
+git clone https://github.com/phac-nml/staramr.git && cd staramr
+python setup.py test
 ```
+
+You will need to have previously installed `staramr` and built a database.
 
 # Output
 
