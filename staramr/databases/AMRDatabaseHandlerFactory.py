@@ -2,6 +2,7 @@ import logging
 from os import path
 
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.databases.AMRDatabaseHandlerStripGitDir import AMRDatabaseHandlerStripGitDir
 
 logger = logging.getLogger('AMRDatabaseHandlerFactory')
 
@@ -21,12 +22,16 @@ class AMRDatabaseHandlerFactory:
         self._git_database_dir = path.join(database_dir, 'git')
         self._git_strip_database_dir = path.join(database_dir, 'strip')
 
-    def get_database_handler(self):
+    def get_database_handler(self, strip_git=False):
         """
         Gets the appropriate database handler.
+        :param strip_git: Whether or not to strip out the .git directory from the databases.
         :return: The database handler.
         """
-        return AMRDatabaseHandler(self._database_dir)
+        if strip_git:
+            return AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
+        else:
+            return AMRDatabaseHandler(self._git_database_dir)
 
     @classmethod
     def get_default_database_directory(cls):
