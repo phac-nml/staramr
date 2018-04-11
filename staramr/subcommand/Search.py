@@ -67,6 +67,9 @@ class Search(SubCommand):
         arg_parser.add_argument('--include-negatives', action='store_true', dest='include_negatives',
                                 help='Inclue negative results (those sensitive to antimicrobials) [False].',
                                 required=False)
+        arg_parser.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
+                                help='Report all blast hits (vs. only top blast hits) [False].',
+                                required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
                                 default=self._default_database_dir, required=False)
@@ -146,7 +149,7 @@ class Search(SubCommand):
 
         amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                           args.include_negatives)
-        amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold)
+        amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold, args.report_all_blast)
 
         end_time = datetime.datetime.now()
         time_difference = end_time - start_time

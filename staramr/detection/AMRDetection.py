@@ -33,34 +33,35 @@ class AMRDetection:
                                                     pointfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
-    def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold):
+    def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
         resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, self._resfinder_database, pid_threshold,
-                                                       plength_threshold)
+                                                       plength_threshold, report_all)
         return resfinder_parser.parse_results()
 
-    def _create_pointfinder_dataframe(self, pointfinder_blast_map, pid_threshold, plength_threshold):
+    def _create_pointfinder_dataframe(self, pointfinder_blast_map, pid_threshold, plength_threshold, report_all):
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, self._pointfinder_database,
-                                                           pid_threshold, plength_threshold)
+                                                           pid_threshold, plength_threshold, report_all)
         return pointfinder_parser.parse_results()
 
-    def run_amr_detection(self, files, pid_threshold, plength_threshold):
+    def run_amr_detection(self, files, pid_threshold, plength_threshold, report_all=False):
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
         :param pid_threshold: The percent identity threshold for BLAST results.
         :param plength_threshold: The percent length identity for BLAST results.
+        :param report_all: Whether or not to report all blast hits.
         :return: None
         """
         self._amr_detection_handler.run_blasts(files)
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
         self._resfinder_dataframe = self._create_resfinder_dataframe(resfinder_blast_map, pid_threshold,
-                                                                     plength_threshold)
+                                                                     plength_threshold, report_all)
 
         if self._has_pointfinder:
             pointfinder_blast_map = self._amr_detection_handler.get_pointfinder_outputs()
             self._pointfinder_dataframe = self._create_pointfinder_dataframe(pointfinder_blast_map, pid_threshold,
-                                                                             plength_threshold)
+                                                                             plength_threshold, report_all)
         else:
             self._pointfinder_dataframe = None
 

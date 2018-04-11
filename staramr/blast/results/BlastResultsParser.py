@@ -15,19 +15,21 @@ Class for parsing BLAST results.
 
 class BlastResultsParser:
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold):
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False):
         """
         Creates a new class for parsing BLAST results.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
         :param blast_database: The particular staramr.blast.AbstractBlastDatabase to use.
         :param pid_threshold: A percent identity threshold for BLAST results.
         :param plength_threshold: A percent length threshold for results.
+        :param report_all: Whether or not to report all blast hits.
         """
         __metaclass__ = abc.ABCMeta
         self._file_blast_map = file_blast_map
         self._blast_database = blast_database
         self._pid_threshold = pid_threshold
         self._plength_threshold = plength_threshold
+        self._report_all = report_all
 
     def parse_results(self):
         """
@@ -60,8 +62,12 @@ class BlastResultsParser:
                 # sort by pid and then by plength
                 hits_non_overlapping.sort(key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength()), reverse=True)
                 if len(hits_non_overlapping) >= 1:
-                    hit = hits_non_overlapping[0]
-                    self._append_results_to(hit, database_name, results)
+                    if self._report_all:
+                        for hit in hits_non_overlapping:
+                            self._append_results_to(hit, database_name, results)
+                    else:
+                        hit = hits_non_overlapping[0]
+                        self._append_results_to(hit, database_name, results)
         blast_handle.close()
 
     @abc.abstractmethod

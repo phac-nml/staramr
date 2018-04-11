@@ -16,15 +16,16 @@ logger = logging.getLogger('BlastResultsParserPointfinder')
 
 class BlastResultsParserPointfinder(BlastResultsParser):
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold):
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False):
         """
         Creates a new BlastResultsParserPointfinder.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
         :param blast_database: The particular staramr.blast.AbstractBlastDatabase to use.
         :param pid_threshold: A percent identity threshold for BLAST results.
         :param plength_threshold: A percent length threshold for results.
+        :param report_all: Whether or not to report all blast hits.
         """
-        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold)
+        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all)
 
     def _create_hit(self, file, database_name, blast_record, alignment, hsp):
         logger.debug("database_name=" + database_name)
