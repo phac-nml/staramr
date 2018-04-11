@@ -58,7 +58,7 @@ class BlastResultsParser:
                         partitions.append(hit)
             for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
                 # sort by pid and then by plength
-                hits_non_overlapping.sort(key=lambda x: (x.get_pid(), x.get_plength()), reverse=True)
+                hits_non_overlapping.sort(key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength()), reverse=True)
                 if len(hits_non_overlapping) >= 1:
                     hit = hits_non_overlapping[0]
                     self._append_results_to(hit, database_name, results)
