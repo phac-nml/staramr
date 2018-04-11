@@ -10,13 +10,14 @@ A Class to handle scanning files for AMR genes.
 class AMRDetection:
 
     def __init__(self, resfinder_database, amr_detection_handler, pointfinder_database=None,
-                 include_negative_results=False):
+                 include_negative_results=False, output_dir=None):
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
+        :param output_dir: The directory where output fasta files are to be written into (None for no output fasta files).
         """
         self._resfinder_database = resfinder_database
         self._amr_detection_handler = amr_detection_handler
@@ -28,6 +29,8 @@ class AMRDetection:
         else:
             self._has_pointfinder = True
 
+        self._output_dir = output_dir
+
     def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe):
         amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
                                                     pointfinder_dataframe)
@@ -35,12 +38,12 @@ class AMRDetection:
 
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
         resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, self._resfinder_database, pid_threshold,
-                                                       plength_threshold, report_all)
+                                                       plength_threshold, report_all, output_dir=self._output_dir)
         return resfinder_parser.parse_results()
 
     def _create_pointfinder_dataframe(self, pointfinder_blast_map, pid_threshold, plength_threshold, report_all):
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, self._pointfinder_database,
-                                                           pid_threshold, plength_threshold, report_all)
+                                                           pid_threshold, plength_threshold, report_all, output_dir=self._output_dir)
         return pointfinder_parser.parse_results()
 
     def run_amr_detection(self, files, pid_threshold, plength_threshold, report_all=False):

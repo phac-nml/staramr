@@ -99,6 +99,13 @@ class AMRHitHSP:
         else:
             return frame
 
+    def get_hsp_query(self):
+        """
+        Gets the query sequence from the HSP.
+        :return: The query sequence (as a string) from the HSP.
+        """
+        return self.hsp.query
+
     def get_database_frame(self):
         """
         Gets the frame (strand) of the BLAST database for the hit/hsp.

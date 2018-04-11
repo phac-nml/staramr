@@ -148,7 +148,7 @@ class Search(SubCommand):
         blast_handler = BlastHandler(resfinder_database, args.nprocs, pointfinder_database)
 
         amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                          args.include_negatives)
+                                                          args.include_negatives, output_dir=args.output_dir)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold, args.report_all_blast)
 
         end_time = datetime.datetime.now()

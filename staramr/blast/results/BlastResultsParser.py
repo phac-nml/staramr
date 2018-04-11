@@ -1,7 +1,13 @@
 import abc
 import logging
 import os
+from os import path
 
+import Bio.SeqIO
+
+from Bio.Alphabet import NucleotideAlphabet
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 from Bio.Blast import NCBIXML
 
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
@@ -15,7 +21,7 @@ Class for parsing BLAST results.
 
 class BlastResultsParser:
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False):
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False, output_dir=None):
         """
         Creates a new class for parsing BLAST results.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -23,6 +29,7 @@ class BlastResultsParser:
         :param pid_threshold: A percent identity threshold for BLAST results.
         :param plength_threshold: A percent length threshold for results.
         :param report_all: Whether or not to report all blast hits.
+        :param output_dir: The directory where output files are being written.
         """
         __metaclass__ = abc.ABCMeta
         self._file_blast_map = file_blast_map
@@ -30,6 +37,7 @@ class BlastResultsParser:
         self._pid_threshold = pid_threshold
         self._plength_threshold = plength_threshold
         self._report_all = report_all
+        self._output_dir = output_dir
 
     def parse_results(self):
         """
@@ -40,15 +48,29 @@ class BlastResultsParser:
 
         for file in self._file_blast_map:
             databases = self._file_blast_map[file]
+            out_file=self._get_out_file_name(file)
+            hit_seq_records = []
             for database_name, blast_out in databases.items():
                 logger.debug(str(blast_out))
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
-                self._handle_blast_hit(file, database_name, blast_out, results)
+                self._handle_blast_hit(file, database_name, blast_out, results, hit_seq_records)
+
+            logger.debug("Writting hits to "+out_file)
+            Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
 
         return self._create_data_frame(results)
 
-    def _handle_blast_hit(self, in_file, database_name, blast_file, results):
+    @abc.abstractmethod
+    def _get_out_file_name(self, in_file):
+        """
+        Gets hits output file name given input file.
+        :param in_file: The input file name.
+        :return: The output file name.
+        """
+        pass
+
+    def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
         blast_handle = open(blast_file)
         blast_records = NCBIXML.parse(blast_handle)
         for blast_record in blast_records:
@@ -64,10 +86,10 @@ class BlastResultsParser:
                 if len(hits_non_overlapping) >= 1:
                     if self._report_all:
                         for hit in hits_non_overlapping:
-                            self._append_results_to(hit, database_name, results)
+                            self._append_results_to(hit, database_name, results, hit_seq_records)
                     else:
                         hit = hits_non_overlapping[0]
-                        self._append_results_to(hit, database_name, results)
+                        self._append_results_to(hit, database_name, results, hit_seq_records)
         blast_handle.close()
 
     @abc.abstractmethod
@@ -79,5 +101,13 @@ class BlastResultsParser:
         pass
 
     @abc.abstractmethod
-    def _append_results_to(self, hit, database_name, results):
-        pass
+    def _append_results_to(self, hit, database_name, results, hit_seq_records):
+        seq_record = SeqRecord(Seq(hit.get_hsp_query()), id=hit.get_hit_id(),
+                         description='isolate: ' + hit.get_isolate_id() +
+                                     ', contig: ' + hit.get_contig() +
+                                     ', start: ' + str(hit.get_contig_start()) +
+                                     ', end: ' + str(hit.get_contig_end()) +
+                                     ', pid: ' + str("%0.2f" % hit.get_pid()) +
+                                     ', plength: ' + str("%0.2f" % hit.get_plength()))
+        logger.debug("seq_record="+repr(seq_record))
+        hit_seq_records.append(seq_record)
