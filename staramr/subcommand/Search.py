@@ -118,12 +118,15 @@ class Search(SubCommand):
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
 
+        hits_output_dir=None
         if args.output_dir:
             if path.exists(args.output_dir):
                 raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
                                             self._root_arg_parser)
             else:
+                hits_output_dir=path.join(args.output_dir, 'hits')
                 mkdir(args.output_dir)
+                mkdir(hits_output_dir)
 
         if not path.isdir(args.database):
             raise CommandParseException("Database directory [" + args.database + "] does not exist")
@@ -148,7 +151,7 @@ class Search(SubCommand):
         blast_handler = BlastHandler(resfinder_database, args.nprocs, pointfinder_database)
 
         amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                          args.include_negatives, output_dir=args.output_dir)
+                                                          args.include_negatives, output_dir=hits_output_dir)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold, args.report_all_blast)
 
         end_time = datetime.datetime.now()
