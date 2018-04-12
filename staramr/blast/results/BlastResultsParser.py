@@ -48,7 +48,6 @@ class BlastResultsParser:
 
         for file in self._file_blast_map:
             databases = self._file_blast_map[file]
-            out_file=self._get_out_file_name(file)
             hit_seq_records = []
             for database_name, blast_out in databases.items():
                 logger.debug(str(blast_out))
@@ -56,11 +55,15 @@ class BlastResultsParser:
                     raise Exception("Blast output [" + blast_out + "] does not exist")
                 self._handle_blast_hit(file, database_name, blast_out, results, hit_seq_records)
 
-            if hit_seq_records:
-                logger.debug("Writting hits to "+out_file)
-                Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
+            if self._output_dir:
+                out_file = self._get_out_file_name(file)
+                if hit_seq_records:
+                    logger.debug("Writting hits to "+out_file)
+                    Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
+                else:
+                    logger.debug("No hits found, skipping writing output file to " + out_file)
             else:
-                logger.debug("No hits found, skipping writing output file to " + out_file)
+                logger.debug("No output directory defined for blast hits, skipping writing file")
 
         return self._create_data_frame(results)
 

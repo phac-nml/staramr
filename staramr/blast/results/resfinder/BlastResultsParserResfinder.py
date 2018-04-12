@@ -45,4 +45,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
                         ])
 
     def _get_out_file_name(self, in_file):
-        return path.join(self._output_dir, 'resfinder_'+path.basename(in_file))
+        if self._output_dir:
+            return path.join(self._output_dir, 'resfinder_'+path.basename(in_file))
+        else:
+            raise Exception("output_dir is None")
