@@ -92,6 +92,20 @@ class AMRHitHSP:
         """
         return self.hsp.query_end
 
+    def get_resistance_gene_start(self):
+        """
+        Gets the start of the hsp to the resistance gene.
+        :return: The start of the resistance gene hsp.
+        """
+        return self.hsp.sbjct_start
+
+    def get_resistance_gene_end(self):
+        """
+        Gets the end of the hsp to the resistance gene.
+        :return: The end of the resistance gene hsp.
+        """
+        return self.hsp.sbjct_end
+
     def _get_hsp_frame(self, index):
         frame = self.hsp.frame[index]
         if frame not in [1, -1]:

@@ -108,9 +108,12 @@ class BlastResultsParser:
         seq_record = SeqRecord(Seq(hit.get_hsp_query()), id=hit.get_hit_id(),
                          description='isolate: ' + hit.get_isolate_id() +
                                      ', contig: ' + hit.get_contig() +
-                                     ', start: ' + str(hit.get_contig_start()) +
-                                     ', end: ' + str(hit.get_contig_end()) +
-                                     ', pid: ' + str("%0.2f" % hit.get_pid()) +
-                                     ', plength: ' + str("%0.2f" % hit.get_plength()))
+                                     ', contig_start: ' + str(hit.get_contig_start()) +
+                                     ', contig_end: ' + str(hit.get_contig_end()) +
+                                     ', resistance_gene_start: ' + str(hit.get_resistance_gene_start()) +
+                                     ', resistance_gene_end: ' + str(hit.get_resistance_gene_end()) +
+                                     ', hsp/length: ' + str(hit.get_hsp_alignment_length())+'/'+str(hit.get_alignment_length()) +
+                                     ', pid: ' + str("%0.2f%%" % hit.get_pid()) +
+                                     ', plength: ' + str("%0.2f%%" % hit.get_plength()))
         logger.debug("seq_record="+repr(seq_record))
         hit_seq_records.append(seq_record)
