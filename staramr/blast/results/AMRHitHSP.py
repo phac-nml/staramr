@@ -1,6 +1,8 @@
 import os
 import re
 
+import Bio.Seq
+
 """
 Class used to store/parse AMR BLAST hits/hsps.
 """
@@ -119,6 +121,18 @@ class AMRHitHSP:
         :return: The query sequence (as a string) from the HSP.
         """
         return self.hsp.query
+
+    def get_hsp_query_proper(self):
+        """
+        Gets the query sequence from the HSP (proper frame and no gaps).
+        :return: The query sequence (as a string) from the HSP.
+        """
+        seq = self.hsp.query.replace('-', '')
+
+        if self.get_database_frame() == -1 or self.get_query_frame() == -1:
+            return Bio.Seq.reverse_complement(seq)
+        else:
+            return seq
 
     def get_database_frame(self):
         """

@@ -105,7 +105,7 @@ class BlastResultsParser:
 
     @abc.abstractmethod
     def _append_results_to(self, hit, database_name, results, hit_seq_records):
-        seq_record = SeqRecord(Seq(hit.get_hsp_query()), id=hit.get_hit_id(),
+        seq_record = SeqRecord(Seq(hit.get_hsp_query_proper()), id=hit.get_hit_id(),
                          description='isolate: ' + hit.get_isolate_id() +
                                      ', contig: ' + hit.get_contig() +
                                      ', contig_start: ' + str(hit.get_contig_start()) +
