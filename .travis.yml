@@ -3,11 +3,15 @@ language: python
 python:
   - "3.6"
 
+env:
+  matrix:
+    - "DATABASE_COMMITS='--resfinder-commit dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2 --pointfinder-commit ba65c4d175decdc841a0bef9f9be1c1589c0070a'"
+
 install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq git ncbi-blast+
   - python setup.py install
   - mkdir -p staramr/databases/data/
-  - staramr db build --dir staramr/databases/data/update
+  - staramr db build --dir staramr/databases/data/update $DATABASE_COMMITS
 
 script: python setup.py test
