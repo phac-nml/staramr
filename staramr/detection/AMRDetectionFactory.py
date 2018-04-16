@@ -20,4 +20,5 @@ class AMRDetectionFactory:
         :param output_dir: The directory where output files are being written.
         :return: A new AMRDetection object.
         """
-        return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives, output_dir=output_dir)
+        return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,
+                            output_dir=output_dir)

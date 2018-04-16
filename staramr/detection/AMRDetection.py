@@ -43,7 +43,8 @@ class AMRDetection:
 
     def _create_pointfinder_dataframe(self, pointfinder_blast_map, pid_threshold, plength_threshold, report_all):
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, self._pointfinder_database,
-                                                           pid_threshold, plength_threshold, report_all, output_dir=self._output_dir)
+                                                           pid_threshold, plength_threshold, report_all,
+                                                           output_dir=self._output_dir)
         return pointfinder_parser.parse_results()
 
     def run_amr_detection(self, files, pid_threshold, plength_threshold, report_all=False):

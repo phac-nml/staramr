@@ -1,14 +1,11 @@
 import abc
 import logging
 import os
-from os import path
 
 import Bio.SeqIO
-
-from Bio.Alphabet import NucleotideAlphabet
+from Bio.Blast import NCBIXML
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from Bio.Blast import NCBIXML
 
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
 
@@ -21,7 +18,8 @@ Class for parsing BLAST results.
 
 class BlastResultsParser:
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False, output_dir=None):
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
+                 output_dir=None):
         """
         Creates a new class for parsing BLAST results.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -58,7 +56,7 @@ class BlastResultsParser:
             if self._output_dir:
                 out_file = self._get_out_file_name(file)
                 if hit_seq_records:
-                    logger.debug("Writting hits to "+out_file)
+                    logger.debug("Writting hits to " + out_file)
                     Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
                 else:
                     logger.debug("No hits found, skipping writing output file to " + out_file)
@@ -88,7 +86,8 @@ class BlastResultsParser:
                         partitions.append(hit)
             for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
                 # sort by pid and then by plength
-                hits_non_overlapping.sort(key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength()), reverse=True)
+                hits_non_overlapping.sort(key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength()),
+                                          reverse=True)
                 if len(hits_non_overlapping) >= 1:
                     if self._report_all:
                         for hit in hits_non_overlapping:
@@ -109,14 +108,15 @@ class BlastResultsParser:
     @abc.abstractmethod
     def _append_results_to(self, hit, database_name, results, hit_seq_records):
         seq_record = SeqRecord(Seq(hit.get_hsp_query_proper()), id=hit.get_hit_id(),
-                         description='isolate: ' + hit.get_isolate_id() +
-                                     ', contig: ' + hit.get_contig() +
-                                     ', contig_start: ' + str(hit.get_contig_start()) +
-                                     ', contig_end: ' + str(hit.get_contig_end()) +
-                                     ', resistance_gene_start: ' + str(hit.get_resistance_gene_start()) +
-                                     ', resistance_gene_end: ' + str(hit.get_resistance_gene_end()) +
-                                     ', hsp/length: ' + str(hit.get_hsp_alignment_length())+'/'+str(hit.get_alignment_length()) +
-                                     ', pid: ' + str("%0.2f%%" % hit.get_pid()) +
-                                     ', plength: ' + str("%0.2f%%" % hit.get_plength()))
-        logger.debug("seq_record="+repr(seq_record))
+                               description='isolate: ' + hit.get_isolate_id() +
+                                           ', contig: ' + hit.get_contig() +
+                                           ', contig_start: ' + str(hit.get_contig_start()) +
+                                           ', contig_end: ' + str(hit.get_contig_end()) +
+                                           ', resistance_gene_start: ' + str(hit.get_resistance_gene_start()) +
+                                           ', resistance_gene_end: ' + str(hit.get_resistance_gene_end()) +
+                                           ', hsp/length: ' + str(hit.get_hsp_alignment_length()) + '/' + str(
+                                   hit.get_alignment_length()) +
+                                           ', pid: ' + str("%0.2f%%" % hit.get_pid()) +
+                                           ', plength: ' + str("%0.2f%%" % hit.get_plength()))
+        logger.debug("seq_record=" + repr(seq_record))
         hit_seq_records.append(seq_record)

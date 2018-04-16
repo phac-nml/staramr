@@ -118,13 +118,13 @@ class Search(SubCommand):
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
 
-        hits_output_dir=None
+        hits_output_dir = None
         if args.output_dir:
             if path.exists(args.output_dir):
                 raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
                                             self._root_arg_parser)
             else:
-                hits_output_dir=path.join(args.output_dir, 'hits')
+                hits_output_dir = path.join(args.output_dir, 'hits')
                 mkdir(args.output_dir)
                 mkdir(hits_output_dir)
 

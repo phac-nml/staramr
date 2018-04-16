@@ -1,10 +1,9 @@
-import unittest
 import os
-from os import path
 import tempfile
+import unittest
+from os import path
 
 import pandas
-
 from Bio import SeqIO
 
 from staramr.blast.BlastHandler import BlastHandler
@@ -26,7 +25,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.blast_handler = BlastHandler(self.resfinder_database, 2, self.pointfinder_database)
 
         self.outdir = tempfile.TemporaryDirectory()
-        self.amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, output_dir=self.outdir.name)
+        self.amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database,
+                                          output_dir=self.outdir.name)
 
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
 
@@ -51,7 +51,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq, "records don't match")
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
+                         "records don't match")
 
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
@@ -80,7 +81,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq, "records don't match")
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
+                         "records don't match")
 
     def testResfinderBetaLactamDelStartFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")]
@@ -146,7 +148,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')
 
-        hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies-one-rev-complement.fsa')
+        hit_file = path.join(self.outdir.name,
+                             'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies-one-rev-complement.fsa')
         records = list(SeqIO.parse(hit_file, 'fasta'))
 
         self.assertEqual(len(records), 2, 'Wrong number of hit records')
@@ -160,7 +163,8 @@ class AMRDetectionIT(unittest.TestCase):
     def testPointfinderSalmonellaA67PSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
         files = [file]
@@ -190,7 +194,8 @@ class AMRDetectionIT(unittest.TestCase):
     def testPointfinderSalmonellaA67PFailPID(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         files = [path.join(self.test_data_dir, "gyrA-A67P.fsa")]
         amr_detection.run_amr_detection(files, 99.97, 99)
@@ -203,7 +208,8 @@ class AMRDetectionIT(unittest.TestCase):
     def testPointfinderSalmonellaA67TFail(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         files = [path.join(self.test_data_dir, "gyrA-A67T.fsa")]
         amr_detection.run_amr_detection(files, 99, 99)
@@ -216,7 +222,8 @@ class AMRDetectionIT(unittest.TestCase):
     def testPointfinderSalmonellaA67PReverseComplementSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "gyrA-A67P-rc.fsa")
         files = [file]
@@ -246,7 +253,8 @@ class AMRDetectionIT(unittest.TestCase):
     def testPointfinderSalmonella_16S_rrSD_C1065T_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "16S_rrsD-1T1065.fsa")
         files = [file]
@@ -271,12 +279,14 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
+                         "records don't match")
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
         files = [file]
@@ -292,8 +302,10 @@ class AMRDetectionIT(unittest.TestCase):
         hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
-        expected_records = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
-        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(), records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(),
+                         records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
@@ -324,12 +336,14 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records1 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'gyrA-A67P.fsa'), 'fasta'))
         self.assertEqual(expected_records1['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
         expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
-        self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
+                         "records don't match")
 
     def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
-        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
+                                     output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "16S-rc_gyrA-rc_beta-lactam.fsa")
         files = [file]
@@ -345,8 +359,10 @@ class AMRDetectionIT(unittest.TestCase):
         hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
-        expected_records = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
-        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(), records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(),
+                         records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
@@ -377,13 +393,15 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records1 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'gyrA-A67P.fsa'), 'fasta'))
         self.assertEqual(expected_records1['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
         expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
-        self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
+                         "records don't match")
 
     def testResfinderExcludeNonMatches(self):
-        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, False, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, False,
+                                     output_dir=self.outdir.name)
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
-        files = [file_beta_lactam,file_non_match]
+        files = [file_beta_lactam, file_non_match]
         amr_detection.run_amr_detection(files, 99, 90)
 
         summary_results = amr_detection.get_summary_results()
@@ -399,10 +417,11 @@ class AMRDetectionIT(unittest.TestCase):
                          "records don't match")
 
     def testResfinderIncludeNonMatches(self):
-        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True,
+                                     output_dir=self.outdir.name)
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
-        files = [file_beta_lactam,file_non_match]
+        files = [file_beta_lactam, file_non_match]
         amr_detection.run_amr_detection(files, 99, 90)
 
         summary_results = amr_detection.get_summary_results()
@@ -426,7 +445,8 @@ class AMRDetectionIT(unittest.TestCase):
                          "records don't match")
 
     def testNonMatches(self):
-        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True, output_dir=self.outdir.name)
+        amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, True,
+                                     output_dir=self.outdir.name)
         files = [path.join(self.test_data_dir, "non-match.fsa")]
         amr_detection.run_amr_detection(files, 99, 90)
 

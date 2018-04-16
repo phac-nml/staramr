@@ -17,7 +17,8 @@ logger = logging.getLogger('BlastResultsParserPointfinder')
 
 class BlastResultsParserPointfinder(BlastResultsParser):
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False, output_dir=None):
+    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
+                 output_dir=None):
         """
         Creates a new BlastResultsParserPointfinder.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -27,7 +28,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         :param report_all: Whether or not to report all blast hits.
         :param output_dir: The directory where output files are being written.
         """
-        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all, output_dir=output_dir)
+        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
+                         output_dir=output_dir)
 
     def _create_hit(self, file, database_name, blast_record, alignment, hsp):
         logger.debug("database_name=" + database_name)
@@ -92,6 +94,6 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _get_out_file_name(self, in_file):
         if self._output_dir:
-            return path.join(self._output_dir, 'pointfinder_'+path.basename(in_file))
+            return path.join(self._output_dir, 'pointfinder_' + path.basename(in_file))
         else:
             raise Exception("output_dir is None")
