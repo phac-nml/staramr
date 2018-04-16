@@ -29,16 +29,26 @@ class AMRDatabaseHandler:
         self._resfinder_url = "https://bitbucket.org/genomicepidemiology/resfinder_db.git"
         self._pointfinder_url = "https://bitbucket.org/genomicepidemiology/pointfinder_db.git"
 
-    def build(self):
+    def build(self, resfinder_commit=None, pointfinder_commit=None):
         """
         Downloads and builds a new ResFinder/PointFinder database.
+        :param resfinder_commit: The specific git commit for ResFinder.
+        :param pointfinder_commit: The specific git commit for PointFinder.
         :return: None
         """
         logger.info("Cloning resfinder db [" + self._resfinder_url + "] to [" + self._resfinder_dir + "]")
-        git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
+        resfinder_repo=git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
+
+        if resfinder_commit is not None:
+            logger.info("Checking out resfinder commit " + resfinder_commit)
+            resfinder_repo.git.checkout(resfinder_commit)
 
         logger.info("Cloning pointfinder db [" + self._pointfinder_url + "] to [" + self._pointfinder_dir + "]")
-        git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
+        pointfinder_repo=git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
+
+        if pointfinder_commit is not None:
+            logger.info("Checking out pointfinder commit " + pointfinder_commit)
+            pointfinder_repo.git.checkout(pointfinder_commit)
 
         self._blast_format()
 

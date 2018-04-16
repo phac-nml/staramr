@@ -27,12 +27,14 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         self._pointfinder_dir_git = path.join(self._pointfinder_dir, '.git')
         self._info_file = path.join(database_dir, 'info.ini')
 
-    def build(self):
+    def build(self, resfinder_commit=None, pointfinder_commit=None):
         """
         Downloads and builds a new ResFinder/PointFinder database.
+        :param resfinder_commit: The specific git commit for ResFinder.
+        :param pointfinder_commit: The specific git commit for PointFinder.
         :return: None
         """
-        super().build()
+        super().build(resfinder_commit=resfinder_commit, pointfinder_commit=pointfinder_commit)
 
         database_info = super().info()
 

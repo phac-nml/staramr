@@ -76,6 +76,10 @@ class Build(Database):
         arg_parser.add_argument('--dir', action='store', dest='destination', type=str,
                                 help='The directory to download the databases into [' + default_dir + '].',
                                 default=default_dir, required=False)
+        arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
+                                help='The specific git commit for the resfinder database [latest].',required=False)
+        arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
+                                help='The specific git commit for the pointfinder database [latest].',required=False)
         return arg_parser
 
     def run(self, args):
@@ -91,7 +95,7 @@ class Build(Database):
             database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
         else:
             database_handler = AMRDatabaseHandlerFactory(args.destination).get_database_handler()
-        database_handler.build()
+        database_handler.build(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
 
 
 """
