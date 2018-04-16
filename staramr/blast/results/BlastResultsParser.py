@@ -85,17 +85,23 @@ class BlastResultsParser:
                     if hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold:
                         partitions.append(hit)
             for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
-                # sort by pid and then by plength
-                hits_non_overlapping.sort(key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength()),
-                                          reverse=True)
-                if len(hits_non_overlapping) >= 1:
-                    if self._report_all:
-                        for hit in hits_non_overlapping:
-                            self._append_results_to(hit, database_name, results, hit_seq_records)
-                    else:
-                        hit = hits_non_overlapping[0]
-                        self._append_results_to(hit, database_name, results, hit_seq_records)
+                for hit in self._select_hits_to_include(hits_non_overlapping):
+                    self._append_results_to(hit, database_name, results, hit_seq_records)
         blast_handle.close()
+
+    def _select_hits_to_include(self, hits):
+        hits_to_include = []
+
+        # sort by pid and then by plength
+        sorted_hits = sorted(hits, key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength()),
+                                  reverse=True)
+        if len(sorted_hits) >= 1:
+            if self._report_all:
+                hits_to_include = sorted_hits
+            else:
+                hits_to_include.append(sorted_hits[0])
+
+        return hits_to_include
 
     @abc.abstractmethod
     def _create_data_frame(self, results):
