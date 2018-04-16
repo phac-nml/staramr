@@ -1,7 +1,10 @@
 import unittest
 from os import path
+import tempfile
 
 import pandas
+
+from Bio import SeqIO
 
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
@@ -21,12 +24,17 @@ class AMRDetectionIT(unittest.TestCase):
         self.pointfinder_database = None
         self.blast_handler = BlastHandler(self.resfinder_database, 2, self.pointfinder_database)
 
-        self.amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database)
+        self.outdir = tempfile.TemporaryDirectory()
+        self.amr_detection = AMRDetection(self.resfinder_database, self.blast_handler, self.pointfinder_database, output_dir=self.outdir.name)
 
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
 
+    def tearDown(self):
+        self.outdir.cleanup()
+
     def testResfinderBetaLactam2MutationsSuccess(self):
-        files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
+        files = [file]
         self.amr_detection.run_amr_detection(files, 99, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
@@ -35,6 +43,14 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
+
+        hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq, "records don't match")
 
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
