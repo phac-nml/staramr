@@ -13,8 +13,6 @@ setup(name='staramr',
       install_requires=[
           'biopython>=1.70',
           'pandas>=0.22.0',
-          'six>=1.11.0',
-          'tox>=2.9.1',
           'GitPython>=2.1.3',
           'xlsxwriter>=1.0.2',
       ],
