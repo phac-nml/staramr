@@ -111,7 +111,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
-        expected_records = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
@@ -133,7 +134,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
-        expected_records = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
