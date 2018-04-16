@@ -92,7 +92,7 @@ class BlastResultsParser:
     def _select_hits_to_include(self, hits):
         hits_to_include = []
 
-        sorted_hits = sorted(hits, key=lambda x: (x.get_pid(), x.get_plength(), x.get_alignment_length()),
+        sorted_hits = sorted(hits, key=lambda x: (x.get_pid(), x.get_plength(), x.get_alignment_length(), x.get_hit_id()),
                                   reverse=True)
         if len(sorted_hits) >= 1:
             if self._report_all:
