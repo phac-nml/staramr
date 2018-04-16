@@ -124,10 +124,10 @@ class AMRHitHSP:
 
     def get_hsp_query_proper(self):
         """
-        Gets the query sequence from the HSP (proper frame and no gaps).
+        Gets the query sequence from the HSP (proper frame/strand).
         :return: The query sequence (as a string) from the HSP.
         """
-        seq = self.hsp.query.replace('-', '')
+        seq = self.hsp.query
 
         if self.get_database_frame() == -1 or self.get_query_frame() == -1:
             return Bio.Seq.reverse_complement(seq)
