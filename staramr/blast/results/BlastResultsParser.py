@@ -1,7 +1,6 @@
 import abc
 import logging
 import os
-import math
 
 import Bio.SeqIO
 from Bio.Blast import NCBIXML
@@ -94,20 +93,23 @@ class BlastResultsParser:
         hits_to_include = []
 
         if len(hits) >= 1:
-            sorted_hits_pid_first = sorted(hits, key=lambda x: (x.get_pid(), x.get_plength(), x.get_alignment_length(), x.get_hit_id()), reverse=True)
-            sorted_hits_length_first = sorted(hits, key=lambda x: (x.get_alignment_length(), x.get_pid(), x.get_plength(), x.get_hit_id()), reverse=True)
+            sorted_hits_pid_first = sorted(hits, key=lambda x: (
+                x.get_pid(), x.get_plength(), x.get_alignment_length(), x.get_hit_id()), reverse=True)
+            sorted_hits_length_first = sorted(hits, key=lambda x: (
+                x.get_alignment_length(), x.get_pid(), x.get_plength(), x.get_hit_id()), reverse=True)
 
             if self._report_all:
                 hits_to_include = sorted_hits_pid_first
             else:
-                first_hit_pid=sorted_hits_pid_first[0]
-                first_hit_length=sorted_hits_length_first[0]
+                first_hit_pid = sorted_hits_pid_first[0]
+                first_hit_length = sorted_hits_length_first[0]
 
                 if first_hit_pid == first_hit_length:
                     hits_to_include.append(first_hit_length)
                 # if the top length hit is significantly longer, and the pid is not too much below the top pid hit (nor percent overlap too much below top pid hit), use the longer hit
-                elif (first_hit_length.get_alignment_length() - first_hit_pid.get_alignment_length()) > 10 and (first_hit_length.get_pid() - first_hit_pid.get_pid()) > -1 and \
-                    (first_hit_length.get_plength() - first_hit_pid.get_plength()) > -1:
+                elif (first_hit_length.get_alignment_length() - first_hit_pid.get_alignment_length()) > 10 and (
+                        first_hit_length.get_pid() - first_hit_pid.get_pid()) > -1 and (
+                        first_hit_length.get_plength() - first_hit_pid.get_plength()) > -1:
                     hits_to_include.append(first_hit_length)
                 # otherwise, prefer the top pid hit, even if it's shorter than the longest hit
                 else:
