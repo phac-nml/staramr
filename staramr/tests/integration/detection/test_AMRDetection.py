@@ -93,6 +93,28 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.assertEqual(len(os.listdir(self.outdir.name)), 0, 'File found where none should exist')
 
+    def testResfinderBetaLactamDelMiddleSuccess(self):
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-middle.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 91)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.33, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong percent overlap')
+
+        hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
+                         "records don't match")
+
     def testResfinderBetaLactamTwoCopies(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies.fsa")
         files = [file]
