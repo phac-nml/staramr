@@ -33,7 +33,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 **out/pointfinder.tsv**:
 
 | Isolate ID | Gene        | Type  | Position | Mutation            | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    |
-|------------|-------------|-------|----------|---------------------|-----------|----------|-------------------------|-------------|
+|------------|-------------|-------|----------|---------------------|-----------|----------|-------------------------|-------------|--------|--------|
 | SRR1952908 | gyrA (S83Y) | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00008 | 20165  | 22801  |
 | SRR1952926 | gyrA (S83Y) | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00011 | 157768 | 160404 |
 
