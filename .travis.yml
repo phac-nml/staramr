@@ -16,6 +16,7 @@ install:
   - conda update -q conda
   - conda info -a
   - conda create -q -y -n test-environment python=$TRAVIS_PYTHON_VERSION blast=2.7.1 git
+  - source activate test-environment
   - python setup.py install
   - mkdir -p staramr/databases/data/
   - staramr db build --dir staramr/databases/data/update $DATABASE_COMMITS
