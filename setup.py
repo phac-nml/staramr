@@ -5,7 +5,7 @@ from setuptools import find_packages
 from staramr import __version__
 
 classifiers = """
-Development Status :: 3 - Alpha
+Development Status :: 4 - Beta
 Environment :: Console
 License :: OSI Approved :: Apache v2.0
 Intended Audience :: Science/Research
