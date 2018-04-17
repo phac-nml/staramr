@@ -82,7 +82,7 @@ class BlastResultsParser:
             for alignment in blast_record.alignments:
                 for hsp in alignment.hsps:
                     hit = self._create_hit(in_file, database_name, blast_record, alignment, hsp)
-                    if hit.get_pid() > self._pid_threshold and hit.get_plength() > self._plength_threshold:
+                    if hit.get_pid() >= self._pid_threshold and hit.get_plength() >= self._plength_threshold:
                         partitions.append(hit)
             for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
                 for hit in self._select_hits_to_include(hits_non_overlapping):
