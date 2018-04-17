@@ -15,7 +15,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 | Isolate ID | Genotype                                                  |
 |------------|-----------------------------------------------------------|
 | SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) |
-| SRR1952908 | blaTEM-57, gyrA (S83Y), tet(A)                            |
+| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            |
 
 **out/resfinder.tsv**:
 
