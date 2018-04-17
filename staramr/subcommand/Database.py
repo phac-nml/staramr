@@ -77,9 +77,9 @@ class Build(Database):
                                 help='The directory to download the databases into [' + default_dir + '].',
                                 default=default_dir, required=False)
         arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
-                                help='The specific git commit for the resfinder database [latest].',required=False)
+                                help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
-                                help='The specific git commit for the pointfinder database [latest].',required=False)
+                                help='The specific git commit for the pointfinder database [latest].', required=False)
         return arg_parser
 
     def run(self, args):
@@ -129,9 +129,9 @@ class Update(Database):
         arg_parser.add_argument('-d', '--update-default', action='store_true', dest='update_default',
                                 help='Updates default database directory (' + default_dir + ').', required=False)
         arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
-                                help='The specific git commit for the resfinder database [latest].',required=False)
+                                help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
-                                help='The specific git commit for the pointfinder database [latest].',required=False)
+                                help='The specific git commit for the pointfinder database [latest].', required=False)
         arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
 
         return arg_parser
@@ -145,11 +145,13 @@ class Update(Database):
             else:
                 database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler(
                     force_use_git=True)
-                database_handler.update(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
+                database_handler.update(resfinder_commit=args.resfinder_commit,
+                                        pointfinder_commit=args.pointfinder_commit)
         else:
             for directory in args.directories:
                 database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
-                database_handler.update(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
+                database_handler.update(resfinder_commit=args.resfinder_commit,
+                                        pointfinder_commit=args.pointfinder_commit)
 
 
 """

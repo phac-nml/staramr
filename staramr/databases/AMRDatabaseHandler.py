@@ -37,14 +37,14 @@ class AMRDatabaseHandler:
         :return: None
         """
         logger.info("Cloning resfinder db [" + self._resfinder_url + "] to [" + self._resfinder_dir + "]")
-        resfinder_repo=git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
+        resfinder_repo = git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
 
         if resfinder_commit is not None:
             logger.info("Checking out resfinder commit " + resfinder_commit)
             resfinder_repo.git.checkout(resfinder_commit)
 
         logger.info("Cloning pointfinder db [" + self._pointfinder_url + "] to [" + self._pointfinder_dir + "]")
-        pointfinder_repo=git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
+        pointfinder_repo = git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
 
         if pointfinder_commit is not None:
             logger.info("Checking out pointfinder commit " + pointfinder_commit)
