@@ -80,13 +80,13 @@ source activate staramr
 Now, you may install using `pip`:
 
 ```
-pip install git+https://github.com/phac-nml/staramr.git
+pip install staramr
 ```
 
-You can now run `staramr`.  Before using the software please make sure to build a database:
+You can now run `staramr`:
 
 ```
-staramr db build
+staramr db info
 ```
 
 ## Dependencies
