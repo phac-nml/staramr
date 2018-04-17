@@ -7,17 +7,34 @@
 For example:
 
 ```
-staramr --output out --pointfinder-organism salmonella *.fasta
+staramr search -o out --pointfinder-organism salmonella *.fasta
 ```
 
 **out/summary.tsv**:
 
-| Isolate ID | Genotype                           |
-|------------|------------------------------------|
-| file1      | gyrA (D87N)                        |
-| file2      | fosA7                              |
-| file3      | sul2, tet(D), aph(6)-Id, blaTEM-1B |
-| file4      | fosA7                              |
+| Isolate ID | Genotype                                                  |
+|------------|-----------------------------------------------------------|
+| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) |
+| SRR1952908 | blaTEM-57, gyrA (S83Y), tet(A)                            |
+
+**out/resfinder.tsv**:
+
+| Isolate ID | Gene      | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
+|------------|-----------|-----------|----------|-------------------------|-------------|-------|------|-----------|
+| SRR1952908 | sul3      | 100.00    | 100.00   | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  |
+| SRR1952908 | tet(A)    | 99.92     | 97.80    | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  |
+| SRR1952908 | cmlA1     | 99.92     | 100.00   | 1260/1260               | contig00030 | 5448  | 6707 | M64556    |
+| SRR1952908 | aadA1     | 100.00    | 100.00   | 792/792                 | contig00030 | 4564  | 5355 | JQ414041  |
+| SRR1952908 | aadA2     | 99.75     | 100.00   | 792/792                 | contig00030 | 6969  | 7760 | JQ364967  |
+| SRR1952908 | blaTEM-57 | 99.88     | 100.00   | 861/861                 | contig00032 | 5387  | 6247 | FJ405211  |
+| SRR1952926 | tet(A)    | 99.92     | 97.80    | 1247/1275               | contig00027 | 1405  | 2651 | AF534183  |
+| SRR1952926 | blaTEM-57 | 99.88     | 100.00   | 861/861                 | contig00027 | 5316  | 6176 | FJ405211  |
+
+**out/pointfinder.tsv**:
+
+| Isolate ID | Gene        | Type  | Position | Mutation            | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    |
+| SRR1952908 | gyrA (S83Y) | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00008 | 20165  | 22801  |
+| SRR1952926 | gyrA (S83Y) | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00011 | 157768 | 160404 |
 
 # Quick Usage
 
@@ -224,6 +241,8 @@ Example:
 
 This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported).
 
+`staramr` only works on assembled genomes and not directly on reads.  A quick genome assembler you could use is [Shovill][shovill].  Or, you may also wish to try out the software [ariba][] which will work on sequence reads.
+
 # Acknowledgements
 
 Some ideas for the software were derived from the [ResFinder][resfinder-git] and [PointFinder][pointfinder-git] command-line software, as well as from [ABRicate][abricate].
@@ -260,3 +279,5 @@ specific language governing permissions and limitations under the License.
 [resfinder-git]: https://bitbucket.org/genomicepidemiology/resfinder
 [pointfinder-git]: https://bitbucket.org/genomicepidemiology/pointfinder-3.0
 [abricate]: https://github.com/tseemann/abricate
+[shovill]: https://github.com/tseemann/shovill
+[ariba]: https://github.com/sanger-pathogens/ariba
