@@ -106,10 +106,12 @@ Searches input FASTA files for AMR genes.
 
 ```
 usage: staramr search [-h] [-n NPROCS] [--pid-threshold PID_THRESHOLD]
-                         [--percent-length-overlap PLENGTH_THRESHOLD]
-                         [--pointfinder-organism POINTFINDER_ORGANISM]
-                         [--include-negatives] [-d DATABASE] [-o OUTPUT_DIR]
-                         ...
+                      [--percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER]
+                      [--percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER]
+                      [--pointfinder-organism POINTFINDER_ORGANISM]
+                      [--include-negatives] [--report-all-blast] [-d DATABASE]
+                      [-o OUTPUT_DIR] [--version]
+                      ...
 
 positional arguments:
   files
@@ -120,15 +122,19 @@ optional arguments:
                         The number of processing cores to use [16].
   --pid-threshold PID_THRESHOLD
                         The percent identity threshold [98.0].
-  --percent-length-overlap PLENGTH_THRESHOLD
-                        The percent length overlap [60.0].
+  --percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER
+                        The percent length overlap for resfinder results [60.0].
+  --percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER
+                        The percent length overlap for pointfinder results [95.0].
   --pointfinder-organism POINTFINDER_ORGANISM
                         The organism to use for pointfinder {salmonella} [None].
   --include-negatives   Inclue negative results (those sensitive to antimicrobials) [False].
+  --report-all-blast    Report all blast hits (vs. only top blast hits) [False].
   -d DATABASE, --database DATABASE
-                        The directory containing the resfinder/pointfinder databases [staramr/databases].
+                        The directory containing the resfinder/pointfinder databases [staramr/databases/data].
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
                         The output directory for results.  If unset prints all results to stdout.
+  --version             Prints version information.
 
 Example:
         staramr search --output-dir out *.fasta
@@ -146,10 +152,16 @@ Downloads and builds the ResFinder and PointFinder databases.
 
 ```
 usage: staramr db build [-h] [--dir DESTINATION]
+                        [--resfinder-commit RESFINDER_COMMIT]
+                        [--pointfinder-commit POINTFINDER_COMMIT]
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --dir DESTINATION  The directory to download the databases into [staramr/databases].
+  -h, --help            show this help message and exit
+  --dir DESTINATION     The directory to download the databases into [staramr/databases/data].
+  --resfinder-commit RESFINDER_COMMIT
+                        The specific git commit for the resfinder database [latest].
+  --pointfinder-commit POINTFINDER_COMMIT
+                        The specific git commit for the pointfinder database [latest].
 
 Example:
         staramr db build
@@ -164,14 +176,20 @@ Example:
 Updates an existing download of the ResFinder and PointFinder databases.
 
 ```
-usage: staramr db update [-h] [-d] ...
+usage: staramr db update [-h] [-d] [--resfinder-commit RESFINDER_COMMIT]
+                         [--pointfinder-commit POINTFINDER_COMMIT]
+                         ...
 
 positional arguments:
   directories
 
 optional arguments:
   -h, --help            show this help message and exit
-  -d, --update-default  Updates default database directory (staramr/databases).
+  -d, --update-default  Updates default database directory (staramr/databases/data).
+  --resfinder-commit RESFINDER_COMMIT
+                        The specific git commit for the resfinder database [latest].
+  --pointfinder-commit POINTFINDER_COMMIT
+                        The specific git commit for the pointfinder database [latest].
 
 Example:
         staramr db update databases/
@@ -204,7 +222,7 @@ Example:
 
 # Caveats
 
-This software is still a work-in-progress.  In particular, not all point mutations stored in the PointFinder database are supported.
+This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported).
 
 # Acknowledgements
 
