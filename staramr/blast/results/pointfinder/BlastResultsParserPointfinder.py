@@ -89,7 +89,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             for db_mutation in database_resistance_mutations:
                 logger.debug("multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
                     database_resistance_mutations) + ", file=" + hit.get_file() + "]")
-                super()._append_results_to(hit, database_name, results, seq_records)
+                self._append_seqrecords_to(hit, seq_records)
                 self._do_append(hit, db_mutation, results)
 
     def _get_out_file_name(self, in_file):

@@ -35,7 +35,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return df.set_index('Isolate ID')
 
     def _append_results_to(self, hit, database_name, results, seq_records):
-        super()._append_results_to(hit, database_name, results, seq_records)
+        self._append_seqrecords_to(hit, seq_records)
         results.append([hit.get_isolate_id(),
                         hit.get_gene(),
                         hit.get_pid(),
