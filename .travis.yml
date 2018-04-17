@@ -13,7 +13,7 @@ install:
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
-  - conda update -q conda
+  - conda update -q -y conda
   - conda info -a
   - conda create -c bioconda -c conda-forge -q -y -n test-environment python=$TRAVIS_PYTHON_VERSION blast=2.7.1 git
   - source activate test-environment
