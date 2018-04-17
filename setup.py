@@ -7,7 +7,7 @@ from staramr import __version__
 classifiers = """
 Development Status :: 4 - Beta
 Environment :: Console
-License :: OSI Approved :: Apache v2.0
+License :: OSI Approved :: Apache Software License
 Intended Audience :: Science/Research
 Topic :: Scientific/Engineering
 Topic :: Scientific/Engineering :: Bio-Informatics
