@@ -58,10 +58,14 @@ class Search(SubCommand):
                                 default=cpu_count, required=False)
         arg_parser.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
                                 help='The percent identity threshold [98.0].', default=98.0, required=False)
-        arg_parser.add_argument('--percent-length-overlap-resfinder', action='store', dest='plength_threshold_resfinder', type=float,
-                                help='The percent length overlap for resfinder results [60.0].', default=60.0, required=False)
-        arg_parser.add_argument('--percent-length-overlap-pointfinder', action='store', dest='plength_threshold_pointfinder', type=float,
-                                help='The percent length overlap for pointfinder results [95.0].', default=95.0, required=False)
+        arg_parser.add_argument('--percent-length-overlap-resfinder', action='store',
+                                dest='plength_threshold_resfinder', type=float,
+                                help='The percent length overlap for resfinder results [60.0].', default=60.0,
+                                required=False)
+        arg_parser.add_argument('--percent-length-overlap-pointfinder', action='store',
+                                dest='plength_threshold_pointfinder', type=float,
+                                help='The percent length overlap for pointfinder results [95.0].', default=95.0,
+                                required=False)
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                                 help='The organism to use for pointfinder {' + ', '.join(
                                     PointfinderBlastDatabase.get_available_organisms()) + '} [None].', default=None,
@@ -155,7 +159,8 @@ class Search(SubCommand):
 
         amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                           args.include_negatives, output_dir=hits_output_dir)
-        amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder, args.plength_threshold_pointfinder, args.report_all_blast)
+        amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
+                                        args.plength_threshold_pointfinder, args.report_all_blast)
 
         end_time = datetime.datetime.now()
         time_difference = end_time - start_time

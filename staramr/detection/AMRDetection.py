@@ -47,7 +47,8 @@ class AMRDetection:
                                                            output_dir=self._output_dir)
         return pointfinder_parser.parse_results()
 
-    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder, report_all=False):
+    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
+                          report_all=False):
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
