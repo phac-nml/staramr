@@ -241,7 +241,7 @@ Example:
 
 This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported).
 
-`staramr` only works on assembled genomes and not directly on reads.  A quick genome assembler you could use is [Shovill][shovill].  Or, you may also wish to try out the software [ariba][] which will work on sequence reads.
+`staramr` only works on assembled genomes and not directly on reads.  A quick genome assembler you could use is [Shovill][shovill].  Or, you may also wish to try out the software [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.
 
 # Acknowledgements
 
@@ -281,3 +281,4 @@ specific language governing permissions and limitations under the License.
 [abricate]: https://github.com/tseemann/abricate
 [shovill]: https://github.com/tseemann/shovill
 [ariba]: https://github.com/sanger-pathogens/ariba
+[rgi]: https://github.com/arpcard/rgi
