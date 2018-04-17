@@ -77,7 +77,7 @@ class AMRHitHSP:
         Gets the particular contig id this HSP came from in the input file.
         :return: The contig id.
         """
-        re_search = re.search("^(\S+)", self._blast_record.query)
+        re_search = re.search(r'^(\S+)', self._blast_record.query)
         return re_search.group(1)
 
     def get_contig_start(self):

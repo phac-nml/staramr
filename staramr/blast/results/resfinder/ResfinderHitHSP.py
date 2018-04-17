@@ -22,7 +22,7 @@ class ResfinderHitHSP(AMRHitHSP):
         """
         super().__init__(file, blast_record, hit, hsp)
 
-        re_search = re.search("([^_]+)_([^_]+)_([^_\s]+)$", hit.hit_id)
+        re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', hit.hit_id)
         if not re_search:
             raise Exception("Could not split up seq name for [" + hit.hit_id + "]")
         self._gene = re_search.group(1)
