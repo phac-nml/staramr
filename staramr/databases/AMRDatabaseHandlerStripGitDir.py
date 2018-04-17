@@ -59,9 +59,11 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
     def _read_database_info_from_file(self, file):
         return pandas.read_csv(file, sep="=", index_col=False, header=None)
 
-    def update(self):
+    def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
-        Updates an existing ResFinder/PointFinder database to the latest revisions.
+        Updates an existing ResFinder/PointFinder database to the latest revisions (or passed specific revisions).
+        :param resfinder_commit: The specific git commit for ResFinder.
+        :param pointfinder_commit: The specific git commit for PointFinder.
         :return: None
         """
         raise Exception("Cannot update when .git directory has been removed")

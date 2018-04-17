@@ -52,14 +52,16 @@ class AMRDatabaseHandler:
 
         self._blast_format()
 
-    def update(self):
+    def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
-        Updates an existing ResFinder/PointFinder database to the latest revisions.
+        Updates an existing ResFinder/PointFinder database to the latest revisions (or passed specific revisions).
+        :param resfinder_commit: The specific git commit for ResFinder.
+        :param pointfinder_commit: The specific git commit for PointFinder.
         :return: None
         """
 
         if not path.exists(self._database_dir):
-            self.build()
+            self.build(resfinder_commit=resfinder_commit, pointfinder_commit=pointfinder_commit)
         else:
             resfinder_repo = git.Repo(self._resfinder_dir)
             pointfinder_repo = git.Repo(self._pointfinder_dir)
@@ -68,9 +70,21 @@ class AMRDatabaseHandler:
             resfinder_repo.heads.master.checkout()
             resfinder_repo.remotes.origin.pull()
 
+            if resfinder_commit is not None:
+                logger.info("Checking out resfinder commit " + resfinder_commit)
+                resfinder_repo.git.checkout(resfinder_commit)
+
+            resfinder_repo.git.reset('--hard')
+
             logger.info("Updating " + self._pointfinder_dir)
             pointfinder_repo.heads.master.checkout()
             pointfinder_repo.remotes.origin.pull()
+
+            if pointfinder_commit is not None:
+                logger.info("Checking out pointfinder commit " + pointfinder_commit)
+                pointfinder_repo.git.checkout(pointfinder_commit)
+
+            resfinder_repo.git.reset('--hard')
 
             self._blast_format()
 
