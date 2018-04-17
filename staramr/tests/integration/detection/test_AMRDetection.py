@@ -2,6 +2,7 @@ import os
 import tempfile
 import unittest
 from os import path
+import logging
 
 import pandas
 from Bio import SeqIO
@@ -12,6 +13,7 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.detection.AMRDetection import AMRDetection
 
+logger = logging.getLogger('AMRDetectionIT')
 
 class AMRDetectionIT(unittest.TestCase):
 
@@ -113,6 +115,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(
             SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
+        logger.debug('expected_seq='+expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug('actual_seq='+records['blaIMP-42_1_AB753456'].seq)
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
@@ -136,6 +140,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(
             SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
+        logger.debug('expected_seq='+expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug('actual_seq='+records['blaIMP-42_1_AB753456'].seq)
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
