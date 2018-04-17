@@ -40,14 +40,6 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 # Quick Usage
 
-## Build Database
-
-To construct the ResFinder and PointFinder database please run:
-
-```bash
-staramr db build
-```
-
 ## Search contigs
 
 To search a list of contigs (in **fasta** format) for AMR genes using ResFinder please run:
@@ -65,6 +57,25 @@ staramr search --pointfinder-organism salmonella -o out *.fasta
 ```
 
 Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella* is supported).
+
+
+## Update Database
+
+If you wish to update the the latest ResFinder and PointFinder databases, you may run:
+
+```bash
+staramr db update --update-default
+```
+
+If you wish to switch to specific git commits of the ResFinder and PointFinder databases you may also pass `--resfinder-commit [COMMIT]` and `--pointfinder-commit [COMMIT]`.
+
+## Database Info
+
+To print information about the databases, please run:
+
+```
+staramr db info
+```
 
 # Installation
 
