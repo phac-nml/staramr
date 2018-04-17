@@ -47,12 +47,13 @@ class AMRDetection:
                                                            output_dir=self._output_dir)
         return pointfinder_parser.parse_results()
 
-    def run_amr_detection(self, files, pid_threshold, plength_threshold, report_all=False):
+    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder, report_all=False):
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
         :param pid_threshold: The percent identity threshold for BLAST results.
-        :param plength_threshold: The percent length identity for BLAST results.
+        :param plength_threshold_resfinder: The percent length overlap for BLAST results (resfinder).
+        :param plength_threshold_pointfinder: The percent length overlap for BLAST results (pointfinder).
         :param report_all: Whether or not to report all blast hits.
         :return: None
         """
@@ -60,12 +61,12 @@ class AMRDetection:
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
         self._resfinder_dataframe = self._create_resfinder_dataframe(resfinder_blast_map, pid_threshold,
-                                                                     plength_threshold, report_all)
+                                                                     plength_threshold_resfinder, report_all)
 
         if self._has_pointfinder:
             pointfinder_blast_map = self._amr_detection_handler.get_pointfinder_outputs()
             self._pointfinder_dataframe = self._create_pointfinder_dataframe(pointfinder_blast_map, pid_threshold,
-                                                                             plength_threshold, report_all)
+                                                                             plength_threshold_pointfinder, report_all)
         else:
             self._pointfinder_dataframe = None
 
