@@ -93,7 +93,6 @@ staramr db build
 * Python 3
 * BLAST+
 * Git
-* Python packages in [requirements.txt][]
 
 # Tests
 
@@ -115,6 +114,8 @@ There are 5 different output files produced by `staramr`:
 3. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
 4. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
 5. `results.xlsx`: An Excel spreadsheet containing the previous 4 files as separate worksheets.
+
+In addition, the directory `hits/` stores fasta files of the specific blast hits. 
 
 # Usage
 
