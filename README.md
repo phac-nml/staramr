@@ -260,7 +260,7 @@ Example:
 
 This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported).
 
-`staramr` only works on assembled genomes and not directly on reads.  A quick genome assembler you could use is [Shovill][shovill].  Or, you may also wish to try out the software [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.
+`staramr` only works on assembled genomes and not directly on reads.  A quick genome assembler you could use is [Shovill][shovill].  Or, you may also wish to try out the [ResFinder webservice][resfinder-web],  or the command-line tools [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.  You may also wish to check out the [CARD webservice][card-web]. 
 
 # Acknowledgements
 
@@ -304,3 +304,4 @@ specific language governing permissions and limitations under the License.
 [rgi]: https://github.com/arpcard/rgi
 [pypi-staramr]: https://pypi.org/project/staramr/
 [bioconda]: https://bioconda.github.io/
+[card-web]: https://card.mcmaster.ca/
