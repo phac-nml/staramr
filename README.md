@@ -3,7 +3,7 @@
 
 # `staramr`
 
-`staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases and complies a summary report of detected antimicrobial resistance genes.
+`staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases (used by the [ResFinder Webservice][resfinder-web]) and complies a summary report of detected antimicrobial resistance genes.
 
 For example:
 
@@ -79,43 +79,48 @@ staramr db info
 
 # Installation
 
-`staramr` requires the dependencies listed below.  The easiest way to install these is through a [Bioconda][] environment (a full conda package will be made when code is stable).  Assuming you have `conda` installed, you may run:
+## Bioconda
+
+The easiest way to install `staramr` is through [Bioconda][bioconda].
 
 ```bash
-conda create --name staramr --file https://raw.githubusercontent.com/phac-nml/staramr/development/conda-packages.txt
-
-# Activate environment
-source activate staramr
+conda install -c bioconda staramr
 ```
 
-Now, you may install using `pip`:
+This will install the `staramr` Python package as well as all necessary dependencies.  You can now run:
+
+```bash
+staramr --help
+```
+
+If you wish to use `staramr` in an isolated environment (in case dependencies conflict) you may alternatively install with:
+
+```bash
+conda create -c bioconda --name staramr staramr
+```
+
+To run `staramr` in this case, you must first activate the environment.  That is:
+
+```bash
+source activate staramr
+staramr --help
+```
+
+## PyPi/Pip
+
+You can also install `staramr` from [PyPi][pypi-staramr] using `pip`:
 
 ```
 pip install staramr
 ```
 
-You can now run `staramr`:
-
-```
-staramr db info
-```
+However, you will have to install the external dependencies (listed below) separately.
 
 ## Dependencies
 
 * Python 3
 * BLAST+
 * Git
-
-# Tests
-
-To run the test suite, please run:
-
-```
-git clone https://github.com/phac-nml/staramr.git && cd staramr
-python setup.py test
-```
-
-You will need to have previously installed `staramr` and built a database.
 
 # Output
 
@@ -286,6 +291,7 @@ specific language governing permissions and limitations under the License.
 
 [resfinder-db]: https://bitbucket.org/genomicepidemiology/resfinder_db
 [pointfinder-db]: https://bitbucket.org/genomicepidemiology/pointfinder_db
+[resfinder-web]: https://cge.cbs.dtu.dk/services/ResFinder/
 [resfinder-cite]: https://dx.doi.org/10.1093/jac/dks261
 [pointfinder-cite]: https://doi.org/10.1093/jac/dkx217
 [Bioconda]: https://bioconda.github.io/
@@ -296,3 +302,5 @@ specific language governing permissions and limitations under the License.
 [shovill]: https://github.com/tseemann/shovill
 [ariba]: https://github.com/sanger-pathogens/ariba
 [rgi]: https://github.com/arpcard/rgi
+[pypi-staramr]: https://pypi.org/project/staramr/
+[bioconda]: https://bioconda.github.io/
