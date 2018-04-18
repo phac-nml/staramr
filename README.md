@@ -3,7 +3,7 @@
 
 # `staramr`
 
-`staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases (used by the [ResFinder Webservice][resfinder-web]) and complies a summary report of detected antimicrobial resistance genes.
+`staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases (used by the [ResFinder webservice][resfinder-web]) and compiles a summary report of detected antimicrobial resistance genes.
 
 For example:
 
