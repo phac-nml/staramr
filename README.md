@@ -59,23 +59,23 @@ staramr search --pointfinder-organism salmonella -o out *.fasta
 Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella* is supported).
 
 
+## Database Info
+
+To print information about the installed databases, please run:
+
+```
+staramr db info
+```
+
 ## Update Database
 
-If you wish to update the the latest ResFinder and PointFinder databases, you may run:
+If you wish to update to the latest ResFinder and PointFinder databases, you may run:
 
 ```bash
 staramr db update --update-default
 ```
 
 If you wish to switch to specific git commits of the ResFinder and PointFinder databases you may also pass `--resfinder-commit [COMMIT]` and `--pointfinder-commit [COMMIT]`.
-
-## Database Info
-
-To print information about the databases, please run:
-
-```
-staramr db info
-```
 
 # Installation
 
@@ -87,7 +87,7 @@ The easiest way to install `staramr` is through [Bioconda][bioconda].
 conda install -c bioconda staramr
 ```
 
-This will install the `staramr` Python package as well as all necessary dependencies.  You can now run:
+This will install the `staramr` Python package as well as all necessary dependencies and databases.  You can now run:
 
 ```bash
 staramr --help
