@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/phac-nml/staramr.svg?branch=development)](https://travis-ci.org/phac-nml/staramr)
 [![pypi](https://badge.fury.io/py/staramr.svg)](https://pypi.python.org/pypi/staramr/)
+[![conda](https://anaconda.org/bioconda/staramr/badges/installer/conda.svg)](https://anaconda.org/bioconda/staramr)
 
 # `staramr`
 
@@ -106,9 +107,9 @@ source activate staramr
 staramr --help
 ```
 
-## PyPi/Pip
+## PyPI/Pip
 
-You can also install `staramr` from [PyPi][pypi-staramr] using `pip`:
+You can also install `staramr` from [PyPI][pypi-staramr] using `pip`:
 
 ```
 pip install staramr
