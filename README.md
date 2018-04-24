@@ -257,6 +257,47 @@ Example:
                 Prints information on the database stored in databases/
 ```
 
+# Issues
+
+## Error updating ResFinder/PointFinder databases
+
+If you get an error when updating to some specific version of the ResFinder/PointFinder databases you can revert to the distributed version of the database.
+
+For example, if you run the following and get an error:
+
+```
+staramr db update -d
+...
+subprocess.CalledProcessError: Command '['makeblastdb', '-in', '/path/to/staramr
+/databases/data/update/resfinder/macrolide.fsa', '-dbtype', 'nucl', '-parse_seqids']' returned non-zero exit status 1
+```
+
+You can revert to the distributed version of the database by deleting the `databases/data/update` directory.  You can find the specific directory using the `staramr db info` command.
+
+```
+staramr db info
+resfinder_db_dir      = /path/to/staramr/databases/data/update/resfinder
+...
+pointfinder_db_dir    = /path/to/staramr/databases/data/update/pointfinder
+...
+```
+
+Remove the `databases/data/update` directory with:
+
+```
+rm -rf /path/to/staramr/databases/data/update/
+```
+
+Now if you run `staramr db info` you should get the original databases listed (under `databases/data/dist`).
+
+```
+staramr db info
+resfinder_db_dir       = /path/to/staramr/databases/data/dist/resfinder
+...
+pointfinder_db_dir     = /path/to/staramr/databases/data/dist/pointfinder
+...
+``` 
+
 # Caveats
 
 This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported).
