@@ -3,7 +3,6 @@ import pandas
 from collections import OrderedDict
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
-from staramr.subcommand.Search import Search
 
 """
 Summarizes both ResFinder and PointFinder database results into a single table.
@@ -11,7 +10,7 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 
 class AMRDetectionSummaryResistance(AMRDetectionSummary):
-    blank = Search.blank
+    blank = '-'
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
         super().__init__(files, resfinder_dataframe, pointfinder_dataframe)

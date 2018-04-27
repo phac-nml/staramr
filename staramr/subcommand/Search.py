@@ -14,6 +14,7 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 
 logger = logging.getLogger("Search")
 
@@ -25,16 +26,14 @@ Class for searching for AMR resistance genes.
 class Search(SubCommand):
     blank = '-'
 
-    def __init__(self, amr_detection_factory, subparser, script_name, version):
+    def __init__(self, subparser, script_name, version):
         """
         Creates a new Search sub-command instance.
-        :param amr_detection_factory: A factory of type staramr.detection.AMRDetectionFactory for building necessary objects for AMR detection.
         :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
         :param script_name: The name of the script being run.
         :param version: The version of this software.
         """
         super().__init__(subparser, script_name)
-        self._amr_detection_factory = amr_detection_factory
         self._version = version
 
     def _setup_args(self, arg_parser):
@@ -160,7 +159,8 @@ class Search(SubCommand):
             pointfinder_database = None
         blast_handler = BlastHandler(resfinder_database, args.nprocs, pointfinder_database)
 
-        amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
+        amr_detection_factory = AMRDetectionFactory()
+        amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                           args.include_negatives, include_resistances=args.include_resistance, output_dir=hits_output_dir)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
                                         args.plength_threshold_pointfinder, args.report_all_blast)
