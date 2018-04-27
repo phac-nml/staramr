@@ -1,13 +1,16 @@
 import logging
+from os import path
 
-from staramr.dr.phenotype.ARGDrugTable import ARGDrugTable
+from staramr.databases.dr.phenotype.ARGDrugTable import ARGDrugTable
 
 logger = logging.getLogger("ARGDrugTableResfinder")
 
 
 class ARGDrugTableResfinder(ARGDrugTable):
 
-    def __init__(self, file):
+    DEFAULT_FILE = path.join(ARGDrugTable.DEFAULT_DATA_DIR, 'ARG_drug_key_resfinder.tsv')
+
+    def __init__(self, file = DEFAULT_FILE):
         super().__init__(file)
 
     def get_drug(self, drug_class, gene_plus_variant, accession):
