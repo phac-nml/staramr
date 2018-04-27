@@ -4,10 +4,10 @@ import pandas
 
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 
-logger = logging.getLogger('BlastResultsParserPointfinderPlus')
+logger = logging.getLogger('BlastResultsParserPointfinderResistance')
 
 
-class BlastResultsParserPointfinderPlus(BlastResultsParserPointfinder):
+class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold, report_all=False, output_dir=None):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all, output_dir=output_dir)

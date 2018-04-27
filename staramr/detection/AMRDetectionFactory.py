@@ -1,7 +1,7 @@
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.databases.drug.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.drug.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
-from staramr.detection.AMRDetectionPlus import AMRDetectionPlus
+from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
 """
 A Class used to construct a particular staramr.detection.AMRDetection object.
@@ -26,7 +26,7 @@ class AMRDetectionFactory:
         """
 
         if include_resistances:
-            return AMRDetectionPlus(resfinder_database, ARGDrugTableResfinder(), blast_handler, ARGDrugTablePointfinder(), pointfinder_database, include_negatives, output_dir=output_dir)
+            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler, ARGDrugTablePointfinder(), pointfinder_database, include_negatives, output_dir=output_dir)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,
                             output_dir=output_dir)

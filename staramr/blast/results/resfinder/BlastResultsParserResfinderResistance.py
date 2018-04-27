@@ -3,7 +3,7 @@ import pandas
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 
 
-class BlastResultsParserResfinderPlus(BlastResultsParserResfinder):
+class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold, report_all=False, output_dir=None):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all, output_dir=output_dir)

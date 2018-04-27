@@ -10,7 +10,7 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 """
 
 
-class AMRDetectionSummaryPlus(AMRDetectionSummary):
+class AMRDetectionSummaryResistance(AMRDetectionSummary):
     blank = Search.blank
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
