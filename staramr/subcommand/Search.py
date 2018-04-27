@@ -13,8 +13,8 @@ from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
-from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
+from staramr.exceptions.CommandParseException import CommandParseException
 
 logger = logging.getLogger("Search")
 
@@ -161,7 +161,8 @@ class Search(SubCommand):
 
         amr_detection_factory = AMRDetectionFactory()
         amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                          args.include_negatives, include_resistances=args.include_resistance, output_dir=hits_output_dir)
+                                                    args.include_negatives, include_resistances=args.include_resistance,
+                                                    output_dir=hits_output_dir)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
                                         args.plength_threshold_pointfinder, args.report_all_blast)
 

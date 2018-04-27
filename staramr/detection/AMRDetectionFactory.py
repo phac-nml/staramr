@@ -1,6 +1,6 @@
-from staramr.detection.AMRDetection import AMRDetection
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
+from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
 """
@@ -13,7 +13,8 @@ class AMRDetectionFactory:
     def __init__(self):
         pass
 
-    def build(self, resfinder_database, blast_handler, pointfinder_database, include_negatives, include_resistances = False, output_dir=None):
+    def build(self, resfinder_database, blast_handler, pointfinder_database, include_negatives,
+              include_resistances=False, output_dir=None):
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
@@ -26,7 +27,9 @@ class AMRDetectionFactory:
         """
 
         if include_resistances:
-            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler, ARGDrugTablePointfinder(), pointfinder_database, include_negatives, output_dir=output_dir)
+            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler,
+                                          ARGDrugTablePointfinder(), pointfinder_database, include_negatives,
+                                          output_dir=output_dir)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,
-                            output_dir=output_dir)
+                                output_dir=output_dir)

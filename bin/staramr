@@ -42,7 +42,6 @@ import sys
 from os import path
 
 from staramr import __version__
-
 from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.subcommand.Database import Database
 from staramr.subcommand.Search import Search

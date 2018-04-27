@@ -1,9 +1,10 @@
-import pandas
 from os import path
 
-class ARGDrugTable:
+import pandas
 
-    DEFAULT_DATA_DIR=path.join(path.dirname(__file__), 'data')
+
+class ARGDrugTable:
+    DEFAULT_DATA_DIR = path.join(path.dirname(__file__), 'data')
 
     def __init__(self, file):
         self.file = file

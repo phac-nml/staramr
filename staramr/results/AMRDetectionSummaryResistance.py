@@ -1,6 +1,7 @@
+from collections import OrderedDict
+
 import numpy
 import pandas
-from collections import OrderedDict
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 

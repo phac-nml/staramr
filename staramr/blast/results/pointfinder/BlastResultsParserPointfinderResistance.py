@@ -9,8 +9,10 @@ logger = logging.getLogger('BlastResultsParserPointfinderResistance')
 
 class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
 
-    def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold, report_all=False, output_dir=None):
-        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all, output_dir=output_dir)
+    def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
+                 report_all=False, output_dir=None):
+        super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
+                         output_dir=output_dir)
         self._arg_drug_table = arg_drug_table
 
     def _create_data_frame(self, results):

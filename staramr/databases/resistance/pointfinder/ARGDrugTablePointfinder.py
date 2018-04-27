@@ -7,10 +7,9 @@ logger = logging.getLogger("ARGDrugTablePointfinder")
 
 
 class ARGDrugTablePointfinder(ARGDrugTable):
-
     DEFAULT_FILE = path.join(ARGDrugTable.DEFAULT_DATA_DIR, 'ARG_drug_key_pointfinder.tsv')
 
-    def __init__(self, file = DEFAULT_FILE):
+    def __init__(self, file=DEFAULT_FILE):
         super().__init__(file)
 
     def get_drug(self, organism, gene, codon_position):
