@@ -1,6 +1,6 @@
 from staramr.detection.AMRDetection import AMRDetection
-from staramr.databases.drug.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
-from staramr.databases.drug.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
+from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
+from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
 """

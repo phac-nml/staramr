@@ -1,7 +1,7 @@
 import logging
 from os import path
 
-from staramr.databases.drug.ARGDrugTable import ARGDrugTable
+from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 
 logger = logging.getLogger("ARGDrugTablePointfinder")
 
