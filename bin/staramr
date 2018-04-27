@@ -44,6 +44,7 @@ from os import path
 from staramr import __version__
 
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
+from staramr.detection.AMRDetectionFactoryPlus import AMRDetectionFactoryPlus
 from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.subcommand.Database import Database
 from staramr.subcommand.Search import Search
@@ -60,7 +61,7 @@ if __name__ == '__main__':
                         help='Prints version information.', required=False)
     subparsers = parser.add_subparsers(dest='command', help='Subcommand for AMR detection.')
 
-    Search(AMRDetectionFactory(), subparsers, script_name, __version__)
+    Search(AMRDetectionFactoryPlus(), subparsers, script_name, __version__)
     Database(subparsers, script_name)
 
     args = parser.parse_args()
