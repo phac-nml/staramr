@@ -76,6 +76,9 @@ class Search(SubCommand):
         arg_parser.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
                                 help='Report all blast hits (vs. only top blast hits) [False].',
                                 required=False)
+        arg_parser.add_argument('--include-resistance', action='store_true', dest='include_resistance',
+                                help='Include predicted antimicrobial resistances [False].',
+                                required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
                                 default=self._default_database_dir, required=False)
@@ -158,7 +161,7 @@ class Search(SubCommand):
         blast_handler = BlastHandler(resfinder_database, args.nprocs, pointfinder_database)
 
         amr_detection = self._amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                          args.include_negatives, output_dir=hits_output_dir)
+                                                          args.include_negatives, include_resistances=args.include_resistance, output_dir=hits_output_dir)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
                                         args.plength_threshold_pointfinder, args.report_all_blast)
 
