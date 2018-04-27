@@ -1,7 +1,7 @@
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.detection.AMRDetectionPlus import AMRDetectionPlus
-from staramr.databases.dr.phenotype.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
-from staramr.databases.dr.phenotype.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
+from staramr.databases.drug.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
+from staramr.databases.drug.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
 
 
 class AMRDetectionFactoryPlus(AMRDetectionFactory):
