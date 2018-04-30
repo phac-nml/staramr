@@ -1,5 +1,98 @@
 Class	Gene	Accession	Drug
+aminoglycoside	aac(6')-Ib_2	M23634	gentamicin
+aminoglycoside	aac(6')-Ib-11_1	AY136758	gentamicin
+aminoglycoside	aac(6')-30-aac(6')-Ib'_1	AJ584652	gentamicin
+aminoglycoside	aac(6')-Iaj_1	AB709942	gentamicin
+aminoglycoside	aac(6')-Ian_1	AP014611	gentamicin
+aminoglycoside	aac(6')-Iak_1	AB894482	gentamicin
+aminoglycoside	aac(6')-Ib-Hangzhou_1	FJ503047	gentamicin
+aminoglycoside	aac(6')-Ib-Suzhou_1	EU085533	gentamicin
+aminoglycoside	aac(6')-Iid_1	AJ584700	gentamicin
+aminoglycoside	aac(6')-Iih_1	AJ584701	gentamicin
+aminoglycoside	aac(6')-Iz_2	AB971834	gentamicin
+aminoglycoside	aac(6')-29b_1	AF263519	gentamicin
+aminoglycoside	aac(6')-29a_1	AF263519	gentamicin
+aminoglycoside	aac(6')-Iaa_1	NC_003197	gentamicin
+aminoglycoside	aac(6')-Ih_2	KT778788	gentamicin
+aminoglycoside	aac(6')-Ix_1	AF031332	gentamicin
+aminoglycoside	aac(6')-Il_1	U13880	gentamicin
+aminoglycoside	aac(6')-Ia_2	M86913	gentamicin
+aminoglycoside	aac(6')-Iag_1	AB472901	gentamicin
+aminoglycoside	aac(2')-IIa_1	AB669090	gentamicin
+aminoglycoside	kamB_1	AJ629123	amikacin gentamicin kanamycin streptomycin
+aminoglycoside	grmO_1	AY524043	gentamicin
+aminoglycoside	fmrO_1	Q08325	amikacin gentamicin kanamycin streptomycin
+aminoglycoside	grmB_1	M55521	gentamicin
 aminoglycoside	grmA_1	M55520	gentamicin
+aminoglycoside	kgmB_1	S60108	gentamicin kanamycin
+aminoglycoside	sgm_1	M87057	gentamicin
+aminoglycoside	aph(3')-VI_2	APPJ01000012	kanamycin
+aminoglycoside	aph(3')-IX_1	APPN01000061	kanamycin
+aminoglycoside	aadA13_2	NC010643	streptomycin
+aminoglycoside	aadA11_2	AJ567827	streptomycin
+aminoglycoside	aadA10_2	AM087405	streptomycin
+aminoglycoside	aadA7_2	AB114632	streptomycin
+aminoglycoside	aadA2_1	NC010870	streptomycin
+aminoglycoside	aadD_2	M19465	amikacin tobramycin
+aminoglycoside	aph(2'')-Ib_2	AF207840	kanamycin
+aminoglycoside	aph(7'')-Ia_1	X03615	kanamycin
+aminoglycoside	aph(9)-Ia_2	CR628337	kanamycin
+aminoglycoside	aph(6)-Ia_2	Y00459	kanamycin
+aminoglycoside	aph(6)-Id_1	M28829	kanamycin
+aminoglycoside	aph(6)-Id_3	AB109805	kanamycin
+aminoglycoside	aph(6)-Id_4	CP000971	kanamycin
+aminoglycoside	aph(6)-Id_5	18676889	kanamycin
+aminoglycoside	aph(3'')-Ia_2	AP009493	kanamycin
+aminoglycoside	aph(3'')-Ia_3	M37378	kanamycin
+aminoglycoside	aph(3'')-Ib_1	M28829	kanamycin
+aminoglycoside	aph(3'')-Ib_2	AF024602	kanamycin
+aminoglycoside	aph(3'')-Ib_3	AF321550	kanamycin
+aminoglycoside	aph(3'')-Ib_4	AF313472	kanamycin
+aminoglycoside	aadE-Cc_1	CP013733	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_2	JF826500	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_3	X74412	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_4	AF458082	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_5	AY139594	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_6	AJ871915	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_7	DQ018384	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_8	AY920928	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_9	HM367610	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_10	HM367617	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_11	HM367620	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_12	HQ880250	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_13	DQ176450	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_14	DQ266447	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_15	EF205594	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_16	HQ386848	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_17	JTTZ01000034	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_19	GQ466184	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_20	AY139599	gentamicin kanamycin
+aminoglycoside	ant(2'')-Ia_1	X04555	gentamicin kanamycin
+aminoglycoside	aph(3')-VI_1	KC170992	kanamycin
+aminoglycoside	aph(3')-XV_2	GQ626879	kanamycin
+aminoglycoside	aph(3')-XV_3	EU165039	kanamycin
+aminoglycoside	aph(3')-IIIa_1	AF330699	kanamycin
+aminoglycoside	aph(3')-IIIa_2	AJ490186	kanamycin
+aminoglycoside	aph(3')-IIIa_3	AB247327	kanamycin
+aminoglycoside	aph(3')-Va_2	AB211959	kanamycin
+aminoglycoside	aph(3')-Vb_2	AJ744850	kanamycin
+aminoglycoside	aph(3')-IIa_2	V00618	kanamycin
+aminoglycoside	aph(3')-IIb_2	CP006832	kanamycin
+aminoglycoside	aph(3')-Ia_2	EU287476	kanamycin
+aminoglycoside	aph(3')-Ia_3	EF015636	kanamycin
+aminoglycoside	aph(3')-Ia_4	AF498082	kanamycin
+aminoglycoside	aph(3')-Ia_5	AP004237	kanamycin
+aminoglycoside	aph(3')-Ia_6	L05392	kanamycin
+aminoglycoside	aph(3')-Ia_7	X62115	kanamycin
+aminoglycoside	aph(3')-Ia_8	Y00452	kanamycin
+aminoglycoside	aph(3')-Ia_9	EU722351	kanamycin
+aminoglycoside	aph(3')-Ia_10	EU855787	kanamycin
+aminoglycoside	aph(2'')-Ih_1	KF652096	kanamycin
+aminoglycoside	aph(2'')-Ig_1	CP004067	kanamycin
+aminoglycoside	aph(2'')-If_1	KF652097	kanamycin
+aminoglycoside	aph(2'')-If_2	AY701528	kanamycin
+aminoglycoside	aph(2'')-Ia_2	AP009486	kanamycin
+aminoglycoside	aph(2'')-Ia_3	AJ536195	kanamycin
 aminoglycoside	aph(2'')-Ib_1	KF652098	gentamicin
 aminoglycoside	aph(2'')-If_1	KF652097	gentamicin
 aminoglycoside	aph(2'')-Ih_1	KF652096	gentamicin
@@ -9,11 +102,11 @@ aminoglycoside	aac(2')-Ia_1	L06156	gentamicin
 aminoglycoside	aac(2')-Ib_1	U41471	gentamicin
 aminoglycoside	aac(2')-Ic_1	U72714	gentamicin
 aminoglycoside	aac(2')-Id_1	U72743	gentamicin
-aminoglycoside	+>aac(2')-Ie_1	NC011896	gentamicin
+aminoglycoside	aac(2')-Ie_1	NC011896	gentamicin
 aminoglycoside	aac(3)-I_1	AJ877225	gentamicin
 aminoglycoside	aac(3)-Ia_1	X15852	gentamicin
 aminoglycoside	aac(3)-Ib_1	L06157	gentamicin
-aminoglycoside	aac(3)-Ib-aac(6')-Ib_1	AF355189	gentamicin
+aminoglycoside	aac(3)-Ib-aac(6')-Ib'_1	AF355189	gentamicin
 aminoglycoside	aac(3)-Ic_1	AJ511268	gentamicin
 aminoglycoside	aac(3)-Id_1	AB114632	gentamicin
 aminoglycoside	aac(3)-If_1	AY884051	gentamicin
@@ -34,20 +127,15 @@ aminoglycoside	aac(3)-VIIa_1	M22999	gentamicin
 aminoglycoside	aac(3)-VIIIa_1	M55426	gentamicin
 aminoglycoside	aac(3)-IXa_1	M55427	gentamicin
 aminoglycoside	aac(3)-Xa_1	AB028210	gentamicin
-aminoglycoside	aac(6')_1	AY553333	gentamicin
-aminoglycoside	aac_1	AJ628983	gentamicin
-aminoglycoside	aac(6')_2	DQ302723	gentamicin
-aminoglycoside	aac(6')_3	EU912537	gentamicin
 aminoglycoside	aac(6')-Ia_1	M18967	gentamicin
-aminoglycoside	aac(6')-Ib_1	M21682	gentamicin
+aminoglycoside	aac(6')-Ib_1	M21682	amikacin gentamicin kanamycin
 aminoglycoside	aac(6')-Ic_1	M94066	gentamicin
-aminoglycoside	aac(6')-Id_1	X12618	gentamicin
-aminoglycoside	aac(6')-If_1	X55353	gentamicin
+aminoglycoside	aac(6')-If_1	X55353	amikacin kanamycin
 aminoglycoside	aac(6')-Ig_1	L09246	gentamicin
 aminoglycoside	aac(6')-Ih_1	L29044	gentamicin
 aminoglycoside	aac(6')-Ij_1	L29045	gentamicin
 aminoglycoside	aac(6')-Ik_1	L29510	gentamicin
-aminoglycoside	aac(6')-Il_1	Z54241	gentamicin
+aminoglycoside	aac(6')-Ip_1	Z54241	gentamicin
 aminoglycoside	aac(6')-Im_1	AF337947	gentamicin
 aminoglycoside	aac(6')-Iq_1	AF047556	gentamicin
 aminoglycoside	aac(6')-Ir_1	AF031326	gentamicin
@@ -62,16 +150,15 @@ aminoglycoside	aac(6')-Iae_1	AB104852	gentamicin
 aminoglycoside	aac(6')-Iaf_1	AB462903	gentamicin
 aminoglycoside	aac(6')-Iai_1	EU886977	gentamicin
 aminoglycoside	aac(6')-I30_1	AY289608	gentamicin
-aminoglycoside	aac(6')-31_1	AJ640197	gentamicin
+aminoglycoside	aac(6')-31_1	AM283489	gentamicin
 aminoglycoside	aac(6')-32_1	EF614235	gentamicin
 aminoglycoside	aac(6')-33_1	GQ337064	gentamicin
 aminoglycoside	aac(6')-IIa_1	M29695	gentamicin
 aminoglycoside	aac(6')-IIb_1	L06163	gentamicin
-aminoglycoside	aac(6')-IIc_1	AF162771	gentamicin
+aminoglycoside	aac(6')-IIc_1	NC_012555	gentamicin
 aminoglycoside	aac(6')-aph(2'')_1	M13771	gentamicin
 aminoglycoside	aac(6')-Isa_1	AB116646	gentamicin
-aminoglycoside	aacA4_1	KM278199	gentamicin
-aminoglycoside	aacA29_1	AY139599	gentamicin
+aminoglycoside	aac(6')-Ib3_1	X60321	gentamicin
 aminoglycoside	aacA43_1	HQ247816	gentamicin
 aminoglycoside	ant(3'')-Ia_1	X02340	streptomycin
 aminoglycoside	aadA1_2	FJ591054	streptomycin
@@ -134,7 +221,7 @@ aminoglycoside	aph(3')-VIII_1	ATGI01000028	kanamycin
 aminoglycoside	aph(3')-XV_1	Y18050	kanamycin
 aminoglycoside	aph(3'')-Ia_1	X53527	kanamycin
 aminoglycoside	aph(4)-Ia_1	V01499	hygromicin
-aminoglycoside	aph(4)-Ib_1	X03615	kanamycin
+aminoglycoside	aph(4)-Ib_1	X03615	hygromicin
 aminoglycoside	aph(6)-Ia_1	AY971801	kanamycin
 aminoglycoside	aph(6)-Ib_1	X05648	kanamycin
 aminoglycoside	aph(6)-Ic_1	X01702	streptomycin
@@ -155,12 +242,11 @@ aminoglycoside	rmtE_1	GU201947	amikacin gentamicin kanamycin streptomycin
 aminoglycoside	spc_1	X02588	spectinomycin
 aminoglycoside	aac(6')Ib-cr_1	DQ303918	gentamicin
 aminoglycoside	aac(6')Ib-cr_2	EF636461	gentamicin
-aminoglycoside	aac(6')Ib-cr_3	EF210035	gentamicin
 aminoglycoside	strA_1	M96392	streptomycin
-aminoglycoside	aph(3'')-Ib_1	M28829	kanamycin
-aminoglycoside	aph(3'')-Ib_2	AF024602	kanamycin
-aminoglycoside	aph(3'')-Ib_5	AF321551	kanamycin
-aminoglycoside	aph(3'')-Ib_3	AF321550	kanamycin
+aminoglycoside	aph(3'')-Ib_1	M28829	streptomycin
+aminoglycoside	aph(3'')-Ib_2	AF024602	streptomycin
+aminoglycoside	aph(3'')-Ib_5	AF321551	streptomycin
+aminoglycoside	aph(3'')-Ib_3	AF321550	streptomycin
 aminoglycoside	aph(6)-Id_1	M28829	streptomycin
 aminoglycoside	aph(6)-Id_2	AF024602	streptomycin
 aminoglycoside	str_1	X92946	streptomycin
@@ -226,10 +312,10 @@ beta-lactam	blaOXA-303_1	NG049599	ampicillin
 beta-lactam	blaOXA-302_1	NG049598	ampicillin
 beta-lactam	blaOXA-299_1	NG049594	ampicillin
 beta-lactam	blaOXA-298_1	NG049593	ampicillin
-beta-lactam	blaVCC-1_1	KT818596
-beta-lactam	blaPAM-1_1	AB858498
-beta-lactam	blaTMB-1_1	FR771847
-beta-lactam	blaTMB-2_1	AB758277
+beta-lactam	blaVCC-1_1	KT818596	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
+beta-lactam	blaPAM-1_1	AB858498	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
+beta-lactam	blaTMB-1_1	FR771847	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
+beta-lactam	blaTMB-2_1	AB758277	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
 beta-lactam	blaACC-1_2	AM939420	ampicillin amoxi/clav cefoxitin ceftriaxone
 beta-lactam	blaACC-2_1	AF180952	ampicillin amoxi/clav cefoxitin ceftriaxone
 beta-lactam	blaACC-3_1	AF180958	ampicillin amoxi/clav cefoxitin ceftriaxone
@@ -1552,26 +1638,37 @@ beta-lactam	blaOXA-153_1	KP771981	ampicillin amoxi/clav cefoxitin ceftriaxone me
 beta-lactam	blaOXA-151_1	KP771979	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
 beta-lactam	blaOXA-152_1	KP771980	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
 beta-lactam	blaIMP-58_1	KU647281	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
-colistin	mcr-5_1	KY807921	Colistin
-colistin	mcr-4_1	MF543359	Colistin
-colistin	mcr-3_1	KY924928	Colistin
-colistin	mcr-1.9_1	KY685071	Colistin
-colistin	mcr-1.8_1	KY683842	Colistin
-colistin	mcr-1.7_1	KY488488	Colistin
-colistin	mcr-1.6_1	KY352406	Colistin
-colistin	mcr-1.4_1	KY041856	Colistin
-colistin	mcr-1.5_1	KY283125	Colistin
-colistin	mcr-1.3_1	KU934208	Colistin
 colistin	mcr-1_1	KP347127	Colistin
 colistin	mcr-1.2_1	KX236309	Colistin
-colistin	mcr-2_1	LT598652	Colistin
-colistin	mcr-3.6_1	MF598076	Colistin
-colistin	mcr-3.5_1	MF598079	Colistin
-colistin	mcr-3.4_1	NG055497	Colistin
-colistin	mcr-3.3_1	NG055492	Colistin
-colistin	mcr-3.2_1	NG055493	Colistin
-colistin	mcr-2.2_1	MF176240	Colistin
+colistin	mcr-1.3_1	KU934208	Colistin
+colistin	mcr-1.4_1	KY041856	Colistin
+colistin	mcr-1.5_1	KY283125	Colistin
+colistin	mcr-1.6_1	KY352406	Colistin
+colistin	mcr-1.7_1	KY488488	Colistin
+colistin	mcr-1.8_1	KY683842	Colistin
+colistin	mcr-1.9_1	KY964067	Colistin
 colistin	mcr-1.10_1	MF176238	Colistin
+colistin	mcr-1.11_1	KY853650	Colistin
+colistin	mcr-1.12_1	LC337668	Colistin
+colistin	mcr-2_1	LT598652	Colistin
+colistin	mcr-2.2_1	NG055496	Colistin
+colistin	mcr-3_1	NG055493	Colistin
+colistin	mcr-3_2	NG055497	Colistin
+colistin	mcr-3.1_KY924928	Colistin
+colistin	mcr-3.2_1	NG055523	Colistin
+colistin	mcr-3.4_1	NG055492	Colistin
+colistin	mcr-3.5_1	MF463699	Colistin
+colistin	mcr-3.10_1	MG214533	Colistin
+colistin	mcr-3.11_1	MG489958	Colistin
+colistin	mcr-4_1	MF543359	Colistin
+colistin	mcr-4.2_1	MG581979	Colistin
+colistin	mcr-4.2_2	MG026621	Colistin
+colistin	mcr-4.3_1	ERS1801979	Colistin
+colistin	mcr-5_1	KY807921	Colistin
+colistin	mcr-5.2_1	MG384740	Colistin
+colistin	mcr-6_1	MF176240	Colistin
+colistin	mcr-7_1	MG267386	Colistin
+colistin	mcr-7.1_1	MG267386	Colistin
 fosfomycin	fosB1_1	CP001903	fosfomycin
 fosfomycin	fosX_1	AP010904	fosfomycin
 fosfomycin	fos_1	ACCV01000052	fosfomycin
@@ -1794,7 +1891,6 @@ macrolide	erm(Z)_1	AM709783	erythromycin azithromycin
 macrolide	erm(30)_1	AF079138	erythromycin azithromycin
 macrolide	erm(31)_1	AF079138	erythromycin azithromycin
 macrolide	erm(32)_1	AJ009971	erythromycin azithromycin
-macrolide	erm(33)_2	AJ313523	erythromycin azithromycin
 macrolide	erm(34)_1	AY234334	erythromycin azithromycin
 macrolide	erm(35)_1	AF319779	erythromycin azithromycin
 macrolide	erm(36)_1	AF462611	erythromycin azithromycin
@@ -1860,17 +1956,55 @@ macrolide	mph(C)_1	AB013298	erythromycin
 macrolide	mph(C)_2	AF167161	erythromycin
 macrolide	mph(D)_1	AB048591	erythromycin
 macrolide	mph(E)_3	EU294228	erythromycin azithromycin
-macrolide	vga(C)_1	GQ205627	virginiamycin
-macrolide	vga(C)_2	NC_013034	virginiamycin
+macrolide	vga(D)_1	GQ205627	virginiamycin
+macrolide	vga(C)_1	FN806792	virginiamycin
 macrolide	vga(E)_1	FR772051	virginiamycin
 macrolide	lsa(A)_1	AY225127	lincomycin
-macrolide	lsa(A)_2	AY58982	lincomycin
 macrolide	lsa(A)_3	AY737526	lincomycin
 macrolide	erm(W)_1	D14532	lincomycin
 macrolide	cfr_1	AM408573	clindamycin
 macrolide	cfr_2	AJ879565	clindamycin
 macrolide	lmr(B)_1	X62867	lincomycin
-macrolide	cfr(C)_1	KX686749	chloramphenicol florfenicol linezolid tiamulin clindamycin
+macrolide	cfr(C)_1	KX686749	Chloramphenicol florfenicol linezolid tiamulin clindamycin
+macrolide	erm(48)_1	LT223129	erythromycin azithromycin
+macrolide	mph(F)_1	AM260957	erythromycin azithromycin
+macrolide	erm(B)_23	Y00116	erythromycin azithromycin
+macrolide	erm(B)_24	M11180	erythromycin azithromycin
+macrolide	erm(46)_1	KM679362	erythromycin azithromycin
+macrolide	lsa(E)_1	AF408195	lincomycin
+macrolide	erm(B)_22	X52632	erythromycin azithromycin
+macrolide	lnu(P)_1	FJ589781	lincomycin
+macrolide	msr(E)_1	FR751518	erythromycin azithromycin
+macrolide	erm(43)_1	HE650138	erythromycin azithromycin
+macrolide	mph(E)_5	DQ839391	erythromycin azithromycin
+macrolide	mef(C)_1	AB571865	erythromycin azithromycin
+macrolide	lmr(B)_1	X62867	lincomycin
+macrolide	erm(47)_1	KU612222	erythromycin azithromycin
+macrolide	erm(B)_26	AF080450	erythromycin azithromycin
+macrolide	mph(G)_1	AB571865	erythromycin azithromycin
+macrolide	lnu(G)_1	KX470419	lincomycin
+macrolide	vat(D)_2	AF368302	virginiamycin
+macrolide	mef(A)_1	AJ971089	erythromycin azithromycin
+macrolide	mef(A)_2	U83667	erythromycin azithromycin
+macrolide	mef(A)_4	AF274302	erythromycin azithromycin
+macrolide	mef(A)_5	AF227520	erythromycin azithromycin
+macrolide	vga(A)LC_2	DQ823382	virginiamycin
+macrolide	erm(44)v_1	LN623525	erythromycin azithromycin
+macrolide	ere(B)_1	A15097	erythromycin azithromycin
+macrolide	erm(44)_1	HG796218	erythromycin azithromycin
+macrolide	sal(A)_1	KC693025	lincomycin
+macrolide	erm(45)_1	LN680996	erythromycin azithromycin
+macrolide	erm(33)_1	AJ579365	erythromycin azithromycin
+macrolide	vat(E)_6	AF242872	virginiamycin
+macrolide	ere(A)_5	FN396877	erythromycin azithromycin
+macrolide	lnu(B)_2	JQ861959	lincomycin
+macrolide	erm(R)_1	M11276	erythromycin azithromycin
+macrolide	erm(B)_25	X72021	erythromycin azithromycin
+macrolide	lnu(E)_1	KF287643	lincomycin
+macrolide	vat(G)_1	GQ205627	virginiamycin
+macrolide	erm(C)_6	X82668	erythromycin azithromycin
+macrolide	erm(F)_1	M14730	erythromycin azithromycin
+macrolide	erm(33)_1	AJ579365	erythromycin azithromycin
 nitroimidazole	nimA_1	X71444	nitroimidazole
 nitroimidazole	nimB_1	X71443	nitroimidazole
 nitroimidazole	nimC_1	X76948	nitroimidazole
@@ -1908,147 +2042,172 @@ oxazolidinone	optrA_18	ALMH01000001	linezolid
 oxazolidinone	optrA_19	ALMN01000021	linezolid
 oxazolidinone	optrA_20	ALMZ01000078	linezolid
 oxazolidinone	cfrB_1	KR610408	linezolid
-oxazolidinone	cfr(C)_1	KX686749	chloramphenicol florfenicol linezolid tiamulin clindamycin
-phenicol	catB4_1	EU935739	chloramphenicol
-phenicol	catB_1	M93113	chloramphenicol
-phenicol	catB1_1	M58472	chloramphenicol
-phenicol	catB2_1	AF047479	chloramphenicol
-phenicol	catB3_1	AJ009818	chloramphenicol
-phenicol	catB7_1	AF036933	chloramphenicol
-phenicol	catB8_1	AF227506	chloramphenicol
-phenicol	catB9_1	AF462019	chloramphenicol
-phenicol	catB10_1	AJ878850	chloramphenicol
-phenicol	catA3_1	X07848	chloramphenicol
-phenicol	cat_1	M11587	chloramphenicol
-phenicol	cat_5	U35036	chloramphenicol
-phenicol	cat86_1	K00544	chloramphenicol
-phenicol	cat_2	M35190	chloramphenicol
-phenicol	cat_3	S48276	chloramphenicol
-phenicol	cat(pC221)_1	X02529	chloramphenicol
-phenicol	cat(pC233)_1	AY355285	chloramphenicol
-phenicol	cat(pC194)_1	NC_002013	chloramphenicol
-phenicol	catS_1	X74948	chloramphenicol
-phenicol	catP_1	U15027	chloramphenicol
-phenicol	cmlA1_1	M64556	chloramphenicol
-phenicol	cmlA1_2	AB212941	chloramphenicol
-phenicol	cml_1	M22614	chloramphenicol
-phenicol	cmlV_1	U09991	chloramphenicol
-phenicol	floR_1	AF071555	chloramphenicol
-phenicol	floR_2	AF118107	chloramphenicol
-phenicol	fexA_1	AJ549214	chloramphenicol
-phenicol	pexA_1	HM537013	chloramphenicol
-phenicol	catA1_1	V00622	chloramphenicol
-phenicol	catA2_1	X53796	chloramphenicol
-phenicol	cat_4	AY238971	chloramphenicol
-phenicol	catQ_1	M55620	chloramphenicol
-phenicol	cmrA_1	Z12001	chloramphenicol
-phenicol	cmx_1	U85507	chloramphenicol
-phenicol	cfr_1	AM408573	chloramphenicol
-phenicol	cfr_2	AJ879565	chloramphenicol
-phenicol	cfrB_1	KR610408	chloramphenicol
-phenicol	cfr(C)_1	KX686749	chloramphenicol florfenicol linezolid tiamulin clindamycin
-quinolone	QnrA1_1	AY070235	ciprofloxacin I/R
-quinolone	QnrA2_1	HQ449669	ciprofloxacin I/R
-quinolone	QnrA3_1	DQ058661	ciprofloxacin I/R
-quinolone	QnrA4_1	DQ058662	ciprofloxacin I/R
-quinolone	QnrA5_1	DQ058663	ciprofloxacin I/R
-quinolone	QnrA6_1	DQ151889	ciprofloxacin I/R
-quinolone	QnrA7_1	GQ463707	ciprofloxacin I/R
-quinolone	QnrAS_1	FM178379	ciprofloxacin I/R
-quinolone	QnrB1_1	EF682133	ciprofloxacin I/R
-quinolone	QnrB2_1	HM125698	ciprofloxacin I/R
-quinolone	QnrB3_1	DQ303920	ciprofloxacin I/R
-quinolone	QnrB4_1	DQ303921	ciprofloxacin I/R
-quinolone	QnrB22_1	FJ981621	ciprofloxacin I/R
-quinolone	QnrB5_1	DQ303919	ciprofloxacin I/R
-quinolone	QnrB6_1	EF520349	ciprofloxacin I/R
-quinolone	QnrB6_3	EF523819	ciprofloxacin I/R
-quinolone	QnrB7_1	EU043311	ciprofloxacin I/R
-quinolone	QnrB8_1	EU043312	ciprofloxacin I/R
-quinolone	QnrB21_1	FJ611948	ciprofloxacin I/R
-quinolone	QnrB9_1	EF653270	ciprofloxacin I/R
-quinolone	QnrB10_1	DQ631414	ciprofloxacin I/R
-quinolone	QnrB10_8	HM439644	ciprofloxacin I/R
-quinolone	QnrB11_1	EU136183	ciprofloxacin I/R
-quinolone	QnrB13_1	EU273755	ciprofloxacin I/R
-quinolone	QnrB12_2	AM774474	ciprofloxacin I/R
-quinolone	QnrB13_1	JN173050	ciprofloxacin I/R
-quinolone	QnrB13_2	EU273756	ciprofloxacin I/R
-quinolone	QnrB14_1	EU273757	ciprofloxacin I/R
-quinolone	QnrB15_1	EU302865	ciprofloxacin I/R
-quinolone	QnrB17_1	JN173051	ciprofloxacin I/R
-quinolone	QnrB18_1	AM919399	ciprofloxacin I/R
-quinolone	QnrB17_2	AM919398	ciprofloxacin I/R
-quinolone	QnrB27_1	HM439641	ciprofloxacin I/R
-quinolone	QnrB19_1	HM146784	ciprofloxacin I/R
-quinolone	QnrB20_1	AB379831	ciprofloxacin I/R
-quinolone	QnrB23_1	FJ981622	ciprofloxacin I/R
-quinolone	QnrB24_1	HM192542	ciprofloxacin I/R
-quinolone	QnrB25_1	HQ172108	ciprofloxacin I/R
-quinolone	QnrB27_2	HM439642	ciprofloxacin I/R
-quinolone	QnrB28_1	HM439643	ciprofloxacin I/R
-quinolone	QnrB29_1	HM439649	ciprofloxacin I/R
-quinolone	QnrB29_2	JN173053	ciprofloxacin I/R
-quinolone	QnrB30_1	HM439650	ciprofloxacin I/R
-quinolone	QnrB31_1	HQ418999	ciprofloxacin I/R
-quinolone	QnrB32_2	JN173054	ciprofloxacin I/R
-quinolone	QnrB33_1	JN173055	ciprofloxacin I/R
-quinolone	QnrB34_1	JN173056	ciprofloxacin I/R
-quinolone	QnrB35_1	JN173057	ciprofloxacin I/R
-quinolone	QnrB36_1	JN173058	ciprofloxacin I/R
-quinolone	QnrB37_1	JN173059	ciprofloxacin I/R
-quinolone	QnrB38_1	JN173060	ciprofloxacin I/R
-quinolone	QnrB40_1	JN166689	ciprofloxacin I/R
-quinolone	QnrB41_1	JN166690	ciprofloxacin I/R
-quinolone	QnrC_1	EU917444	ciprofloxacin I/R
-quinolone	QnrD_1	FJ228229	ciprofloxacin I/R
-quinolone	QnrS1_1	AB187515	ciprofloxacin I/R
-quinolone	QnrS2_1	JF261185	ciprofloxacin I/R
-quinolone	QnrS3_1	EU077611	ciprofloxacin I/R
-quinolone	QnrS4_1	FJ418153	ciprofloxacin I/R
-quinolone	QnrS5_1	HQ631377	ciprofloxacin I/R
-quinolone	qepA_1	AB263754	ciprofloxacin I/R
+oxazolidinone	cfr(C)_1	KX686749	Chloramphenicol florfenicol linezolid tiamulin clindamycin
+phenicol	catB4_1	EU935739	Chloramphenicol
+phenicol	catB_1	M93113	Chloramphenicol
+phenicol	catB1_1	M58472	Chloramphenicol
+phenicol	catB2_1	AF047479	Chloramphenicol
+phenicol	catB3_1	AJ009818	Chloramphenicol
+phenicol	catB7_1	AF036933	Chloramphenicol
+phenicol	catB8_1	AF227506	Chloramphenicol
+phenicol	catB9_1	AF462019	Chloramphenicol
+phenicol	catB10_1	AJ878850	Chloramphenicol
+phenicol	catA3_1	X07848	Chloramphenicol
+phenicol	cat_1	M11587	Chloramphenicol
+phenicol	cat_5	U35036	Chloramphenicol
+phenicol	cat86_1	K00544	Chloramphenicol
+phenicol	cat_2	M35190	Chloramphenicol
+phenicol	cat_3	S48276	Chloramphenicol
+phenicol	cat(pC221)_1	X02529	Chloramphenicol
+phenicol	cat(pC233)_1	AY355285	Chloramphenicol
+phenicol	cat(pC194)_1	NC_002013	Chloramphenicol
+phenicol	catS_1	X74948	Chloramphenicol
+phenicol	catP_1	U15027	Chloramphenicol
+phenicol	cmlA1_1	M64556	Chloramphenicol
+phenicol	cmlA1_2	AB212941	Chloramphenicol
+phenicol	cml_1	M22614	Chloramphenicol
+phenicol	cmlV_1	U09991	Chloramphenicol
+phenicol	floR_1	AF071555	Chloramphenicol
+phenicol	floR_2	AF118107	Chloramphenicol
+phenicol	fexA_1	AJ549214	Chloramphenicol
+phenicol	pexA_1	HM537013	Chloramphenicol
+phenicol	catA1_1	V00622	Chloramphenicol
+phenicol	catA2_1	X53796	Chloramphenicol
+phenicol	cat_4	AY238971	Chloramphenicol
+phenicol	catQ_1	M55620	Chloramphenicol
+phenicol	cmrA_1	Z12001	Chloramphenicol
+phenicol	cmx_1	U85507	Chloramphenicol
+phenicol	cfr_1	AM408573	Chloramphenicol
+phenicol	cfr_2	AJ879565	Chloramphenicol
+phenicol	cfr(B)_3	KR610408	Chloramphenicol
+phenicol	cfr(C)_1	KX686749	Chloramphenicol florfenicol linezolid tiamulin clindamycin
+phenicol	cfr(B)_1	KM359439	Chloramphenicol
+phenicol	cfr(B)_2	KM359438	Chloramphenicol
+phenicol	cfr(C)_2	CANB01000378	Chloramphenicol
+phenicol	cmlB1_1	AM296481	Chloramphenicol
+phenicol	fexB_1	JN201336	Chloramphenicol
+phenicol	EstDL136_1	JN242251	Chloramphenicol
+quinolone	qnrA1_1	AY070235	ciprofloxacin I/R
+quinolone	qnrA2_1	AY675584	ciprofloxacin I/R
+quinolone	qnrA3_1	DQ058661	ciprofloxacin I/R
+quinolone	qnrA4_1	DQ058662	ciprofloxacin I/R
+quinolone	qnrA5_1	DQ058663	ciprofloxacin I/R
+quinolone	qnrA6_1	DQ151889	ciprofloxacin I/R
+quinolone	qnrA7_1	GQ463707	ciprofloxacin I/R
+quinolone	qnrA8_1	KY554783	ciprofloxacin I/R
+quinolone	qnrB1_1	DQ351241	ciprofloxacin I/R
+quinolone	qnrB2_1	DQ351242	ciprofloxacin I/R
+quinolone	qnrB3_1	DQ303920	ciprofloxacin I/R
+quinolone	qnrB4_1	DQ303921	ciprofloxacin I/R
+quinolone	qnrB5_1	DQ303919	ciprofloxacin I/R
+quinolone	qnrB6_1	EF520349	ciprofloxacin I/R
+quinolone	qnrB6_2	EF523819	ciprofloxacin I/R
+quinolone	qnrB7_1	EU043311	ciprofloxacin I/R
+quinolone	qnrB8_1	EU043312	ciprofloxacin I/R
+quinolone	qnrB9_1	EF653270	ciprofloxacin I/R
+quinolone	qnrB10_1	DQ631414	ciprofloxacin I/R
+quinolone	qnrB10_2	HM439644	ciprofloxacin I/R
+quinolone	qnrB11_1	EU136183	ciprofloxacin I/R
+quinolone	qnrB12_2	AM774474	ciprofloxacin I/R
+quinolone	qnrB13_1	EU273755	ciprofloxacin I/R
+quinolone	qnrB14_1	EU273757	ciprofloxacin I/R
+quinolone	qnrB15_1	EU302865	ciprofloxacin I/R
+quinolone	qnrB16_1	EU136183	ciprofloxacin I/R
+quinolone	qnrB17_1	JN173051	ciprofloxacin I/R
+quinolone	qnrB17_2	AM919398	ciprofloxacin I/R
+quinolone	qnrB18_1	AM919399	ciprofloxacin I/R
+quinolone	qnrB19_1	EU432277	ciprofloxacin I/R
+quinolone	qnrB20_1	AB379831	ciprofloxacin I/R
+quinolone	qnrB21_1	FJ611948	ciprofloxacin I/R
+quinolone	qnrB22_1	FJ981621	ciprofloxacin I/R
+quinolone	qnrB23_1	FJ981622	ciprofloxacin I/R
+quinolone	qnrB24_1	HM192542	ciprofloxacin I/R
+quinolone	qnrB25_1	HQ172108	ciprofloxacin I/R
+quinolone	qnrB26_1	HQ386846	ciprofloxacin I/R
+quinolone	qnrB27_1	HM439641	ciprofloxacin I/R
+quinolone	qnrB28_1	HM439643	ciprofloxacin I/R
+quinolone	qnrB29_1	HM439649	ciprofloxacin I/R
+quinolone	qnrB29_2	JN173053	ciprofloxacin I/R
+quinolone	qnrB30_1	HM439650	ciprofloxacin I/R
+quinolone	qnrB31_1	HQ418999	ciprofloxacin I/R
+quinolone	qnrB32_2	JN173054	ciprofloxacin I/R
+quinolone	qnrB33_1	JN173055	ciprofloxacin I/R
+quinolone	qnrB34_1	JN173056	ciprofloxacin I/R
+quinolone	qnrB35_1	JN173057	ciprofloxacin I/R
+quinolone	qnrB36_1	JN173058	ciprofloxacin I/R
+quinolone	qnrB37_1	JN173059	ciprofloxacin I/R
+quinolone	qnrB38_1	JN173060	ciprofloxacin I/R
+quinolone	qnrB39_1	ABWL02000005	ciprofloxacin I/R
+quinolone	qnrB40_1	JN166689	ciprofloxacin I/R
+quinolone	qnrB41_1	JN166690	ciprofloxacin I/R
+quinolone	qnrB42_1	JN680743	ciprofloxacin I/R
+quinolone	qnrB43_1	AFA52643	ciprofloxacin I/R
+quinolone	qnrB44_1	JQ349153	ciprofloxacin I/R
+quinolone	qnrB45_1	JQ349152	ciprofloxacin I/R
+quinolone	qnrB46_1	JQ349154	ciprofloxacin I/R
+quinolone	qnrB47_1	JQ349155	ciprofloxacin I/R
+quinolone	qnrB48_1	JQ762640	ciprofloxacin I/R
+quinolone	qnrB49_1	JQ582718	ciprofloxacin I/R
+quinolone	qnrB50_1	JX440357	ciprofloxacin I/R
+quinolone	qnrB51_1	JX440358	ciprofloxacin I/R
+quinolone	qnrB52_1	EF488762	ciprofloxacin I/R
+quinolone	qnrB53_1	HQ704413	ciprofloxacin I/R
+quinolone	qnrB54_1	HE820727	ciprofloxacin I/R
+quinolone	qnrB56_1	JX259317	ciprofloxacin I/R
+quinolone	qnrB57_1	JX259318	ciprofloxacin I/R
+quinolone	qnrB58_1	JX259319	ciprofloxacin I/R
+quinolone	qnrB59_1	JX259320	ciprofloxacin I/R
+quinolone	qnrB60_1	AB734055	ciprofloxacin I/R
+quinolone	qnrB61_1	AB734053	ciprofloxacin I/R
+quinolone	qnrB62_1	JX987101	ciprofloxacin I/R
+quinolone	qnrB64_1	KC580653	ciprofloxacin I/R
+quinolone	qnrB65_1	KC580654	ciprofloxacin I/R
+quinolone	qnrB66_1	KC580655	ciprofloxacin I/R
+quinolone	qnrB67_1	KC580656	ciprofloxacin I/R
+quinolone	qnrB68_1	KC580657	ciprofloxacin I/R
+quinolone	qnrB69_1	KC580658	ciprofloxacin I/R
+quinolone	qnrB70_1	KC580659	ciprofloxacin I/R
+quinolone	qnrB71_1	KC580660	ciprofloxacin I/R
+quinolone	qnrB72_1	KC741443	ciprofloxacin I/R
+quinolone	qnrB73_1	KF443075	ciprofloxacin I/R
+quinolone	qnrB74_1	KJ415247	ciprofloxacin I/R
+quinolone	qnrB75_1	KP207591	ciprofloxacin I/R
+quinolone	qnrB76_1	KM985469	ciprofloxacin I/R
+quinolone	qnrB77_1	KM985470	ciprofloxacin I/R
+quinolone	qnrB78_1	KM985471	ciprofloxacin I/R
+quinolone	qnrB79_1	KM985472	ciprofloxacin I/R
+quinolone	qnrB80_1	KM985473	ciprofloxacin I/R
+quinolone	qnrB81_1	KX372671	ciprofloxacin I/R
+quinolone	qnrB82_1	KX372672	ciprofloxacin I/R
+quinolone	qnrB88_1	KX118608	ciprofloxacin I/R
+quinolone	qnrVC1_1	EU436855	ciprofloxacin I/R
+quinolone	qnrVC3_1	HM015626	ciprofloxacin I/R
+quinolone	qnrVC4_1	GQ891757	ciprofloxacin I/R
+quinolone	qnrVC5_1	JN408080	ciprofloxacin I/R
+quinolone	qnrVC6_1	KC202804	ciprofloxacin I/R
+quinolone	qnrVC7_1	KM555152	ciprofloxacin I/R
+quinolone	qnrC_1	EU917444	ciprofloxacin I/R
+quinolone	qnrD_1	FJ228229	ciprofloxacin I/R
+quinolone	qnrD2	KF055448	ciprofloxacin I/R
+quinolone	qnrD3_1	KX130945	ciprofloxacin I/R
+quinolone	qnrS1_1	AB187515	ciprofloxacin I/R
+quinolone	qnrS2_1	DQ485530	ciprofloxacin I/R
+quinolone	qnrS3_1	EU077611	ciprofloxacin I/R
+quinolone	qnrS4_1	FJ418153	ciprofloxacin I/R
+quinolone	qnrS5_1	HQ631377	ciprofloxacin I/R
+quinolone	qnrS6_1	HQ631376	ciprofloxacin I/R
+quinolone	qnrS7_1	KF730651	ciprofloxacin I/R
+quinolone	qnrS8_1	KF730652	ciprofloxacin I/R
+quinolone	qnrS9_1	KF732714	ciprofloxacin I/R
+quinolone	qepA_1	FJ167861	ciprofloxacin I/R
+quinolone	qepA1_1	AB263754	ciprofloxacin I/R
 quinolone	qepA2_1	EU847537	ciprofloxacin I/R
+quinolone	qepA3_1	JQ064560	ciprofloxacin I/R
+quinolone	qepA4_1	KX580704	ciprofloxacin I/R
 quinolone	aac(6')Ib-cr_1	DQ303918	ciprofloxacin I/R
 quinolone	aac(6')Ib-cr_2	EF636461	ciprofloxacin I/R
-quinolone	norA_1	M97169	ciprofloxacin I/R
 quinolone	oqxA_1	EU370913	chloramphenicol
 quinolone	oqxB_1	EU370913	chloramphenicol
-quinolone	QnrB42_1	JN680743	ciprofloxacin I/R
-quinolone	QnrB43_1	AFA52643	ciprofloxacin I/R
-quinolone	QnrB44_1	JQ349153	ciprofloxacin I/R
-quinolone	QnrB45_1	JQ349152	ciprofloxacin I/R
-quinolone	QnrB46_1	JQ349154	ciprofloxacin I/R
-quinolone	QnrB47_1	JQ349155	ciprofloxacin I/R
-quinolone	QnrB48_1	JQ762640	ciprofloxacin I/R
-quinolone	QnrB49_1	JQ582718	ciprofloxacin I/R
-quinolone	QnrB50_1	JX440357	ciprofloxacin I/R
-quinolone	QnrB51_1	JX440358	ciprofloxacin I/R
-quinolone	QnrB52_1	EF488762	ciprofloxacin I/R
-quinolone	QnrB53_1	HQ704413	ciprofloxacin I/R
-quinolone	QnrB54_1	HE820727	ciprofloxacin I/R
-quinolone	QnrB56_1	JX259317	ciprofloxacin I/R
-quinolone	QnrB57_1	JX259318	ciprofloxacin I/R
-quinolone	QnrB58_1	JX259319	ciprofloxacin I/R
-quinolone	QnrB59_1	JX259320	ciprofloxacin I/R
-quinolone	QnrB60_1	AB734055	ciprofloxacin I/R
-quinolone	QnrB61_1	AB734053	ciprofloxacin I/R
-quinolone	QnrB62_1	JX987101	ciprofloxacin I/R
-quinolone	QnrB64_1	KC580653	ciprofloxacin I/R
-quinolone	QnrB65_1	KC580654	ciprofloxacin I/R
-quinolone	QnrB66_1	KC580655	ciprofloxacin I/R
-quinolone	QnrB67_1	KC580656	ciprofloxacin I/R
-quinolone	QnrB68_1	KC580657	ciprofloxacin I/R
-quinolone	QnrB69_1	KC580658	ciprofloxacin I/R
-quinolone	QnrB70_1	KC580659	ciprofloxacin I/R
-quinolone	QnrB71_1	KC580660	ciprofloxacin I/R
-quinolone	QnrB72_1	KC741443	ciprofloxacin I/R
-quinolone	QnrS6_1	HQ631376	ciprofloxacin I/R
-quinolone	QnrVC1_1	EU436855	ciprofloxacin I/R
-quinolone	QnrVC3_1	HM015626	ciprofloxacin I/R
-quinolone	QnrVC4_1	GQ891757	ciprofloxacin I/R
-quinolone	QnrVC5_1	JN408080	ciprofloxacin I/R
-quinolone	QnrVC7_1	KM555152	ciprofloxacin I/R
 quinolone	qnrE_1	KY073238	ciprofloxacin I/R
 rifampicin	ARR-2_1	HQ141279	rifampicin
 rifampicin	ARR-3_1	JF806499	rifampicin
@@ -2060,7 +2219,7 @@ rifampicin	ARR-6_2	FM897214	rifampicin
 rifampicin	ARR-6_3	JF922883	rifampicin
 rifampicin	ARR-7_1	FN397623	rifampicin
 sulphonamide	sul1_1	AY224185	sulfisoxazole
-sulphonamide	sul1_2	CP002151	sulfisoxazole
+sulphonamide	sul1_2	U12338	sulfisoxazole
 sulphonamide	sul1_3	EU855787	sulfisoxazole
 sulphonamide	sul1_5	EU780013	sulfisoxazole
 sulphonamide	sul1_7	FJ715937	sulfisoxazole
@@ -2088,7 +2247,7 @@ sulphonamide	sul1_31	AM040449	sulfisoxazole
 sulphonamide	sul1_32	EF592571	sulfisoxazole
 sulphonamide	sul1_33	AJ564903	sulfisoxazole
 sulphonamide	sul2_1	AF542061	sulfisoxazole
-sulphonamide	sul2_2	GQ421466	sulfisoxazole
+sulphonamide	sul2_2	AY034138	sulfisoxazole
 sulphonamide	sul2_3	HQ840942	sulfisoxazole
 sulphonamide	sul2_5	AY524415	sulfisoxazole
 sulphonamide	sul2_6	FN995456	sulfisoxazole
@@ -2108,12 +2267,26 @@ sulphonamide	sul2_20	AJ830710	sulfisoxazole
 sulphonamide	sul3_2	AJ459418	sulfisoxazole
 sulphonamide	sul1_34	AY047357	sulfisoxazole
 sulphonamide	sul1_35	AB281183	sulfisoxazole
-tetracycline	tetO_4	AIOQ01000025	tetracycline
-tetracycline	ort(B)_1	AF079900	tetracycline
-tetracycline	ort(B)_2	AF061335	tetracycline
+sulphonamide	sul1_36	X15024
+sulphonamide	sul1_37	AF188331
+sulphonamide	sul1_38	BX248359
+sulphonamide	sul1_39	AY522923
+sulphonamide	sul2_21	AB366440
+tetracycline	tet_1	M74049	tetracycline
+tetracycline	tet(47)_1	KR857681	tetracycline
+tetracycline	tet(48)_1	KR857682	tetracycline
+tetracycline	tet(49)_1	KR857683	tetracycline
+tetracycline	tet(50)_1	KR857684	tetracycline
+tetracycline	tet(51)_1	KR857685	tetracycline
+tetracycline	tet(52)_1	KR857686	tetracycline
+tetracycline	tet(53)_1	KR857687	tetracycline
+tetracycline	tet(54)_1	KR857688	tetracycline
+tetracycline	tet(55)_1	KR857689	tetracycline
+tetracycline	tet(O)_4	AIOQ01000025	tetracycline
+tetracycline	otr(B)_1	AF079900	tetracycline
 tetracycline	tet(39)_1	KT346360	tetracycline
-tetracycline	tet(33)_2	AY255627	tetracycline
-tetracycline	tet(33)_3	DQ390458	tetracycline
+tetracycline	tet(33)_1	AY255627	tetracycline
+tetracycline	tet(33)_2	DQ390458	tetracycline
 tetracycline	tet(32)_1	EU722333	tetracycline
 tetracycline	tet(32)_2	EF626943	tetracycline
 tetracycline	tet(31)_1	GQ283908	tetracycline
@@ -2121,8 +2294,7 @@ tetracycline	tet(31)_2	AJ250203	tetracycline
 tetracycline	tet(44)_1	NZ_ABDU01000081	tetracycline
 tetracycline	tet(44)_2	FN594949	tetracycline
 tetracycline	tet(40)_1	FJ158002	tetracycline
-tetracycline	tet(40)_2	FJ158002	tetracycline
-tetracycline	tet(40)_3	AM419751	tetracycline
+tetracycline	tet(40)_2	AM419751	tetracycline
 tetracycline	tet(37)_1	AF540889	tetracycline
 tetracycline	tet(34)_1	AB061440	tetracycline
 tetracycline	otr(A)_1	X53401	tetracycline
@@ -2132,30 +2304,38 @@ tetracycline	tet(T)_2	AY660530	tetracycline
 tetracycline	tet(41)_1	AY264780	tetracycline
 tetracycline	tet(42)_1	EU523697	tetracycline
 tetracycline	tet(43)_1	GQ244501	tetracycline
+tetracycline	tet(45)_1	JF837331	tetracycline
+tetracycline	tetA(46)_1	HQ652506	tetracycline
+tetracycline	tetB(46)_1	HQ652506	tetracycline
+tetracycline	tet(57)_1	KP137702	tetracycline
+tetracycline	tet(59)_1	KU736878	tetracycline
+tetracycline	tetA(60)_1	KX000272	tetracycline
+tetracycline	tetB(60)_1	KX000273	tetracycline
 tetracycline	otr(C)_1	AY509111	tetracycline
-tetracycline	tcr_1	D38215	tetracycline
+tetracycline	tcr3_1	D38215	tetracycline
 tetracycline	tet(30)_1	AF090987	tetracycline
 tetracycline	tet(35)_1	AF353562	tetracycline
+tetracycline	tet(A)_1	AJ313332	tetracycline
 tetracycline	tet(A)_2	X00006	tetracycline
 tetracycline	tet(A)_3	AY196695	tetracycline
 tetracycline	tet(A)_4	AJ517790	tetracycline
 tetracycline	tet(A)_5	AJ419171	tetracycline
-tetracycline	tet(A)_6	AJ313332	tetracycline
-tetracycline	tet(G)_2	AF133139	tetracycline
+tetracycline	tet(A)_6	AF534183	tetracycline
+tetracycline	tet(G)_1	AF133139	tetracycline
+tetracycline	tet(G)_2	AF133140	tetracycline
 tetracycline	tet(G)_3	S52437	tetracycline
-tetracycline	tet(G)_4	AF133140	tetracycline
-tetracycline	tet(G)_5	AF071555	tetracycline
-tetracycline	tet(E)_2	EF471995	tetracycline
-tetracycline	tet(E)_3	L06940	tetracycline
-tetracycline	tet(E)_5	CP000645	tetracycline
+tetracycline	tet(E)_1	Y19116	tetracycline
+tetracycline	tet(E)_2	L06940	tetracycline
+tetracycline	tet(E)_3	CP000645	tetracycline
 tetracycline	tet(D)_1	AF467077	tetracycline
-tetracycline	tet(D)_5	X65876	tetracycline
-tetracycline	tet(C)_2	NC_003123	tetracycline
-tetracycline	tet(C)_5	NC_003213	tetracycline
-tetracycline	tet(C)_9	AY046276	tetracycline
-tetracycline	tet(B)_3	AP000342	tetracycline
-tetracycline	tet(B)_4	AF326777	tetracycline
-tetracycline	tet(B)_5	AJ277653	tetracycline
+tetracycline	tet(D)_2	X65876	tetracycline
+tetracycline	tet(C)_1	NC_003123	tetracycline
+tetracycline	tet(C)_2	AY046276	tetracycline
+tetracycline	tet(C)_3	AF055345	tetracycline
+tetracycline	tet(C)_4	AY043298	tetracycline
+tetracycline	tet(B)_1	AP000342	tetracycline
+tetracycline	tet(B)_2	AF326777	tetracycline
+tetracycline	tet(B)_3	AJ277653	tetracycline
 tetracycline	tet(H)_1	Y16103	tetracycline
 tetracycline	tet(H)_2	AJ245947	tetracycline
 tetracycline	tet(H)_3	Y15510	tetracycline
@@ -2178,40 +2358,70 @@ tetracycline	tet(M)_12	FR671418	tetracycline
 tetracycline	tet(M)_13	AM990992	tetracycline
 tetracycline	tet(L)_1	HM235948	tetracycline
 tetracycline	tet(L)_2	M29725	tetracycline
-tetracycline	tet(L)_4	M11036	tetracycline
-tetracycline	tet(L)_5	D00006	tetracycline
-tetracycline	tet(L)_6	X08034	tetracycline
-tetracycline	tet(L)_7	D12567	tetracycline
-tetracycline	tet(L)_8	X60828	tetracycline
-tetracycline	tet(L)_9	AY081910	tetracycline
-tetracycline	tet(K)_4	U38428	tetracycline
-tetracycline	tet(K)_5	J01764	tetracycline
+tetracycline	tet(L)_3	M11036	tetracycline
+tetracycline	tet(L)_4	D00006	tetracycline
+tetracycline	tet(L)_5	X08034	tetracycline
+tetracycline	tet(L)_6	D12567	tetracycline
+tetracycline	tet(L)_7	X60828	tetracycline
+tetracycline	tet(L)_8	AY081910	tetracycline
+tetracycline	tet(K)_1	U38656	tetracycline
+tetracycline	tet(K)_2	J01764	tetracycline
 tetracycline	tet(J)_1	ACLE01000065	tetracycline
 tetracycline	tet(J)_2	AF038993	tetracycline
-tetracycline	tet(S)_1	DQ377340	tetracycline
 tetracycline	tet(S)_2	L09756	tetracycline
 tetracycline	tet(S)_3	X92946	tetracycline
+tetracycline	tet(S)_4	AY534326	tetracycline
 tetracycline	tet(Q)_1	L33696	tetracycline
 tetracycline	tet(Q)_2	X58717	tetracycline
 tetracycline	tet(Q)_3	U73497	tetracycline
 tetracycline	tet(Q)_4	Z21523	tetracycline
 tetracycline	tetA(P)_1	AB054980	tetracycline
-tetracycline	tetA(P)_2	HQ399624	tetracycline
-tetracycline	tetA(P)_3	L20800	tetracycline
-tetracycline	tetA(P)_4	AB001076	tetracycline
-tetracycline	tet(Z)_2	AF121000	tetracycline
+tetracycline	tetA(P)_2	L20800	tetracycline
+tetracycline	tetA(P)_3	AB001076	tetracycline
+tetracycline	tet(Z)_1	AF121000	tetracycline
 tetracycline	tet(Y)_1	EF495198	tetracycline
-tetracycline	tet(Y)_5	AB089606	tetracycline
+tetracycline	tet(Y)_2	AB089606	tetracycline
 tetracycline	tet(X)_1	GU014535	tetracycline
 tetracycline	tet(X)_2	M37699	tetracycline
 tetracycline	tet(X)_3	AB097942	tetracycline
 tetracycline	tet(W)_1	DQ060146	tetracycline
 tetracycline	tet(W)_2	AY049983	tetracycline
-tetracycline	tet(W)_4	AJ427422	tetracycline
-tetracycline	tet(W)_5	AJ427421	tetracycline
-tetracycline	tet(W)_6	FN396364	tetracycline
+tetracycline	tet(W)_3	AJ427421	tetracycline
+tetracycline	tet(W)_4	FN396364	tetracycline
+tetracycline	tet(W)_5	AJ427422	tetracycline
 tetracycline	tet(V)_1	AF030344	tetracycline
-tetracycline	tetB(P)_3	NC_010937	tetracycline
+tetracycline	tetB(P)_1	NC_010937	tetracycline
+tetracycline	tet(O/W)_1	AM889118	tetracycline
+tetracycline	tet(O/W)_2	AM889119	tetracycline
+tetracycline	tet(O/W)_3	AM889120	tetracycline
+tetracycline	tet(O/W)_4	AM889121	tetracycline
+tetracycline	tet(O/W)_5	AM889122	tetracycline
+tetracycline	tet(O/W)-2_1	AY485122	tetracycline
+tetracycline	tet(O/W)-1_1	AY485126	tetracycline
+tetracycline	tet(O/W/O)-3_1	EF065524	tetracycline
+tetracycline	tet(O/W/O)-2_1	AY196920	tetracycline
+tetracycline	tet(O/W/O)-1_1	AY196921	tetracycline
+tetracycline	tet(O/W/32/O)_1	EF065523	tetracycline
+tetracycline	tet(O/W/32/O)_2	FM164392	tetracycline
+tetracycline	tet(O/W/32/O)_3	FR823304	tetracycline
+tetracycline	tet(O/W/32/O)_4	FR824044	tetracycline
+tetracycline	tet(O/W/32/O)_5	JQ740053	tetracycline
+tetracycline	tet(O/W/32/O/W/O)_1	DQ525023	tetracycline
+tetracycline	tet(O/W/32/O/W/O)_2	DQ679926	tetracycline
+tetracycline	tet(O/32/O)_1	JQ740052	tetracycline
+tetracycline	tet(0/32/0)_2	AJ295238	tetracycline
+tetracycline	tet(0/32/0)_3	NZ_AUJS01000017	tetracycline
+tetracycline	tet(0/32/0)_4	AINH01000038	tetracycline
+tetracycline	tet(0/32/0)_5	NZ_AINJ01000054	tetracycline
+tetracycline	tet(0/32/0)_6	AIOQ01000025	tetracycline
+tetracycline	tet(0/32/0)_7	FP929050	tetracycline
+tetracycline	tet(S/M)_1	HM367711	tetracycline
+tetracycline	tet(S/M)_2	AY534326	tetracycline
+tetracycline	tet(W/32/O)_1	AM710601	tetracycline
+tetracycline	tet(W/32/O)_2	AM710602	tetracycline
+tetracycline	tet(W/32/O)_3	AM710603	tetracycline
+tetracycline	tet(W/32/O)_4	AM710604	tetracycline
+tetracycline	tet(W/32/O)_5	AM	tetracycline
 trimethoprim	dfrA27_1	FJ459817	trimethoprim
 trimethoprim	dfrA31_1	AB200915	trimethoprim
 trimethoprim	dfrA12_1	AB571791	trimethoprim
