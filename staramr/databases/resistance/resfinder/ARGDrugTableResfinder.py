@@ -10,10 +10,10 @@ class ARGDrugTableResfinder(ARGDrugTable):
     DEFAULT_FILE = path.join(ARGDrugTable.DEFAULT_DATA_DIR, 'ARG_drug_key_resfinder.tsv')
 
     def __init__(self, file=DEFAULT_FILE):
-        super().__init__(file)
+        super().__init__(file=file)
 
     def get_drug(self, drug_class, gene_plus_variant, accession):
-        table = self.data
+        table = self._data
 
         drug = table[(table['Class'] == drug_class) & (table['Gene'] == gene_plus_variant) & (
                 table['Accession'] == accession)]['Drug']

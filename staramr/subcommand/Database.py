@@ -9,6 +9,7 @@ from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 
 """
 Base class for interacting with a database.
@@ -189,13 +190,21 @@ class Info(Database):
     def run(self, args):
         super(Info, self).run(args)
 
+        arg_drug_table = ARGDrugTable()
+
         if len(args.directories) == 0:
             database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
-            sys.stdout.write(get_string_with_spacing(database_handler.info()))
+            database_info = database_handler.info()
+            database_info.extend(arg_drug_table.get_resistance_table_info())
+            sys.stdout.write(get_string_with_spacing(database_info))
         elif len(args.directories) == 1:
             database_handler = AMRDatabaseHandlerFactory(args.directories[0]).get_database_handler()
-            sys.stdout.write(get_string_with_spacing(database_handler.info()))
+            database_info = database_handler.info()
+            database_info.extend(arg_drug_table.get_resistance_table_info())
+            sys.stdout.write(get_string_with_spacing(database_info))
         else:
             for directory in args.directories:
                 database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
-                sys.stdout.write(get_string_with_spacing(database_handler.info()))
+                database_info = database_handler.info()
+                database_info.extend(arg_drug_table.get_resistance_table_info())
+                sys.stdout.write(get_string_with_spacing(database_info))

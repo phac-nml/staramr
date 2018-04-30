@@ -13,6 +13,6 @@ def get_string_with_spacing(data):
     max_width = max([len(w[0]) for w in data])
 
     for item in data:
-        string = string + item[0].ljust(max_width) + " = " + item[1] + "\n"
+        string = string + item[0].ljust(max_width) + " = " + str(item[1]) + "\n"
 
     return string

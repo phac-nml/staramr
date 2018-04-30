@@ -10,10 +10,10 @@ class ARGDrugTablePointfinder(ARGDrugTable):
     DEFAULT_FILE = path.join(ARGDrugTable.DEFAULT_DATA_DIR, 'ARG_drug_key_pointfinder.tsv')
 
     def __init__(self, file=DEFAULT_FILE):
-        super().__init__(file)
+        super().__init__(file=file)
 
     def get_drug(self, organism, gene, codon_position):
-        table = self.data
+        table = self._data
 
         drug = table[(table['Organism'] == organism) & (table['Gene'] == gene) & (
                 table['Codon Pos.'] == codon_position)]['Drug']

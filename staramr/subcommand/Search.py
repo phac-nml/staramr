@@ -15,6 +15,7 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 
 logger = logging.getLogger("Search")
 
@@ -186,6 +187,9 @@ class Search(SubCommand):
             settings.insert(2, ['start_time', start_time.strftime("%Y-%m-%d %H:%M:%S")])
             settings.insert(3, ['end_time', end_time.strftime("%Y-%m-%d %H:%M:%S")])
             settings.insert(4, ['total_minutes', time_difference_minutes])
+            if args.include_resistance:
+                arg_drug_table = ARGDrugTable()
+                settings.extend(arg_drug_table.get_resistance_table_info())
             self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
             settings_dataframe = pandas.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
