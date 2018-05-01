@@ -22,4 +22,4 @@ class ARGDrugTablePointfinder(ARGDrugTable):
                 "No drug found for organism=" + organism + ", gene=" + gene + ", codon_position=" + codon_position)
             return None
         else:
-            return drug.iloc[0]
+            return self._drug_string_to_correct_separators(drug.iloc[0])

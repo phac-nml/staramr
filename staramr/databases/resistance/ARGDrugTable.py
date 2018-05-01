@@ -21,3 +21,11 @@ class ARGDrugTable:
         """
         database_info = pandas.read_csv(self._info_file, sep="=", index_col=False, header=None)
         return database_info.as_matrix().tolist()
+
+    def _drug_string_to_correct_separators(self, drug):
+        """
+        Converts a drug string (separated by commas) to use correct separators/spacing.
+        :param drug: The drug string.
+        :return: The drug string with correct separators/spacing.
+        """
+        return ', '.join(drug.split(','))

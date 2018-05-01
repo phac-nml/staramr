@@ -22,4 +22,4 @@ class ARGDrugTableResfinder(ARGDrugTable):
                 "No drug found for drug_class=" + drug_class + ", gene=" + gene_plus_variant + ", accession=" + accession)
             return None
         else:
-            return drug.iloc[0]
+            return self._drug_string_to_correct_separators(drug.iloc[0])

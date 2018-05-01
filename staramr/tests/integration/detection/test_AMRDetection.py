@@ -53,7 +53,7 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
@@ -166,7 +166,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.33, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong percent overlap')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle-rc.fsa')
@@ -195,7 +195,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
@@ -204,7 +204,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies.fsa')
@@ -232,7 +232,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
@@ -241,7 +241,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name,
@@ -279,7 +279,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R nalidixic acid',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P.fsa')
@@ -345,7 +345,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.961, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 98.22, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2590/2637', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R nalidixic acid',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P-del-end.fsa')
@@ -425,7 +425,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R nalidixic acid',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P-rc.fsa')
@@ -459,7 +459,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.935, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Spectinomycin',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_16S_rrsD-1T1065.fsa')
@@ -488,7 +488,7 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
@@ -511,7 +511,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.935, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Spectinomycin',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
                          'Wrong phenotype')
 
         result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
@@ -523,7 +523,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R nalidixic acid',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_16S_gyrA_beta-lactam.fsa')
@@ -552,7 +552,7 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
@@ -575,7 +575,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.935, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Spectinomycin',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
                          'Wrong phenotype')
 
         result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
@@ -587,7 +587,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R nalidixic acid',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
