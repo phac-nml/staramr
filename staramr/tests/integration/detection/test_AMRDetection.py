@@ -11,10 +11,10 @@ from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
+from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
+from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
-from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
-from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 
 logger = logging.getLogger('AMRDetectionIT')
 
@@ -53,7 +53,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem', 'Wrong phenotype')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin amoxi/clav cefoxitin ceftriaxone meropenem',
+                         'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -259,7 +260,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
-                                     self.pointfinder_drug_table, pointfinder_database, output_dir=self.outdir.name)
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
         files = [file]
@@ -599,8 +601,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderExcludeNonMatches(self):
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
-                                     self.pointfinder_drug_table, self.pointfinder_database,
-                                     include_negative_results=False, output_dir=self.outdir.name)
+                                               self.pointfinder_drug_table, self.pointfinder_database,
+                                               include_negative_results=False, output_dir=self.outdir.name)
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
         files = [file_beta_lactam, file_non_match]
@@ -620,8 +622,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderIncludeNonMatches(self):
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
-                                     self.pointfinder_drug_table, self.pointfinder_database,
-                                     include_negative_results=True, output_dir=self.outdir.name)
+                                               self.pointfinder_drug_table, self.pointfinder_database,
+                                               include_negative_results=True, output_dir=self.outdir.name)
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
         files = [file_beta_lactam, file_non_match]
@@ -649,8 +651,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testNonMatches(self):
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
-                                     self.pointfinder_drug_table, self.pointfinder_database,
-                                     include_negative_results=True, output_dir=self.outdir.name)
+                                               self.pointfinder_drug_table, self.pointfinder_database,
+                                               include_negative_results=True, output_dir=self.outdir.name)
         files = [path.join(self.test_data_dir, "non-match.fsa")]
         amr_detection.run_amr_detection(files, 99, 90, 90)
 

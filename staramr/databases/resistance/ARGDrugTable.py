@@ -7,7 +7,7 @@ class ARGDrugTable:
     DEFAULT_DATA_DIR = path.join(path.dirname(__file__), 'data')
     DEFAULT_INFO_FILE = path.join(DEFAULT_DATA_DIR, 'info.ini')
 
-    def __init__(self, file = None, info_file = DEFAULT_INFO_FILE):
+    def __init__(self, file=None, info_file=DEFAULT_INFO_FILE):
         self._info_file = info_file
         self._file = file
 

@@ -8,8 +8,8 @@ from os import path, mkdir
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
-from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
+from staramr.exceptions.CommandParseException import CommandParseException
 
 """
 Base class for interacting with a database.
