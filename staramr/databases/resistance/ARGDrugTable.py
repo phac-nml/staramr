@@ -2,12 +2,21 @@ from os import path
 
 import pandas
 
+"""
+Class which provides access to gene/drug mappings stored in tabular files. 
+"""
+
 
 class ARGDrugTable:
     DEFAULT_DATA_DIR = path.join(path.dirname(__file__), 'data')
     DEFAULT_INFO_FILE = path.join(DEFAULT_DATA_DIR, 'info.ini')
 
     def __init__(self, file=None, info_file=DEFAULT_INFO_FILE):
+        """
+        Creates a new ARGDrugTable with the given file, and info file (storing versions of each gene/drug table).
+        :param file: The file containing the gene/drug mappings.
+        :param info_file: The info file containing version information for the gene/drug mapping files.
+        """
         self._info_file = info_file
         self._file = file
 

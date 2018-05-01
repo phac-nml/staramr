@@ -14,6 +14,12 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
     blank = '-'
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
+        """
+        Creates a new AMRDetectionSummaryResistance.
+        :param files: The list of genome files we have scanned against.
+        :param resfinder_dataframe: The pandas.DataFrame containing the ResFinder results.
+        :param pointfinder_dataframe: The pandas.DataFrame containing the PointFinder results.
+        """
         super().__init__(files, resfinder_dataframe, pointfinder_dataframe)
 
     def _aggregate_gene_phenotype(self, dataframe):

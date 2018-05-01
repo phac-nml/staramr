@@ -4,11 +4,25 @@ from staramr.blast.results.resfinder.BlastResultsParserResfinderResistance impor
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
 
+"""
+A Class to handle scanning files for AMR genes and also include pheneotypes/resistances in results.
+"""
+
 
 class AMRDetectionResistance(AMRDetection):
 
     def __init__(self, resfinder_database, arg_drug_table_resfinder, amr_detection_handler, arg_drug_table_pointfinder,
                  pointfinder_database=None, include_negative_results=False, output_dir=None):
+        """
+        Builds a new AMRDetectionResistance.
+        :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
+        :param arg_drug_table_resfinder: The staramr.databases.resistance.ARGDrugTable for searching for resfinder resistances.
+        :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
+        :param arg_drug_table_pointfinder: The staramr.databases.resistance.ARGDrugTable for searching for pointfinder resistances.
+        :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
+        :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
+        :param output_dir: The directory where output fasta files are to be written into (None for no output fasta files).
+        """
         super().__init__(resfinder_database, amr_detection_handler, pointfinder_database, include_negative_results,
                          output_dir=output_dir)
         self._arg_drug_table_resfinder = arg_drug_table_resfinder

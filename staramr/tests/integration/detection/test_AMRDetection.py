@@ -53,7 +53,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
@@ -166,7 +167,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.33, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong percent overlap')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle-rc.fsa')
@@ -488,7 +490,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
@@ -552,7 +555,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
