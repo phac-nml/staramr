@@ -117,6 +117,16 @@ pip install staramr
 
 However, you will have to install the external dependencies (listed below) separately.
 
+## Latest Code
+
+If you wish to make use of the latest in-development version of `staramr`, you may update directly from GitHub using `pip`:
+
+```bash
+pip install git+https://github.com/phac-nml/staramr
+```
+
+This will only install the Python code, you will still have to install the dependencies listed below (or run the `pip` command from the previously installed Bioconda environment).
+
 ## Dependencies
 
 * Python 3
