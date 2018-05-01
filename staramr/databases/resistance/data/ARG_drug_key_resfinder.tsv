@@ -1638,37 +1638,37 @@ beta-lactam	blaOXA-153_1	KP771981	ampicillin amoxi/clav cefoxitin ceftriaxone me
 beta-lactam	blaOXA-151_1	KP771979	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
 beta-lactam	blaOXA-152_1	KP771980	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
 beta-lactam	blaIMP-58_1	KU647281	ampicillin amoxi/clav cefoxitin ceftriaxone meropenem
-colistin	mcr-1_1	KP347127	Colistin
-colistin	mcr-1.2_1	KX236309	Colistin
-colistin	mcr-1.3_1	KU934208	Colistin
-colistin	mcr-1.4_1	KY041856	Colistin
-colistin	mcr-1.5_1	KY283125	Colistin
-colistin	mcr-1.6_1	KY352406	Colistin
-colistin	mcr-1.7_1	KY488488	Colistin
-colistin	mcr-1.8_1	KY683842	Colistin
-colistin	mcr-1.9_1	KY964067	Colistin
-colistin	mcr-1.10_1	MF176238	Colistin
-colistin	mcr-1.11_1	KY853650	Colistin
-colistin	mcr-1.12_1	LC337668	Colistin
-colistin	mcr-2_1	LT598652	Colistin
-colistin	mcr-2.2_1	NG055496	Colistin
-colistin	mcr-3_1	NG055493	Colistin
-colistin	mcr-3_2	NG055497	Colistin
-colistin	mcr-3.1	KY924928	Colistin
-colistin	mcr-3.2_1	NG055523	Colistin
-colistin	mcr-3.4_1	NG055492	Colistin
-colistin	mcr-3.5_1	MF463699	Colistin
-colistin	mcr-3.10_1	MG214533	Colistin
-colistin	mcr-3.11_1	MG489958	Colistin
-colistin	mcr-4_1	MF543359	Colistin
-colistin	mcr-4.2_1	MG581979	Colistin
-colistin	mcr-4.2_2	MG026621	Colistin
-colistin	mcr-4.3_1	ERS1801979	Colistin
-colistin	mcr-5_1	KY807921	Colistin
-colistin	mcr-5.2_1	MG384740	Colistin
-colistin	mcr-6_1	MF176240	Colistin
-colistin	mcr-7_1	MG267386	Colistin
-colistin	mcr-7.1_1	MG267386	Colistin
+colistin	mcr-1_1	KP347127	colistin
+colistin	mcr-1.2_1	KX236309	colistin
+colistin	mcr-1.3_1	KU934208	colistin
+colistin	mcr-1.4_1	KY041856	colistin
+colistin	mcr-1.5_1	KY283125	colistin
+colistin	mcr-1.6_1	KY352406	colistin
+colistin	mcr-1.7_1	KY488488	colistin
+colistin	mcr-1.8_1	KY683842	colistin
+colistin	mcr-1.9_1	KY964067	colistin
+colistin	mcr-1.10_1	MF176238	colistin
+colistin	mcr-1.11_1	KY853650	colistin
+colistin	mcr-1.12_1	LC337668	colistin
+colistin	mcr-2_1	LT598652	colistin
+colistin	mcr-2.2_1	NG055496	colistin
+colistin	mcr-3_1	NG055493	colistin
+colistin	mcr-3_2	NG055497	colistin
+colistin	mcr-3.1	KY924928	colistin
+colistin	mcr-3.2_1	NG055523	colistin
+colistin	mcr-3.4_1	NG055492	colistin
+colistin	mcr-3.5_1	MF463699	colistin
+colistin	mcr-3.10_1	MG214533	colistin
+colistin	mcr-3.11_1	MG489958	colistin
+colistin	mcr-4_1	MF543359	colistin
+colistin	mcr-4.2_1	MG581979	colistin
+colistin	mcr-4.2_2	MG026621	colistin
+colistin	mcr-4.3_1	ERS1801979	colistin
+colistin	mcr-5_1	KY807921	colistin
+colistin	mcr-5.2_1	MG384740	colistin
+colistin	mcr-6_1	MF176240	colistin
+colistin	mcr-7_1	MG267386	colistin
+colistin	mcr-7.1_1	MG267386	colistin
 fosfomycin	fosB1_1	CP001903	fosfomycin
 fosfomycin	fosX_1	AP010904	fosfomycin
 fosfomycin	fos_1	ACCV01000052	fosfomycin
@@ -1965,7 +1965,7 @@ macrolide	erm(W)_1	D14532	lincomycin
 macrolide	cfr_1	AM408573	clindamycin
 macrolide	cfr_2	AJ879565	clindamycin
 macrolide	lmr(B)_1	X62867	lincomycin
-macrolide	cfr(C)_1	KX686749	Chloramphenicol florfenicol linezolid tiamulin clindamycin
+macrolide	cfr(C)_1	KX686749	chloramphenicol florfenicol linezolid tiamulin clindamycin
 macrolide	erm(48)_1	LT223129	erythromycin azithromycin
 macrolide	mph(F)_1	AM260957	erythromycin azithromycin
 macrolide	erm(B)_23	Y00116	erythromycin azithromycin
@@ -2042,51 +2042,51 @@ oxazolidinone	optrA_18	ALMH01000001	linezolid
 oxazolidinone	optrA_19	ALMN01000021	linezolid
 oxazolidinone	optrA_20	ALMZ01000078	linezolid
 oxazolidinone	cfrB_1	KR610408	linezolid
-oxazolidinone	cfr(C)_1	KX686749	Chloramphenicol florfenicol linezolid tiamulin clindamycin
-phenicol	catB4_1	EU935739	Chloramphenicol
-phenicol	catB_1	M93113	Chloramphenicol
-phenicol	catB1_1	M58472	Chloramphenicol
-phenicol	catB2_1	AF047479	Chloramphenicol
-phenicol	catB3_1	AJ009818	Chloramphenicol
-phenicol	catB7_1	AF036933	Chloramphenicol
-phenicol	catB8_1	AF227506	Chloramphenicol
-phenicol	catB9_1	AF462019	Chloramphenicol
-phenicol	catB10_1	AJ878850	Chloramphenicol
-phenicol	catA3_1	X07848	Chloramphenicol
-phenicol	cat_1	M11587	Chloramphenicol
-phenicol	cat_5	U35036	Chloramphenicol
-phenicol	cat86_1	K00544	Chloramphenicol
-phenicol	cat_2	M35190	Chloramphenicol
-phenicol	cat_3	S48276	Chloramphenicol
-phenicol	cat(pC221)_1	X02529	Chloramphenicol
-phenicol	cat(pC233)_1	AY355285	Chloramphenicol
-phenicol	cat(pC194)_1	NC_002013	Chloramphenicol
-phenicol	catS_1	X74948	Chloramphenicol
-phenicol	catP_1	U15027	Chloramphenicol
-phenicol	cmlA1_1	M64556	Chloramphenicol
-phenicol	cmlA1_2	AB212941	Chloramphenicol
-phenicol	cml_1	M22614	Chloramphenicol
-phenicol	cmlV_1	U09991	Chloramphenicol
-phenicol	floR_1	AF071555	Chloramphenicol
-phenicol	floR_2	AF118107	Chloramphenicol
-phenicol	fexA_1	AJ549214	Chloramphenicol
-phenicol	pexA_1	HM537013	Chloramphenicol
-phenicol	catA1_1	V00622	Chloramphenicol
-phenicol	catA2_1	X53796	Chloramphenicol
-phenicol	cat_4	AY238971	Chloramphenicol
-phenicol	catQ_1	M55620	Chloramphenicol
-phenicol	cmrA_1	Z12001	Chloramphenicol
-phenicol	cmx_1	U85507	Chloramphenicol
-phenicol	cfr_1	AM408573	Chloramphenicol
-phenicol	cfr_2	AJ879565	Chloramphenicol
-phenicol	cfr(B)_3	KR610408	Chloramphenicol
-phenicol	cfr(C)_1	KX686749	Chloramphenicol florfenicol linezolid tiamulin clindamycin
-phenicol	cfr(B)_1	KM359439	Chloramphenicol
-phenicol	cfr(B)_2	KM359438	Chloramphenicol
-phenicol	cfr(C)_2	CANB01000378	Chloramphenicol
-phenicol	cmlB1_1	AM296481	Chloramphenicol
-phenicol	fexB_1	JN201336	Chloramphenicol
-phenicol	EstDL136_1	JN242251	Chloramphenicol
+oxazolidinone	cfr(C)_1	KX686749	chloramphenicol florfenicol linezolid tiamulin clindamycin
+phenicol	catB4_1	EU935739	chloramphenicol
+phenicol	catB_1	M93113	chloramphenicol
+phenicol	catB1_1	M58472	chloramphenicol
+phenicol	catB2_1	AF047479	chloramphenicol
+phenicol	catB3_1	AJ009818	chloramphenicol
+phenicol	catB7_1	AF036933	chloramphenicol
+phenicol	catB8_1	AF227506	chloramphenicol
+phenicol	catB9_1	AF462019	chloramphenicol
+phenicol	catB10_1	AJ878850	chloramphenicol
+phenicol	catA3_1	X07848	chloramphenicol
+phenicol	cat_1	M11587	chloramphenicol
+phenicol	cat_5	U35036	chloramphenicol
+phenicol	cat86_1	K00544	chloramphenicol
+phenicol	cat_2	M35190	chloramphenicol
+phenicol	cat_3	S48276	chloramphenicol
+phenicol	cat(pC221)_1	X02529	chloramphenicol
+phenicol	cat(pC233)_1	AY355285	chloramphenicol
+phenicol	cat(pC194)_1	NC_002013	chloramphenicol
+phenicol	catS_1	X74948	chloramphenicol
+phenicol	catP_1	U15027	chloramphenicol
+phenicol	cmlA1_1	M64556	chloramphenicol
+phenicol	cmlA1_2	AB212941	chloramphenicol
+phenicol	cml_1	M22614	chloramphenicol
+phenicol	cmlV_1	U09991	chloramphenicol
+phenicol	floR_1	AF071555	chloramphenicol
+phenicol	floR_2	AF118107	chloramphenicol
+phenicol	fexA_1	AJ549214	chloramphenicol
+phenicol	pexA_1	HM537013	chloramphenicol
+phenicol	catA1_1	V00622	chloramphenicol
+phenicol	catA2_1	X53796	chloramphenicol
+phenicol	cat_4	AY238971	chloramphenicol
+phenicol	catQ_1	M55620	chloramphenicol
+phenicol	cmrA_1	Z12001	chloramphenicol
+phenicol	cmx_1	U85507	chloramphenicol
+phenicol	cfr_1	AM408573	chloramphenicol
+phenicol	cfr_2	AJ879565	chloramphenicol
+phenicol	cfr(B)_3	KR610408	chloramphenicol
+phenicol	cfr(C)_1	KX686749	chloramphenicol florfenicol linezolid tiamulin clindamycin
+phenicol	cfr(B)_1	KM359439	chloramphenicol
+phenicol	cfr(B)_2	KM359438	chloramphenicol
+phenicol	cfr(C)_2	CANB01000378	chloramphenicol
+phenicol	cmlB1_1	AM296481	chloramphenicol
+phenicol	fexB_1	JN201336	chloramphenicol
+phenicol	EstDL136_1	JN242251	chloramphenicol
 quinolone	qnrA1_1	AY070235	ciprofloxacin I/R
 quinolone	qnrA2_1	AY675584	ciprofloxacin I/R
 quinolone	qnrA3_1	DQ058661	ciprofloxacin I/R
