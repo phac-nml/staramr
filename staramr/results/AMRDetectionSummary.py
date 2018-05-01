@@ -8,6 +8,7 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 
 class AMRDetectionSummary:
+    separator = ','
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
         """
@@ -27,7 +28,7 @@ class AMRDetectionSummary:
 
     def _compile_results(self, df):
         df_summary = df.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
-            lambda x: {'Gene': "%s" % ', '.join(x['Gene'])})
+            lambda x: {'Gene': "%s" % (self.separator+' ').join(x['Gene'])})
         return df_summary[['Gene']]
 
     def _include_negatives(self, df):

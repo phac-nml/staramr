@@ -23,8 +23,23 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         ],
             columns=self.columns_resfinder)
 
+
+        self.resfinder_table_duplicate_resistances = pandas.DataFrame([
+            ['file1', 'blaIMP-42', 'ampicillin', 99.73, 100.00,
+             '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456'],
+            ['file1', 'blaCTX-M-55', 'ampicillin, ceftriaxone', 99.73, 100.00,
+             '741/741', 'x', 1, 741, 'AB753456']
+        ],
+            columns=self.columns_resfinder)
+
         self.pointfinder_table = pandas.DataFrame([
             ['file1', 'gyrA', 'ciprofloxacin I/R, nalidixic acid', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
+             '2637/2637'],
+        ],
+            columns=self.columns_pointfinder)
+
+        self.pointfinder_table_duplicate = pandas.DataFrame([
+            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
              '2637/2637'],
         ],
             columns=self.columns_pointfinder)
@@ -41,6 +56,18 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42', summary['Genotype'].iloc[0], 'Genes not equal')
         self.assertEqual('ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+                         summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
+
+    def testResfinderDuplicateResistances(self):
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances)
+
+        summary = amr_detection_summary.create_summary()
+
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
+        self.assertEqual('blaCTX-M-55, blaIMP-42', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('ampicillin, ceftriaxone',
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testPointfinder(self):
@@ -66,4 +93,16 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42, gyrA', summary['Genotype'].iloc[0], 'Genes not equal')
         self.assertEqual('ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem, ciprofloxacin I/R, nalidixic acid',
+                         summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
+
+    def testPointfinderResfinderDuplicate(self):
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances, self.pointfinder_table_duplicate)
+
+        summary = amr_detection_summary.create_summary()
+
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+
+        self.assertEqual('file1', summary.index[0], 'File name not equal')
+        self.assertEqual('blaCTX-M-55, blaIMP-42, gyrA', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('ampicillin, ceftriaxone, ciprofloxacin I/R',
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')

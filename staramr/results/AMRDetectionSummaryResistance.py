@@ -23,10 +23,11 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         super().__init__(files, resfinder_dataframe, pointfinder_dataframe)
 
     def _aggregate_gene_phenotype(self, dataframe):
-        uniq_phenotype = OrderedDict.fromkeys(dataframe['Predicted Phenotype'])
+        flattened_phenotype_list = [y.strip() for x in dataframe['Predicted Phenotype'].tolist() for y in x.split(self.separator)]
+        uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 
-        return {'Gene': "%s" % ', '.join(dataframe['Gene']),
-                'Predicted Phenotype': "%s" % ', '.join(list(uniq_phenotype))
+        return {'Gene': "%s" % (self.separator+' ').join(dataframe['Gene']),
+                'Predicted Phenotype': "%s" % (self.separator+' ').join(list(uniq_phenotype))
                 }
 
     def _compile_results(self, df):
@@ -37,7 +38,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
 
         df_summary = df_summary.sort_values(by=['Gene.Lower']).groupby(['Isolate ID']).aggregate(
             self._aggregate_gene_phenotype).replace({'Predicted Phenotype': {self.blank: 'Sensitive'}}).replace(
-            {'Predicted Phenotype': {', ' + self.blank: '', self.blank + ', ': ''}}, regex=True)
+            {'Predicted Phenotype': {(self.separator+' ') + self.blank: '', self.blank + (self.separator+' '): ''}}, regex=True)
         return df_summary[['Gene', 'Predicted Phenotype']]
 
     def _include_negatives(self, df):
