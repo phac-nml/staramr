@@ -127,6 +127,12 @@ pip install git+https://github.com/phac-nml/staramr
 
 This will only install the Python code, you will still have to install the dependencies listed below (or run the `pip` command from the previously installed Bioconda environment).
 
+Also, due to the way I package the ResFinder/PointFinder databases, the development code will not come with a default database.  You must first build the database before usage. E.g.
+
+```
+staramr db build --resfinder-commit dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2 --pointfinder-commit ba65c4d175decdc841a0bef9f9be1c1589c0070a
+```
+
 ## Dependencies
 
 * Python 3
