@@ -78,7 +78,7 @@ class Search(SubCommand):
                                 required=False)
         arg_parser.add_argument('--include-resistance-phenotypes', action='store_true',
                                 dest='include_resistance_phenotypes',
-                                help='Include predicted antimicrobial resistances [False].',
+                                help='Include predicted antimicrobial resistances (experimental feature providing microbiolocial resistance and *not* clinical resistance) [False].',
                                 required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
@@ -192,6 +192,7 @@ class Search(SubCommand):
             if args.include_resistance_phenotypes:
                 arg_drug_table = ARGDrugTable()
                 settings.extend(arg_drug_table.get_resistance_table_info())
+                logger.info("Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
             self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
             settings_dataframe = pandas.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
