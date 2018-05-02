@@ -145,7 +145,7 @@ class Search(SubCommand):
         if args.database == AMRDatabasesManager.get_default_database_directory():
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         else:
-            database_handler = AMRDatabasesManager(args.database)
+            database_handler = AMRDatabasesManager(args.database).get_database_handler()
 
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
