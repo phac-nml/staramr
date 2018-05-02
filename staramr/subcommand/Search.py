@@ -70,8 +70,8 @@ class Search(SubCommand):
                                 help='The organism to use for pointfinder {' + ', '.join(
                                     PointfinderBlastDatabase.get_available_organisms()) + '} [None].', default=None,
                                 required=False)
-        arg_parser.add_argument('--include-negatives', action='store_true', dest='include_negatives',
-                                help='Inclue negative results (those sensitive to antimicrobials) [False].',
+        arg_parser.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
+                                help='Exclude negative results (those sensitive to antimicrobials) [False].',
                                 required=False)
         arg_parser.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
                                 help='Report all blast hits (vs. only top blast hits) [False].',
@@ -163,7 +163,7 @@ class Search(SubCommand):
 
         amr_detection_factory = AMRDetectionFactory()
         amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                    args.include_negatives,
+                                                    not args.exclude_negatives,
                                                     include_resistances=args.include_resistance_phenotypes,
                                                     output_dir=hits_output_dir)
         amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
