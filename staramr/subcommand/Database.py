@@ -8,7 +8,7 @@ import logging
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
-from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
+from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
 
@@ -67,7 +67,7 @@ class Build(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        default_dir = AMRDatabasesManager.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " build\n"
                                 "\t\tBuilds a new ResFinder/PointFinder database under " + default_dir + " if it does not exist\n\n" +
@@ -96,10 +96,10 @@ class Build(Database):
         else:
             mkdir(args.destination)
 
-        if args.destination == AMRDatabaseHandlerFactory.get_default_database_directory():
-            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        if args.destination == AMRDatabasesManager.get_default_database_directory():
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         else:
-            database_handler = AMRDatabaseHandlerFactory(args.destination).get_database_handler()
+            database_handler = AMRDatabasesManager(args.destination).get_database_handler()
         database_handler.build(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
 
 
@@ -119,7 +119,7 @@ class Update(Database):
         super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        default_dir = AMRDatabasesManager.get_default_database_directory()
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " update databases/\n"
@@ -148,13 +148,13 @@ class Update(Database):
             if not args.update_default:
                 raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
             else:
-                database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler(
+                database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
                     force_use_git=True)
                 database_handler.update(resfinder_commit=args.resfinder_commit,
                                         pointfinder_commit=args.pointfinder_commit)
         else:
             for directory in args.directories:
-                database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
+                database_handler = AMRDatabasesManager(directory).get_database_handler()
                 database_handler.update(resfinder_commit=args.resfinder_commit,
                                         pointfinder_commit=args.pointfinder_commit)
 
@@ -205,7 +205,7 @@ class RestoreDefault(Database):
     def run(self, args):
         super(RestoreDefault, self).run(args)
 
-        database_manager = AMRDatabaseHandlerFactory.create_default_factory()
+        database_manager = AMRDatabasesManager.create_default_manager()
 
         if not args.force:
             response = self._confirm_restore()
@@ -233,7 +233,7 @@ class Info(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        default_dir = AMRDatabasesManager.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " info\n"
                                 "\t\tPrints information about the default database in " + default_dir + "\n\n" +
@@ -253,18 +253,18 @@ class Info(Database):
         arg_drug_table = ARGDrugTable()
 
         if len(args.directories) == 0:
-            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
             database_info = database_handler.info()
             database_info.extend(arg_drug_table.get_resistance_table_info())
             sys.stdout.write(get_string_with_spacing(database_info))
         elif len(args.directories) == 1:
-            database_handler = AMRDatabaseHandlerFactory(args.directories[0]).get_database_handler()
+            database_handler = AMRDatabasesManager(args.directories[0]).get_database_handler()
             database_info = database_handler.info()
             database_info.extend(arg_drug_table.get_resistance_table_info())
             sys.stdout.write(get_string_with_spacing(database_info))
         else:
             for directory in args.directories:
-                database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
+                database_handler = AMRDatabasesManager(directory).get_database_handler()
                 database_info = database_handler.info()
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))

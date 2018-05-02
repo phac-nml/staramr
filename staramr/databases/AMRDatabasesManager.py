@@ -4,20 +4,20 @@ from os import path
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.databases.AMRDatabaseHandlerStripGitDir import AMRDatabaseHandlerStripGitDir
 
-logger = logging.getLogger('AMRDatabaseHandlerFactory')
+logger = logging.getLogger('AMRDatabasesManager')
 
 """
-A Class used to handle interactions with the ResFinder/PointFinder database files.
+A Class used to manage interactions with default and updatable ResFinder/PointFinder database installations.
 """
 
 
-class AMRDatabaseHandlerFactory:
+class AMRDatabasesManager:
     DEFAULT_RESFINDER_COMMIT = 'dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2'
     DEFAULT_POINTFINDER_COMMIT = 'ba65c4d175decdc841a0bef9f9be1c1589c0070a'
 
     def __init__(self, database_dir, sub_dirs=False):
         """
-        Builds a new AMRDatabaseHandlerFactory with the passed directory.
+        Builds a new AMRDatabasesManager with the passed directory.
         :param database_dir: The directory containing the ResFinder/PointFinder databases.
         :param sub_dirs: If True, assumes we are using subdirectories to store databases
                             and searching for stripped git directories.
@@ -85,9 +85,9 @@ class AMRDatabaseHandlerFactory:
         return path.join(path.dirname(__file__), 'data')
 
     @classmethod
-    def create_default_factory(cls):
+    def create_default_manager(cls):
         """
-        Class method for getting the default database handler factory.
-        :return: The default database handler factory.
+        Class method for getting the default database manager.
+        :return: The default database manager.
         """
         return cls(cls.get_default_database_directory(), sub_dirs=True)

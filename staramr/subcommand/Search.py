@@ -12,7 +12,7 @@ from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
+from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
@@ -50,7 +50,7 @@ class Search(SubCommand):
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Search for AMR genes')
 
-        self._default_database_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        self._default_database_dir = AMRDatabasesManager.get_default_database_directory()
         cpu_count = multiprocessing.cpu_count()
 
         arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
@@ -142,10 +142,10 @@ class Search(SubCommand):
         if not path.isdir(args.database):
             raise CommandParseException("Database directory [" + args.database + "] does not exist")
 
-        if args.database == AMRDatabaseHandlerFactory.get_default_database_directory():
-            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        if args.database == AMRDatabasesManager.get_default_database_directory():
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         else:
-            database_handler = AMRDatabaseHandlerFactory(args.database)
+            database_handler = AMRDatabasesManager(args.database)
 
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
