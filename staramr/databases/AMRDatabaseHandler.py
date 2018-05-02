@@ -2,6 +2,7 @@ import logging
 import subprocess
 import time
 from os import path
+import shutil
 
 import git
 
@@ -88,6 +89,13 @@ class AMRDatabaseHandler:
 
             self._blast_format()
 
+    def remove(self):
+        """
+        Removes the databases stored in this directory.
+        :return: None
+        """
+        shutil.rmtree(self._database_dir)
+
     def info(self):
         """
         Gets information on the ResFinder/PointFinder databases.
@@ -130,6 +138,13 @@ class AMRDatabaseHandler:
         command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
         logger.debug(' '.join(command))
         subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).check_returncode()
+
+    def get_database_dir(self):
+        """
+        Gets the root database dir.
+        :return: The root database dir.
+        """
+        return self._database_dir
 
     def get_resfinder_dir(self):
         """
