@@ -97,9 +97,9 @@ class Search(SubCommand):
         writer = pandas.ExcelWriter(outfile_path, engine='xlsxwriter')
 
         summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1, 1], na_rep=self.blank)
-        resfinder_dataframe.to_excel(writer, 'ResFinder', freeze_panes=[1, 1], na_rep=self.blank)
+        resfinder_dataframe.to_excel(writer, 'ResFinder', float_format="%0.2f", freeze_panes=[1, 1], na_rep=self.blank)
         if pointfinder_dataframe is not None:
-            pointfinder_dataframe.to_excel(writer, 'PointFinder', freeze_panes=[1, 1], na_rep=self.blank)
+            pointfinder_dataframe.to_excel(writer, 'PointFinder', float_format="%0.2f", freeze_panes=[1, 1], na_rep=self.blank)
         settings_dataframe.to_excel(writer, 'Settings')
 
         writer.save()
