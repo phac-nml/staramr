@@ -254,19 +254,19 @@ aminoglycoside	str_2	FN435330	streptomycin
 aminoglycoside	str_3	AM932524	streptomycin
 aminoglycoside	aac(3)-IIa_1	CP023555	gentamicin
 aminoglycoside	aph(3')-VIj_1	KU922928	kanamycin
-beta-lactam	blaOXA-427_1	KX827604	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-427_1	KX827604	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	mecC_1	FR823292	penicillin
-beta-lactam	blaNDM-17_1	KX812714	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-18_1	KY503030	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-11_1	KP265939	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-14_1	KM210086	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-15_1	KP735848	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-16_1	KP862821	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-17_1	KX812714	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-18_1	KY503030	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-11_1	KP265939	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-14_1	KM210086	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-15_1	KP735848	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-16_1	KP862821	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaCMH-3_1	KX192165	ampicillin
 beta-lactam	blaSGM-7_1	NG050614	ampicillin
-beta-lactam	blaOXA-307_1	NG050611	ampicillin,amox/clav
-beta-lactam	blaOXA-287_1	NG050609	ampicillin,amox/clav
-beta-lactam	blaOXA-293_1	NG050610	ampicillin,amox/clav
+beta-lactam	blaOXA-307_1	NG050611	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaOXA-287_1	NG050609	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaOXA-293_1	NG050610	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaCARB-48_1	NG050604	ampicillin
 beta-lactam	blaL_1	NG050597	ampicillin
 beta-lactam	blaL_2	NG050596	ampicillin
@@ -279,7 +279,7 @@ beta-lactam	blaSST-1_1	AB008455	ampicillin,ceftriaxone
 beta-lactam	blaSRT-1_1	AB008454	ampicillin,ceftriaxone
 beta-lactam	blaSRT-2_1	AY524276	ampicillin,ceftriaxone
 beta-lactam	blaSPU-1_1	GQ919044	ampicillin,ceftriaxone
-beta-lactam	blaSPG-1_1	KP109680	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaSPG-1_1	KP109680	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaSGM-6_1	NG049988	ampicillin
 beta-lactam	blaSGM-5_1	NG049987	ampicillin
 beta-lactam	blaSGM-4_1	CP002798	ampicillin
@@ -292,9 +292,9 @@ beta-lactam	blaPLA-4A_1	AY507664	ampicillin
 beta-lactam	blaPLA-5A_1	DQ249871	ampicillin
 beta-lactam	blaPLA2a_1	AY307385	ampicillin
 beta-lactam	blaPLA1a_1	AY302757	ampicillin
-beta-lactam	blaPEDO-3_1	KP109679	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaPEDO-2_1	KP109678	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaPEDO-1_1	KP109677	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaPEDO-3_1	KP109679	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaPEDO-2_1	KP109678	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaPEDO-1_1	KP109677	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaOXA-518_1	KU739134	ampicillin
 beta-lactam	blaOXA-504_1	KT355710	ampicillin
 beta-lactam	blaOXA-493_1	CP007774	ampicillin
@@ -312,30 +312,30 @@ beta-lactam	blaOXA-303_1	NG049599	ampicillin
 beta-lactam	blaOXA-302_1	NG049598	ampicillin
 beta-lactam	blaOXA-299_1	NG049594	ampicillin
 beta-lactam	blaOXA-298_1	NG049593	ampicillin
-beta-lactam	blaVCC-1_1	KT818596	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaPAM-1_1	AB858498	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaTMB-1_1	FR771847	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaTMB-2_1	AB758277	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaACC-1_2	AM939420	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACC-2_1	AF180952	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACC-3_1	AF180958	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACC-4_1	GU256641	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-1_1	U58495	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-2_1	AM076977	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-3_1	EF125013	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-4_2	AJ311172	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-5_1	FJ237369	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-6_1	FJ237366	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-7_1	FJ237368	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-9_1	HQ693810	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-10_1	JN848330	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-12_1	JX440355	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-14_1	JX440354	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-15_1	JX440356	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaACT-16_1	AB737978	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaBEL-1_1	DQ089809	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaBEL-2_1	FJ666063	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaBEL-3_1	GQ202694	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
+beta-lactam	blaVCC-1_1	KT818596	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaPAM-1_1	AB858498	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaTMB-1_1	FR771847	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaTMB-2_1	AB758277	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaACC-1_2	AM939420	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACC-2_1	AF180952	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACC-3_1	AF180958	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACC-4_1	GU256641	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-1_1	U58495	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-2_1	AM076977	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-3_1	EF125013	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-4_2	AJ311172	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-5_1	FJ237369	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-6_1	FJ237366	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-7_1	FJ237368	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-9_1	HQ693810	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-10_1	JN848330	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-12_1	JX440355	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-14_1	JX440354	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-15_1	JX440356	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaACT-16_1	AB737978	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaBEL-1_1	DQ089809	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaBEL-2_1	FJ666063	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaBEL-3_1	GQ202694	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
 beta-lactam	blaCARB-1_1	AF313471	ampicillin
 beta-lactam	blaCARB-2_1	M69058	ampicillin
 beta-lactam	blaCARB-3_1	S46063	ampicillin
@@ -354,99 +354,99 @@ beta-lactam	cepA_6	FR688022	ampicillin
 beta-lactam	cepA-49_1	U05886	ampicillin
 beta-lactam	cepA-44_1	U05885	ampicillin
 beta-lactam	cepA-29_1	U05884	ampicillin
-beta-lactam	blaCMY-1_1	X92508	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-2_1	X91840	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-3_1	Y16783	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-4_1	Y15130	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-4_2	AF420597	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-4_3	HQ267531	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-5_1	Y17716	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-6_1	AJ011293	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-7_1	AY324388	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-8_1	EF382672	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-8_2	DQ094251	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-9_1	AB061794	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-10_1	AF373218	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-11_1	AF381626	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-12_1	Y16785	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-13_1	AY339625	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-14_1	EU600193	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-14_2	AJ555825	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-15_1	AJ555823	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-16_2	FJ855437	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-16_1	FM995219	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-17_1	AY513266	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-18_1	AY743434	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-19_1	AB194410	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-20_1	AY960293	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-21_1	DQ139328	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-22_1	DQ256079	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-23_1	DQ438952	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-24_1	EF415650	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-25_1	EU515249	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-26_1	AB300358	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-27_1	EU515250	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-28_1	EF561644	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-29_1	EF685371	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-30_1	EF685372	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-31_1	EU331425	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-32_1	EU496815	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-33_1	EU496816	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-34_1	EF394370	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-35_1	EF394371	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-36_1	EU331426	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-37_1	AB280919	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-38_1	AM931008	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-39_1	HM565135	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-40_1	EU515251	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-41_1	AB429270	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-42_1	HM146927	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-43_1	HQ267530	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-44_1	FJ437066	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-45_1	FN546177	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-46_1	FN556186	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-47_1	HM046998	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-48_1	HM569226	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-49_1	GQ402541	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-51_1	JQ733571	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-53_1	HQ336940	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-54_1	HM544039	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-55_1	HM544040	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-56_1	HQ322613	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-57_1	HQ285243	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-58_1	HQ185697	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-59_2	AB587082	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-60_1	JF460794	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-61_1	JF460795	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-62_1	JF460796	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-63_1	HQ650104	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-64_1	HQ832678	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-65_1	JF780936	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-66_1	JN714478	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-67_1	JQ711185	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-68_1	JN714480	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-69_1	JX049132	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-70_1	JX440350	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-71_1	JQ711184	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-72_1	JX440352	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-73_1	GQ351345	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-74_1	JX440349	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-75_1	JQ733572	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-76_1	JQ733573	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-77_1	JX440353	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-78_1	JQ733575	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-79_1	JQ733576	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-80_1	JQ733577	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-81_1	JQ733578	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-83_1	JX440351	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-84_1	JQ733579	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-87_1	AB699171	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-94_1	JX514368	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-95_1	JX514369	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-98_1	KC603538	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-99_1	KF305673	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-104_1	KF150216	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaCMY-110_1	AB872957	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-1_1	X92508	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-2_1	X91840	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-3_1	Y16783	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-4_1	Y15130	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-4_2	AF420597	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-4_3	HQ267531	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-5_1	Y17716	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-6_1	AJ011293	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-7_1	AY324388	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-8_1	EF382672	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-8_2	DQ094251	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-9_1	AB061794	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-10_1	AF373218	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-11_1	AF381626	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-12_1	Y16785	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-13_1	AY339625	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-14_1	EU600193	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-14_2	AJ555825	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-15_1	AJ555823	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-16_2	FJ855437	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-16_1	FM995219	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-17_1	AY513266	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-18_1	AY743434	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-19_1	AB194410	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-20_1	AY960293	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-21_1	DQ139328	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-22_1	DQ256079	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-23_1	DQ438952	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-24_1	EF415650	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-25_1	EU515249	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-26_1	AB300358	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-27_1	EU515250	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-28_1	EF561644	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-29_1	EF685371	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-30_1	EF685372	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-31_1	EU331425	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-32_1	EU496815	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-33_1	EU496816	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-34_1	EF394370	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-35_1	EF394371	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-36_1	EU331426	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-37_1	AB280919	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-38_1	AM931008	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-39_1	HM565135	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-40_1	EU515251	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-41_1	AB429270	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-42_1	HM146927	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-43_1	HQ267530	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-44_1	FJ437066	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-45_1	FN546177	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-46_1	FN556186	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-47_1	HM046998	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-48_1	HM569226	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-49_1	GQ402541	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-51_1	JQ733571	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-53_1	HQ336940	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-54_1	HM544039	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-55_1	HM544040	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-56_1	HQ322613	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-57_1	HQ285243	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-58_1	HQ185697	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-59_2	AB587082	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-60_1	JF460794	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-61_1	JF460795	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-62_1	JF460796	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-63_1	HQ650104	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-64_1	HQ832678	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-65_1	JF780936	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-66_1	JN714478	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-67_1	JQ711185	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-68_1	JN714480	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-69_1	JX049132	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-70_1	JX440350	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-71_1	JQ711184	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-72_1	JX440352	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-73_1	GQ351345	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-74_1	JX440349	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-75_1	JQ733572	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-76_1	JQ733573	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-77_1	JX440353	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-78_1	JQ733575	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-79_1	JQ733576	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-80_1	JQ733577	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-81_1	JQ733578	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-83_1	JX440351	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-84_1	JQ733579	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-87_1	AB699171	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-94_1	JX514368	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-95_1	JX514369	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-98_1	KC603538	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-99_1	KF305673	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-104_1	KF150216	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaCMY-110_1	AB872957	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
 beta-lactam	blaCTX-M-1_6	DQ915955	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-1_4	AJ416342	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-2_1	EU622041	ampicillin,ceftriaxone
@@ -584,48 +584,48 @@ beta-lactam	blaCTX-M-136_1	KC351754	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-139_1	KC107824	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-142_1	KF240809	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-147_1	KF513180	ampicillin,ceftriaxone
-beta-lactam	blaDHA-1_1	Y16410	ampicillin,amoxi/clav,cefoxitin
-beta-lactam	blaDHA-2_1	AF259520	ampicillin,amoxi/clav,cefoxitin
-beta-lactam	blaDHA-3_1	AY494945	ampicillin,amoxi/clav,cefoxitin
-beta-lactam	blaDHA-5_1	JF273491	ampicillin,amoxi/clav,cefoxitin
-beta-lactam	blaDHA-6_1	HQ322612	ampicillin,amoxi/clav,cefoxitin
-beta-lactam	blaDHA-7_1	HQ456945	ampicillin,amoxi/clav,cefoxitin
+beta-lactam	blaDHA-1_1	Y16410	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-2_1	AF259520	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-3_1	AY494945	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-5_1	JF273491	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-6_1	HQ322612	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-7_1	HQ456945	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 beta-lactam	blaFONA-6_1	AJ251244	ampicillin
 beta-lactam	blaFONA-5_1	AJ251243	ampicillin
 beta-lactam	blaFONA-4_1	AJ251242	ampicillin
 beta-lactam	blaFONA-3_1	AJ251241	ampicillin
 beta-lactam	blaFONA-2_1	AJ251240	ampicillin
 beta-lactam	blaFONA-1_1	AJ251239	ampicillin
-beta-lactam	blaFOX-1_1	X77455	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-2_1	Y10282	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-3_1	Y11068	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-4_1	AJ277535	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-5_1	AY007369	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-6_1	AY034848	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-7_1	AJ703796	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-8_1	HM565917	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-9_1	JF896803	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaFOX-10_1	JX049131	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaGOB-1_1	EF394442	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-1_2	AF090141	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-2_1	AF189296	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-3_1	AF189291	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-4_1	AF189293	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-5_1	AF189290	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-6_1	AF189292	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-7_1	AF189297	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-8_1	AY348327	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-9_1	AY647246	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-10_1	AY647247	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-11_1	AY647248	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-12_1	AY647249	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-13_1	AY647251	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-14_1	AY647252	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-15_1	AY775547	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-16_1	GU188443	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-16_2	AY899331	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-17_1	AY899332	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGOB-18_1	DQ004496	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaFOX-1_1	X77455	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-2_1	Y10282	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-3_1	Y11068	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-4_1	AJ277535	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-5_1	AY007369	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-6_1	AY034848	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-7_1	AJ703796	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-8_1	HM565917	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-9_1	JF896803	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaFOX-10_1	JX049131	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaGOB-1_1	EF394442	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-1_2	AF090141	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-2_1	AF189296	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-3_1	AF189291	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-4_1	AF189293	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-5_1	AF189290	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-6_1	AF189292	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-7_1	AF189297	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-8_1	AY348327	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-9_1	AY647246	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-10_1	AY647247	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-11_1	AY647248	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-12_1	AY647249	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-13_1	AY647251	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-14_1	AY647252	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-15_1	AY775547	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-16_1	GU188443	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-16_2	AY899331	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-17_1	AY899332	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGOB-18_1	DQ004496	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaHERA-1_1	AF311385	ampicillin
 beta-lactam	blaHERA-2_1	AF398334	ampicillin
 beta-lactam	blaHERA-3_1	AF398335	ampicillin
@@ -633,39 +633,39 @@ beta-lactam	blaHERA-4_1	AJ536088	ampicillin
 beta-lactam	blaHERA-5_1	AJ536089	ampicillin
 beta-lactam	blaHERA-6_1	AJ536090	ampicillin
 beta-lactam	blaHERA-8_1	AJ536092	ampicillin
-beta-lactam	blaIND-1_1	AF099139	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-2_2	AF219127	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-2a_4	AF219130	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-2b_3	EF672681	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-2c_1	GU186042	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-3_1	AF219131	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-4_1	AF219135	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-5_1	AY504627	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-6_1	AM087455	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-7_1	AB529520	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-8_1	GU186044	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-9_1	GU186045	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-10_1	GU206353	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-11_1	HM245379	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-12_1	HM245380	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-14_1	HM367709	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIND-15_1	AB563173	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-1_1	AF297554	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-2_1	AY034847	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-3_1	HM769262	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-4_1	FJ473382	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-5_1	EU400222	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-6_1	EU555534	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-7_1	EU729727	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-8_1	FJ234412	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-9_1	FJ624872	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-10_1	GQ140348	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-11_1	HM066995	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-12_1	HQ342889	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-13_1	HQ342890	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-14_1	JX524191	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-15_1	KC433553	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaKPC-16_1	KC465199	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-1_1	AF099139	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-2_2	AF219127	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-2a_4	AF219130	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-2b_3	EF672681	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-2c_1	GU186042	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-3_1	AF219131	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-4_1	AF219135	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-5_1	AY504627	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-6_1	AM087455	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-7_1	AB529520	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-8_1	GU186044	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-9_1	GU186045	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-10_1	GU206353	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-11_1	HM245379	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-12_1	HM245380	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-14_1	HM367709	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIND-15_1	AB563173	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-1_1	AF297554	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-2_1	AY034847	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-3_1	HM769262	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-4_1	FJ473382	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-5_1	EU400222	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-6_1	EU555534	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-7_1	EU729727	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-8_1	FJ234412	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-9_1	FJ624872	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-10_1	GQ140348	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-11_1	HM066995	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-12_1	HQ342889	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-13_1	HQ342890	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-14_1	JX524191	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-15_1	KC433553	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaKPC-16_1	KC465199	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaLEN1_1	X04515	ampicillin
 beta-lactam	blaLEN2_1	AY037780	ampicillin
 beta-lactam	blaLEN3_1	AY130286	ampicillin
@@ -691,28 +691,28 @@ beta-lactam	blaLEN25_1	HQ709169	ampicillin
 beta-lactam	blaLEN26_1	JQ067123	ampicillin
 beta-lactam	blaMAL-1_1	AJ277209	ampicillin
 beta-lactam	blaMAL-1_2	AJ609506	ampicillin
-beta-lactam	blaMIR-1_1	M37839	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMIR-2_1	AY227752	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMIR-3_1	AY743435	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMIR-4_1	EF417572	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMIR-5_1	FJ237367	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMIR-6_1	JQ664733	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOR_1	Y10283	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOR-2_1	AY235804	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-1_1	D13304	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-2_1	AJ276453	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-3_1	EU515248	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-4_1	FJ262599	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-5_1	GQ152600	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-6_1	GQ152601	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaMOX-7_1	GQ152602	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-2_1	AJ295340	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-3_1	AJ295341	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-4_1	AJ295342	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-5_1	AJ295343	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-6_1	AJ295344	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-7_1	AJ295345	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaOCH-8_1	DQ489307	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
+beta-lactam	blaMIR-1_1	M37839	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMIR-2_1	AY227752	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMIR-3_1	AY743435	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMIR-4_1	EF417572	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMIR-5_1	FJ237367	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMIR-6_1	JQ664733	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOR_1	Y10283	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOR-2_1	AY235804	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-1_1	D13304	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-2_1	AJ276453	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-3_1	EU515248	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-4_1	FJ262599	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-5_1	GQ152600	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-6_1	GQ152601	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaMOX-7_1	GQ152602	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-2_1	AJ295340	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-3_1	AJ295341	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-4_1	AJ295342	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-5_1	AJ295343	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-6_1	AJ295344	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-7_1	AJ295345	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaOCH-8_1	DQ489307	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
 beta-lactam	blaOKP-A-1_1	AM051138	ampicillin
 beta-lactam	blaOKP-A-2_1	AM051139	ampicillin
 beta-lactam	blaOKP-A-3_1	AM051140	ampicillin
@@ -1043,10 +1043,10 @@ beta-lactam	blaOXY-6-1_1	AJ871873	ampicillin
 beta-lactam	blaOXY-6-2_2	AJ871875	ampicillin
 beta-lactam	blaOXY-6-3_3	AJ871876	ampicillin
 beta-lactam	blaOXY-6-4_4	AJ871877	ampicillin
-beta-lactam	blaPAO_1	AY083595	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaPAO_2	FJ666065	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaPAO_3	FJ666073	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaPAO_4	AY083592	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
+beta-lactam	blaPAO_1	AY083595	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaPAO_2	FJ666065	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaPAO_3	FJ666073	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaPAO_4	AY083592	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
 beta-lactam	blaPER-1_1	GU944725	ampicillin,ceftriaxone
 beta-lactam	blaPER-2_1	X93314	ampicillin,ceftriaxone
 beta-lactam	blaPER-3_1	AY740681	ampicillin,ceftriaxone
@@ -1133,13 +1133,13 @@ beta-lactam	blaSHV-44_1	AY259119	ampicillin
 beta-lactam	blaSHV-45_1	AF547625	ampicillin,ceftriaxone
 beta-lactam	blaSHV-46_1	AY210887	ampicillin,ceftriaxone
 beta-lactam	blaSHV-48_1	AY263404	ampicillin
-beta-lactam	blaSHV-49_1	AY528718	ampicillin,amoxi/clav
+beta-lactam	blaSHV-49_1	AY528718	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaSHV-50_1	AY288915	ampicillin
 beta-lactam	blaSHV-51_1	AY289548	ampicillin
 beta-lactam	blaSHV-52_1	HQ845196	ampicillin
 beta-lactam	blaSHV-55_1	DQ054528	ampicillin,ceftriaxone
-beta-lactam	blaSHV-56_1	EU586041	ampicillin,amoxi/clav
-beta-lactam	blaSHV-56_2	AY352599	ampicillin,amoxi/clav
+beta-lactam	blaSHV-56_1	EU586041	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaSHV-56_2	AY352599	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaSHV-57_1	AY223863	ampicillin,ceftriaxone
 beta-lactam	blaSHV-59_1	AY790341	ampicillin
 beta-lactam	blaSHV-60_1	AB302939	ampicillin
@@ -1155,7 +1155,7 @@ beta-lactam	blaSHV-69_1	DQ174308	ampicillin
 beta-lactam	blaSHV-70_1	DQ013287	ampicillin,ceftriaxone
 beta-lactam	blaSHV-71_1	EF373974	ampicillin
 beta-lactam	blaSHV-71_2	DQ296194	ampicillin
-beta-lactam	blaSHV-72_1	AM176547	ampicillin,amoxi/clav
+beta-lactam	blaSHV-72_1	AM176547	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaSHV-73_1	AM176548	ampicillin
 beta-lactam	blaSHV-74_1	AM176549	ampicillin
 beta-lactam	blaSHV-75_1	AM176550	ampicillin
@@ -1185,7 +1185,7 @@ beta-lactam	blaSHV-103_1	EU032604	ampicillin
 beta-lactam	blaSHV-104_1	EU274581	ampicillin,ceftriaxone
 beta-lactam	blaSHV-105_1	FJ194944	ampicillin,ceftriaxone
 beta-lactam	blaSHV-106_1	AM922307	ampicillin
-beta-lactam	blaSHV-107_1	AM922308	ampicillin,amoxi/clav
+beta-lactam	blaSHV-107_1	AM922308	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaSHV-108_1	AM922309	ampicillin
 beta-lactam	blaSHV-109_1	EU418913	ampicillin
 beta-lactam	blaSHV-110_1	HQ877615	ampicillin
@@ -1250,36 +1250,36 @@ beta-lactam	blaTEM-22_1	Y17583	ampicillin,ceftriaxone
 beta-lactam	blaTEM-24_1	GQ293500	ampicillin,ceftriaxone
 beta-lactam	blaTEM-28_1	ECU37195	ampicillin,ceftriaxone
 beta-lactam	blaTEM-29_1	DQ269440	ampicillin,ceftriaxone
-beta-lactam	blaTEM-30_1	AJ437107	ampicillin,amoxi/clav
-beta-lactam	blaTEM-33_1	GU371926	ampicillin,amoxi/clav
-beta-lactam	blaTEM-34_1	KC292503	ampicillin,amoxi/clav
+beta-lactam	blaTEM-30_1	AJ437107	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-33_1	GU371926	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-34_1	KC292503	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-43_1	KPU95363	ampicillin,ceftriaxone
-beta-lactam	blaTEM-45_1	X95401	ampicillin,amoxi/clav
+beta-lactam	blaTEM-45_1	X95401	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-47_1	Y10279	ampicillin,ceftriaxone
 beta-lactam	blaTEM-48_1	Y10280	ampicillin,ceftriaxone
 beta-lactam	blaTEM-49_1	Y10281	ampicillin,ceftriaxone
 beta-lactam	blaTEM-52C_2	EF141186	ampicillin,ceftriaxone
 beta-lactam	blaTEM-52B_1	AF027199	ampicillin,ceftriaxone
 beta-lactam	blaTEM-53_1	AF104441	ampicillin,ceftriaxone
-beta-lactam	blaTEM-54_1	AF104442	ampicillin,amoxi/clav
+beta-lactam	blaTEM-54_1	AF104442	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-55_1	DQ286729	ampicillin
 beta-lactam	blaTEM-57_1	FJ405211	ampicillin
 beta-lactam	blaTEM-60_1	AF047171	ampicillin,ceftriaxone
 beta-lactam	blaTEM-63_1	AF332513	ampicillin,ceftriaxone
-beta-lactam	blaTEM-67_1	AF091113	ampicillin,amoxi/clav
+beta-lactam	blaTEM-67_1	AF091113	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-68_1	AJ239002	ampicillin
 beta-lactam	blaTEM-70_1	AF188199	ampicillin
 beta-lactam	blaTEM-71_1	AF203816	ampicillin
 beta-lactam	blaTEM-72_1	AF157553	ampicillin
-beta-lactam	blaTEM-76_1	AF190694	ampicillin,amoxi/clav
-beta-lactam	blaTEM-77_1	AF190695	ampicillin,amoxi/clav
-beta-lactam	blaTEM-78_1	AF190693	ampicillin,amoxi/clav
-beta-lactam	blaTEM-79_1	AF190692	ampicillin,amoxi/clav
-beta-lactam	blaTEM-80_1	AF347054	ampicillin,amoxi/clav
-beta-lactam	blaTEM-81_1	AF427127	ampicillin,amoxi/clav
-beta-lactam	blaTEM-82_1	AF427128	ampicillin,amoxi/clav
-beta-lactam	blaTEM-83_1	AF427129	ampicillin,amoxi/clav
-beta-lactam	blaTEM-84_1	AF427130	ampicillin,amoxi/clav
+beta-lactam	blaTEM-76_1	AF190694	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-77_1	AF190695	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-78_1	AF190693	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-79_1	AF190692	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-80_1	AF347054	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-81_1	AF427127	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-82_1	AF427128	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-83_1	AF427129	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-84_1	AF427130	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-85_1	AJ277414	ampicillin,ceftriaxone
 beta-lactam	blaTEM-86_1	AJ277415	ampicillin,ceftriaxone
 beta-lactam	blaTEM-87_1	AF250872	ampicillin,ceftriaxone
@@ -1301,7 +1301,7 @@ beta-lactam	blaTEM-105_1	AF516720	ampicillin
 beta-lactam	blaTEM-106_1	AY101578	ampicillin,ceftriaxone
 beta-lactam	blaTEM-107_1	AY101764	ampicillin,ceftriaxone
 beta-lactam	blaTEM-108_1	AF506748	ampicillin
-beta-lactam	blaTEM-109_1	AY628175	ampicillin,amoxi/clav,ceftriaxone
+beta-lactam	blaTEM-109_1	AY628175	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
 beta-lactam	blaTEM-110_1	AY072920	ampicillin
 beta-lactam	blaTEM-111_1	AF468003	ampicillin
 beta-lactam	blaTEM-112_1	AY589493	ampicillin,ceftriaxone
@@ -1311,11 +1311,11 @@ beta-lactam	blaTEM-115_1	AF535127	ampicillin,ceftriaxone
 beta-lactam	blaTEM-116_4	GU188444	ampicillin
 beta-lactam	blaTEM-116_7	AY425988	ampicillin
 beta-lactam	blaTEM-120_1	AY243512	ampicillin,ceftriaxone
-beta-lactam	blaTEM-121_1	AY307374	ampicillin,amoxi/clav,ceftriaxone
-beta-lactam	blaTEM-122_1	AY307100	ampicillin,amoxi/clav
+beta-lactam	blaTEM-121_1	AY307374	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
+beta-lactam	blaTEM-122_1	AY307100	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-123_1	AY327539	ampicillin,ceftriaxone
 beta-lactam	blaTEM-124_1	AY327540	ampicillin,ceftriaxone
-beta-lactam	blaTEM-125_1	AY628176	ampicillin,amoxi/clav,ceftriaxone
+beta-lactam	blaTEM-125_1	AY628176	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
 beta-lactam	blaTEM-126_1	AY628199	ampicillin,ceftriaxone
 beta-lactam	blaTEM-127_1	AY368236	ampicillin
 beta-lactam	blaTEM-128_1	AY359287	ampicillin
@@ -1334,22 +1334,22 @@ beta-lactam	blaTEM-141_1	AY956335	ampicillin
 beta-lactam	blaTEM-142_1	DQ388882	ampicillin
 beta-lactam	blaTEM-143_1	DQ075245	ampicillin,ceftriaxone
 beta-lactam	blaTEM-144_1	DQ256080	ampicillin,ceftriaxone
-beta-lactam	blaTEM-145_1	DQ105528	ampicillin,amoxi/clav
+beta-lactam	blaTEM-145_1	DQ105528	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-146_1	DQ105529	ampicillin
 beta-lactam	blaTEM-147_1	DQ279850	ampicillin,ceftriaxone
 beta-lactam	blaTEM-148_1	AM087454	ampicillin
 beta-lactam	blaTEM-149_1	DQ369751	ampicillin,ceftriaxone
 beta-lactam	blaTEM-150_1	AM183304	ampicillin
-beta-lactam	blaTEM-151_1	DQ834729	ampicillin,amoxi/clav,ceftriaxone
-beta-lactam	blaTEM-152_1	DQ834728	ampicillin,amoxi/clav,ceftriaxone
+beta-lactam	blaTEM-151_1	DQ834729	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
+beta-lactam	blaTEM-152_1	DQ834728	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
 beta-lactam	blaTEM-153_1	KC149518	ampicillin,ceftriaxone
-beta-lactam	blaTEM-154_1	FJ807656	ampicillin,amoxi/clav,ceftriaxone
+beta-lactam	blaTEM-154_1	FJ807656	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
 beta-lactam	blaTEM-155_1	DQ679961	ampicillin,ceftriaxone
 beta-lactam	blaTEM-156_1	AM941159	ampicillin
 beta-lactam	blaTEM-157_1	DQ909059	ampicillin,ceftriaxone
 beta-lactam	blaTEM-158_1	EF534736	ampicillin
-beta-lactam	blaTEM-159_1	EF136376	ampicillin,amoxi/clav
-beta-lactam	blaTEM-160_1	EF136377	ampicillin,amoxi/clav
+beta-lactam	blaTEM-159_1	EF136376	ampicillin,amoxicillin/clavulanic acid
+beta-lactam	blaTEM-160_1	EF136377	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-162_1	EF468463	ampicillin
 beta-lactam	blaTEM-163_1	EU815939	ampicillin
 beta-lactam	blaTEM-164_1	EU274580	ampicillin,ceftriaxone
@@ -1360,11 +1360,11 @@ beta-lactam	blaTEM-169_1	FJ873740	ampicillin,ceftriaxone
 beta-lactam	blaTEM-171_1	GQ149347	ampicillin
 beta-lactam	blaTEM-176_1	GU550123	ampicillin
 beta-lactam	blaTEM-177_1	FN652295	ampicillin,ceftriaxone
-beta-lactam	blaTEM-178_1	X97254	ampicillin,amoxi/clav,ceftriaxone
-beta-lactam	blaTEM-182_1	HQ317449	ampicillin,amoxi/clav
+beta-lactam	blaTEM-178_1	X97254	ampicillin,amoxicillin/clavulanic acid,ceftriaxone
+beta-lactam	blaTEM-182_1	HQ317449	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-183_1	HQ529916	ampicillin
 beta-lactam	blaTEM-184_1	FR848831	ampicillin,ceftriaxone
-beta-lactam	blaTEM-185_1	JF795538	ampicillin,amoxi/clav
+beta-lactam	blaTEM-185_1	JF795538	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-186_1	JN227084	ampicillin
 beta-lactam	blaTEM-187_1	HM246246	ampicillin,ceftriaxone
 beta-lactam	blaTEM-188_1	JN211012	ampicillin,ceftriaxone
@@ -1396,10 +1396,10 @@ beta-lactam	blaVEB-7_1	FJ825622	ampicillin,ceftriaxone
 beta-lactam	blaVEB-8_1	JX679208	ampicillin,ceftriaxone
 beta-lactam	ampH_1	AJ276031	ampicillin
 beta-lactam	ampH_2	HQ586946	ampicillin
-beta-lactam	blaSMB-1_1	AB636283	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	POM-1_1	GU002295	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaCFE-1_1	AB107899	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaLAT-1_1	X78117	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
+beta-lactam	blaSMB-1_1	AB636283	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	POM-1_1	GU002295	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaCFE-1_1	AB107899	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaLAT-1_1	X78117	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
 beta-lactam	blaNPS_1	AY027589	ampicillin
 beta-lactam	blaLCR-1_1	X56809	ampicillin
 beta-lactam	blaNMC-A_1	AJ536087	ampicillin
@@ -1441,34 +1441,34 @@ beta-lactam	ampS_1	X80276	ampicillin
 beta-lactam	blaADC-25_1	EF016355	ampicillin
 beta-lactam	blaA_1	DQ424965	ampicillin
 beta-lactam	blaA_2	AY954728	ampicillin
-beta-lactam	blaB-2_1	AF189300	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-3_1	AF189301	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-3_2	AF189299	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-5_1	AF189303	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-6_1	AF189302	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-7_1	AF189304	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-8_1	AF189305	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-9_1	AY348324	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-10_1	AY348325	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-11_1	AY348326	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-12_1	EF595958	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-13_1	EF595959	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-beta-lactam	blaB-14_1	JN635697	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
+beta-lactam	blaB-2_1	AF189300	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-3_1	AF189301	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-3_2	AF189299	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-5_1	AF189303	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-6_1	AF189302	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-7_1	AF189304	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-8_1	AF189305	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-9_1	AY348324	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-10_1	AY348325	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-11_1	AY348326	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-12_1	EF595958	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-13_1	EF595959	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaB-14_1	JN635697	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
 beta-lactam	blaL1_3	EF126059	ampicillin
 beta-lactam	blaZ_32	AP004832	ampicillin
 beta-lactam	blaZ_34	AP003139	ampicillin
 beta-lactam	blaZ_35	AJ302698	ampicillin
 beta-lactam	blaZ_36	AJ400722	ampicillin
-beta-lactam	cfiA1_1	AB087225	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA2_1	AB087226	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA3_1	AB087228	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA4_1	AB087229	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA6_1	AB087231	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA8_1	AB087233	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA9_1	AB087234	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA10_1	AB087227	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA13_1	FM200787	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	cfiA14_1	FM200789	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA1_1	AB087225	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA2_1	AB087226	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA3_1	AB087228	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA4_1	AB087229	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA6_1	AB087231	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA8_1	AB087233	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA9_1	AB087234	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA10_1	AB087227	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA13_1	FM200787	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	cfiA14_1	FM200789	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	cfxA_1	U38243	ampicillin
 beta-lactam	cfxA2_1	AF504914	ampicillin
 beta-lactam	cfxA3_1	AF472622	ampicillin
@@ -1492,152 +1492,152 @@ beta-lactam	mecA_7	BA000018	penicillin
 beta-lactam	mecA_10	AB512767	penicillin
 beta-lactam	mecA_14	AB505630	penicillin
 beta-lactam	mecA_15	AB505628	penicillin
-beta-lactam	blaIMP-1_1	DQ522237	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-2_1	AJ243491	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-3_1	AB010417	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-4_1	AF244145	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-4_1	DQ307573	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-5_1	JF810083	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-6_1	AB188812	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-7_1	AF318077	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-8_1	EU042136	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-9_1	AY033653	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-10_1	AB195637	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-11_1	AB074436	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-12_3	AJ420864	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-13_1	AJ512502	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-14_1	AY553332	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-15_1	EF184216	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-16_1	AJ584652	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-18_1	EF184215	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-19_1	EF118171	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-20_1	AB196988	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-22_2	DQ361087	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-24_1	EF192154	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-25_1	HM175876	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-26_1	GU045307	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-27_1	JF894248	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-28_1	JQ407409	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-29_1	HQ438058	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-31_1	KF148593	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-32_1	JQ002629	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-33_1	JN848782	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-34_1	AB715422	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-35_1	JF816544	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-37_1	JX131372	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-38_1	HQ875573	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-40_1	AB753457	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-41_1	AB753458	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-42_1	AB753456	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-43_1	AB777500	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-44_1	AB777501	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-1_1	Y18050	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-2_1	AF302086	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-3_1	AF300454	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-4_1	EU581706	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-5_1	DQ023222	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-6_1	AY165025	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-7_1	AJ536835	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-8_1	AY524987	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-9_1	AY524988	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-10_1	AY524989	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-11_1	AY605049	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-12_1	DQ143913	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-13_1	DQ365886	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-14_1	FJ445404	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-15_1	EU419745	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-16_1	EU419746	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-17_1	EU118148	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-18_1	AM778091	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-19_1	FJ499397	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-20_1	GQ414736	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-23_1	GQ242167	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-24_1	HM855205	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-25_1	HM750249	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-26_1	FR748153	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-27_1	HQ858608	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-28_1	JF900599	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-29_1	JX311308	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-30_1	JN129451	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-31_1	JN982330	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-32_1	JN676230	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-33_1	JX258134	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-34_1	JX013656	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-35_1	JX982634	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-36_1	JX982635	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-37_1	JX982636	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaVIM-38_1	KC469971	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-1_1	FN396876	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-2_1	JF703135	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-3_1	JQ734687	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-4_1	JQ348841	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-5_1	JN104597	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-6_1	JN967644	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-7_1	JX262694	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-8_1	AB744718	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-9_1	KC999080	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-10_1	KF361506	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-12_1	AB926431	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaNDM-13_1	LC012596	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-1_1	HQ170511	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-2_1	AF326355	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-3_1	AB113580	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-4_1	AB116723	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-5_1	DQ236171	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-6_1	AY494718	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-7_1	HM453325	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-8_1	AF329699	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-9_1	AY920928	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-10_1	FJ820124	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-11_1	FJ854362	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-12_1	FN554543	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-13_1	GU169702	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-14_1	GU207844	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-15_1	GU208678	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-16_1	HM173356	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-17_1	HQ874631	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-18_1	JQ028729	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-19_1	JN596280	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-20_1	JN596280	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-21_1	JQ772478	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-22_1	JX023441	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaGES-23_1	KF179354	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMI-1_1	U50278	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMI-2_1	DQ173429	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMI-3_1	GU015024	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-1_1	DQ522237	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-2_1	AJ243491	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-3_1	AB010417	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-4_1	AF244145	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-4_1	DQ307573	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-5_1	JF810083	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-6_1	AB188812	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-7_1	AF318077	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-8_1	EU042136	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-9_1	AY033653	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-10_1	AB195637	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-11_1	AB074436	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-12_3	AJ420864	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-13_1	AJ512502	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-14_1	AY553332	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-15_1	EF184216	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-16_1	AJ584652	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-18_1	EF184215	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-19_1	EF118171	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-20_1	AB196988	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-22_2	DQ361087	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-24_1	EF192154	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-25_1	HM175876	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-26_1	GU045307	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-27_1	JF894248	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-28_1	JQ407409	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-29_1	HQ438058	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-31_1	KF148593	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-32_1	JQ002629	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-33_1	JN848782	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-34_1	AB715422	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-35_1	JF816544	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-37_1	JX131372	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-38_1	HQ875573	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-40_1	AB753457	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-41_1	AB753458	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-42_1	AB753456	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-43_1	AB777500	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-44_1	AB777501	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-1_1	Y18050	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-2_1	AF302086	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-3_1	AF300454	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-4_1	EU581706	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-5_1	DQ023222	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-6_1	AY165025	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-7_1	AJ536835	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-8_1	AY524987	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-9_1	AY524988	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-10_1	AY524989	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-11_1	AY605049	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-12_1	DQ143913	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-13_1	DQ365886	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-14_1	FJ445404	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-15_1	EU419745	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-16_1	EU419746	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-17_1	EU118148	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-18_1	AM778091	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-19_1	FJ499397	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-20_1	GQ414736	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-23_1	GQ242167	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-24_1	HM855205	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-25_1	HM750249	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-26_1	FR748153	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-27_1	HQ858608	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-28_1	JF900599	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-29_1	JX311308	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-30_1	JN129451	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-31_1	JN982330	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-32_1	JN676230	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-33_1	JX258134	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-34_1	JX013656	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-35_1	JX982634	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-36_1	JX982635	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-37_1	JX982636	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaVIM-38_1	KC469971	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-1_1	FN396876	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-2_1	JF703135	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-3_1	JQ734687	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-4_1	JQ348841	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-5_1	JN104597	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-6_1	JN967644	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-7_1	JX262694	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-8_1	AB744718	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-9_1	KC999080	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-10_1	KF361506	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-12_1	AB926431	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaNDM-13_1	LC012596	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-1_1	HQ170511	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-2_1	AF326355	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-3_1	AB113580	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-4_1	AB116723	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-5_1	DQ236171	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-6_1	AY494718	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-7_1	HM453325	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-8_1	AF329699	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-9_1	AY920928	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-10_1	FJ820124	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-11_1	FJ854362	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-12_1	FN554543	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-13_1	GU169702	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-14_1	GU207844	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-15_1	GU208678	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-16_1	HM173356	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-17_1	HQ874631	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-18_1	JQ028729	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-19_1	JN596280	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-20_1	JN596280	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-21_1	JQ772478	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-22_1	JX023441	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaGES-23_1	KF179354	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMI-1_1	U50278	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMI-2_1	DQ173429	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMI-3_1	GU015024	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaSFC-1_1	AY354402	ampicillin,meropenem
-beta-lactam	blaSME-1_1	Z28968	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaSME-2_1	AF275256	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaSME-3_1	AY584237	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaSME-1_1	Z28968	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaSME-2_1	AF275256	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaSME-3_1	AY584237	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaFRI-1_1	KT192551	ampicillin,meropenem
 beta-lactam	blaBRO-1_1	Z54180	ampicillin
 beta-lactam	blaBRO-2_1	Z54181	ampicillin
-beta-lactam	blaBKC-1_1	KP689347	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMI-5_1	KT599915 	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-297_1	NG049592	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-296_1	NG049591	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-295_1	NG049590	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-294_1	NG049589	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-292_1	NG049588	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-291_1	NG049587	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-288_1	NG049585	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-286_1	NG049584	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-279_1	NG049576	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-275_1	NG049572	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-274_1	NG049571	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-266_1	NG049562	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-185_1	JQ396379	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-184_1	JQ396378	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-159_1	KP771987	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-158_1	KP771986	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-157_1	KP771985	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-156_1	KP771984	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-155_1	KP771983	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-154_1	KP771982	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-153_1	KP771981	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-151_1	KP771979	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaOXA-152_1	KP771980	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
-beta-lactam	blaIMP-58_1	KU647281	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaBKC-1_1	KP689347	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMI-5_1	KT599915 	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-297_1	NG049592	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-296_1	NG049591	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-295_1	NG049590	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-294_1	NG049589	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-292_1	NG049588	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-291_1	NG049587	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-288_1	NG049585	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-286_1	NG049584	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-279_1	NG049576	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-275_1	NG049572	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-274_1	NG049571	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-266_1	NG049562	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-185_1	JQ396379	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-184_1	JQ396378	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-159_1	KP771987	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-158_1	KP771986	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-157_1	KP771985	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-156_1	KP771984	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-155_1	KP771983	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-154_1	KP771982	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-153_1	KP771981	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-151_1	KP771979	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaOXA-152_1	KP771980	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
+beta-lactam	blaIMP-58_1	KU647281	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 colistin	mcr-1_1	KP347127	colistin
 colistin	mcr-1.2_1	KX236309	colistin
 colistin	mcr-1.3_1	KU934208	colistin
