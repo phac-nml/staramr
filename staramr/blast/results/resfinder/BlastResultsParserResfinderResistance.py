@@ -35,7 +35,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
         drug = self._arg_drug_table.get_drug(database_name, hit.get_gene_with_variant(), hit.get_accession())
 
         if drug is None:
-            drug = 'unknown['+hit.get_gene()+']'
+            drug = 'unknown['+hit.get_gene_variant_accession()+']'
 
         results.append([hit.get_isolate_id(),
                         hit.get_gene(),
