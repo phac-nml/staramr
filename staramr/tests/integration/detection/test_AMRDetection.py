@@ -38,6 +38,9 @@ class AMRDetectionIT(unittest.TestCase):
                                                     self.pointfinder_database, output_dir=self.outdir.name)
 
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
+        self.drug_key_resfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables', 'drug_key_resfinder_invalid.tsv')
+        self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
+                                                         'drug_key_pointfinder_invalid.tsv')
 
     def tearDown(self):
         self.outdir.cleanup()
@@ -90,6 +93,23 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
+
+    def testResfinderBetaLactam2MutationsSuccessNoMatchDrugTable(self):
+        resfinder_drug_table = ARGDrugTableResfinder(self.drug_key_resfinder_invalid_file)
+        self.amr_detection = AMRDetectionResistance(self.resfinder_database, resfinder_drug_table,
+                                                    self.blast_handler, self.pointfinder_drug_table,
+                                                    self.pointfinder_database, output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[blaIMP-42_1_AB753456]', 'Wrong phenotype')
 
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
@@ -323,6 +343,26 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+
+    def testPointfinderSalmonellaA67PSuccess(self):
+        pointfinder_drug_table = ARGDrugTablePointfinder(self.drug_key_pointfinder_invalid_file)
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, 2, pointfinder_database)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[gyrA (A67P)]',
+                         'Wrong phenotype')
 
     def testPointfinderSalmonellaA67PDelEndSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
