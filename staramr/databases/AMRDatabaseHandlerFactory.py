@@ -12,6 +12,8 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 
 class AMRDatabaseHandlerFactory:
+    DEFAULT_RESFINDER_COMMIT = 'dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2'
+    DEFAULT_POINTFINDER_COMMIT = 'ba65c4d175decdc841a0bef9f9be1c1589c0070a'
 
     def __init__(self, database_dir, sub_dirs=False):
         """
@@ -38,6 +40,41 @@ class AMRDatabaseHandlerFactory:
                 return AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
         else:
             return AMRDatabaseHandler(self._database_dir)
+
+    def setup_default(self):
+        """
+        Sets up a default database.
+        :return: None
+        """
+
+        if path.exists(self._git_strip_database_dir):
+            logger.warning("Default database already exists in [" + self._git_strip_database_dir+']')
+        else:
+            logger.info('Setting up default database in ['+self._git_strip_database_dir+']')
+            database_handler = AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
+            database_handler.build(resfinder_commit=self.DEFAULT_RESFINDER_COMMIT, pointfinder_commit=self.DEFAULT_POINTFINDER_COMMIT)
+
+    def restore_default(self):
+        """
+        Restores the default database.
+        :return: None
+        """
+
+        if path.exists(self._git_database_dir):
+            logger.info('Removing database in ['+self._git_database_dir+']')
+            database_handler = AMRDatabaseHandler(self._git_database_dir)
+            database_handler.remove()
+
+            if not path.exists(self._git_strip_database_dir):
+                self.setup_default()
+
+            logger.info('Restored default database to [' + self._git_strip_database_dir + ']')
+        else:
+            if not path.exists(self._git_strip_database_dir):
+                self.setup_default()
+            else:
+                logger.info('Default database already in use under directory ['+self._git_strip_database_dir+']')
+
 
     @classmethod
     def get_default_database_directory(cls):

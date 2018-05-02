@@ -188,7 +188,7 @@ class RestoreDefault(Database):
                                 help='Force restore without asking for confirmation.', required=False)
         return arg_parser
 
-    def _confirm_restore(self, database_dir):
+    def _confirm_restore(self):
         """
         Confirms with the user whether or not to restore the database directory.
         :return: True if should restore, False otherwise.
@@ -196,7 +196,7 @@ class RestoreDefault(Database):
         confirmed = False
         while not confirmed:
             response = str(input(
-                "Remove the database directory " + database_dir + " (Y/N)? ").lower().strip())
+                "Restore the default ResFinder/PointFinder databases (Y/N)? ").lower().strip())
             if response == 'y' or response == 'yes':
                 return True
             elif response == 'n' or response == 'no':
@@ -205,15 +205,15 @@ class RestoreDefault(Database):
     def run(self, args):
         super(RestoreDefault, self).run(args)
 
-        database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        database_manager = AMRDatabaseHandlerFactory.create_default_factory()
 
         if not args.force:
-            response = self._confirm_restore(database_handler.get_database_dir())
+            response = self._confirm_restore()
         else:
             response = True
 
         if response:
-            database_handler.remove()
+            database_manager.restore_default()
 
 """
 Class for getting information from an existing database.
