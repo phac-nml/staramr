@@ -275,10 +275,10 @@ beta-lactam	blaVHW-1_1	AF217648	ampicillin
 beta-lactam	blaVHH-1_1	NG050334	ampicillin
 beta-lactam	blaTER-2_1	FJ263090	ampicillin
 beta-lactam	blaTER-1_1	FJ263091	ampicillin
-beta-lactam	blaSST-1_1	AB008455	ampicilin,ceftriaxone
-beta-lactam	blaSRT-1_1	AB008454	ampicilin,ceftriaxone
-beta-lactam	blaSRT-2_1	AY524276	ampicilin,ceftriaxone
-beta-lactam	blaSPU-1_1	GQ919044	ampicilin,ceftriaxone
+beta-lactam	blaSST-1_1	AB008455	ampicillin,ceftriaxone
+beta-lactam	blaSRT-1_1	AB008454	ampicillin,ceftriaxone
+beta-lactam	blaSRT-2_1	AY524276	ampicillin,ceftriaxone
+beta-lactam	blaSPU-1_1	GQ919044	ampicillin,ceftriaxone
 beta-lactam	blaSPG-1_1	KP109680	ampicillin,amoxi/clav,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaSGM-6_1	NG049988	ampicillin
 beta-lactam	blaSGM-5_1	NG049987	ampicillin
