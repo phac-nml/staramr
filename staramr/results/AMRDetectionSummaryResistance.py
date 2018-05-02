@@ -37,7 +37,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         df_summary['Gene.Lower'] = df['Gene'].str.lower()
 
         df_summary = df_summary.sort_values(by=['Gene.Lower']).groupby(['Isolate ID']).aggregate(
-            self._aggregate_gene_phenotype).replace({'Predicted Phenotype': {self.blank: 'Sensitive'}}).replace(
+            self._aggregate_gene_phenotype).replace(
             {'Predicted Phenotype': {(self.separator+' ') + self.blank: '', self.blank + (self.separator+' '): ''}}, regex=True)
         return df_summary[['Gene', 'Predicted Phenotype']]
 

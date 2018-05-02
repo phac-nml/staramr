@@ -38,8 +38,13 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     def _do_append(self, hit, db_mutation, results):
         drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_hit_id(),
                                              db_mutation.get_mutation_position())
+        gene_name = hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")"
+
+        if drug is None:
+            drug = 'unknown['+gene_name+']'
+
         results.append([hit.get_isolate_id(),
-                        hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")",
+                        gene_name,
                         drug,
                         db_mutation.get_type(),
                         db_mutation.get_mutation_position(),

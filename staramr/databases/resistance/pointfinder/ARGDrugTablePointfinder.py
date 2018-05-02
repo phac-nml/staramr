@@ -34,7 +34,7 @@ class ARGDrugTablePointfinder(ARGDrugTable):
                 table['Codon Pos.'] == position)]['Drug']
         if (drug.empty):
             logger.warning(
-                "No drug found for organism=" + organism + ", gene=" + gene + ", position=" + position)
+                "No drug found for organism=" + organism + ", gene=" + gene + ", position=" + str(position))
             return None
         else:
             return self._drug_string_to_correct_separators(drug.iloc[0])

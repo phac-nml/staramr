@@ -34,6 +34,9 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
         self._append_seqrecords_to(hit, seq_records)
         drug = self._arg_drug_table.get_drug(database_name, hit.get_gene_with_variant(), hit.get_accession())
 
+        if drug is None:
+            drug = 'unknown['+hit.get_gene()+']'
+
         results.append([hit.get_isolate_id(),
                         hit.get_gene(),
                         drug,
