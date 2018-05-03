@@ -2,9 +2,9 @@
 Classes for interacting with the (ResFinder/PointFinder) databases used to detect AMR genes.
 """
 import argparse
+import logging
 import sys
 from os import path, mkdir
-import logging
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
@@ -216,6 +216,7 @@ class RestoreDefault(Database):
         if response:
             database_manager.restore_default()
 
+
 """
 Class for getting information from an existing database.
 """
@@ -270,7 +271,7 @@ class Info(Database):
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
                 logger.error(
-                    'Database not found in ['+database_dir+"]. Perhaps try building with 'staramr db build --dir " + database_dir + "'")
+                    'Database not found in [' + database_dir + "]. Perhaps try building with 'staramr db build --dir " + database_dir + "'")
         else:
             for directory in args.directories:
                 try:

@@ -81,6 +81,6 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
             data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
             data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
         except FileNotFoundError as e:
-            raise DatabaseNotFoundException('Database could not be found in ['+self._database_dir+']') from e
+            raise DatabaseNotFoundException('Database could not be found in [' + self._database_dir + ']') from e
 
         return data_matrix
