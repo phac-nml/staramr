@@ -28,7 +28,7 @@ class ARGDrugTable:
         Gets information about the antimcirobial resistance gene drug table versions.
         :return: A list of key/value for the ResFinder and PointFinder versions.
         """
-        database_info = pandas.read_csv(self._info_file, sep="=", index_col=False, header=None)
+        database_info = pandas.read_csv(self._info_file, sep="=", dtype=str, index_col=False, header=None, skipinitialspace=True)
         return database_info.as_matrix().tolist()
 
     def _drug_string_to_correct_separators(self, drug):

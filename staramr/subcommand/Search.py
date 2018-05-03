@@ -102,27 +102,28 @@ class Search(SubCommand):
         sheetname_dataframe['ResFinder'] = resfinder_dataframe
         if pointfinder_dataframe is not None:
             sheetname_dataframe['PointFinder'] = pointfinder_dataframe
-        sheetname_dataframe['Settings'] = settings_dataframe
 
         for name in ['Summary', 'ResFinder', 'PointFinder']:
             if name in sheetname_dataframe:
                 sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f", na_rep=self.blank)
-        sheetname_dataframe['Settings'].to_excel(writer, 'Settings')
+        self._resize_columns(sheetname_dataframe, writer, max_width=50)
 
-        self._resize_columns(sheetname_dataframe, writer)
+        settings_dataframe.to_excel(writer, 'Settings')
+        self._resize_columns({'Settings': settings_dataframe}, writer, max_width=75, text_wrap=False)
 
         writer.save()
 
-    def _resize_columns(self, sheetname_dataframe, writer):
+    def _resize_columns(self, sheetname_dataframe, writer, max_width, text_wrap = True):
         """
         Resizes columns in workbook.
         :param sheetname_dataframe: A map mapping the sheet name to a dataframe.
         :param writer: The ExcelWriter, which the worksheets already added using writer.to_excel
+        :param max_width: The maximum width of the columns.
+        :param text_wrap: Whether or not to turn on text wrapping if columns surpass max_width.
         :return: None
         """
-        max_width = 50
         workbook = writer.book
-        wrap_format = workbook.add_format({'text_wrap': True})
+        wrap_format = workbook.add_format({'text_wrap': text_wrap})
         for name in sheetname_dataframe:
             for i, width in enumerate(self._get_col_widths(sheetname_dataframe[name])):
                 if width > max_width:
@@ -139,9 +140,10 @@ class Search(SubCommand):
         idx_max = max([len(str(s)) for s in df.index.values] + [len(str(df.index.name))])
         yield idx_max
 
+        extra = 2
         for c in df.columns:
-            # get max length of column contents and length of column header
-            yield numpy.max([df[c].astype(str).str.len().max()+2, len(c)])
+            # get max length of column contents and length of column header (plus some extra)
+            yield numpy.max([df[c].astype(str).str.len().max(), len(c)])+extra
 
     def _print_dataframe_to_text_file(self, dataframe, file=None):
         file_handle = sys.stdout
