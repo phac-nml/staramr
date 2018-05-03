@@ -21,7 +21,7 @@ class ARGDrugTable:
         self._file = file
 
         if file is not None:
-            self._data = pd.read_csv(file, sep="\t")
+            self._data = pd.read_table(file)
 
     def get_resistance_table_info(self):
         """
