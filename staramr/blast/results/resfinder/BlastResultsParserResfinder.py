@@ -11,6 +11,19 @@ Class used to parse out BLAST results for ResFinder.
 
 
 class BlastResultsParserResfinder(BlastResultsParser):
+    COLUMNS=[x.strip() for x in '''
+    Isolate ID
+    Gene
+    %Identity
+    %Overlap
+    HSP Length/Total Length
+    Contig
+    Start
+    End
+    Accession
+    '''.strip().split('\n')]
+
+    INDEX = 'Isolate ID'
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -30,9 +43,8 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return ResfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
-        df = pd.DataFrame(results, columns=('Isolate ID', 'Gene', '%Identity', '%Overlap',
-                                                'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession'))
-        return df.set_index('Isolate ID')
+        df = pd.DataFrame(results, columns=self.COLUMNS)
+        return df.set_index(self.INDEX)
 
     def _append_results_to(self, hit, database_name, results, seq_records):
         self._append_seqrecords_to(hit, seq_records)

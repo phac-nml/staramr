@@ -16,6 +16,21 @@ logger = logging.getLogger('BlastResultsParserPointfinder')
 
 
 class BlastResultsParserPointfinder(BlastResultsParser):
+    COLUMNS=[x.strip() for x in '''
+    Isolate ID
+    Gene
+    Type
+    Position
+    Mutation
+    %Identity
+    %Overlap
+    HSP Length/Total Length
+    Contig
+    Start
+    End
+    '''.strip().split('\n')]
+
+    INDEX='Isolate ID'
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -39,10 +54,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             return PointfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
-        df = pd.DataFrame(results,
-                              columns=('Isolate ID', 'Gene', 'Type', 'Position', 'Mutation',
-                                       '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End'))
-        return df.set_index('Isolate ID')
+        df = pd.DataFrame(results, columns=self.COLUMNS)
+        return df.set_index(self.INDEX)
 
     def _do_append(self, hit, db_mutation, results):
         results.append([hit.get_isolate_id(),

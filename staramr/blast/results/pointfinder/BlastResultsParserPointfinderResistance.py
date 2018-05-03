@@ -12,6 +12,22 @@ logger = logging.getLogger('BlastResultsParserPointfinderResistance')
 
 
 class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
+    COLUMNS=[x.strip() for x in '''
+    Isolate ID
+    Gene
+    Predicted Phenotype
+    Type
+    Position
+    Mutation
+    %Identity
+    %Overlap
+    HSP Length/Total Length
+    Contig
+    Start
+    End
+    '''.strip().split('\n')]
+
+    INDEX='Isolate ID'
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
                  report_all=False, output_dir=None):
@@ -30,10 +46,8 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         self._arg_drug_table = arg_drug_table
 
     def _create_data_frame(self, results):
-        df = pd.DataFrame(results,
-                              columns=('Isolate ID', 'Gene', 'Predicted Phenotype', 'Type', 'Position', 'Mutation',
-                                       '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End'))
-        return df.set_index('Isolate ID')
+        df = pd.DataFrame(results, columns=self.COLUMNS)
+        return df.set_index(self.INDEX)
 
     def _do_append(self, hit, db_mutation, results):
         drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_hit_id(),
