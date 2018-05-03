@@ -58,7 +58,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         file_handle.close()
 
     def _read_database_info_from_file(self, file):
-        return pandas.read_csv(file, sep="=", index_col=False, header=None)
+        return pandas.read_csv(file, sep="=", index_col=False, header=None, skipinitialspace=True)
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
