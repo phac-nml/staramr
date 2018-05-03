@@ -1,8 +1,6 @@
 import logging
 from os import path
 
-import pandas as pd
-
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 from staramr.blast.results.pointfinder.nucleotide.PointfinderHitHSPRNA import PointfinderHitHSPRNA
@@ -16,7 +14,7 @@ logger = logging.getLogger('BlastResultsParserPointfinder')
 
 
 class BlastResultsParserPointfinder(BlastResultsParser):
-    COLUMNS=[x.strip() for x in '''
+    COLUMNS = [x.strip() for x in '''
     Isolate ID
     Gene
     Type
@@ -29,8 +27,6 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Start
     End
     '''.strip().split('\n')]
-
-    INDEX='Isolate ID'
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -53,25 +49,21 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         else:
             return PointfinderHitHSP(file, blast_record, alignment, hsp)
 
-    def _create_data_frame(self, results):
-        df = pd.DataFrame(results, columns=self.COLUMNS)
-        return df.set_index(self.INDEX)
+    def _get_result(self, hit, db_mutation):
+        return [hit.get_isolate_id(),
+                hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")",
+                db_mutation.get_type(),
+                db_mutation.get_mutation_position(),
+                db_mutation.get_mutation_string(),
+                hit.get_pid(),
+                hit.get_plength(),
+                str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
+                hit.get_contig(),
+                hit.get_contig_start(),
+                hit.get_contig_end()
+                ]
 
-    def _do_append(self, hit, db_mutation, results):
-        results.append([hit.get_isolate_id(),
-                        hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")",
-                        db_mutation.get_type(),
-                        db_mutation.get_mutation_position(),
-                        db_mutation.get_mutation_string(),
-                        hit.get_pid(),
-                        hit.get_plength(),
-                        str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
-                        hit.get_contig(),
-                        hit.get_contig_start(),
-                        hit.get_contig_end()
-                        ])
-
-    def _append_results_to(self, hit, database_name, results, seq_records):
+    def _get_result_rows(self, hit, database_name):
         database_mutations = hit.get_mutations()
 
         gene = hit.get_gene()
@@ -99,11 +91,15 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for [id=" + hit.get_hit_id() + ", file=" + hit.get_file() + "]")
         else:
+            results = []
             for db_mutation in database_resistance_mutations:
                 logger.debug("multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
                     database_resistance_mutations) + ", file=" + hit.get_file() + "]")
-                self._append_seqrecords_to(hit, seq_records)
-                self._do_append(hit, db_mutation, results)
+                results.append(self._get_result(hit, db_mutation))
+
+            return results
+
+        return None
 
     def _get_out_file_name(self, in_file):
         if self._output_dir:

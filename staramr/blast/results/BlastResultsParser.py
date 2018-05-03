@@ -3,9 +3,8 @@ import logging
 import os
 
 import Bio.SeqIO
+import pandas as pd
 from Bio.Blast import NCBIXML
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
 
@@ -17,6 +16,7 @@ Class for parsing BLAST results.
 
 
 class BlastResultsParser:
+    INDEX = 'Isolate ID'
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -63,7 +63,7 @@ class BlastResultsParser:
             else:
                 logger.debug("No output directory defined for blast hits, skipping writing file")
 
-        return self._create_data_frame(results)
+        return pd.DataFrame(results, columns=self.COLUMNS).set_index(self.INDEX)
 
     @abc.abstractmethod
     def _get_out_file_name(self, in_file):
@@ -86,7 +86,12 @@ class BlastResultsParser:
                         partitions.append(hit)
             for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
                 for hit in self._select_hits_to_include(hits_non_overlapping):
-                    self._append_results_to(hit, database_name, results, hit_seq_records)
+                    blast_results = self._get_result_rows(hit, database_name)
+                    if blast_results is not None:
+                        logger.debug("record = " + str(blast_results))
+                        results.extend(blast_results)
+                        hit_seq_records.append(hit.get_seq_record())
+
         blast_handle.close()
 
     def _select_hits_to_include(self, hits):
@@ -118,28 +123,9 @@ class BlastResultsParser:
         return hits_to_include
 
     @abc.abstractmethod
-    def _create_data_frame(self, results):
-        pass
-
-    @abc.abstractmethod
     def _create_hit(self, file, database_name, blast_record, alignment, hsp):
         pass
 
     @abc.abstractmethod
-    def _append_results_to(self, hit, database_name, results, hit_seq_records):
+    def _get_result_rows(self, hit, database_name):
         pass
-
-    def _append_seqrecords_to(self, hit, hit_seq_records):
-        seq_record = SeqRecord(Seq(hit.get_hsp_query_proper()), id=hit.get_hit_id(),
-                               description='isolate: ' + hit.get_isolate_id() +
-                                           ', contig: ' + hit.get_contig() +
-                                           ', contig_start: ' + str(hit.get_contig_start()) +
-                                           ', contig_end: ' + str(hit.get_contig_end()) +
-                                           ', resistance_gene_start: ' + str(hit.get_resistance_gene_start()) +
-                                           ', resistance_gene_end: ' + str(hit.get_resistance_gene_end()) +
-                                           ', hsp/length: ' + str(hit.get_hsp_alignment_length()) + '/' + str(
-                                   hit.get_alignment_length()) +
-                                           ', pid: ' + str("%0.2f%%" % hit.get_pid()) +
-                                           ', plength: ' + str("%0.2f%%" % hit.get_plength()))
-        logger.debug("seq_record=" + repr(seq_record))
-        hit_seq_records.append(seq_record)
