@@ -129,6 +129,16 @@ class Search(SubCommand):
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
 
+        if not path.isdir(args.database):
+            if args.database == self._default_database_dir:
+                raise CommandParseException(
+                    "Default database does not exist. Perhaps try restoring with 'staramr db restore-default'",
+                    self._root_arg_parser)
+            else:
+                raise CommandParseException(
+                    "Database directory [" + args.database + "] does not exist. Perhaps try building with 'staramr db build --dir " + args.database + "'",
+                    self._root_arg_parser)
+
         hits_output_dir = None
         if args.output_dir:
             if path.exists(args.output_dir):
@@ -138,9 +148,6 @@ class Search(SubCommand):
                 hits_output_dir = path.join(args.output_dir, 'hits')
                 mkdir(args.output_dir)
                 mkdir(hits_output_dir)
-
-        if not path.isdir(args.database):
-            raise CommandParseException("Database directory [" + args.database + "] does not exist")
 
         if args.database == AMRDatabasesManager.get_default_database_directory():
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
