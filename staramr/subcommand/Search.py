@@ -5,7 +5,7 @@ import multiprocessing
 import sys
 from os import path, mkdir
 
-import pandas
+import pandas as pd
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
@@ -94,7 +94,7 @@ class Search(SubCommand):
 
     def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
                                    settings_dataframe):
-        writer = pandas.ExcelWriter(outfile_path, engine='xlsxwriter')
+        writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
         summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1, 1], na_rep=self.blank)
         resfinder_dataframe.to_excel(writer, 'ResFinder', freeze_panes=[1, 1], na_rep=self.blank)
@@ -196,7 +196,7 @@ class Search(SubCommand):
                     "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
             self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
-            settings_dataframe = pandas.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
+            settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
 
             self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
                                             amr_detection.get_summary_results(), amr_detection.get_resfinder_results(),

@@ -1,6 +1,6 @@
 from os import path
 
-import pandas
+import pandas as pd
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
@@ -30,7 +30,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return ResfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
-        df = pandas.DataFrame(results, columns=('Isolate ID', 'Gene', '%Identity', '%Overlap',
+        df = pd.DataFrame(results, columns=('Isolate ID', 'Gene', '%Identity', '%Overlap',
                                                 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession'))
         return df.set_index('Isolate ID')
 

@@ -1,6 +1,6 @@
 from os import path
 
-import pandas
+import pandas as pd
 
 """
 Class which provides access to gene/drug mappings stored in tabular files. 
@@ -21,14 +21,14 @@ class ARGDrugTable:
         self._file = file
 
         if file is not None:
-            self._data = pandas.read_csv(file, sep="\t")
+            self._data = pd.read_csv(file, sep="\t")
 
     def get_resistance_table_info(self):
         """
         Gets information about the antimcirobial resistance gene drug table versions.
         :return: A list of key/value for the ResFinder and PointFinder versions.
         """
-        database_info = pandas.read_csv(self._info_file, sep="=", index_col=False, header=None)
+        database_info = pd.read_csv(self._info_file, sep="=", index_col=False, header=None)
         return database_info.as_matrix().tolist()
 
     def _drug_string_to_correct_separators(self, drug):

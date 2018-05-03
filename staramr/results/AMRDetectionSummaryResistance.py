@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 import numpy
-import pandas
+import pandas as pd
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
@@ -17,8 +17,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         """
         Creates a new AMRDetectionSummaryResistance.
         :param files: The list of genome files we have scanned against.
-        :param resfinder_dataframe: The pandas.DataFrame containing the ResFinder results.
-        :param pointfinder_dataframe: The pandas.DataFrame containing the PointFinder results.
+        :param resfinder_dataframe: The pd.DataFrame containing the ResFinder results.
+        :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
         """
         super().__init__(files, resfinder_dataframe, pointfinder_dataframe)
 
@@ -46,7 +46,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         names_set = set(self._names)
 
         negative_names_set = names_set - result_names_set
-        negative_entries = pandas.DataFrame([[x, 'None', 'Sensitive'] for x in negative_names_set],
+        negative_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_names_set],
                                             columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index(
             'Isolate ID')
         return df.append(negative_entries)

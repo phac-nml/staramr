@@ -1,7 +1,7 @@
 import logging
 from os import path
 
-import pandas
+import pandas as pd
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
@@ -39,7 +39,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             return PointfinderHitHSP(file, blast_record, alignment, hsp)
 
     def _create_data_frame(self, results):
-        df = pandas.DataFrame(results,
+        df = pd.DataFrame(results,
                               columns=('Isolate ID', 'Gene', 'Type', 'Position', 'Mutation',
                                        '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End'))
         return df.set_index('Isolate ID')

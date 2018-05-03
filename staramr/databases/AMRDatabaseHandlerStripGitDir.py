@@ -2,7 +2,7 @@ import logging
 import shutil
 from os import path
 
-import pandas
+import pandas as pd
 
 import staramr.Utils as Utils
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
@@ -57,7 +57,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         file_handle.close()
 
     def _read_database_info_from_file(self, file):
-        return pandas.read_csv(file, sep="=", index_col=False, header=None)
+        return pd.read_csv(file, sep="=", index_col=False, header=None)
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
         """

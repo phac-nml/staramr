@@ -1,6 +1,6 @@
 from os import path, listdir
 
-import pandas
+import pandas as pd
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
@@ -86,7 +86,7 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         :param database_dir: The PointFinder database root directory.
         :return: A list of organisms.
         """
-        config = pandas.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
+        config = pd.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
                                  names=['db_prefix', 'name', 'description'])
         return config['db_prefix'].tolist()
 

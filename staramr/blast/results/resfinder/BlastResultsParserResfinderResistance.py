@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 
@@ -26,7 +26,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
         self._arg_drug_table = arg_drug_table
 
     def _create_data_frame(self, results):
-        df = pandas.DataFrame(results, columns=('Isolate ID', 'Gene', 'Predicted Phenotype', '%Identity', '%Overlap',
+        df = pd.DataFrame(results, columns=('Isolate ID', 'Gene', 'Predicted Phenotype', '%Identity', '%Overlap',
                                                 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession'))
         return df.set_index('Isolate ID')
 

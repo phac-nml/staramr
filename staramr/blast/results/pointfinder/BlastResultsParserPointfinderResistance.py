@@ -1,6 +1,6 @@
 import logging
 
-import pandas
+import pandas as pd
 
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 
@@ -30,7 +30,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         self._arg_drug_table = arg_drug_table
 
     def _create_data_frame(self, results):
-        df = pandas.DataFrame(results,
+        df = pd.DataFrame(results,
                               columns=('Isolate ID', 'Gene', 'Predicted Phenotype', 'Type', 'Position', 'Mutation',
                                        '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End'))
         return df.set_index('Isolate ID')

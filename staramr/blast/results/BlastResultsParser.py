@@ -40,7 +40,7 @@ class BlastResultsParser:
     def parse_results(self):
         """
         Parses the BLAST files passed to this particular object.
-        :return: A pandas.DataFrame containing the AMR matches from BLAST.
+        :return: A pd.DataFrame containing the AMR matches from BLAST.
         """
         results = []
 

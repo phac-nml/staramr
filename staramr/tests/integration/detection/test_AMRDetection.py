@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from os import path
 
-import pandas
+import pandas as pd
 from Bio import SeqIO
 
 from staramr.blast.BlastHandler import BlastHandler
@@ -637,11 +637,11 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(summary_results.index), 2, 'Wrong number of rows in result')
 
         result_beta_lactam = summary_results.loc['beta-lactam-blaIMP-42-mut-2']
-        self.assertTrue(isinstance(result_beta_lactam, pandas.Series), 'Wrong type of results returned')
+        self.assertTrue(isinstance(result_beta_lactam, pd.Series), 'Wrong type of results returned')
         self.assertEqual(result_beta_lactam['Genotype'], 'blaIMP-42', 'Wrong genotype')
 
         result_sensitive = summary_results.loc['non-match']
-        self.assertTrue(isinstance(result_sensitive, pandas.Series), 'Wrong type of results returned')
+        self.assertTrue(isinstance(result_sensitive, pd.Series), 'Wrong type of results returned')
         self.assertEqual(result_sensitive['Genotype'], 'None', 'Wrong genotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
@@ -664,7 +664,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
 
         result_sensitive = summary_results.loc['non-match']
-        self.assertTrue(isinstance(result_sensitive, pandas.Series), 'Wrong number of results detected')
+        self.assertTrue(isinstance(result_sensitive, pd.Series), 'Wrong number of results detected')
         self.assertEqual(result_sensitive['Genotype'], 'None', 'Wrong genotype')
 
         self.assertEqual(len(os.listdir(self.outdir.name)), 0, 'File found where none should exist')
