@@ -2,15 +2,16 @@
 Classes for interacting with the (ResFinder/PointFinder) databases used to detect AMR genes.
 """
 import argparse
+import logging
 import sys
 from os import path, mkdir
-import logging
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 """
 Base class for interacting with a database.
@@ -215,6 +216,7 @@ class RestoreDefault(Database):
         if response:
             database_manager.restore_default()
 
+
 """
 Class for getting information from an existing database.
 """
@@ -253,18 +255,30 @@ class Info(Database):
         arg_drug_table = ARGDrugTable()
 
         if len(args.directories) == 0:
-            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
-            database_info = database_handler.info()
-            database_info.extend(arg_drug_table.get_resistance_table_info())
-            sys.stdout.write(get_string_with_spacing(database_info))
-        elif len(args.directories) == 1:
-            database_handler = AMRDatabasesManager(args.directories[0]).get_database_handler()
-            database_info = database_handler.info()
-            database_info.extend(arg_drug_table.get_resistance_table_info())
-            sys.stdout.write(get_string_with_spacing(database_info))
-        else:
-            for directory in args.directories:
-                database_handler = AMRDatabasesManager(directory).get_database_handler()
+            try:
+                database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
                 database_info = database_handler.info()
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
+            except DatabaseNotFoundException as e:
+                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
+        elif len(args.directories) == 1:
+            database_dir = args.directories[0]
+            try:
+                database_handler = AMRDatabasesManager(database_dir).get_database_handler()
+                database_info = database_handler.info()
+                database_info.extend(arg_drug_table.get_resistance_table_info())
+                sys.stdout.write(get_string_with_spacing(database_info))
+            except DatabaseNotFoundException as e:
+                logger.error(
+                    'Database not found in [' + database_dir + "]. Perhaps try building with 'staramr db build --dir " + database_dir + "'")
+        else:
+            for directory in args.directories:
+                try:
+                    database_handler = AMRDatabasesManager(directory).get_database_handler()
+                    database_info = database_handler.info()
+                    database_info.extend(arg_drug_table.get_resistance_table_info())
+                    sys.stdout.write(get_string_with_spacing(database_info))
+                except DatabaseNotFoundException as e:
+                    logger.error(
+                        'Database not found in [' + directory + "]. Perhaps try building with 'staramr db build --dir " + directory + "'")

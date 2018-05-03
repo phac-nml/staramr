@@ -1,13 +1,14 @@
 import logging
+import shutil
 import subprocess
 import time
 from os import path
-import shutil
 
 import git
 
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 logger = logging.getLogger('AMRDatabaseHandler')
 
@@ -103,22 +104,26 @@ class AMRDatabaseHandler:
         """
         data = []
 
-        resfinder_repo = git.Repo(self._resfinder_dir)
-        resfinder_repo_head = resfinder_repo.commit('HEAD')
+        try:
+            resfinder_repo = git.Repo(self._resfinder_dir)
+            resfinder_repo_head = resfinder_repo.commit('HEAD')
 
-        data.append(['resfinder_db_dir', self._resfinder_dir])
-        data.append(['resfinder_db_url', self._resfinder_url])
-        data.append(['resfinder_db_commit', str(resfinder_repo_head)])
-        data.append(
-            ['resfinder_db_date', time.strftime("%a, %d %b %Y %H:%M", time.gmtime(resfinder_repo_head.committed_date))])
+            data.append(['resfinder_db_dir', self._resfinder_dir])
+            data.append(['resfinder_db_url', self._resfinder_url])
+            data.append(['resfinder_db_commit', str(resfinder_repo_head)])
+            data.append(
+                ['resfinder_db_date',
+                 time.strftime("%a, %d %b %Y %H:%M", time.gmtime(resfinder_repo_head.committed_date))])
 
-        pointfinder_repo = git.Repo(self._pointfinder_dir)
-        pointfinder_repo_head = pointfinder_repo.commit('HEAD')
-        data.append(['pointfinder_db_dir', self._pointfinder_dir])
-        data.append(['pointfinder_db_url', self._pointfinder_url])
-        data.append(['pointfinder_db_commit', str(pointfinder_repo_head)])
-        data.append(['pointfinder_db_date',
-                     time.strftime("%a, %d %b %Y %H:%M", time.gmtime(pointfinder_repo_head.committed_date))])
+            pointfinder_repo = git.Repo(self._pointfinder_dir)
+            pointfinder_repo_head = pointfinder_repo.commit('HEAD')
+            data.append(['pointfinder_db_dir', self._pointfinder_dir])
+            data.append(['pointfinder_db_url', self._pointfinder_url])
+            data.append(['pointfinder_db_commit', str(pointfinder_repo_head)])
+            data.append(['pointfinder_db_date',
+                         time.strftime("%a, %d %b %Y %H:%M", time.gmtime(pointfinder_repo_head.committed_date))])
+        except git.exc.NoSuchPathError as e:
+            raise DatabaseNotFoundException('Invalid database in [' + self._database_dir + ']') from e
 
         return data
 

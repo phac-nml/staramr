@@ -23,7 +23,6 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         ],
             columns=self.columns_resfinder)
 
-
         self.resfinder_table_duplicate_resistances = pandas.DataFrame([
             ['file1', 'blaIMP-42', 'ampicillin', 99.73, 100.00,
              '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456'],
@@ -39,7 +38,8 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
             columns=self.columns_pointfinder)
 
         self.pointfinder_table_duplicate = pandas.DataFrame([
-            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
+            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96,
+             100.0,
              '2637/2637'],
         ],
             columns=self.columns_pointfinder)
@@ -96,7 +96,8 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testPointfinderResfinderDuplicate(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances, self.pointfinder_table_duplicate)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances,
+                                                              self.pointfinder_table_duplicate)
 
         summary = amr_detection_summary.create_summary()
 
