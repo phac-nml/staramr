@@ -11,6 +11,7 @@ from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 """
 Base class for interacting with a database.
@@ -253,10 +254,13 @@ class Info(Database):
         arg_drug_table = ARGDrugTable()
 
         if len(args.directories) == 0:
-            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
-            database_info = database_handler.info()
-            database_info.extend(arg_drug_table.get_resistance_table_info())
-            sys.stdout.write(get_string_with_spacing(database_info))
+            try:
+                database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+                database_info = database_handler.info()
+                database_info.extend(arg_drug_table.get_resistance_table_info())
+                sys.stdout.write(get_string_with_spacing(database_info))
+            except DatabaseNotFoundException as e:
+                logger.error("No database not found. Perhaps try restoring the default with 'staramr db restore-default'")
         elif len(args.directories) == 1:
             database_handler = AMRDatabasesManager(args.directories[0]).get_database_handler()
             database_info = database_handler.info()

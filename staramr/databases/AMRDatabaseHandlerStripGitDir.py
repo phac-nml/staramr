@@ -6,6 +6,7 @@ import pandas
 
 import staramr.Utils as Utils
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
 
@@ -73,9 +74,13 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a list containing key/value pairs.
         """
-        data = self._read_database_info_from_file(self._info_file)
-        data_matrix = data.as_matrix().tolist()
-        data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
-        data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
+
+        try:
+            data = self._read_database_info_from_file(self._info_file)
+            data_matrix = data.as_matrix().tolist()
+            data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
+            data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
+        except FileNotFoundError as e:
+            raise DatabaseNotFoundException('Database could not be found in ['+self._database_dir+']') from e
 
         return data_matrix

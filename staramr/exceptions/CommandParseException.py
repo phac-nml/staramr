@@ -17,6 +17,6 @@ class CommandParseException(Exception):
     def get_parser(self):
         """
         Gets the argparse.ArgumentParser for the particular subparser that threw the Exception.
-        :return:
+        :return: The argparse.ArgumentParser
         """
         return self._parser
