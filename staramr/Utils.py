@@ -9,10 +9,11 @@ def get_string_with_spacing(data):
     :param data: A list containing sub-lists of key/value pairs.
     :return: A string representation of the list.
     """
-    string = ''
+    s = ''
     max_width = max([len(w[0]) for w in data])
 
-    for item in data:
-        string = string + item[0].ljust(max_width) + " = " + str(item[1]) + "\n"
+    for x,y in data:
+        d = dict(x=x.ljust(max_width), y=y)
+        s += '{x} = {y}\n'.format(**d)
 
-    return string
+    return s
