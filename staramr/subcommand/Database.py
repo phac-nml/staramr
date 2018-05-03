@@ -63,10 +63,10 @@ class Build(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        self._default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " build\n"
-                                "\t\tBuilds a new ResFinder/PointFinder database under " + default_dir + " if it does not exist\n\n" +
+                                "\t\tBuilds a new ResFinder/PointFinder database under " + self._default_dir + " if it does not exist\n\n" +
                   "\t" + name + " build --dir databases\n" +
                   "\t\tBuilds a new ResFinder/PointFinder database under databases/")
 
@@ -75,8 +75,8 @@ class Build(Database):
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Downloads and builds databases in the given directory.')
         arg_parser.add_argument('--dir', action='store', dest='destination', type=str,
-                                help='The directory to download the databases into [' + default_dir + '].',
-                                default=default_dir, required=False)
+                                help='The directory to download the databases into [' + self._default_dir + '].',
+                                default=self._default_dir, required=False)
         arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
@@ -87,8 +87,12 @@ class Build(Database):
         super(Build, self).run(args)
 
         if path.exists(args.destination):
-            raise CommandParseException("Error, destination [" + args.destination + "] already exists",
-                                        self._root_arg_parser)
+            if args.destination == self._default_dir:
+                raise CommandParseException("Error, default destination [" + args.destination + "] already exists",
+                                            self._root_arg_parser, print_help=True)
+            else:
+                raise CommandParseException("Error, destination [" + args.destination + "] already exists",
+                                            self._root_arg_parser)
         else:
             mkdir(args.destination)
 
@@ -115,20 +119,20 @@ class Update(Database):
         super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        self._default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " update databases/\n"
                                 "\t\tUpdates the ResFinder/PointFinder database under databases/\n\n" +
                   "\t" + name + " update -d\n" +
-                  "\t\tUpdates the default ResFinder/PointFinder database under " + default_dir)
+                  "\t\tUpdates the default ResFinder/PointFinder database under " + self._default_dir)
         arg_parser = self._subparser.add_parser('update',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Updates databases in the given directories.')
 
         arg_parser.add_argument('-d', '--update-default', action='store_true', dest='update_default',
-                                help='Updates default database directory (' + default_dir + ').', required=False)
+                                help='Updates default database directory (' + self._default_dir + ').', required=False)
         arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
@@ -142,7 +146,8 @@ class Update(Database):
 
         if len(args.directories) == 0:
             if not args.update_default:
-                raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
+                raise CommandParseException("Must pass at least one directory to update, or use '--update-default'", self._root_arg_parser,
+                                            print_help=True)
             else:
                 database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler(
                     force_use_git=True)

@@ -127,7 +127,7 @@ class Search(SubCommand):
         start_time = datetime.datetime.now()
 
         if (len(args.files) == 0):
-            raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
+            raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser, print_help=True)
 
         hits_output_dir = None
         if args.output_dir:
