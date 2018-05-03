@@ -260,15 +260,24 @@ class Info(Database):
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
-                logger.error("No database not found. Perhaps try restoring the default with 'staramr db restore-default'")
+                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
         elif len(args.directories) == 1:
-            database_handler = AMRDatabasesManager(args.directories[0]).get_database_handler()
-            database_info = database_handler.info()
-            database_info.extend(arg_drug_table.get_resistance_table_info())
-            sys.stdout.write(get_string_with_spacing(database_info))
-        else:
-            for directory in args.directories:
-                database_handler = AMRDatabasesManager(directory).get_database_handler()
+            database_dir = args.directories[0]
+            try:
+                database_handler = AMRDatabasesManager(database_dir).get_database_handler()
                 database_info = database_handler.info()
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
+            except DatabaseNotFoundException as e:
+                logger.error(
+                    'Database not found in ['+database_dir+"]. Perhaps try building with 'staramr db build --dir " + database_dir + "'")
+        else:
+            for directory in args.directories:
+                try:
+                    database_handler = AMRDatabasesManager(directory).get_database_handler()
+                    database_info = database_handler.info()
+                    database_info.extend(arg_drug_table.get_resistance_table_info())
+                    sys.stdout.write(get_string_with_spacing(database_info))
+                except DatabaseNotFoundException as e:
+                    logger.error(
+                        'Database not found in [' + directory + "]. Perhaps try building with 'staramr db build --dir " + directory + "'")
