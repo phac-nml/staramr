@@ -202,11 +202,6 @@ class Info(Database):
             database_info = database_handler.info()
             database_info.extend(arg_drug_table.get_resistance_table_info())
             sys.stdout.write(get_string_with_spacing(database_info))
-        elif len(args.directories) == 1:
-            database_handler = AMRDatabaseHandlerFactory(args.directories[0]).get_database_handler()
-            database_info = database_handler.info()
-            database_info.extend(arg_drug_table.get_resistance_table_info())
-            sys.stdout.write(get_string_with_spacing(database_info))
         else:
             for directory in args.directories:
                 database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
