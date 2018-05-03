@@ -5,6 +5,7 @@
 * Minor
   * Switched to including negative AMR results (samples with no AMR genes) by default.  Must now use parameter `--exclude-negatives` to exclude them.
   * Only print 2 decimals in excel output.
+  * Automatically adjust Excel cells to better fit text.
 
 # Version 0.1.0
 

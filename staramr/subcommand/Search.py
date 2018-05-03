@@ -6,6 +6,7 @@ import sys
 from os import path, mkdir
 
 import pandas
+import numpy
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
@@ -96,13 +97,51 @@ class Search(SubCommand):
                                    settings_dataframe):
         writer = pandas.ExcelWriter(outfile_path, engine='xlsxwriter')
 
-        summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1, 1], na_rep=self.blank)
-        resfinder_dataframe.to_excel(writer, 'ResFinder', float_format="%0.2f", freeze_panes=[1, 1], na_rep=self.blank)
+        sheetname_dataframe = {}
+        sheetname_dataframe['Summary'] = summary_dataframe
+        sheetname_dataframe['ResFinder'] = resfinder_dataframe
         if pointfinder_dataframe is not None:
-            pointfinder_dataframe.to_excel(writer, 'PointFinder', float_format="%0.2f", freeze_panes=[1, 1], na_rep=self.blank)
-        settings_dataframe.to_excel(writer, 'Settings')
+            sheetname_dataframe['PointFinder'] = pointfinder_dataframe
+        sheetname_dataframe['Settings'] = settings_dataframe
+
+        for name in ['Summary', 'ResFinder', 'PointFinder']:
+            if name in sheetname_dataframe:
+                sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f", na_rep=self.blank)
+        sheetname_dataframe['Settings'].to_excel(writer, 'Settings')
+
+        self._resize_columns(sheetname_dataframe, writer)
 
         writer.save()
+
+    def _resize_columns(self, sheetname_dataframe, writer):
+        """
+        Resizes columns in workbook.
+        :param sheetname_dataframe: A map mapping the sheet name to a dataframe.
+        :param writer: The ExcelWriter, which the worksheets already added using writer.to_excel
+        :return: None
+        """
+        max_width = 50
+        workbook = writer.book
+        wrap_format = workbook.add_format({'text_wrap': True})
+        for name in sheetname_dataframe:
+            for i, width in enumerate(self._get_col_widths(sheetname_dataframe[name])):
+                if width > max_width:
+                    writer.sheets[name].set_column(i, i, width=max_width, cell_format=wrap_format)
+                else:
+                    writer.sheets[name].set_column(i, i, width=width)
+
+    def _get_col_widths(self, df):
+        """
+        Calculate column widths based on column headers and contents
+        :param df: The dataframe.
+        :return: A generator giving the max width for each column.
+        """
+        idx_max = max([len(str(s)) for s in df.index.values] + [len(str(df.index.name))])
+        yield idx_max
+
+        for c in df.columns:
+            # get max length of column contents and length of column header
+            yield numpy.max([df[c].astype(str).str.len().max()+2, len(c)])
 
     def _print_dataframe_to_text_file(self, dataframe, file=None):
         file_handle = sys.stdout
