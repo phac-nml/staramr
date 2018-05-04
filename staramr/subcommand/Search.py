@@ -26,6 +26,7 @@ Class for searching for AMR resistance genes.
 
 class Search(SubCommand):
     blank = '-'
+    TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
     def __init__(self, subparser, script_name, version):
         """
@@ -186,8 +187,8 @@ class Search(SubCommand):
             settings = database_handler.info()
             settings.insert(0, ['command_line', ' '.join(sys.argv)])
             settings.insert(1, ['version', self._version])
-            settings.insert(2, ['start_time', start_time.strftime("%Y-%m-%d %H:%M:%S")])
-            settings.insert(3, ['end_time', end_time.strftime("%Y-%m-%d %H:%M:%S")])
+            settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
+            settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
             settings.insert(4, ['total_minutes', time_difference_minutes])
             if args.include_resistance_phenotypes:
                 arg_drug_table = ARGDrugTable()
