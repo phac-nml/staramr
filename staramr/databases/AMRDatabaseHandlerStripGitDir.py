@@ -52,9 +52,8 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         shutil.rmtree(self._pointfinder_dir_git)
 
     def _write_database_info_to_file(self, database_info, file):
-        file_handle = open(file, 'w')
-        file_handle.write(Utils.get_string_with_spacing(database_info))
-        file_handle.close()
+        with open(file, 'w') as file_handle:
+            file_handle.write(Utils.get_string_with_spacing(database_info))
 
     def _read_database_info_from_file(self, file):
         return pd.read_csv(file, sep="=", index_col=False, header=None)
