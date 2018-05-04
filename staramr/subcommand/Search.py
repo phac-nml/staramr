@@ -25,7 +25,7 @@ Class for searching for AMR resistance genes.
 
 
 class Search(SubCommand):
-    blank = '-'
+    BLANK = '-'
     TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
     def __init__(self, subparser, script_name, version):
@@ -97,10 +97,10 @@ class Search(SubCommand):
                                    settings_dataframe):
         writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
-        summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1, 1], na_rep=self.blank)
-        resfinder_dataframe.to_excel(writer, 'ResFinder', freeze_panes=[1, 1], na_rep=self.blank)
+        summary_dataframe.to_excel(writer, 'Summary', freeze_panes=[1, 1], na_rep=self.BLANK)
+        resfinder_dataframe.to_excel(writer, 'ResFinder', freeze_panes=[1, 1], na_rep=self.BLANK)
         if pointfinder_dataframe is not None:
-            pointfinder_dataframe.to_excel(writer, 'PointFinder', freeze_panes=[1, 1], na_rep=self.blank)
+            pointfinder_dataframe.to_excel(writer, 'PointFinder', freeze_panes=[1, 1], na_rep=self.BLANK)
         settings_dataframe.to_excel(writer, 'Settings')
 
         writer.save()
@@ -112,7 +112,7 @@ class Search(SubCommand):
             if file:
                 file_handle = open(file, 'w')
 
-            dataframe.to_csv(file_handle, sep="\t", float_format="%0.2f", na_rep=self.blank)
+            dataframe.to_csv(file_handle, sep="\t", float_format="%0.2f", na_rep=self.BLANK)
 
             if file:
                 file_handle.close()
