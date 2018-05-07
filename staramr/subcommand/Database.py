@@ -135,7 +135,7 @@ class Update(Database):
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
                                 help='The specific git commit for the pointfinder database [latest].', required=False)
-        arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('directories', nargs='*')
 
         return arg_parser
 
@@ -186,7 +186,7 @@ class Info(Database):
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Prints information on databases in the given directories.')
-        arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('directories', nargs='*')
 
         return arg_parser
 

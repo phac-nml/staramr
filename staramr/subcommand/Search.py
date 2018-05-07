@@ -88,7 +88,7 @@ class Search(SubCommand):
         arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
-        arg_parser.add_argument('files', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('files', nargs='+')
 
         return arg_parser
 
