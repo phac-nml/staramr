@@ -37,7 +37,7 @@ class AMRDetectionSummary:
 
         negative_names_set = names_set - result_names_set
         negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
-                                            columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
+                                        columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
         return df.append(negative_entries)
 
     def create_summary(self, include_negatives=False):
@@ -46,19 +46,15 @@ class AMRDetectionSummary:
         :param include_negatives: If True, include files with no ResFinder/PointFinder results.
         :return: A pd.DataFrame summarizing the results.
         """
-        df = None
+        df = self._resfinder_dataframe
 
         if self._has_pointfinder:
-            if include_negatives:
-                df = self._include_negatives(
-                    self._compile_results(self._resfinder_dataframe.append(self._pointfinder_dataframe)))
-            else:
-                df = self._compile_results(self._resfinder_dataframe.append(self._pointfinder_dataframe))
-        else:
-            if include_negatives:
-                df = self._include_negatives(self._compile_results(self._resfinder_dataframe))
-            else:
-                df = self._compile_results(self._resfinder_dataframe)
+            df = df.append(self._pointfinder_dataframe)
+
+        df = self._compile_results(df)
+
+        if include_negatives:
+            df = self._include_negatives(df)
 
         df.rename(columns={'Gene': 'Genotype'}, inplace=True)
 
