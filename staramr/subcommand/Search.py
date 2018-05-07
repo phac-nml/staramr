@@ -120,6 +120,10 @@ class Search(SubCommand):
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser, print_help=True)
 
+        for file in args.files:
+            if not path.exists(file):
+                raise CommandParseException('File ['+file+'] does not exist', self._root_arg_parser)
+
         hits_output_dir = None
         if args.output_dir:
             if path.exists(args.output_dir):
