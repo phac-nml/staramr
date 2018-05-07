@@ -186,7 +186,8 @@ class Search(SubCommand):
                 settings.insert(4, ['total_minutes', time_difference_minutes])
                 if args.include_resistance_phenotypes:
                     arg_drug_table = ARGDrugTable()
-                    settings.extend(arg_drug_table.get_resistance_table_info())
+                    info = arg_drug_table.get_resistance_table_info()
+                    settings.extend(info)
                     logger.info(
                         "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
                 self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))

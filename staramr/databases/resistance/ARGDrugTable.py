@@ -1,3 +1,4 @@
+import configparser
 from os import path
 
 import pandas as pd
@@ -26,10 +27,12 @@ class ARGDrugTable:
     def get_resistance_table_info(self):
         """
         Gets information about the antimcirobial resistance gene drug table versions.
-        :return: A list of key/value for the ResFinder and PointFinder versions.
+        :return: A dictionary of the database gene drug table versions.
         """
-        database_info = pd.read_csv(self._info_file, sep="=", index_col=False, header=None)
-        return database_info.as_matrix().tolist()
+        config = configparser.ConfigParser()
+        config.read(self._info_file)
+        versions = config['Versions']
+        return [[k, versions[k]] for k in versions]
 
     def _drug_string_to_correct_separators(self, drug):
         """

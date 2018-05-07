@@ -1,10 +1,8 @@
+import configparser
 import logging
 import shutil
 from os import path
 
-import pandas as pd
-
-import staramr.Utils as Utils
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
@@ -15,6 +13,7 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 
 class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
+    GIT_INFO_SECTION = 'GitInfo'
 
     def __init__(self, database_dir):
         """
@@ -52,11 +51,17 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         shutil.rmtree(self._pointfinder_dir_git)
 
     def _write_database_info_to_file(self, database_info, file):
+        config = configparser.ConfigParser()
+        config[self.GIT_INFO_SECTION] = {k: v for k, v in database_info}
+
         with open(file, 'w') as file_handle:
-            file_handle.write(Utils.get_string_with_spacing(database_info))
+            config.write(file_handle)
 
     def _read_database_info_from_file(self, file):
-        return pd.read_csv(file, sep="=", index_col=False, header=None)
+        config = configparser.ConfigParser()
+        config.read(file)
+        git_info = config[self.GIT_INFO_SECTION]
+        return [[k, git_info[k]] for k in git_info]
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
@@ -73,8 +78,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         :return: Database information as a list containing key/value pairs.
         """
         data = self._read_database_info_from_file(self._info_file)
-        data_matrix = data.as_matrix().tolist()
-        data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
-        data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
+        data.insert(0, ['resfinder_db_dir', self._resfinder_dir])
+        data.insert(4, ['pointfinder_db_dir', self._pointfinder_dir])
 
-        return data_matrix
+        return data
