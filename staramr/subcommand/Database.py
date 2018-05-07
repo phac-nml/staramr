@@ -181,9 +181,9 @@ class RestoreDefault(Database):
     def _setup_args(self, arg_parser):
         name = self._script_name
         epilog = ("Example:\n"
-                  "\t" + name + " restore-default/\n"
+                  "\t" + name + " restore/\n"
                                 "\t\tRestores the default ResFinder/PointFinder database\n\n")
-        arg_parser = self._subparser.add_parser('restore-default',
+        arg_parser = self._subparser.add_parser('restore',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Restores the default ResFinder/PointFinder databases.')
@@ -264,7 +264,7 @@ class Info(Database):
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
-                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
+                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore'")
         else:
             for directory in args.directories:
                 try:
