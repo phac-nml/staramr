@@ -12,6 +12,7 @@ from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
 from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
+from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
 
 """
 Base class for interacting with a database.
@@ -157,7 +158,7 @@ class Update(Database):
                         force_use_git=True)
                     database_handler.update(resfinder_commit=args.resfinder_commit,
                                             pointfinder_commit=args.pointfinder_commit)
-                except Exception as e:
+                except DatabaseErrorException as e:
                     logger.error("Could not update default database. Please try restoring with 'staramr db restore'")
                     raise e
         else:
@@ -262,13 +263,16 @@ class Info(Database):
         arg_drug_table = ARGDrugTable()
 
         if len(args.directories) == 0:
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+
             try:
-                database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
                 database_info = database_handler.info()
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
                 logger.error("No database found. Perhaps try restoring the default with 'staramr db restore'")
+            except DatabaseErrorException as e:
+                logger.error("Error with default database ["+database_handler.get_database_dir()+"]. Please try restoring with 'staramr db restore'")
         else:
             for directory in args.directories:
                 try:

@@ -5,6 +5,7 @@ from os import path
 
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
+from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
 
@@ -78,6 +79,9 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a list containing key/value pairs.
         """
+
+        if self._is_error():
+            raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
 
         try:
             data = self._read_database_info_from_file(self._info_file)
