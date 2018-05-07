@@ -1,6 +1,5 @@
 import logging
 import os
-import tempfile
 from concurrent.futures import ThreadPoolExecutor
 
 from Bio.Blast.Applications import NcbiblastnCommandline
@@ -14,11 +13,12 @@ Class for handling scheduling of BLAST jobs.
 
 class BlastHandler:
 
-    def __init__(self, resfinder_database, threads, pointfinder_database=None):
+    def __init__(self, resfinder_database, threads, output_directory, pointfinder_database=None):
         """
         Creates a new BlastHandler.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
+        :param output_directory: The output directory to store BLAST results.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         """
         self._resfinder_database = resfinder_database
@@ -27,6 +27,11 @@ class BlastHandler:
             raise Exception("threads is None")
 
         self._threads = threads
+
+        if output_directory is None:
+            raise Exception("output_directory is None")
+
+        self._output_directory = output_directory
 
         if (pointfinder_database == None):
             self._pointfinder_configured = False
@@ -49,7 +54,6 @@ class BlastHandler:
         self._pointfinder_blast_map = {}
         self._pointfinder_future_blasts = []
         self._resfinder_future_blasts = []
-        self._temp_dirs = []
 
     def run_blasts(self, files):
         """
@@ -63,6 +67,8 @@ class BlastHandler:
         if self.is_pointfinder_configured():
             database_names_pointfinder = self._pointfinder_database.get_database_names()
             logger.debug("Pointfinder Databases: " + str(database_names_pointfinder))
+        else:
+            database_names_pointfinder = None
 
         for file in files:
             logger.info("Scheduling blast for " + file)
@@ -74,12 +80,11 @@ class BlastHandler:
         for database_name in database_names:
             database = self._resfinder_database.get_path(database_name)
             file_name = os.path.basename(file)
-            dir = tempfile.TemporaryDirectory()
 
-            # Forces temporary directories to not be cleaned up until program is finished
-            self._temp_dirs.append(dir)
+            blast_out = os.path.join(self._output_directory, file_name + "." + database_name + ".resfinder.blast.xml")
+            if os.path.exists(blast_out):
+                raise Exception("Error, blast_out [" + blast_out + "] already exists")
 
-            blast_out = os.path.join(dir.name, file_name + ".blast.xml")
             self._resfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
 
             future_blast = self._thread_pool_executor.submit(self._launch_blast, file, database, blast_out)
@@ -89,12 +94,11 @@ class BlastHandler:
         for database_name in database_names:
             database = self._pointfinder_database.get_path(database_name)
             file_name = os.path.basename(file)
-            dir = tempfile.TemporaryDirectory()
 
-            # Forces temporary directories to not be cleaned up until this object is destroyed
-            self._temp_dirs.append(dir)
+            blast_out = os.path.join(self._output_directory, file_name + "." + database_name + ".pointfinder.blast.xml")
+            if os.path.exists(blast_out):
+                raise Exception("Error, blast_out [" + blast_out + "] already exists")
 
-            blast_out = os.path.join(dir.name, file_name + ".blast.xml")
             self._pointfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
 
             future_blast = self._thread_pool_executor.submit(self._launch_blast, file, database, blast_out)
@@ -139,8 +143,3 @@ class BlastHandler:
         stdout, stderr = blastn_command()
         if stderr:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
-
-    def __del__(self):
-        for dir in self._temp_dirs:
-            logger.debug("Removing temporary directory " + str(dir))
-            dir.cleanup()

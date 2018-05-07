@@ -1,6 +1,6 @@
 import unittest
 
-import pandas
+import pandas as pd
 
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
@@ -9,7 +9,7 @@ from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonM
 class PointfinderDatabaseInfoTest(unittest.TestCase):
 
     def setUp(self):
-        pandas_pointfinder_table = pandas.DataFrame([
+        pandas_pointfinder_table = pd.DataFrame([
             ['gyrA', 'gyrA', 1, 1, 'ATC', 'I', 'F', 'Quinolones', 15848289],
             ['gyrA', 'gyrA', 1, 2, 'GAT', 'D', 'N,H', 'Quinolones', 15848289],
         ],

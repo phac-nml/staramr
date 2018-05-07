@@ -76,21 +76,21 @@ class AMRDetection:
 
     def get_resfinder_results(self):
         """
-        Gets a pandas.DataFrame for the ResFinder results.
-        :return: A pandas.DataFrame for the ResFinder results.
+        Gets a pd.DataFrame for the ResFinder results.
+        :return: A pd.DataFrame for the ResFinder results.
         """
         return self._resfinder_dataframe
 
     def get_pointfinder_results(self):
         """
-        Gets a pandas.DataFrame for the PointFinder results.
-        :return: A pandas.DataFrame for the PointFinder results.
+        Gets a pd.DataFrame for the PointFinder results.
+        :return: A pd.DataFrame for the PointFinder results.
         """
         return self._pointfinder_dataframe
 
     def get_summary_results(self):
         """
-        Gets a pandas.DataFrame for a summary table of the results.
-        :return: A pandas.DataFrame for a summary table of the results.
+        Gets a pd.DataFrame for a summary table of the results.
+        :return: A pd.DataFrame for a summary table of the results.
         """
         return self._summary_dataframe

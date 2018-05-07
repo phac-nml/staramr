@@ -1,6 +1,6 @@
 import unittest
 
-import pandas
+import pandas as pd
 
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
 
@@ -14,16 +14,17 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                                     '%Identity', '%Overlap', 'HSP Length/Total Length')
 
         # Resfinder tables
-        self.resfinder_table_empty = pandas.DataFrame([],
+        self.resfinder_table_empty = pd.DataFrame([],
                                                       columns=self.columns_resfinder)
 
-        self.resfinder_table = pandas.DataFrame([
+        self.resfinder_table = pd.DataFrame([
             ['file1', 'blaIMP-42', 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem', 99.73, 100.00,
              '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456']
         ],
             columns=self.columns_resfinder)
 
-        self.resfinder_table_duplicate_resistances = pandas.DataFrame([
+
+        self.resfinder_table_duplicate_resistances = pd.DataFrame([
             ['file1', 'blaIMP-42', 'ampicillin', 99.73, 100.00,
              '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456'],
             ['file1', 'blaCTX-M-55', 'ampicillin, ceftriaxone', 99.73, 100.00,
@@ -31,15 +32,14 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         ],
             columns=self.columns_resfinder)
 
-        self.pointfinder_table = pandas.DataFrame([
+        self.pointfinder_table = pd.DataFrame([
             ['file1', 'gyrA', 'ciprofloxacin I/R, nalidixic acid', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
              '2637/2637'],
         ],
             columns=self.columns_pointfinder)
 
-        self.pointfinder_table_duplicate = pandas.DataFrame([
-            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96,
-             100.0,
+        self.pointfinder_table_duplicate = pd.DataFrame([
+            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
              '2637/2637'],
         ],
             columns=self.columns_pointfinder)
@@ -96,8 +96,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testPointfinderResfinderDuplicate(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances,
-                                                              self.pointfinder_table_duplicate)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances, self.pointfinder_table_duplicate)
 
         summary = amr_detection_summary.create_summary()
 

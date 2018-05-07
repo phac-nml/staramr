@@ -2,6 +2,8 @@ import os
 import re
 
 import Bio.Seq
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 
 """
 Class used to store/parse AMR BLAST hits/hsps.
@@ -147,3 +149,20 @@ class AMRHitHSP:
         :return: The frame (strand) of the BLAST query.
         """
         return self._get_hsp_frame(0)
+
+    def get_seq_record(self):
+        """
+        Gets a SeqRecord for this hit.
+        :return: A SeqRecord for this hit.
+        """
+        return SeqRecord(Seq(self.get_hsp_query_proper()), id=self.get_hit_id(),
+                         description='isolate: ' + self.get_isolate_id() +
+                                     ', contig: ' + self.get_contig() +
+                                     ', contig_start: ' + str(self.get_contig_start()) +
+                                     ', contig_end: ' + str(self.get_contig_end()) +
+                                     ', resistance_gene_start: ' + str(self.get_resistance_gene_start()) +
+                                     ', resistance_gene_end: ' + str(self.get_resistance_gene_end()) +
+                                     ', hsp/length: ' + str(self.get_hsp_alignment_length()) + '/' + str(
+                             self.get_alignment_length()) +
+                                     ', pid: ' + str("%0.2f%%" % self.get_pid()) +
+                                     ', plength: ' + str("%0.2f%%" % self.get_plength()))
