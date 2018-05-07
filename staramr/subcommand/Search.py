@@ -88,9 +88,7 @@ class Search(SubCommand):
         arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
-        arg_parser.add_argument('--version', action='store_true', dest='version',
-                                help='Prints version information.', required=False)
-        arg_parser.add_argument('files', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('files', nargs='+')
 
         return arg_parser
 
@@ -121,6 +119,10 @@ class Search(SubCommand):
 
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser, print_help=True)
+
+        for file in args.files:
+            if not path.exists(file):
+                raise CommandParseException('File ['+file+'] does not exist', self._root_arg_parser)        
 
         if not path.isdir(args.database):
             if args.database == self._default_database_dir:
