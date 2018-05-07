@@ -9,3 +9,4 @@ __pycache__
 /staramr.egg-info
 /staramr/databases/data/
 /.eggs
+/.venv
