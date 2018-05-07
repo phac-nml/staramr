@@ -152,10 +152,14 @@ class Update(Database):
                 raise CommandParseException("Must pass at least one directory to update, or use '--update-default'", self._root_arg_parser,
                                             print_help=True)
             else:
-                database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
-                    force_use_git=True)
-                database_handler.update(resfinder_commit=args.resfinder_commit,
-                                        pointfinder_commit=args.pointfinder_commit)
+                try:
+                    database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
+                        force_use_git=True)
+                    database_handler.update(resfinder_commit=args.resfinder_commit,
+                                            pointfinder_commit=args.pointfinder_commit)
+                except Exception as e:
+                    logger.error("Could not update default database. Please try restoring with 'staramr db restore'")
+                    raise e
         else:
             for directory in args.directories:
                 database_handler = AMRDatabasesManager(directory).get_database_handler()
