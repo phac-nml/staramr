@@ -28,7 +28,7 @@ class AMRDetectionSummary:
 
     def _compile_results(self, df):
         df_summary = df.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
-            lambda x: {'Gene': "%s" % (self.SEPARATOR + ' ').join(x['Gene'])})
+            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x['Gene'])})
         return df_summary[['Gene']]
 
     def _include_negatives(self, df):

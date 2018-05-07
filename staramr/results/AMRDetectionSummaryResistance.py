@@ -27,8 +27,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
                                     x.split(self.SEPARATOR)]
         uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 
-        return {'Gene': "%s" % (self.SEPARATOR + ' ').join(dataframe['Gene']),
-                'Predicted Phenotype': "%s" % (self.SEPARATOR + ' ').join(list(uniq_phenotype))
+        return {'Gene': (self.SEPARATOR + ' ').join(dataframe['Gene']),
+                'Predicted Phenotype': (self.SEPARATOR + ' ').join(list(uniq_phenotype))
                 }
 
     def _compile_results(self, df):
