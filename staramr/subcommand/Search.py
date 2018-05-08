@@ -150,16 +150,6 @@ class Search(SubCommand):
                     "rebuilding the database with 'staramr db build --dir " + database_handler.get_database_dir() +"'.",
                     self._root_arg_parser)
 
-        hits_output_dir = None
-        if args.output_dir:
-            if path.exists(args.output_dir):
-                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
-                                            self._root_arg_parser)
-            else:
-                hits_output_dir = path.join(args.output_dir, 'hits')
-                mkdir(args.output_dir)
-                mkdir(hits_output_dir)
-
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
 
@@ -172,6 +162,16 @@ class Search(SubCommand):
                                                             args.pointfinder_organism)
         else:
             pointfinder_database = None
+
+        hits_output_dir = None
+        if args.output_dir:
+            if path.exists(args.output_dir):
+                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
+                                            self._root_arg_parser)
+            else:
+                hits_output_dir = path.join(args.output_dir, 'hits')
+                mkdir(args.output_dir)
+                mkdir(hits_output_dir)
 
         with tempfile.TemporaryDirectory() as blast_out:
             blast_handler = BlastHandler(resfinder_database, args.nprocs, blast_out, pointfinder_database)
