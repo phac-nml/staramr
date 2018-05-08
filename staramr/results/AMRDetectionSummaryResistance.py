@@ -11,7 +11,6 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 
 class AMRDetectionSummaryResistance(AMRDetectionSummary):
-    BLANK = '-'
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
         """
@@ -32,7 +31,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
                 }
 
     def _compile_results(self, df):
-        df_summary = df.replace(np.nan, self.BLANK)
+        df_summary = df.copy()
 
         # Used to sort by gene names, ignoring case
         df_summary['Gene.Lower'] = df['Gene'].str.lower()
