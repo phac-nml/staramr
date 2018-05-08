@@ -79,9 +79,9 @@ class Search(SubCommand):
         arg_parser.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
                                 help='Report all blast hits (vs. only top blast hits) [False].',
                                 required=False)
-        arg_parser.add_argument('--include-resistance-phenotypes', action='store_true',
-                                dest='include_resistance_phenotypes',
-                                help='Include predicted antimicrobial resistances (experimental feature providing microbiolocial resistance and *not* clinical resistance) [False].',
+        arg_parser.add_argument('--exclude-resistance-phenotypes', action='store_true',
+                                dest='exclude_resistance_phenotypes',
+                                help='Exclude predicted antimicrobial resistances [False].',
                                 required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
@@ -220,7 +220,7 @@ class Search(SubCommand):
             amr_detection_factory = AMRDetectionFactory()
             amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                         include_negatives=not args.exclude_negatives,
-                                                        include_resistances=args.include_resistance_phenotypes,
+                                                        include_resistances=not args.exclude_resistance_phenotypes,
                                                         output_dir=hits_output_dir)
             amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
                                             args.plength_threshold_pointfinder, args.report_all_blast)
@@ -245,12 +245,12 @@ class Search(SubCommand):
                 settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
                 settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
                 settings.insert(4, ['total_minutes', time_difference_minutes])
-                if args.include_resistance_phenotypes:
+                if not args.exclude_resistance_phenotypes:
                     arg_drug_table = ARGDrugTable()
                     info = arg_drug_table.get_resistance_table_info()
                     settings.extend(info)
                     logger.info(
-                        "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
+                        "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
                 self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
                 settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
