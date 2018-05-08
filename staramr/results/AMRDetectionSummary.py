@@ -1,6 +1,6 @@
 from os import path
 
-import pandas
+import pandas as pd
 
 """
 Summarizes both ResFinder and PointFinder database results into a single table.
@@ -8,13 +8,14 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 
 class AMRDetectionSummary:
+    SEPARATOR = ','
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
         """
         Constructs an object for summarizing AMR detection results.
         :param files: The list of genome files we have scanned against.
-        :param resfinder_dataframe: The pandas.DataFrame containing the ResFinder results.
-        :param pointfinder_dataframe: The pandas.DataFrame containing the PointFinder results.
+        :param resfinder_dataframe: The pd.DataFrame containing the ResFinder results.
+        :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
         """
         self._names = [path.splitext(path.basename(x))[0] for x in files]
         self._resfinder_dataframe = resfinder_dataframe
@@ -27,7 +28,7 @@ class AMRDetectionSummary:
 
     def _compile_results(self, df):
         df_summary = df.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
-            lambda x: {'Gene': "%s" % ', '.join(x['Gene'])})
+            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x['Gene'])})
         return df_summary[['Gene']]
 
     def _include_negatives(self, df):
@@ -35,29 +36,25 @@ class AMRDetectionSummary:
         names_set = set(self._names)
 
         negative_names_set = names_set - result_names_set
-        negative_entries = pandas.DataFrame([[x, 'None'] for x in negative_names_set],
-                                            columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
+        negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
+                                        columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
         return df.append(negative_entries)
 
     def create_summary(self, include_negatives=False):
         """
-        Constructs a summary pandas.DataFrame for all ResFinder/PointFinder results.
+        Constructs a summary pd.DataFrame for all ResFinder/PointFinder results.
         :param include_negatives: If True, include files with no ResFinder/PointFinder results.
-        :return: A pandas.DataFrame summarizing the results.
+        :return: A pd.DataFrame summarizing the results.
         """
-        df = None
+        df = self._resfinder_dataframe
 
         if self._has_pointfinder:
-            if include_negatives:
-                df = self._include_negatives(
-                    self._compile_results(self._resfinder_dataframe.append(self._pointfinder_dataframe)))
-            else:
-                df = self._compile_results(self._resfinder_dataframe.append(self._pointfinder_dataframe))
-        else:
-            if include_negatives:
-                df = self._include_negatives(self._compile_results(self._resfinder_dataframe))
-            else:
-                df = self._compile_results(self._resfinder_dataframe)
+            df = df.append(self._pointfinder_dataframe)
+
+        df = self._compile_results(df)
+
+        if include_negatives:
+            df = self._include_negatives(df)
 
         df.rename(columns={'Gene': 'Genotype'}, inplace=True)
 

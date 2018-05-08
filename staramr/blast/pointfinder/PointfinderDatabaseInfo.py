@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 
 """
 A Class storing information about the specific PointFinder database.
@@ -10,7 +10,7 @@ class PointfinderDatabaseInfo:
     def __init__(self, database_info_dataframe):
         """
         Creates a new PointfinderDatabaseInfo.
-        :param database_info_dataframe: A pandas.DataFrame containing the information in PointFinder.
+        :param database_info_dataframe: A pd.DataFrame containing the information in PointFinder.
         """
         self._pointfinder_info = database_info_dataframe
 
@@ -22,14 +22,14 @@ class PointfinderDatabaseInfo:
         :param file: The file containing drug resistance mutations.
         :return: A new PointfinderDatabaseInfo.
         """
-        pointfinder_info = pandas.read_csv(file, sep="\t", index_col=False)
+        pointfinder_info = pd.read_table(file, index_col=False)
         return cls(pointfinder_info)
 
     @classmethod
     def from_pandas_table(cls, database_info_dataframe):
         """
-        Builds a new PointfinderDatabaseInfo from the passed pandas.DataFrame.
-        :param database_info_dataframe: A pandas.DataFrame containing the information in PointFinder.
+        Builds a new PointfinderDatabaseInfo from the passed pd.DataFrame.
+        :param database_info_dataframe: A pd.DataFrame containing the information in PointFinder.
         :return: A new PointfinderDatabaseInfo.
         """
         return cls(database_info_dataframe)

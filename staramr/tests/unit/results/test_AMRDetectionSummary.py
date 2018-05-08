@@ -1,6 +1,6 @@
 import unittest
 
-import pandas
+import pandas as pd
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
@@ -14,17 +14,17 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                                     '%Identity', '%Overlap', 'HSP Length/Total Length')
 
         # Resfinder tables
-        self.resfinder_table_empty = pandas.DataFrame([],
+        self.resfinder_table_empty = pd.DataFrame([],
                                                       columns=self.columns_resfinder)
 
-        self.resfinder_table1 = pandas.DataFrame([
+        self.resfinder_table1 = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,
              'AB753456'],
         ],
             columns=self.columns_resfinder)
         self.resfinder_table1_files = ['file1']
 
-        self.resfinder_table_mult_resistance = pandas.DataFrame([
+        self.resfinder_table_mult_resistance = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,
              'AB753456'],
             ['file1', 'newGene', 99.73, 100.00, '741/741', 'newGene', 1, 741,
@@ -33,7 +33,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             columns=self.columns_resfinder)
         self.resfinder_table_mult_resistance_files = ['file1']
 
-        self.resfinder_table_mult_gene_same_resistance = pandas.DataFrame([
+        self.resfinder_table_mult_gene_same_resistance = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,
              'AB753456'],
             ['file1', 'newGene', 99.73, 100.00, '741/741', 'newGene', 1, 741,
@@ -42,7 +42,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             columns=self.columns_resfinder)
         self.resfinder_table_mult_gene_same_resistance_files = ['file1']
 
-        self.resfinder_table_mult_same_gene_same_resistance = pandas.DataFrame([
+        self.resfinder_table_mult_same_gene_same_resistance = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,
              'AB753456'],
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'newGene', 1, 741,
@@ -51,7 +51,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             columns=self.columns_resfinder)
         self.resfinder_table_mult_same_gene_same_resistance_files = ['file1']
 
-        self.resfinder_table_mult_file = pandas.DataFrame([
+        self.resfinder_table_mult_file = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,
              'AB753456'],
             ['file1', 'newGene', 99.73, 100.00, '741/741', 'newGene', 1, 741,
@@ -63,13 +63,13 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.resfinder_table_mult_file_files = ['file1', 'file2']
 
         # Pointfinder tables
-        self.pointfinder_table = pandas.DataFrame([
+        self.pointfinder_table = pd.DataFrame([
             ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
         ],
             columns=self.columns_pointfinder)
         self.pointfinder_table_files = ['file1']
 
-        self.pointfinder_table_multiple_gene = pandas.DataFrame([
+        self.pointfinder_table_multiple_gene = pd.DataFrame([
             ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
             ['file1', 'gyrAB', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
         ],
@@ -209,7 +209,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('gyrA, gyrAB', summary['Genotype'].iloc[0], 'Genes not equal')
 
     def testPointfinderSingleMultipleGeneSame(self):
-        df = pandas.DataFrame([
+        df = pd.DataFrame([
             ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
             ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
         ],

@@ -16,6 +16,7 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 
 class AMRDatabaseHandler:
+    TIME_FORMAT = "%a, %d %b %Y %H:%M"
 
     def __init__(self, database_dir):
         """
@@ -102,7 +103,7 @@ class AMRDatabaseHandler:
         data.append(['resfinder_db_url', self._resfinder_url])
         data.append(['resfinder_db_commit', str(resfinder_repo_head)])
         data.append(
-            ['resfinder_db_date', time.strftime("%a, %d %b %Y %H:%M", time.gmtime(resfinder_repo_head.committed_date))])
+            ['resfinder_db_date', time.strftime(self.TIME_FORMAT, time.gmtime(resfinder_repo_head.committed_date))])
 
         pointfinder_repo = git.Repo(self._pointfinder_dir)
         pointfinder_repo_head = pointfinder_repo.commit('HEAD')
@@ -110,7 +111,7 @@ class AMRDatabaseHandler:
         data.append(['pointfinder_db_url', self._pointfinder_url])
         data.append(['pointfinder_db_commit', str(pointfinder_repo_head)])
         data.append(['pointfinder_db_date',
-                     time.strftime("%a, %d %b %Y %H:%M", time.gmtime(pointfinder_repo_head.committed_date))])
+                     time.strftime(self.TIME_FORMAT, time.gmtime(pointfinder_repo_head.committed_date))])
 
         return data
 
