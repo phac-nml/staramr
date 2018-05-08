@@ -1,7 +1,5 @@
 import logging
 
-import pandas
-
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 
 """
@@ -49,7 +47,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         gene_name = hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")"
 
         if drug is None:
-            drug = 'unknown['+gene_name+']'
+            drug = 'unknown[' + gene_name + ']'
 
         return [hit.get_isolate_id(),
                 gene_name,
