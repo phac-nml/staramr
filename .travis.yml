@@ -3,6 +3,10 @@ language: python
 python:
   - "3.6"
 
+env:
+  matrix:
+    - "DATABASE_COMMITS='--resfinder-commit dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2 --pointfinder-commit ba65c4d175decdc841a0bef9f9be1c1589c0070a'"
+
 install:
   - sudo apt-get update -qq
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
@@ -14,6 +18,7 @@ install:
   - conda create -c bioconda -c conda-forge -q -y -n test-environment python=$TRAVIS_PYTHON_VERSION blast=2.7.1 git
   - source activate test-environment
   - python setup.py install
-  - staramr db restore -f
+  - mkdir -p staramr/databases/data/
+  - staramr db build --dir staramr/databases/data/update $DATABASE_COMMITS
 
 script: python setup.py test
