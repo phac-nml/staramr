@@ -3,10 +3,11 @@ import datetime
 import logging
 import multiprocessing
 import sys
+import tempfile
 from os import path, mkdir
 
-import pandas
-import numpy
+import pandas as pd
+import numpy as np
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
@@ -26,7 +27,8 @@ Class for searching for AMR resistance genes.
 
 
 class Search(SubCommand):
-    blank = '-'
+    BLANK = '-'
+    TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
     def __init__(self, subparser, script_name, version):
         """
@@ -87,15 +89,13 @@ class Search(SubCommand):
         arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
-        arg_parser.add_argument('--version', action='store_true', dest='version',
-                                help='Prints version information.', required=False)
-        arg_parser.add_argument('files', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('files', nargs='+')
 
         return arg_parser
 
     def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
                                    settings_dataframe):
-        writer = pandas.ExcelWriter(outfile_path, engine='xlsxwriter')
+        writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
         sheetname_dataframe = {}
         sheetname_dataframe['Summary'] = summary_dataframe
@@ -105,7 +105,7 @@ class Search(SubCommand):
 
         for name in ['Summary', 'ResFinder', 'PointFinder']:
             if name in sheetname_dataframe:
-                sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f", na_rep=self.blank)
+                sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f", na_rep=self.BLANK)
         self._resize_columns(sheetname_dataframe, writer, max_width=50)
 
         settings_dataframe.to_excel(writer, 'Settings')
@@ -143,19 +143,10 @@ class Search(SubCommand):
         extra = 2
         for c in df.columns:
             # get max length of column contents and length of column header (plus some extra)
-            yield numpy.max([df[c].astype(str).str.len().max(), len(c)])+extra
+            yield np.max([df[c].astype(str).str.len().max(), len(c)])+extra
 
-    def _print_dataframe_to_text_file(self, dataframe, file=None):
-        file_handle = sys.stdout
-
-        if dataframe is not None:
-            if file:
-                file_handle = open(file, 'w')
-
-            dataframe.to_csv(file_handle, sep="\t", float_format="%0.2f", na_rep=self.blank)
-
-            if file:
-                file_handle.close()
+    def _print_dataframe_to_text_file_handle(self, dataframe, file_handle):
+        dataframe.to_csv(file_handle, sep="\t", float_format="%0.2f", na_rep=self.BLANK)
 
     def _print_settings_to_file(self, settings, file):
         file_handle = open(file, 'w')
@@ -168,32 +159,37 @@ class Search(SubCommand):
         start_time = datetime.datetime.now()
 
         if (len(args.files) == 0):
-            raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser)
+            raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser, print_help=True)
+
+        for file in args.files:
+            if not path.exists(file):
+                raise CommandParseException('File ['+file+'] does not exist', self._root_arg_parser)        
 
         if not path.isdir(args.database):
             if args.database == self._default_database_dir:
                 raise CommandParseException(
-                    "Default database does not exist. Perhaps try restoring with 'staramr db restore-default'",
+                    "Default database does not exist. Perhaps try restoring with 'staramr db restore'",
                     self._root_arg_parser)
             else:
                 raise CommandParseException(
-                    "Database directory [" + args.database + "] does not exist. Perhaps try building with 'staramr db build --dir " + args.database + "'",
+                    "Database directory [" + args.database + "] does not exist. Perhaps try building with"+
+                    "'staramr db build --dir " + args.database + "'",
                     self._root_arg_parser)
-
-        hits_output_dir = None
-        if args.output_dir:
-            if path.exists(args.output_dir):
-                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
-                                            self._root_arg_parser)
-            else:
-                hits_output_dir = path.join(args.output_dir, 'hits')
-                mkdir(args.output_dir)
-                mkdir(hits_output_dir)
 
         if args.database == AMRDatabasesManager.get_default_database_directory():
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+            if database_handler.is_error():
+                raise CommandParseException(
+                    "Default database [" + database_handler.get_database_dir() + "] is in an error state. Please try " +
+                    "restoring with 'staramr db restore'.",
+                    self._root_arg_parser)
         else:
             database_handler = AMRDatabasesManager(args.database).get_database_handler()
+            if database_handler.is_error():
+                raise CommandParseException(
+                    "Database [" + database_handler.get_database_dir() + "] is in an error state. Please try " +
+                    "rebuilding the database with 'staramr db build --dir " + database_handler.get_database_dir() +"'.",
+                    self._root_arg_parser)
 
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
@@ -207,50 +203,64 @@ class Search(SubCommand):
                                                             args.pointfinder_organism)
         else:
             pointfinder_database = None
-        blast_handler = BlastHandler(resfinder_database, args.nprocs, pointfinder_database)
 
-        amr_detection_factory = AMRDetectionFactory()
-        amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                    not args.exclude_negatives,
-                                                    include_resistances=args.include_resistance_phenotypes,
-                                                    output_dir=hits_output_dir)
-        amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
-                                        args.plength_threshold_pointfinder, args.report_all_blast)
-
-        end_time = datetime.datetime.now()
-        time_difference = end_time - start_time
-        time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
-
-        logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
-
+        hits_output_dir = None
         if args.output_dir:
-            self._print_dataframe_to_text_file(amr_detection.get_resfinder_results(),
-                                               path.join(args.output_dir, "resfinder.tsv"))
-            self._print_dataframe_to_text_file(amr_detection.get_pointfinder_results(),
-                                               path.join(args.output_dir, "pointfinder.tsv"))
-            self._print_dataframe_to_text_file(amr_detection.get_summary_results(),
-                                               path.join(args.output_dir, "summary.tsv"))
+            if path.exists(args.output_dir):
+                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
+                                            self._root_arg_parser)
+            else:
+                hits_output_dir = path.join(args.output_dir, 'hits')
+                mkdir(args.output_dir)
+                mkdir(hits_output_dir)
 
-            settings = database_handler.info()
-            settings.insert(0, ['command_line', ' '.join(sys.argv)])
-            settings.insert(1, ['version', self._version])
-            settings.insert(2, ['start_time', start_time.strftime("%Y-%m-%d %H:%M:%S")])
-            settings.insert(3, ['end_time', end_time.strftime("%Y-%m-%d %H:%M:%S")])
-            settings.insert(4, ['total_minutes', time_difference_minutes])
-            if args.include_resistance_phenotypes:
-                arg_drug_table = ARGDrugTable()
-                settings.extend(arg_drug_table.get_resistance_table_info())
-                logger.info(
-                    "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
-            self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
+        with tempfile.TemporaryDirectory() as blast_out:
+            blast_handler = BlastHandler(resfinder_database, args.nprocs, blast_out, pointfinder_database)
 
-            settings_dataframe = pandas.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
+            amr_detection_factory = AMRDetectionFactory()
+            amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
+                                                        include_negatives=not args.exclude_negatives,
+                                                        include_resistances=args.include_resistance_phenotypes,
+                                                        output_dir=hits_output_dir)
+            amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
+                                            args.plength_threshold_pointfinder, args.report_all_blast)
 
-            self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
-                                            amr_detection.get_summary_results(), amr_detection.get_resfinder_results(),
-                                            amr_detection.get_pointfinder_results(),
-                                            settings_dataframe)
+            end_time = datetime.datetime.now()
+            time_difference = end_time - start_time
+            time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
 
-            logger.info("Output files in " + args.output_dir)
-        else:
-            self._print_dataframe_to_text_file(amr_detection.get_summary_results())
+            logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
+
+            if args.output_dir:
+                with open(path.join(args.output_dir, "resfinder.tsv"), 'w') as fh:
+                    self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
+                with open(path.join(args.output_dir, "pointfinder.tsv"), 'w') as fh:
+                    self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
+                with open(path.join(args.output_dir, "summary.tsv"), 'w') as fh:
+                    self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
+
+                settings = database_handler.info()
+                settings.insert(0, ['command_line', ' '.join(sys.argv)])
+                settings.insert(1, ['version', self._version])
+                settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
+                settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
+                settings.insert(4, ['total_minutes', time_difference_minutes])
+                if args.include_resistance_phenotypes:
+                    arg_drug_table = ARGDrugTable()
+                    info = arg_drug_table.get_resistance_table_info()
+                    settings.extend(info)
+                    logger.info(
+                        "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
+                self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
+
+                settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
+
+                self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
+                                                amr_detection.get_summary_results(),
+                                                amr_detection.get_resfinder_results(),
+                                                amr_detection.get_pointfinder_results(),
+                                                settings_dataframe)
+
+                logger.info("Output files in " + args.output_dir)
+            else:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), sys.stdout)

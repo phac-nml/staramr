@@ -33,11 +33,10 @@ class AMRDatabasesManager:
         :param force_use_git: Force use of git database handler.
         :return: The database handler.
         """
-        if self._sub_dirs:
-            if force_use_git or path.exists(self._git_database_dir):
-                return AMRDatabaseHandler(self._git_database_dir)
-            else:
-                return AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
+        if self._sub_dirs and (force_use_git or path.exists(self._git_database_dir)):
+            return AMRDatabaseHandler(self._git_database_dir)
+        elif self._sub_dirs:
+            return AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
         else:
             return AMRDatabaseHandler(self._database_dir)
 

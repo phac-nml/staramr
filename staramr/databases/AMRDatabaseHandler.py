@@ -3,12 +3,14 @@ import shutil
 import subprocess
 import time
 from os import path
+import os
 
 import git
 
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
+from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
 
 logger = logging.getLogger('AMRDatabaseHandler')
 
@@ -18,6 +20,8 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 
 class AMRDatabaseHandler:
+    TIME_FORMAT = "%a, %d %b %Y %H:%M"
+    ERROR_FILE_NAME = '.error'
 
     def __init__(self, database_dir):
         """
@@ -31,6 +35,19 @@ class AMRDatabaseHandler:
         self._resfinder_url = "https://bitbucket.org/genomicepidemiology/resfinder_db.git"
         self._pointfinder_url = "https://bitbucket.org/genomicepidemiology/pointfinder_db.git"
 
+        self._error_file = path.join(database_dir, self.ERROR_FILE_NAME)
+
+    def _mark_error(self):
+        """
+        Marks this database directory as having an error.
+        :return: None
+        """
+        with open(self._error_file, 'a'):
+            os.utime(self._error_file)
+
+    def is_error(self):
+        return path.exists(self._error_file)
+
     def build(self, resfinder_commit=None, pointfinder_commit=None):
         """
         Downloads and builds a new ResFinder/PointFinder database.
@@ -38,21 +55,26 @@ class AMRDatabaseHandler:
         :param pointfinder_commit: The specific git commit for PointFinder.
         :return: None
         """
-        logger.info("Cloning resfinder db [" + self._resfinder_url + "] to [" + self._resfinder_dir + "]")
-        resfinder_repo = git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
 
-        if resfinder_commit is not None:
-            logger.info("Checking out resfinder commit " + resfinder_commit)
-            resfinder_repo.git.checkout(resfinder_commit)
+        try:
+            logger.info("Cloning resfinder db [" + self._resfinder_url + "] to [" + self._resfinder_dir + "]")
+            resfinder_repo = git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
 
-        logger.info("Cloning pointfinder db [" + self._pointfinder_url + "] to [" + self._pointfinder_dir + "]")
-        pointfinder_repo = git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
+            if resfinder_commit is not None:
+                logger.info("Checking out resfinder commit " + resfinder_commit)
+                resfinder_repo.git.checkout(resfinder_commit)
 
-        if pointfinder_commit is not None:
-            logger.info("Checking out pointfinder commit " + pointfinder_commit)
-            pointfinder_repo.git.checkout(pointfinder_commit)
+            logger.info("Cloning pointfinder db [" + self._pointfinder_url + "] to [" + self._pointfinder_dir + "]")
+            pointfinder_repo = git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
 
-        self._blast_format()
+            if pointfinder_commit is not None:
+                logger.info("Checking out pointfinder commit " + pointfinder_commit)
+                pointfinder_repo.git.checkout(pointfinder_commit)
+
+            self._blast_format()
+        except Exception as e:
+            self._mark_error()
+            raise DatabaseErrorException("Could not build database in [" + self._database_dir + "]") from e
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
@@ -65,30 +87,34 @@ class AMRDatabaseHandler:
         if not path.exists(self._database_dir):
             self.build(resfinder_commit=resfinder_commit, pointfinder_commit=pointfinder_commit)
         else:
-            resfinder_repo = git.Repo(self._resfinder_dir)
-            pointfinder_repo = git.Repo(self._pointfinder_dir)
+            try:
+                resfinder_repo = git.Repo(self._resfinder_dir)
+                pointfinder_repo = git.Repo(self._pointfinder_dir)
 
-            logger.info("Updating " + self._resfinder_dir)
-            resfinder_repo.heads.master.checkout()
-            resfinder_repo.remotes.origin.pull()
+                logger.info("Updating " + self._resfinder_dir)
+                resfinder_repo.heads.master.checkout()
+                resfinder_repo.remotes.origin.pull()
 
-            if resfinder_commit is not None:
-                logger.info("Checking out resfinder commit " + resfinder_commit)
-                resfinder_repo.git.checkout(resfinder_commit)
+                if resfinder_commit is not None:
+                    logger.info("Checking out resfinder commit " + resfinder_commit)
+                    resfinder_repo.git.checkout(resfinder_commit)
 
-            resfinder_repo.git.reset('--hard')
+                resfinder_repo.git.reset('--hard')
 
-            logger.info("Updating " + self._pointfinder_dir)
-            pointfinder_repo.heads.master.checkout()
-            pointfinder_repo.remotes.origin.pull()
+                logger.info("Updating " + self._pointfinder_dir)
+                pointfinder_repo.heads.master.checkout()
+                pointfinder_repo.remotes.origin.pull()
 
-            if pointfinder_commit is not None:
-                logger.info("Checking out pointfinder commit " + pointfinder_commit)
-                pointfinder_repo.git.checkout(pointfinder_commit)
+                if pointfinder_commit is not None:
+                    logger.info("Checking out pointfinder commit " + pointfinder_commit)
+                    pointfinder_repo.git.checkout(pointfinder_commit)
 
-            resfinder_repo.git.reset('--hard')
+                resfinder_repo.git.reset('--hard')
 
-            self._blast_format()
+                self._blast_format()
+            except Exception as e:
+                self._mark_error()
+                raise DatabaseErrorException("Could not build database in [" + self._database_dir + "]") from e
 
     def remove(self):
         """
@@ -104,6 +130,9 @@ class AMRDatabaseHandler:
         """
         data = []
 
+        if self.is_error():
+            raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
+
         try:
             resfinder_repo = git.Repo(self._resfinder_dir)
             resfinder_repo_head = resfinder_repo.commit('HEAD')
@@ -112,8 +141,7 @@ class AMRDatabaseHandler:
             data.append(['resfinder_db_url', self._resfinder_url])
             data.append(['resfinder_db_commit', str(resfinder_repo_head)])
             data.append(
-                ['resfinder_db_date',
-                 time.strftime("%a, %d %b %Y %H:%M", time.gmtime(resfinder_repo_head.committed_date))])
+                ['resfinder_db_date', time.strftime(self.TIME_FORMAT, time.gmtime(resfinder_repo_head.committed_date))])
 
             pointfinder_repo = git.Repo(self._pointfinder_dir)
             pointfinder_repo_head = pointfinder_repo.commit('HEAD')
@@ -121,7 +149,8 @@ class AMRDatabaseHandler:
             data.append(['pointfinder_db_url', self._pointfinder_url])
             data.append(['pointfinder_db_commit', str(pointfinder_repo_head)])
             data.append(['pointfinder_db_date',
-                         time.strftime("%a, %d %b %Y %H:%M", time.gmtime(pointfinder_repo_head.committed_date))])
+                         time.strftime(self.TIME_FORMAT, time.gmtime(pointfinder_repo_head.committed_date))])
+
         except git.exc.NoSuchPathError as e:
             raise DatabaseNotFoundException('Invalid database in [' + self._database_dir + ']') from e
 
