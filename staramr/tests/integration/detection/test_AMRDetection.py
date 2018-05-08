@@ -346,26 +346,6 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
 
-    def testPointfinderSalmonellaA67PSuccess(self):
-        pointfinder_drug_table = ARGDrugTablePointfinder(self.drug_key_pointfinder_invalid_file)
-        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
-                                               pointfinder_drug_table, pointfinder_database,
-                                               output_dir=self.outdir.name)
-
-        file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
-        files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
-
-        pointfinder_results = amr_detection.get_pointfinder_results()
-        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
-
-        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
-        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[gyrA (A67P)]',
-                         'Wrong phenotype')
-
     def testPointfinderSalmonellaA67PDelEndSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
