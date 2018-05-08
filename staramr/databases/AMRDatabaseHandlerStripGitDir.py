@@ -80,7 +80,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         :return: Database information as a list containing key/value pairs.
         """
 
-        if self._is_error():
+        if self.is_error():
             raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
 
         try:

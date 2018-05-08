@@ -45,7 +45,7 @@ class AMRDatabaseHandler:
         with open(self._error_file, 'a'):
             os.utime(self._error_file)
 
-    def _is_error(self):
+    def is_error(self):
         return path.exists(self._error_file)
 
     def build(self, resfinder_commit=None, pointfinder_commit=None):
@@ -130,7 +130,7 @@ class AMRDatabaseHandler:
         """
         data = []
 
-        if self._is_error():
+        if self.is_error():
             raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
 
         try:
