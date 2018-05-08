@@ -39,7 +39,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         # Compiles the gene/phenotype results into a single entry per isolate (groupby)
         df_summary = df_summary \
             .sort_values(by=['Gene.Lower']) \
-            .groupby(['Isolate ID']) \
+            .groupby(['Isolate ID'], sort=True) \
             .aggregate(self._aggregate_gene_phenotype)
         return df_summary[['Gene', 'Predicted Phenotype']]
 
