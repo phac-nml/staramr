@@ -250,7 +250,7 @@ class Search(SubCommand):
                     info = arg_drug_table.get_resistance_table_info()
                     settings.extend(info)
                     logger.info(
-                        "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
+                        "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiological resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
                 self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
                 settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')

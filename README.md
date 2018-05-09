@@ -1,10 +1,12 @@
 [![Build Status](https://travis-ci.org/phac-nml/staramr.svg?branch=development)](https://travis-ci.org/phac-nml/staramr)
 [![pypi](https://badge.fury.io/py/staramr.svg)](https://pypi.python.org/pypi/staramr/)
-[![conda](https://anaconda.org/bioconda/staramr/badges/installer/conda.svg)](https://anaconda.org/bioconda/staramr)
+[![conda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg)](https://anaconda.org/bioconda/staramr)
 
 # `staramr`
 
 `staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases (used by the [ResFinder webservice][resfinder-web]) and compiles a summary report of detected antimicrobial resistance genes.
+
+**Note: The predicted phenotypes/drug resistances are for microbiological resistance and *not* clinical resistance. This is an experimental feature provided with support from the NARMS/CIPARS Molecular Working Group and is continually being improved. We welcome any feedback or suggestions.**
 
 For example:
 
@@ -14,30 +16,55 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Genotype                                                  |
-|------------|-----------------------------------------------------------|
-| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) |
-| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            |
+| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       |
+|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline |
+| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               |
 
 **out/resfinder.tsv**:
 
-| Isolate ID | Gene      | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
-|------------|-----------|-----------|----------|-------------------------|-------------|-------|------|-----------|
-| SRR1952908 | sul3      | 100.00    | 100.00   | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  |
-| SRR1952908 | tet(A)    | 99.92     | 97.80    | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  |
-| SRR1952908 | cmlA1     | 99.92     | 100.00   | 1260/1260               | contig00030 | 5448  | 6707 | M64556    |
-| SRR1952908 | aadA1     | 100.00    | 100.00   | 792/792                 | contig00030 | 4564  | 5355 | JQ414041  |
-| SRR1952908 | aadA2     | 99.75     | 100.00   | 792/792                 | contig00030 | 6969  | 7760 | JQ364967  |
-| SRR1952908 | blaTEM-57 | 99.88     | 100.00   | 861/861                 | contig00032 | 5387  | 6247 | FJ405211  |
-| SRR1952926 | tet(A)    | 99.92     | 97.80    | 1247/1275               | contig00027 | 1405  | 2651 | AF534183  |
-| SRR1952926 | blaTEM-57 | 99.88     | 100.00   | 861/861                 | contig00027 | 5316  | 6176 | FJ405211  |
+| Isolate ID | Gene      | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
+|------------|-----------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
+| SRR1952908 | sul3      | sulfisoxazole       | 100.00    | 100.00   | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  |
+| SRR1952908 | tet(A)    | tetracycline        | 99.92     | 97.80    | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  |
+| SRR1952908 | cmlA1     | chloramphenicol     | 99.92     | 100.00   | 1260/1260               | contig00030 | 5448  | 6707 | M64556    |
+| SRR1952908 | aadA1     | streptomycin        | 100.00    | 100.00   | 792/792                 | contig00030 | 4564  | 5355 | JQ414041  |
+| SRR1952908 | aadA2     | streptomycin        | 99.75     | 100.00   | 792/792                 | contig00030 | 6969  | 7760 | JQ364967  |
+| SRR1952908 | blaTEM-57 | ampicillin          | 99.88     | 100.00   | 861/861                 | contig00032 | 5387  | 6247 | FJ405211  |
+| SRR1952926 | tet(A)    | tetracycline        | 99.92     | 97.80    | 1247/1275               | contig00027 | 1405  | 2651 | AF534183  |
+| SRR1952926 | blaTEM-57 | ampicillin          | 99.88     | 100.00   | 861/861                 | contig00027 | 5316  | 6176 | FJ405211  |
 
 **out/pointfinder.tsv**:
 
-| Isolate ID | Gene        | Type  | Position | Mutation            | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    |
-|------------|-------------|-------|----------|---------------------|-----------|----------|-------------------------|-------------|--------|--------|
-| SRR1952908 | gyrA (S83Y) | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00008 | 20165  | 22801  |
-| SRR1952926 | gyrA (S83Y) | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00011 | 157768 | 160404 |
+| Isolate ID | Gene        | Predicted Phenotype               | Type  | Position | Mutation            | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    |
+|------------|-------------|-----------------------------------|-------|----------|---------------------|-----------|----------|-------------------------|-------------|--------|--------|
+| SRR1952908 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00008 | 20165  | 22801  |
+| SRR1952926 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | codon | 83       | TCC -> TAC (S -> Y) | 99.96     | 100.00   | 2637/2637               | contig00011 | 157768 | 160404 |
+
+# Table of Contents
+
+   * [Quick Usage](#quick-usage)
+      * [Search contigs](#search-contigs)
+      * [Database Info](#database-info)
+      * [Update Database](#update-database)
+      * [Restore Database](#restore-database)
+   * [Installation](#installation)
+      * [Bioconda](#bioconda)
+      * [PyPI/Pip](#pypipip)
+      * [Latest Code](#latest-code)
+      * [Dependencies](#dependencies)
+   * [Output](#output)
+   * [Usage](#usage)
+      * [Main Command](#main-command)
+      * [Search](#search)
+      * [Database Build](#database-build)
+      * [Database Update](#database-update)
+      * [Database Info](#database-info-1)
+      * [Databae Restore](#databae-restore)
+   * [Caveats](#caveats)
+   * [Acknowledgements](#acknowledgements)
+   * [Citations](#citations)
+   * [Legal](#legal)
 
 # Quick Usage
 
@@ -77,6 +104,20 @@ staramr db update --update-default
 ```
 
 If you wish to switch to specific git commits of the ResFinder and PointFinder databases you may also pass `--resfinder-commit [COMMIT]` and `--pointfinder-commit [COMMIT]`.
+
+## Restore Database
+
+If you find that, somehow, the database gets messed up, say a message like:
+
+```
+subprocess.CalledProcessError: Command '['makeblastdb', '-in', 'resfinder/macrolide.fsa', '-dbtype', 'nucl', '-parse_seqids']' returned non-zero exit status 1
+```
+
+Then don't worry, you're in luck. You can restore the default database with:
+
+```
+staramr db restore
+``` 
 
 # Installation
 
@@ -171,6 +212,26 @@ In addition, the directory `hits/` stores fasta files of the specific blast hits
 
 # Usage
 
+## Main Command
+
+Main `staramr` command. Can be used to set global options (primarily `--verbose`).
+
+```
+usage: staramr [-h] [--verbose] [-V] {search,db} ...
+
+Do AMR detection for genes and point mutations
+
+positional arguments:
+  {search,db}    Subcommand for AMR detection.
+    search       Search for AMR genes
+    db           Download ResFinder/PointFinder databases
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --verbose      Turn on verbose logging [False].
+  -V, --version  show program's version number and exit
+```
+
 ## Search
 
 Searches input FASTA files for AMR genes.
@@ -180,9 +241,10 @@ usage: staramr search [-h] [-n NPROCS] [--pid-threshold PID_THRESHOLD]
                       [--percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER]
                       [--percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER]
                       [--pointfinder-organism POINTFINDER_ORGANISM]
-                      [--include-negatives] [--report-all-blast] [-d DATABASE]
-                      [-o OUTPUT_DIR] [--version]
-                      ...
+                      [--exclude-negatives] [--report-all-blast]
+                      [--exclude-resistance-phenotypes] [-d DATABASE]
+                      [-o OUTPUT_DIR]
+                      files [files ...]
 
 positional arguments:
   files
@@ -199,13 +261,14 @@ optional arguments:
                         The percent length overlap for pointfinder results [95.0].
   --pointfinder-organism POINTFINDER_ORGANISM
                         The organism to use for pointfinder {salmonella} [None].
-  --include-negatives   Inclue negative results (those sensitive to antimicrobials) [False].
+  --exclude-negatives   Exclude negative results (those sensitive to antimicrobials) [False].
   --report-all-blast    Report all blast hits (vs. only top blast hits) [False].
+  --exclude-resistance-phenotypes
+                        Exclude predicted antimicrobial resistances [False].
   -d DATABASE, --database DATABASE
                         The directory containing the resfinder/pointfinder databases [staramr/databases/data].
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
                         The output directory for results.  If unset prints all results to stdout.
-  --version             Prints version information.
 
 Example:
         staramr search --output-dir out *.fasta
@@ -291,56 +354,33 @@ Example:
                 Prints information on the database stored in databases/
 ```
 
-# Issues
+## Databae Restore
 
-## Error updating ResFinder/PointFinder databases
-
-If you get an error when updating to some specific version of the ResFinder/PointFinder databases you can revert to the distributed version of the database.
-
-For example, if you run the following and get an error:
+Restores the default database for `staramr`.
 
 ```
-staramr db update -d
-...
-subprocess.CalledProcessError: Command '['makeblastdb', '-in', '/path/to/staramr
-/databases/data/update/resfinder/macrolide.fsa', '-dbtype', 'nucl', '-parse_seqids']' returned non-zero exit status 1
-```
+usage: staramr db restore [-h] [-f]
 
-You can revert to the distributed version of the database by deleting the `databases/data/update` directory.  You can find the specific directory using the `staramr db info` command.
+optional arguments:
+  -h, --help   show this help message and exit
+  -f, --force  Force restore without asking for confirmation.
 
+Example:
+        staramr db restore/
+                Restores the default ResFinder/PointFinder database
 ```
-staramr db info
-resfinder_db_dir      = /path/to/staramr/databases/data/update/resfinder
-...
-pointfinder_db_dir    = /path/to/staramr/databases/data/update/pointfinder
-...
-```
-
-Remove the `databases/data/update` directory with:
-
-```
-rm -rf /path/to/staramr/databases/data/update/
-```
-
-Now if you run `staramr db info` you should get the original databases listed (under `databases/data/dist`).
-
-```
-staramr db info
-resfinder_db_dir       = /path/to/staramr/databases/data/dist/resfinder
-...
-pointfinder_db_dir     = /path/to/staramr/databases/data/dist/pointfinder
-...
-``` 
 
 # Caveats
 
-This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported).
+This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* is currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
 
-`staramr` only works on assembled genomes and not directly on reads.  A quick genome assembler you could use is [Shovill][shovill].  Or, you may also wish to try out the [ResFinder webservice][resfinder-web],  or the command-line tools [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.  You may also wish to check out the [CARD webservice][card-web]. 
+`staramr` only works on assembled genomes and not directly on reads. A quick genome assembler you could use is [Shovill][shovill]. Or, you may also wish to try out the [ResFinder webservice][resfinder-web],  or the command-line tools [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.  You may also wish to check out the [CARD webservice][card-web]. 
 
 # Acknowledgements
 
 Some ideas for the software were derived from the [ResFinder][resfinder-git] and [PointFinder][pointfinder-git] command-line software, as well as from [ABRicate][abricate].
+
+Phenotype/drug resistance predictions are provided with support from the NARMS/CIPARS Molecular Working Group. 
 
 # Citations
 
