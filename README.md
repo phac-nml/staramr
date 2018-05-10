@@ -6,7 +6,7 @@
 
 `staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases (used by the [ResFinder webservice][resfinder-web]) and compiles a summary report of detected antimicrobial resistance genes.
 
-**Note: The predicted phenotypes/drug resistances are for microbiological resistance and *not* clinical resistance. This is an experimental feature provided with support from the NARMS/CIPARS Molecular Working Group and is continually being improved. We welcome any feedback or suggestions.**
+**Note: The predicted phenotypes/drug resistances are for microbiological resistance and *not* clinical resistance. This is is provided with support from the NARMS/CIPARS Molecular Working Group and is continually being improved. A small comparison between phenotype/drug resistance predictions produced by `staramr` and those available from NCBI can be found in the [tutorial][tutorial]. We welcome any feedback or suggestions.**
 
 For example:
 
@@ -54,6 +54,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
       * [Latest Code](#latest-code)
       * [Dependencies](#dependencies)
    * [Output](#output)
+   * [Tutorial](#tutorial)
    * [Usage](#usage)
       * [Main Command](#main-command)
       * [Search](#search)
@@ -117,7 +118,7 @@ Then don't worry, you're in luck. You can restore the default database with:
 
 ```
 staramr db restore
-``` 
+```
 
 # Installation
 
@@ -209,6 +210,11 @@ There are 5 different output files produced by `staramr`:
 5. `results.xlsx`: An Excel spreadsheet containing the previous 4 files as separate worksheets.
 
 In addition, the directory `hits/` stores fasta files of the specific blast hits. 
+
+
+# Tutorial
+
+A tutorial guiding you though the usage of `staramr`, interpreting the results, and comparing with antimicrobial resistances available on NCBI can be found at [staramr tutorial][tutorial].
 
 # Usage
 
@@ -421,3 +427,4 @@ specific language governing permissions and limitations under the License.
 [pypi-staramr]: https://pypi.org/project/staramr/
 [bioconda]: https://bioconda.github.io/
 [card-web]: https://card.mcmaster.ca/
+[tutorial]: doc/tutorial/staramr-tutorial.ipynb
