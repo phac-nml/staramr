@@ -89,6 +89,21 @@ class Search(SubCommand):
         arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results.  If unset prints all results to stdout.",
                                 default=None, required=False)
+        arg_parser.add_argument('--output-summary', action='store', dest='output_summary', type=str,
+                                help="The name of the output file containing the summary results. Not be be used with '--output-dir'. [None]",
+                                default=None, required=False)
+        arg_parser.add_argument('--output-resfinder', action='store', dest='output_resfinder', type=str,
+                                help="The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]",
+                                default=None, required=False)
+        arg_parser.add_argument('--output-pointfinder', action='store', dest='output_pointfinder', type=str,
+                                help="The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]",
+                                default=None, required=False)
+        arg_parser.add_argument('--output-settings', action='store', dest='output_settings', type=str,
+                                help="The name of the output file containing the settings. Not be be used with '--output-dir'. [None]",
+                                default=None, required=False)
+        arg_parser.add_argument('--output-excel', action='store', dest='output_excel', type=str,
+                                help="The name of the output file containing the excel results. Not be be used with '--output-dir'. [None]",
+                                default=None, required=False)
         arg_parser.add_argument('files', nargs='+')
 
         return arg_parser
@@ -204,7 +219,13 @@ class Search(SubCommand):
         else:
             pointfinder_database = None
 
+        to_stdout = False
         hits_output_dir = None
+        output_summary = None
+        output_resfinder = None
+        output_pointfinder = None
+        output_excel = None
+        output_settings = None
         if args.output_dir:
             if path.exists(args.output_dir):
                 raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
@@ -213,6 +234,24 @@ class Search(SubCommand):
                 hits_output_dir = path.join(args.output_dir, 'hits')
                 mkdir(args.output_dir)
                 mkdir(hits_output_dir)
+
+                output_resfinder = path.join(args.output_dir, "resfinder.tsv")
+                output_pointfinder = path.join(args.output_dir, "pointfinder.tsv")
+                output_summary = path.join(args.output_dir, "summary.tsv")
+                output_settings = path.join(args.output_dir, "settings.txt")
+                output_excel = path.join(args.output_dir, 'results.xlsx')
+
+                logger.info('--output-dir set. All files will be output to ['+args.output_dir+']')
+        elif args.output_summary or args.output_resfinder or args.output_pointfinder or args.output_excel:
+            logger.info('--output-dir not set. Files will be output to the respective --output-[type] setting')
+            output_resfinder = args.output_resfinder
+            output_pointfinder = args.output_pointfinder
+            output_summary = args.output_summary
+            output_settings = args.output_settings
+            output_excel = args.output_excel
+        else:
+            logger.info('--output-dir and --output-[type] not set. Will print staramr summary to stdout')
+            to_stdout = True
 
         with tempfile.TemporaryDirectory() as blast_out:
             blast_handler = BlastHandler(resfinder_database, args.nprocs, blast_out, pointfinder_database)
@@ -231,37 +270,56 @@ class Search(SubCommand):
 
             logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
 
-            if args.output_dir:
-                with open(path.join(args.output_dir, "resfinder.tsv"), 'w') as fh:
-                    self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
-                if args.pointfinder_organism:
-                    with open(path.join(args.output_dir, "pointfinder.tsv"), 'w') as fh:
-                        self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
-                with open(path.join(args.output_dir, "summary.tsv"), 'w') as fh:
-                    self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
-
-                settings = database_handler.info()
-                settings.insert(0, ['command_line', ' '.join(sys.argv)])
-                settings.insert(1, ['version', self._version])
-                settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
-                settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
-                settings.insert(4, ['total_minutes', time_difference_minutes])
-                if not args.exclude_resistance_phenotypes:
-                    arg_drug_table = ARGDrugTable()
-                    info = arg_drug_table.get_resistance_table_info()
-                    settings.extend(info)
-                    logger.info(
-                        "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiological resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
-                self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
-
-                settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
-
-                self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
-                                                amr_detection.get_summary_results(),
-                                                amr_detection.get_resfinder_results(),
-                                                amr_detection.get_pointfinder_results(),
-                                                settings_dataframe)
-
-                logger.info("Output files in " + args.output_dir)
-            else:
+            if to_stdout:
                 self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), sys.stdout)
+            else:
+                if output_resfinder:
+                    logger.info('Writing resfinder to ['+output_resfinder+']')
+                    with open(output_resfinder, 'w') as fh:
+                        self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
+                else:
+                    logger.info("--output-dir or --output-resfinder unset. No resfinder file will be written")
+
+                if args.pointfinder_organism and output_pointfinder:
+                    logger.info('Writing pointfinder to [' + output_pointfinder + ']')
+                    with open(output_pointfinder, 'w') as fh:
+                        self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
+                else:
+                    logger.info("--output-dir or --output-pointfinder unset. No pointfinder file will be written")
+
+                if output_summary:
+                    logger.info('Writing summary to [' + output_summary + ']')
+                    with open(output_summary, 'w') as fh:
+                        self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
+                else:
+                    logger.info("--output-dir or --output-summary unset. No summary file will be written")
+
+                if output_settings:
+                    logger.info('Writing settings to [' + output_settings + ']')
+                    settings = database_handler.info()
+                    settings.insert(0, ['command_line', ' '.join(sys.argv)])
+                    settings.insert(1, ['version', self._version])
+                    settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
+                    settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
+                    settings.insert(4, ['total_minutes', time_difference_minutes])
+                    if not args.exclude_resistance_phenotypes:
+                        arg_drug_table = ARGDrugTable()
+                        info = arg_drug_table.get_resistance_table_info()
+                        settings.extend(info)
+                        logger.info(
+                            "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiological resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
+                    self._print_settings_to_file(settings, output_settings)
+                else:
+                    logger.info("--output-dir or --output-settings unset. No settings file will be written")
+
+                if output_excel:
+                    logger.info('Writing Excel to [' + output_excel + ']')
+                    settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
+
+                    self._print_dataframes_to_excel(output_excel,
+                                                    amr_detection.get_summary_results(),
+                                                    amr_detection.get_resfinder_results(),
+                                                    amr_detection.get_pointfinder_results(),
+                                                    settings_dataframe)
+                else:
+                    logger.info("--output-dir or --output-excel unset. No Excel file will be written")
