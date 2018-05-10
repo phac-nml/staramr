@@ -234,8 +234,9 @@ class Search(SubCommand):
             if args.output_dir:
                 with open(path.join(args.output_dir, "resfinder.tsv"), 'w') as fh:
                     self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
-                with open(path.join(args.output_dir, "pointfinder.tsv"), 'w') as fh:
-                    self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
+                if args.pointfinder_organism:
+                    with open(path.join(args.output_dir, "pointfinder.tsv"), 'w') as fh:
+                        self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
                 with open(path.join(args.output_dir, "summary.tsv"), 'w') as fh:
                     self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
 
