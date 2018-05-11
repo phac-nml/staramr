@@ -56,54 +56,61 @@ class Search(SubCommand):
         self._default_database_dir = AMRDatabasesManager.get_default_database_directory()
         cpu_count = multiprocessing.cpu_count()
 
-        arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
-                                help='The number of processing cores to use [' + str(cpu_count) + '].',
-                                default=cpu_count, required=False)
-        arg_parser.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
-                                help='The percent identity threshold [98.0].', default=98.0, required=False)
-        arg_parser.add_argument('--percent-length-overlap-resfinder', action='store',
-                                dest='plength_threshold_resfinder', type=float,
-                                help='The percent length overlap for resfinder results [60.0].', default=60.0,
-                                required=False)
-        arg_parser.add_argument('--percent-length-overlap-pointfinder', action='store',
-                                dest='plength_threshold_pointfinder', type=float,
-                                help='The percent length overlap for pointfinder results [95.0].', default=95.0,
-                                required=False)
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                                 help='The organism to use for pointfinder {' + ', '.join(
-                                    PointfinderBlastDatabase.get_available_organisms()) + '} [None].', default=None,
-                                required=False)
-        arg_parser.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
-                                help='Exclude negative results (those sensitive to antimicrobials) [False].',
-                                required=False)
-        arg_parser.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
-                                help='Report all blast hits (vs. only top blast hits) [False].',
-                                required=False)
-        arg_parser.add_argument('--exclude-resistance-phenotypes', action='store_true',
-                                dest='exclude_resistance_phenotypes',
-                                help='Exclude predicted antimicrobial resistances [False].',
+                                    PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].', default=None,
                                 required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
                                 default=self._default_database_dir, required=False)
-        arg_parser.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
-                                help="The output directory for results.  If unset prints all results to stdout.",
+        arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
+                                help='The number of processing cores to use [' + str(cpu_count) + '].',
+                                default=cpu_count, required=False)
+
+        threshold_group = arg_parser.add_argument_group('BLAST Thesholds')
+        threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
+                                help='The percent identity threshold [98.0].', default=98.0, required=False)
+        threshold_group.add_argument('--percent-length-overlap-resfinder', action='store',
+                                dest='plength_threshold_resfinder', type=float,
+                                help='The percent length overlap for resfinder results [60.0].', default=60.0,
+                                required=False)
+        threshold_group.add_argument('--percent-length-overlap-pointfinder', action='store',
+                                dest='plength_threshold_pointfinder', type=float,
+                                help='The percent length overlap for pointfinder results [95.0].', default=95.0,
+                                required=False)
+
+        report_group = arg_parser.add_argument_group('Reporting options')
+        report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
+                                help='Exclude negative results (those sensitive to antimicrobials) [False].',
+                                required=False)
+        report_group.add_argument('--exclude-resistance-phenotypes', action='store_true',
+                                dest='exclude_resistance_phenotypes',
+                                help='Exclude predicted antimicrobial resistances [False].',
+                                required=False)
+        report_group.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
+                                help='Report all blast hits (vs. only top blast hits) [False].',
+                                required=False)
+
+        output_group = arg_parser.add_argument_group(title='Output', description='Use one of --output-dir or specify individual output files')
+        output_group.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
+                                help="The output directory for results [None].",
                                 default=None, required=False)
-        arg_parser.add_argument('--output-summary', action='store', dest='output_summary', type=str,
+        output_group.add_argument('--output-summary', action='store', dest='output_summary', type=str,
                                 help="The name of the output file containing the summary results. Not be be used with '--output-dir'. [None]",
                                 default=None, required=False)
-        arg_parser.add_argument('--output-resfinder', action='store', dest='output_resfinder', type=str,
+        output_group.add_argument('--output-resfinder', action='store', dest='output_resfinder', type=str,
                                 help="The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]",
                                 default=None, required=False)
-        arg_parser.add_argument('--output-pointfinder', action='store', dest='output_pointfinder', type=str,
+        output_group.add_argument('--output-pointfinder', action='store', dest='output_pointfinder', type=str,
                                 help="The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]",
                                 default=None, required=False)
-        arg_parser.add_argument('--output-settings', action='store', dest='output_settings', type=str,
+        output_group.add_argument('--output-settings', action='store', dest='output_settings', type=str,
                                 help="The name of the output file containing the settings. Not be be used with '--output-dir'. [None]",
                                 default=None, required=False)
-        arg_parser.add_argument('--output-excel', action='store', dest='output_excel', type=str,
+        output_group.add_argument('--output-excel', action='store', dest='output_excel', type=str,
                                 help="The name of the output file containing the excel results. Not be be used with '--output-dir'. [None]",
                                 default=None, required=False)
+
         arg_parser.add_argument('files', nargs='+')
 
         return arg_parser
