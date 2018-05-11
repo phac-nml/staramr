@@ -243,13 +243,18 @@ optional arguments:
 Searches input FASTA files for AMR genes.
 
 ```
-usage: staramr search [-h] [-n NPROCS] [--pid-threshold PID_THRESHOLD]
+usage: staramr search [-h] [--pointfinder-organism POINTFINDER_ORGANISM]
+                      [-d DATABASE] [-n NPROCS]
+                      [--pid-threshold PID_THRESHOLD]
                       [--percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER]
                       [--percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER]
-                      [--pointfinder-organism POINTFINDER_ORGANISM]
-                      [--exclude-negatives] [--report-all-blast]
-                      [--exclude-resistance-phenotypes] [-d DATABASE]
-                      [-o OUTPUT_DIR]
+                      [--exclude-negatives] [--exclude-resistance-phenotypes]
+                      [--report-all-blast] [-o OUTPUT_DIR]
+                      [--output-summary OUTPUT_SUMMARY]
+                      [--output-resfinder OUTPUT_RESFINDER]
+                      [--output-pointfinder OUTPUT_POINTFINDER]
+                      [--output-settings OUTPUT_SETTINGS]
+                      [--output-excel OUTPUT_EXCEL]
                       files [files ...]
 
 positional arguments:
@@ -257,33 +262,57 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  --pointfinder-organism POINTFINDER_ORGANISM
+                        The organism to use for pointfinder {salmonella}.
+                        Defaults to disabling search for point mutations. [None].
+  -d DATABASE, --database DATABASE
+                        The directory containing the resfinder/pointfinder databases [staramr/databases/data].
   -n NPROCS, --nprocs NPROCS
-                        The number of processing cores to use [16].
+                        The number of processing cores to use [Max CPUs on system].
+
+BLAST Thesholds:
   --pid-threshold PID_THRESHOLD
                         The percent identity threshold [98.0].
   --percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER
                         The percent length overlap for resfinder results [60.0].
   --percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER
                         The percent length overlap for pointfinder results [95.0].
-  --pointfinder-organism POINTFINDER_ORGANISM
-                        The organism to use for pointfinder {salmonella} [None].
+
+Reporting options:
   --exclude-negatives   Exclude negative results (those sensitive to antimicrobials) [False].
-  --report-all-blast    Report all blast hits (vs. only top blast hits) [False].
   --exclude-resistance-phenotypes
                         Exclude predicted antimicrobial resistances [False].
-  -d DATABASE, --database DATABASE
-                        The directory containing the resfinder/pointfinder databases [staramr/databases/data].
+  --report-all-blast    Report all blast hits (vs. only top blast hits) [False].
+
+Output:
+  Use one of --output-dir or specify individual output files
+
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
-                        The output directory for results.  If unset prints all results to stdout.
+                        The output directory for results [None].
+  --output-summary OUTPUT_SUMMARY
+                        The name of the output file containing the summary results.
+                        Not be be used with '--output-dir'. [None]
+  --output-resfinder OUTPUT_RESFINDER
+                        The name of the output file containing the resfinder results.
+                        Not be be used with '--output-dir'. [None]
+  --output-pointfinder OUTPUT_POINTFINDER
+                        The name of the output file containing the pointfinder results.
+                        Not be be used with '--output-dir'. [None]
+  --output-settings OUTPUT_SETTINGS
+                        The name of the output file containing the settings.
+                        Not be be used with '--output-dir'. [None]
+  --output-excel OUTPUT_EXCEL
+                        The name of the output file containing the excel results.
+                        Not be be used with '--output-dir'. [None]
 
 Example:
-        staramr search --output-dir out *.fasta
-                Searches the files *.fasta for AMR genes using only the ResFinder database,
-                storing results in the out/ directory.
+	staramr search --output-dir out *.fasta
+		Searches the files *.fasta for AMR genes using only the ResFinder database,
+		storing results in the out/ directory.
 
-        staramr search --pointfinder-organism salmonella --output-dir out *.fasta
-                Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism,
-                storing results in out/.
+	staramr search --pointfinder-organism salmonella --output-dir out *.fasta
+		Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism,
+		storing results in out/.
 ```
 
 ## Database Build
