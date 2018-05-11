@@ -70,5 +70,7 @@ if __name__ == '__main__':
             logger.error(e)
             if e.print_help():
                 e.get_parser().print_help()
+            sys.exit(1)
         except Exception as e:
             logger.exception(e)
+            sys.exit(1)
