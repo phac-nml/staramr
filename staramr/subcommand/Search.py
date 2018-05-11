@@ -175,10 +175,70 @@ class Search(SubCommand):
         file_handle.write(get_string_with_spacing(settings))
         file_handle.close()
 
+    def _generate_results(self, database_handler, resfinder_database, pointfinder_database, nprocs, include_negatives,
+                          include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
+                          plength_threshold_pointfinder, report_all_blast, files):
+        """
+        Runs AMR detection and generates results.
+        :param database_handler: The database handler.
+        :param resfinder_database: The resfinder database.
+        :param pointfinder_database: The pointfinder database.
+        :param nprocs: The number of processing cores to use for BLAST.
+        :param include_negatives: Whether or not to include negative results in output.
+        :param include_resistances: Whether or not to include resistance phenotypes in output.
+        :param hits_output: Output directory for hit files.
+        :param pid_threshold: The pid threshold.
+        :param plength_threshold_resfinder: The plength threshold for resfinder.
+        :param plength_threshold_pointfinder: The plength threshold for pointfinder.
+        :param report_all_blast: Whether or not to report all BLAST results.
+        :param files: The list of files to scan.
+        :return: A dictionary containing the results as dict['results'] and settings as dict['settings'].
+        """
+        results = {'results': None, 'settings': None}
+
+        with tempfile.TemporaryDirectory() as blast_out:
+            start_time = datetime.datetime.now()
+
+            blast_handler = BlastHandler(resfinder_database, nprocs, blast_out, pointfinder_database)
+
+            amr_detection_factory = AMRDetectionFactory()
+            amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
+                                                        include_negatives=include_negatives,
+                                                        include_resistances=include_resistances,
+                                                        output_dir=hits_output)
+            amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
+                                            plength_threshold_pointfinder, report_all_blast)
+
+            results['results'] = amr_detection
+
+            end_time = datetime.datetime.now()
+            time_difference = end_time - start_time
+            time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
+
+            logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
+
+            settings = database_handler.info()
+            settings.insert(0, ['command_line', ' '.join(sys.argv)])
+            settings.insert(1, ['version', self._version])
+            settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
+            settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
+            settings.insert(4, ['total_minutes', time_difference_minutes])
+
+            if include_resistances:
+                arg_drug_table = ARGDrugTable()
+                info = arg_drug_table.get_resistance_table_info()
+                settings.extend(info)
+                logger.info(
+                    "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiological " +
+                    "resistance and *not* clinical resistance. These results are continually being improved and " +
+                    "we welcome any feedback.")
+
+            results['settings'] = settings
+
+        return results
+
     def run(self, args):
         super(Search, self).run(args)
-
-        start_time = datetime.datetime.now()
 
         if (len(args.files) == 0):
             raise CommandParseException("Must pass a fasta file to process", self._root_arg_parser, print_help=True)
@@ -261,71 +321,54 @@ class Search(SubCommand):
             raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
                                         self._root_arg_parser)
 
-        with tempfile.TemporaryDirectory() as blast_out:
-            blast_handler = BlastHandler(resfinder_database, args.nprocs, blast_out, pointfinder_database)
+        results = self._generate_results(database_handler=database_handler,
+                                         resfinder_database=resfinder_database,
+                                         pointfinder_database=pointfinder_database,
+                                         nprocs=args.nprocs,
+                                         include_negatives=not args.exclude_negatives,
+                                         include_resistances=not args.exclude_resistance_phenotypes,
+                                         hits_output=hits_output_dir,
+                                         pid_threshold=args.pid_threshold,
+                                         plength_threshold_resfinder=args.plength_threshold_resfinder,
+                                         plength_threshold_pointfinder=args.plength_threshold_pointfinder,
+                                         report_all_blast=args.report_all_blast,
+                                         files=args.files)
+        amr_detection=results['results']
+        settings=results['settings']
 
-            amr_detection_factory = AMRDetectionFactory()
-            amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
-                                                        include_negatives=not args.exclude_negatives,
-                                                        include_resistances=not args.exclude_resistance_phenotypes,
-                                                        output_dir=hits_output_dir)
-            amr_detection.run_amr_detection(args.files, args.pid_threshold, args.plength_threshold_resfinder,
-                                            args.plength_threshold_pointfinder, args.report_all_blast)
+        if output_resfinder:
+            logger.info('Writing resfinder to ['+output_resfinder+']')
+            with open(output_resfinder, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
+        else:
+            logger.info("--output-dir or --output-resfinder unset. No resfinder file will be written")
 
-            end_time = datetime.datetime.now()
-            time_difference = end_time - start_time
-            time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
+        if args.pointfinder_organism and output_pointfinder:
+            logger.info('Writing pointfinder to [' + output_pointfinder + ']')
+            with open(output_pointfinder, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
+        else:
+            logger.info("--output-dir or --output-pointfinder unset. No pointfinder file will be written")
 
-            logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
+        if output_summary:
+            logger.info('Writing summary to [' + output_summary + ']')
+            with open(output_summary, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
+        else:
+            logger.info("--output-dir or --output-summary unset. No summary file will be written")
 
-            settings = database_handler.info()
-            settings.insert(0, ['command_line', ' '.join(sys.argv)])
-            settings.insert(1, ['version', self._version])
-            settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
-            settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
-            settings.insert(4, ['total_minutes', time_difference_minutes])
-            if not args.exclude_resistance_phenotypes:
-                arg_drug_table = ARGDrugTable()
-                info = arg_drug_table.get_resistance_table_info()
-                settings.extend(info)
-                logger.info(
-                    "Predicting AMR resistance phenotypes is enabled. The predictions are for microbiological " +
-                    "resistance and *not* clinical resistance. These results are continually being improved and " +
-                    "we welcome any feedback.")
+        if output_settings:
+            logger.info('Writing settings to [' + output_settings + ']')
+            self._print_settings_to_file(settings, output_settings)
+        else:
+            logger.info("--output-dir or --output-settings unset. No settings file will be written")
 
-            if output_resfinder:
-                logger.info('Writing resfinder to ['+output_resfinder+']')
-                with open(output_resfinder, 'w') as fh:
-                    self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
-            else:
-                logger.info("--output-dir or --output-resfinder unset. No resfinder file will be written")
+        if output_excel:
+            logger.info('Writing Excel to [' + output_excel + ']')
+            settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
 
-            if args.pointfinder_organism and output_pointfinder:
-                logger.info('Writing pointfinder to [' + output_pointfinder + ']')
-                with open(output_pointfinder, 'w') as fh:
-                    self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
-            else:
-                logger.info("--output-dir or --output-pointfinder unset. No pointfinder file will be written")
-
-            if output_summary:
-                logger.info('Writing summary to [' + output_summary + ']')
-                with open(output_summary, 'w') as fh:
-                    self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
-            else:
-                logger.info("--output-dir or --output-summary unset. No summary file will be written")
-
-            if output_settings:
-                logger.info('Writing settings to [' + output_settings + ']')
-                self._print_settings_to_file(settings, output_settings)
-            else:
-                logger.info("--output-dir or --output-settings unset. No settings file will be written")
-
-            if output_excel:
-                logger.info('Writing Excel to [' + output_excel + ']')
-                settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
-
-                self._print_dataframes_to_excel(output_excel,
-                                                amr_detection.get_summary_results(),
-                                                amr_detection.get_resfinder_results(),
-                                                amr_detection.get_pointfinder_results(),
-                                                settings_dataframe)
+            self._print_dataframes_to_excel(output_excel,
+                                            amr_detection.get_summary_results(),
+                                            amr_detection.get_resfinder_results(),
+                                            amr_detection.get_pointfinder_results(),
+                                            settings_dataframe)
