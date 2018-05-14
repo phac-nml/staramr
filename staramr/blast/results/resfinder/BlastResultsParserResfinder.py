@@ -35,8 +35,8 @@ class BlastResultsParserResfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir)
 
-    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
-        return ResfinderHitHSP(file, blast_record, alignment, hsp)
+    def _create_hit(self, file, database_name, blast_record):
+        return ResfinderHitHSP(file, blast_record)
 
     def _get_result_rows(self, hit, database_name):
         return [[hit.get_isolate_id(),

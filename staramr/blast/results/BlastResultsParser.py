@@ -4,9 +4,9 @@ import os
 
 import Bio.SeqIO
 import pandas as pd
-from Bio.Blast import NCBIXML
 
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
+from staramr.blast.BlastHandler import BlastHandler
 
 logger = logging.getLogger('BlastResultsParser')
 
@@ -75,22 +75,21 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
-        with open(blast_file) as blast_handle:
-            blast_records = NCBIXML.parse(blast_handle)
-            for blast_record in blast_records:
-                partitions = BlastHitPartitions()
-                for alignment in blast_record.alignments:
-                    for hsp in alignment.hsps:
-                        hit = self._create_hit(in_file, database_name, blast_record, alignment, hsp)
-                        if hit.get_pid() >= self._pid_threshold and hit.get_plength() >= self._plength_threshold:
-                            partitions.append(hit)
-                for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
-                    for hit in self._select_hits_to_include(hits_non_overlapping):
-                        blast_results = self._get_result_rows(hit, database_name)
-                        if blast_results is not None:
-                            logger.debug("record = " + str(blast_results))
-                            results.extend(blast_results)
-                            hit_seq_records.append(hit.get_seq_record())
+        blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.COLUMNS, index_col=False)
+        logger.debug(repr(blast_table))
+        partitions = BlastHitPartitions()
+        for index, blast_record in blast_table.iterrows():
+            hit = self._create_hit(in_file, database_name, blast_record)
+            logger.debug('blast_record='+repr(hit._blast_record))
+            if hit.get_pid() >= self._pid_threshold and hit.get_plength() >= self._plength_threshold:
+                partitions.append(hit)
+        for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
+            for hit in self._select_hits_to_include(hits_non_overlapping):
+                blast_results = self._get_result_rows(hit, database_name)
+                if blast_results is not None:
+                    logger.debug("record = " + str(blast_results))
+                    results.extend(blast_results)
+                    hit_seq_records.append(hit.get_seq_record())
 
     def _select_hits_to_include(self, hits):
         hits_to_include = []

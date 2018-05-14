@@ -12,39 +12,35 @@ Class used to store/parse AMR BLAST hits/hsps.
 
 class AMRHitHSP:
 
-    def __init__(self, file, blast_record, hit, hsp):
+    def __init__(self, file, blast_record):
         """
         Creates a new AMRHitHSP.
         :param file: The particular file this BLAST hit came from.
         :param blast_record: The Bio.Blast.Record this hit came from.
-        :param hit: The particular Bio.Blast.Record.Alignment.
-        :param hsp: The particular Bio.Blast.Record.HSP.
         """
         self._file = file
-        self._blast_record = blast_record
-        self.hit = hit
-        self.hsp = hsp
+        self._blast_record = blast_record.to_dict()
 
     def get_alignment_length(self):
         """
         Gets the BLAST alignment length.
         :return: The BLAST alignment length.
         """
-        return self.hit.length
+        return self._blast_record['slen']
 
     def get_hsp_alignment_length(self):
         """
         Gets the BLAST HSP length.
         :return: The BLAST HSP length.
         """
-        return self.hsp.align_length
+        return self._blast_record['length']
 
     def get_pid(self):
         """
         Gets the percent identity of the HSP.
         :return: The HSP percent identity.
         """
-        return (self.hsp.identities / self.hsp.align_length) * 100
+        return self._blast_record['pident']
 
     def get_plength(self):
         """
@@ -58,7 +54,7 @@ class AMRHitHSP:
         Gets the hit id.
         :return: The hit id.
         """
-        return self.hit.hit_id
+        return self._blast_record['sseqid']
 
     def get_file(self):
         """
@@ -79,7 +75,7 @@ class AMRHitHSP:
         Gets the particular contig id this HSP came from in the input file.
         :return: The contig id.
         """
-        re_search = re.search(r'^(\S+)', self._blast_record.query)
+        re_search = re.search(r'^(\S+)', self._blast_record['qseqid'])
         return re_search.group(1)
 
     def get_contig_start(self):
@@ -87,31 +83,31 @@ class AMRHitHSP:
         Gets the start of the HSP in the contig in the input file.
         :return: The start of the HSP.
         """
-        return self.hsp.query_start
+        return self._blast_record['qstart']
 
     def get_contig_end(self):
         """
         Gets the end of the HSP in the contig from the input file.
         :return: The end of the HSP.
         """
-        return self.hsp.query_end
+        return self._blast_record['qend']
 
     def get_resistance_gene_start(self):
         """
         Gets the start of the hsp to the resistance gene.
         :return: The start of the resistance gene hsp.
         """
-        return self.hsp.sbjct_start
+        return self._blast_record['sstart']
 
     def get_resistance_gene_end(self):
         """
         Gets the end of the hsp to the resistance gene.
         :return: The end of the resistance gene hsp.
         """
-        return self.hsp.sbjct_end
+        return self._blast_record['send']
 
-    def _get_hsp_frame(self, index):
-        frame = self.hsp.frame[index]
+    def _get_hsp_frame(self, name):
+        frame = self._blast_record[name]
         if frame not in [1, -1]:
             raise Exception("frame=" + str(frame) + ", is unexpected")
         else:
@@ -129,7 +125,7 @@ class AMRHitHSP:
         Gets the query sequence from the HSP (proper frame/strand).
         :return: The query sequence (as a string) from the HSP.
         """
-        seq = self.hsp.query
+        seq = self._blast_record['qseq']
 
         if self.get_database_frame() == -1 or self.get_query_frame() == -1:
             return Bio.Seq.reverse_complement(seq)
@@ -141,14 +137,14 @@ class AMRHitHSP:
         Gets the frame (strand) of the BLAST database for the hit/hsp.
         :return: The frame (strand) of the BLAST database.
         """
-        return self._get_hsp_frame(1)
+        return self._get_hsp_frame('qframe')
 
     def get_query_frame(self):
         """
         Gets the frame (strand) of the BLAST query for the hit/hsp.
         :return: The frame (strand) of the BLAST query.
         """
-        return self._get_hsp_frame(0)
+        return self._get_hsp_frame('sframe')
 
     def get_seq_record(self):
         """

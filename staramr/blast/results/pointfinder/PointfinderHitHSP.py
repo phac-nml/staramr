@@ -12,15 +12,13 @@ Class storing a PointFinder BLAST hit/hsp.
 
 class PointfinderHitHSP(AMRHitHSP):
 
-    def __init__(self, file, blast_record, hit, hsp):
+    def __init__(self, file, blast_record):
         """
         Creates a new PointfinderHitHSP.
         :param file: The input file.
         :param blast_record: The Bio.Blast.Record this hit came from.
-        :param hit: The particular Bio.Blast.Record.Alignment.
-        :param hsp: The particular Bio.Blast.Record.HSP.
         """
-        super().__init__(file, blast_record, hit, hsp)
+        super().__init__(file, blast_record)
 
     def get_gene(self):
         """

@@ -42,12 +42,12 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir)
 
-    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
+    def _create_hit(self, file, database_name, blast_record):
         logger.debug("database_name=" + database_name)
         if database_name == '16S_rrsD':
-            return PointfinderHitHSPRNA(file, blast_record, alignment, hsp)
+            return PointfinderHitHSPRNA(file, blast_record)
         else:
-            return PointfinderHitHSP(file, blast_record, alignment, hsp)
+            return PointfinderHitHSP(file, blast_record)
 
     def _get_result(self, hit, db_mutation):
         return [hit.get_isolate_id(),
