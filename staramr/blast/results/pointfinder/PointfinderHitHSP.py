@@ -25,13 +25,13 @@ class PointfinderHitHSP(AMRHitHSP):
         Gets the particular gene name for the PointFinder hit.
         :return: The gene name.
         """
-        return self.hit.hit_id
+        return self._blast_record['sseqid']
 
     def _get_match_positions(self):
-        return [i for i, c in enumerate(self.hsp.match) if c == ' ']
+        return [i for i, (x,y) in enumerate(zip(self._blast_record['sseq'], self._blast_record['qseq'])) if x != y]
 
     def _get_mutation_positions(self, start, database_frame, query_frame):
-        return [CodonMutationPosition(i, self.hsp.sbjct, self.hsp.query, start, database_frame, query_frame) for i
+        return [CodonMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_frame, query_frame) for i
                 in self._get_match_positions()]
 
     def get_mutations(self):
@@ -39,7 +39,7 @@ class PointfinderHitHSP(AMRHitHSP):
         Gets a list of NucleotideMutationPosition for the individual mutations.
         :return: A list of NucleotideMutationPosition.
         """
-        start = self.hsp.sbjct_start
+        start = self._blast_record['sstart']
         database_frame = self.get_database_frame()
         query_frame = self.get_query_frame()
         return self._get_mutation_positions(start, database_frame, query_frame)

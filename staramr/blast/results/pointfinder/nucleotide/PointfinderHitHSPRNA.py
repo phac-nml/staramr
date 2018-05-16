@@ -4,7 +4,7 @@ from staramr.blast.results.pointfinder.nucleotide.NucleotideMutationPosition imp
 
 class PointfinderHitHSPRNA(PointfinderHitHSP):
 
-    def __init__(self, file, blast_record, hit, hsp):
+    def __init__(self, file, blast_record):
         """
         Creates a new PointfinderHitHSPRNA.
         :param file: The input file.
@@ -12,8 +12,8 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
         :param hit: The particular Bio.Blast.Record.Alignment.
         :param hsp: The particular Bio.Blast.Record.HSP.
         """
-        super().__init__(file, blast_record, hit, hsp)
+        super().__init__(file, blast_record)
 
     def _get_mutation_positions(self, start, database_frame, query_frame):
-        return [NucleotideMutationPosition(i, self.hsp.sbjct, self.hsp.query, start, database_frame, query_frame) for i
+        return [NucleotideMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_frame, query_frame) for i
                 in self._get_match_positions()]

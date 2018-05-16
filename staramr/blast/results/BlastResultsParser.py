@@ -120,7 +120,7 @@ class BlastResultsParser:
         return hits_to_include
 
     @abc.abstractmethod
-    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
+    def _create_hit(self, file, database_name, blast_record):
         pass
 
     @abc.abstractmethod

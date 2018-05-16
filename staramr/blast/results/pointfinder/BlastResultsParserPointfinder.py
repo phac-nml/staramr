@@ -68,14 +68,6 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
         gene = hit.get_gene()
 
-        logger.debug("")
-        logger.debug("gene=" + str(gene))
-        logger.debug("sbjct_start=" + str(hit.hsp.sbjct_start))
-        logger.debug("sbjct_end=" + str(hit.hsp.sbjct_end))
-        logger.debug("sbjct_frame=" + str(hit.get_database_frame()))
-        logger.debug("query_frame=" + str(hit.get_query_frame()))
-        logger.debug("query_start=" + str(hit.hsp.query_start))
-        logger.debug("query_end=" + str(hit.hsp.query_end))
         for x in database_mutations:
             logger.debug("database_mutations: position=" + str(
                 x.get_mutation_position()) + ", mutation=" + x.get_mutation_string())
@@ -85,8 +77,6 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_mutations=" + str(database_resistance_mutations))
-
-        logger.debug("gaps=" + str(hit.hsp.gaps))
 
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for [id=" + hit.get_hit_id() + ", file=" + hit.get_file() + "]")
