@@ -75,7 +75,7 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
-        blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.COLUMNS, index_col=False)
+        blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.BLAST_COLUMNS, index_col=False)
         logger.debug(repr(blast_table))
         partitions = BlastHitPartitions()
         for index, blast_record in blast_table.iterrows():
