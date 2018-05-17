@@ -13,9 +13,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -34,9 +34,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -55,9 +55,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -76,9 +76,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -97,9 +97,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 6, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -118,9 +118,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 7, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 3, 'Incorrect codon start')
@@ -139,9 +139,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -160,9 +160,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -181,9 +181,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -202,9 +202,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -223,9 +223,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -244,9 +244,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -266,9 +266,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         # @formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -287,9 +287,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -308,9 +308,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -329,9 +329,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -350,9 +350,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -371,9 +371,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -392,9 +392,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -413,9 +413,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -434,9 +434,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 9
         database_strand = 'minus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -455,9 +455,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 9
         database_strand = 'minus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -476,9 +476,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 9
         database_strand = 'minus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -497,9 +497,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 9
         database_strand = 'minus'
-        query_strand = 'plus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -518,9 +518,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         database_start = 1
         database_strand = 'plus'
-        query_strand = 'minus'
+
         mutation = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                         database_strand, query_strand)
+                                         database_strand)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
