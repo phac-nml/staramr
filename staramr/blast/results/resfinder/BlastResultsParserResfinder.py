@@ -39,15 +39,15 @@ class BlastResultsParserResfinder(BlastResultsParser):
         return ResfinderHitHSP(file, blast_record)
 
     def _get_result_rows(self, hit, database_name):
-        return [[hit.get_isolate_id(),
-                 hit.get_gene(),
+        return [[hit.get_genome_id(),
+                 hit.get_amr_gene_name(),
                  hit.get_pid(),
                  hit.get_plength(),
-                 str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
-                 hit.get_contig(),
-                 hit.get_contig_start(),
-                 hit.get_contig_end(),
-                 hit.get_accession()
+                 str(hit.get_hsp_length()) + "/" + str(hit.get_alignment_length()),
+                 hit.get_genome_contig_id(),
+                 hit.get_genome_contig_start(),
+                 hit.get_genome_contig_end(),
+                 hit.get_amr_gene_accession()
                  ]]
 
     def _get_out_file_name(self, in_file):

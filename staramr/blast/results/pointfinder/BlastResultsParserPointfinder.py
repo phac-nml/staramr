@@ -50,23 +50,23 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             return PointfinderHitHSP(file, blast_record)
 
     def _get_result(self, hit, db_mutation):
-        return [hit.get_isolate_id(),
-                hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")",
+        return [hit.get_genome_id(),
+                hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")",
                 db_mutation.get_type(),
                 db_mutation.get_mutation_position(),
                 db_mutation.get_mutation_string(),
                 hit.get_pid(),
                 hit.get_plength(),
-                str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
-                hit.get_contig(),
-                hit.get_contig_start(),
-                hit.get_contig_end()
+                str(hit.get_hsp_length()) + "/" + str(hit.get_alignment_length()),
+                hit.get_genome_contig_id(),
+                hit.get_genome_contig_start(),
+                hit.get_genome_contig_end()
                 ]
 
     def _get_result_rows(self, hit, database_name):
         database_mutations = hit.get_mutations()
 
-        gene = hit.get_gene()
+        gene = hit.get_amr_gene_name()
 
         for x in database_mutations:
             logger.debug("database_mutations: position=" + str(
@@ -79,11 +79,11 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         logger.debug("database_resistance_mutations=" + str(database_resistance_mutations))
 
         if len(database_resistance_mutations) == 0:
-            logger.debug("No mutations for [id=" + hit.get_hit_id() + ", file=" + hit.get_file() + "]")
+            logger.debug("No mutations for [id=" + hit.get_amr_gene_id() + ", file=" + hit.get_file() + "]")
         else:
             results = []
             for db_mutation in database_resistance_mutations:
-                logger.debug("multiple resistance mutations for [" + hit.get_hit_id() + "], mutations " + str(
+                logger.debug("multiple resistance mutations for [" + hit.get_amr_gene_id() + "], mutations " + str(
                     database_resistance_mutations) + ", file=" + hit.get_file() + "]")
                 results.append(self._get_result(hit, db_mutation))
 

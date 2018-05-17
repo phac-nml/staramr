@@ -20,7 +20,7 @@ class PointfinderHitHSP(AMRHitHSP):
         """
         super().__init__(file, blast_record)
 
-    def get_gene(self):
+    def get_amr_gene_name(self):
         """
         Gets the particular gene name for the PointFinder hit.
         :return: The gene name.
@@ -40,7 +40,7 @@ class PointfinderHitHSP(AMRHitHSP):
         :return: A list of NucleotideMutationPosition.
         """
         start = self._blast_record['sstart']
-        database_strand = self.get_database_strand()
+        database_strand = self.get_amr_database_strand()
         return self._get_mutation_positions(start, database_strand)
 
     def __eq__(self, other):

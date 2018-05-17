@@ -29,21 +29,21 @@ class ResfinderHitHSP(AMRHitHSP):
         self._gene_variant = re_search.group(2)
         self._accession = re_search.group(3)
 
-    def get_gene(self):
+    def get_amr_gene_name(self):
         """
         Gets the gene name for the ResFinder hit.
         :return: The gene name.
         """
         return self._gene
 
-    def get_gene_with_variant(self):
+    def get_amr_gene_name_with_variant(self):
         """
         Gets the gene name + variant number for the ResFinder hit.
         :return: The gene name + variant number.
         """
-        return self.get_gene() + '_' + self._gene_variant
+        return self.get_amr_gene_name() + '_' + self._gene_variant
 
-    def get_accession(self):
+    def get_amr_gene_accession(self):
         """
         Gets the accession for the ResFinder hit.
         :return: The accession.
