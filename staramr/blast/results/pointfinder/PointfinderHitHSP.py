@@ -30,8 +30,8 @@ class PointfinderHitHSP(AMRHitHSP):
     def _get_match_positions(self):
         return [i for i, (x,y) in enumerate(zip(self._blast_record['sseq'], self._blast_record['qseq'])) if x != y]
 
-    def _get_mutation_positions(self, start, database_frame, query_frame):
-        return [CodonMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_frame, query_frame) for i
+    def _get_mutation_positions(self, start, database_strand):
+        return [CodonMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_strand) for i
                 in self._get_match_positions()]
 
     def get_mutations(self):
@@ -40,9 +40,8 @@ class PointfinderHitHSP(AMRHitHSP):
         :return: A list of NucleotideMutationPosition.
         """
         start = self._blast_record['sstart']
-        database_frame = self.get_database_frame()
-        query_frame = self.get_query_frame()
-        return self._get_mutation_positions(start, database_frame, query_frame)
+        database_strand = self.get_database_strand()
+        return self._get_mutation_positions(start, database_strand)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):

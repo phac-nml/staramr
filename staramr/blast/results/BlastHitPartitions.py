@@ -25,10 +25,6 @@ class BlastHitPartitions:
             raise Exception(
                 "Unsupported condition: contig start > contig end for hit (contig=" + hit.get_contig() + ", start=" +
                 str(hit.get_contig_start()) + ", end=" + str(hit.get_contig_end()) + ")")
-        if hit.get_query_frame() != 1:
-            raise Exception("Unsupported condition: query frame is not 1 for hit (contig=" + hit.get_contig() +
-                            ", start=" + str(hit.get_contig_start()) + ", end=" + str(
-                hit.get_contig_end()) + ", query_frame=" + str(hit.get_query_frame()) + ")")
 
         partition = self._find_parition(hit)
         if (partition is None):

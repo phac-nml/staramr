@@ -9,17 +9,16 @@ A Class defining a nucleotide-based mutation for PointFinder.
 
 class NucleotideMutationPosition(MutationPosition):
 
-    def __init__(self, match_position, database_string, query_string, database_start, database_frame, query_frame):
+    def __init__(self, match_position, database_string, query_string, database_start, database_strand):
         """
         Creates a new NucleotideMutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
         :param database_string: The BLAST database string.
         :param query_string: The BLAST query string.
         :param database_start: The start coordinates of the BLAST database hit.
-        :param database_frame: The frame (strand) of the BLAST database.
-        :param query_frame: The frame (strand) of the BLAST query.
+        :param database_strand: The strand of the BLAST database.
         """
-        super().__init__(match_position, database_start, database_frame, query_frame)
+        super().__init__(match_position, database_start, database_strand)
 
         self._database_nucleotide = database_string[match_position].upper()
         self._query_nucleotide = query_string[match_position].upper()
@@ -44,7 +43,7 @@ class NucleotideMutationPosition(MutationPosition):
         return self.get_database_mutation() + ' -> ' + self.get_query_mutation()
 
     def __repr__(self):
-        return "[database_start=" + str(self._database_start) + ", database_frame=" + str(
-            self._database_frame) + ", query_frame=" + str(self._query_frame) + ", nucleotide_position=" \
+        return "[database_start=" + str(self._database_start) + ", database_strand=" + str(
+            self._database_strand) + ", nucleotide_position=" \
                + str(self._nucleotide_position_database) + ", mutation_start=" + str(self.get_mutation_position()) \
                + ", mutation=" + self.get_mutation_string() + "]"

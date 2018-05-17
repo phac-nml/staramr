@@ -30,6 +30,7 @@ class BlastHandler:
     qlen
     sframe
     qframe
+    sstrand
     sseq
     qseq
     '''.strip().split('\n')]

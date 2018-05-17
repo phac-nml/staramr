@@ -280,7 +280,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
@@ -313,7 +313,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertFalse('Predicted Phenotype' in result.columns, 'Should not exist Predicted Phenotype column')
@@ -346,7 +346,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.961, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 98.22, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2590/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
@@ -426,7 +426,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
@@ -460,7 +460,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.935, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
@@ -513,7 +513,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.935, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
@@ -525,7 +525,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
@@ -578,7 +578,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.935, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
@@ -590,7 +590,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
         self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.962, places=3, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',

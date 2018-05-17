@@ -120,31 +120,12 @@ class AMRHitHSP:
         """
         return self.hsp.query
 
-    def get_hsp_query_proper(self):
+    def get_database_strand(self):
         """
-        Gets the query sequence from the HSP (proper frame/strand).
-        :return: The query sequence (as a string) from the HSP.
+        Gets the database (subject) strand for the BLAST hit.
+        :return: The database (subject) strand for the BLAST hit.
         """
-        seq = self._blast_record['qseq']
-
-        if self.get_database_frame() == -1 or self.get_query_frame() == -1:
-            return Bio.Seq.reverse_complement(seq)
-        else:
-            return seq
-
-    def get_database_frame(self):
-        """
-        Gets the frame (strand) of the BLAST database for the hit/hsp.
-        :return: The frame (strand) of the BLAST database.
-        """
-        return self._get_hsp_frame('qframe')
-
-    def get_query_frame(self):
-        """
-        Gets the frame (strand) of the BLAST query for the hit/hsp.
-        :return: The frame (strand) of the BLAST query.
-        """
-        return self._get_hsp_frame('sframe')
+        return self._blast_record['sstrand']
 
     def get_seq_record(self):
         """
