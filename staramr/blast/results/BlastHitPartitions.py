@@ -77,7 +77,7 @@ class BlastHitPartitions:
         """
         partitions_list = []
         for partition in self._partitions:
-            #logger.debug("Partition " + repr(partition))
+            # logger.debug("Partition " + repr(partition))
             partitions_list.append(partition['hits'])
 
         return partitions_list

@@ -42,8 +42,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([1, 1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 10], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([1, 1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 10], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHitEndGreater(self):
         hit1 = AMRHitHSP(None, None)
@@ -68,8 +70,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([1, 1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 11], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([1, 1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 11], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHitEndGreaterStartGreater(self):
         hit1 = AMRHitHSP(None, None)
@@ -94,8 +98,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([1, 2], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 11], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([1, 2], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 11], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHitEndLesser(self):
         hit1 = AMRHitHSP(None, None)
@@ -120,8 +126,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([1, 1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 9], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([1, 1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 9], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHitEndLesserStartLesser(self):
         hit1 = AMRHitHSP(None, None)
@@ -146,8 +154,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([2, 1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 9], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([2, 1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 9], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHitEndGreaterStartLesser(self):
         hit1 = AMRHitHSP(None, None)
@@ -172,8 +182,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([2, 1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 11], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([2, 1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 11], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHit2InHit1(self):
         hit1 = AMRHitHSP(None, None)
@@ -198,8 +210,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([1, 2], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 9], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([1, 2], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 9], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHit2EdgeWithinHit1Lesser(self):
         hit1 = AMRHitHSP(None, None)
@@ -224,8 +238,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([5, 1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([10, 6], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([5, 1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([10, 6], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHit2EdgeSameHit1Lesser(self):
         hit1 = AMRHitHSP(None, None)
@@ -248,13 +264,17 @@ class BlastHitPartitionsTest(unittest.TestCase):
         return_list = parts.get_hits_nonoverlapping_regions()
         self.assertEqual(2, len(return_list), "Should be two partitions")
         self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]], "Should have correct contig names")
-        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]],
+                         "Should have correct contig names")
+        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
         self.assertEqual([10], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
         self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]], "Should have correct contig names")
-        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]],
+                         "Should have correct contig names")
+        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[1]],
+                         "Should have correct contig starts")
         self.assertEqual([5], [x.get_genome_contig_end() for x in return_list[1]], "Should have correct contig ends")
 
     def testSinglePartitionHit2EdgeWithinHit1Greater(self):
@@ -280,8 +300,10 @@ class BlastHitPartitionsTest(unittest.TestCase):
         self.assertEqual(2, len(return_list[0]), "Should be two hits")
         self.assertEqual(['contig1', 'contig1'], [x.get_genome_contig_id() for x in return_list[0]],
                          "Should have correct contig names")
-        self.assertEqual([5, 10], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
-        self.assertEqual([11, 15], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
+        self.assertEqual([5, 10], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
+        self.assertEqual([11, 15], [x.get_genome_contig_end() for x in return_list[0]],
+                         "Should have correct contig ends")
 
     def testSinglePartitionHit2EdgeSameHit1Greater(self):
         hit1 = AMRHitHSP(None, None)
@@ -304,13 +326,17 @@ class BlastHitPartitionsTest(unittest.TestCase):
         return_list = parts.get_hits_nonoverlapping_regions()
         self.assertEqual(2, len(return_list), "Should be two partitions")
         self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]], "Should have correct contig names")
-        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]],
+                         "Should have correct contig names")
+        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
         self.assertEqual([10], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
         self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]], "Should have correct contig names")
-        self.assertEqual([10], [x.get_genome_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]],
+                         "Should have correct contig names")
+        self.assertEqual([10], [x.get_genome_contig_start() for x in return_list[1]],
+                         "Should have correct contig starts")
         self.assertEqual([15], [x.get_genome_contig_end() for x in return_list[1]], "Should have correct contig ends")
 
     def testTwoPartitionsHit2EdgeHit1Lesser(self):
@@ -334,13 +360,17 @@ class BlastHitPartitionsTest(unittest.TestCase):
         return_list = parts.get_hits_nonoverlapping_regions()
         self.assertEqual(2, len(return_list), "Should be two partitions")
         self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]], "Should have correct contig names")
-        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]],
+                         "Should have correct contig names")
+        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
         self.assertEqual([10], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
         self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]], "Should have correct contig names")
-        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]],
+                         "Should have correct contig names")
+        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[1]],
+                         "Should have correct contig starts")
         self.assertEqual([4], [x.get_genome_contig_end() for x in return_list[1]], "Should have correct contig ends")
 
     def testTwoPartitionsHit2EdgeHit1Greater(self):
@@ -364,13 +394,17 @@ class BlastHitPartitionsTest(unittest.TestCase):
         return_list = parts.get_hits_nonoverlapping_regions()
         self.assertEqual(2, len(return_list), "Should be two partitions")
         self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]], "Should have correct contig names")
-        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]],
+                         "Should have correct contig names")
+        self.assertEqual([5], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
         self.assertEqual([10], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
         self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]], "Should have correct contig names")
-        self.assertEqual([11], [x.get_genome_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[1]],
+                         "Should have correct contig names")
+        self.assertEqual([11], [x.get_genome_contig_start() for x in return_list[1]],
+                         "Should have correct contig starts")
         self.assertEqual([15], [x.get_genome_contig_end() for x in return_list[1]], "Should have correct contig ends")
 
     def testTwoPartitionsDifferentContigNames(self):
@@ -394,11 +428,15 @@ class BlastHitPartitionsTest(unittest.TestCase):
         return_list = parts.get_hits_nonoverlapping_regions()
         self.assertEqual(2, len(return_list), "Should be two partitions")
         self.assertEqual(1, len(return_list[0]), "Partition 1 should have 1 hit")
-        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]], "Should have correct contig names")
-        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[0]], "Should have correct contig starts")
+        self.assertEqual(['contig1'], [x.get_genome_contig_id() for x in return_list[0]],
+                         "Should have correct contig names")
+        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[0]],
+                         "Should have correct contig starts")
         self.assertEqual([10], [x.get_genome_contig_end() for x in return_list[0]], "Should have correct contig ends")
 
         self.assertEqual(1, len(return_list[1]), "Partition 2 should have 1 hit")
-        self.assertEqual(['contig2'], [x.get_genome_contig_id() for x in return_list[1]], "Should have correct contig names")
-        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[1]], "Should have correct contig starts")
+        self.assertEqual(['contig2'], [x.get_genome_contig_id() for x in return_list[1]],
+                         "Should have correct contig names")
+        self.assertEqual([1], [x.get_genome_contig_start() for x in return_list[1]],
+                         "Should have correct contig starts")
         self.assertEqual([10], [x.get_genome_contig_end() for x in return_list[1]], "Should have correct contig ends")

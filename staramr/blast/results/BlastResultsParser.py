@@ -5,8 +5,8 @@ import os
 import Bio.SeqIO
 import pandas as pd
 
-from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
 from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
 
 logger = logging.getLogger('BlastResultsParser')
 
@@ -79,7 +79,7 @@ class BlastResultsParser:
         partitions = BlastHitPartitions()
         for index, blast_record in blast_table.iterrows():
             hit = self._create_hit(in_file, database_name, blast_record)
-            logger.debug('blast_record='+repr(hit._blast_record))
+            logger.debug('blast_record=' + repr(hit._blast_record))
             if hit.get_pid() >= self._pid_threshold and hit.get_plength() >= self._plength_threshold:
                 partitions.append(hit)
 

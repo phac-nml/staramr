@@ -12,7 +12,6 @@ Class for handling scheduling of BLAST jobs.
 
 
 class BlastHandler:
-
     BLAST_COLUMNS = [x.strip() for x in '''
     qseqid
     sseqid
@@ -154,7 +153,7 @@ class BlastHandler:
             raise Exception("Error, pointfinder has not been configured")
 
     def _launch_blast(self, query, db, output):
-        blast_out_format = '"6 ' +' '.join(self.BLAST_COLUMNS) + '"'
+        blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
         blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
         logger.debug(blastn_command)
         stdout, stderr = blastn_command()
