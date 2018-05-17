@@ -19,7 +19,9 @@ class AMRHitHSP:
         :param blast_record: The Bio.Blast.Record this hit came from.
         """
         self._file = file
-        self._blast_record = blast_record.to_dict()
+
+        if blast_record:
+            self._blast_record = blast_record.to_dict()
 
     def get_alignment_length(self):
         """

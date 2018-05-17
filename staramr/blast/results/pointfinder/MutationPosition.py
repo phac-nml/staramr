@@ -7,19 +7,22 @@ A Class defining a nucleotide-based mutation for PointFinder.
 
 class MutationPosition:
 
-    def __init__(self, match_position, database_start, database_strand):
+    def __init__(self, match_position, database_start, database_strand, query_strand):
         """
         Creates a new MutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
         :param database_start: The start coordinates of the BLAST database hit.
         :param database_strand: The strand of the BLAST database.
+        :param query_strand: The strand of the BLAST query.
         """
         __metaclass__ = abc.ABCMeta
 
         self._check_strand(database_strand)
+        self._check_strand(query_strand)
 
         self._database_start = database_start
         self._database_strand = database_strand
+        self._query_strand = query_strand
 
         if database_strand == 'plus':
             self._nucleotide_position_database = database_start + match_position

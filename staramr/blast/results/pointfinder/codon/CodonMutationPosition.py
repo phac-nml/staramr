@@ -11,7 +11,7 @@ A Class defining a codon-based mutation for PointFinder.
 
 class CodonMutationPosition(MutationPosition):
 
-    def __init__(self, match_position, database_string, query_string, database_start, database_strand):
+    def __init__(self, match_position, database_string, query_string, database_start, database_strand, query_strand):
         """
         Creates a new CodonMutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
@@ -19,14 +19,15 @@ class CodonMutationPosition(MutationPosition):
         :param query_string: The BLAST query string.
         :param database_start: The start coordinates of the BLAST database hit.
         :param database_strand: The strand of the BLAST database.
+        :param query_strand: The strand of the BLAST query.
         """
-        super().__init__(match_position, database_start, database_strand)
+        super().__init__(match_position, database_start, database_strand, query_strand)
 
         self._codon_start_database = math.ceil(self._nucleotide_position_database / 3)
         frame_shift = (self._nucleotide_position_database - 1) % 3
 
         self._database_codon = self._find_codon(database_string, match_position, database_strand, frame_shift)
-        self._query_codon = self._find_codon(query_string, match_position, 'plus', frame_shift)
+        self._query_codon = self._find_codon(query_string, match_position, database_strand, frame_shift)
 
     def _find_codon(self, string, match_position, strand, frame_shift):
         if strand == 'plus':
@@ -95,6 +96,6 @@ class CodonMutationPosition(MutationPosition):
 
     def __repr__(self):
         return "[database_start=" + str(self._database_start) + ", database_frame=" + str(
-            self._database_strand) + ", nucleotide_position=" \
+            self._database_strand) + ", query_strand=" + str(self._query_strand) + ", nucleotide_position=" \
                + str(self._nucleotide_position_database) + ", codon_start=" + str(self._codon_start_database) \
                + ", codon=" + self._database_codon + "]"

@@ -12,10 +12,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "TTCGATCGA"
         #@formatter:on
         database_start = 1
-        database_frame = 1
-        query_frame = 1
+        database_strand = 'plus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'A', 'Incorrect database mutation')
@@ -29,10 +29,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "ATCGCTCGA"
         #@formatter:on
         database_start = 1
-        database_frame = 1
-        query_frame = 1
+        database_strand = 'plus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 5, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'A', 'Incorrect database mutation')
@@ -46,10 +46,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "ATCGATCGG"
         #@formatter:on
         database_start = 1
-        database_frame = 1
-        query_frame = 1
+        database_strand = 'plus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 9, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'A', 'Incorrect database mutation')
@@ -63,10 +63,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "-TCG"
         #@formatter:on
         database_start = 1
-        database_frame = 1
-        query_frame = 1
+        database_strand = 'plus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'A', 'Incorrect database mutation')
@@ -80,10 +80,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "ATC-"
         #@formatter:on
         database_start = 1
-        database_frame = 1
-        query_frame = 1
+        database_strand = 'plus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'G', 'Incorrect database mutation')
@@ -97,10 +97,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "ATCG"
         #@formatter:on
         database_start = 1
-        database_frame = 1
-        query_frame = 1
+        database_strand = 'plus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), '-', 'Incorrect database mutation')
@@ -114,10 +114,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "TCGATCGAA"
         #@formatter:on
         database_start = 9
-        database_frame = -1
-        query_frame = 1
+        database_strand = 'minus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'A', 'Incorrect database mutation')
@@ -131,10 +131,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "TCGATCGGT"
         #@formatter:on
         database_start = 9
-        database_frame = -1
-        query_frame = 1
+        database_strand = 'minus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'T', 'Incorrect database mutation')
@@ -148,10 +148,10 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         query_string    = "CCGATCGAT"
         #@formatter:on
         database_start = 9
-        database_frame = -1
-        query_frame = 1
+        database_strand = 'minus'
+        query_strand = 'plus'
         mutation = NucleotideMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+                                              database_strand, query_strand)
 
         self.assertEqual(mutation.get_mutation_position(), 9, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_mutation(), 'A', 'Incorrect database mutation')

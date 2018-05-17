@@ -13,5 +13,5 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
         super().__init__(file, blast_record)
 
     def _get_mutation_positions(self, start, database_strand):
-        return [NucleotideMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_strand) for i
+        return [NucleotideMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_strand, 'plus') for i
                 in self._get_match_positions()]
