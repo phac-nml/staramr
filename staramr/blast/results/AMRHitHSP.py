@@ -20,7 +20,7 @@ class AMRHitHSP:
         """
         self._file = file
 
-        if blast_record:
+        if blast_record is not None:
             self._blast_record = blast_record.to_dict()
 
     def get_alignment_length(self):
@@ -108,19 +108,22 @@ class AMRHitHSP:
         """
         return self._blast_record['send']
 
-    def _get_hsp_frame(self, name):
-        frame = self._blast_record[name]
-        if frame not in [1, -1]:
-            raise Exception("frame=" + str(frame) + ", is unexpected")
-        else:
-            return frame
-
     def get_query_seq(self):
         """
         Gets the query sequence from the HSP.
         :return: The query sequence (as a string) from the HSP.
         """
         return self._blast_record['qseq']
+
+    def get_query_seq_in_database_strand(self):
+        """
+        Gets the query sequence from the HSP.
+        :return: The query sequence (as a string) from the HSP.
+        """
+        if self.get_database_strand() == 'plus':
+            return self.get_query_seq()
+        else:
+            return Bio.Seq.reverse_complement(self.get_query_seq())
 
     def get_database_strand(self):
         """
@@ -134,7 +137,7 @@ class AMRHitHSP:
         Gets a SeqRecord for this hit.
         :return: A SeqRecord for this hit.
         """
-        return SeqRecord(Seq(self.get_query_seq()), id=self.get_hit_id(),
+        return SeqRecord(Seq(self.get_query_seq_in_database_strand()), id=self.get_hit_id(),
                          description='isolate: ' + self.get_isolate_id() +
                                      ', contig: ' + self.get_contig() +
                                      ', contig_start: ' + str(self.get_contig_start()) +
