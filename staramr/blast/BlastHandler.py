@@ -154,7 +154,8 @@ class BlastHandler:
             raise Exception("Error, pointfinder has not been configured")
 
     def _launch_blast(self, query, db, output):
-        blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt='"6 ' +' '.join(self.BLAST_COLUMNS) + '"', out=output)
+        blast_out_format = '"6 ' +' '.join(self.BLAST_COLUMNS) + '"'
+        blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
         logger.debug(blastn_command)
         stdout, stderr = blastn_command()
         if stderr:
