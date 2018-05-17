@@ -113,12 +113,12 @@ class AMRHitHSP:
         else:
             return frame
 
-    def get_hsp_query(self):
+    def get_query_seq(self):
         """
         Gets the query sequence from the HSP.
         :return: The query sequence (as a string) from the HSP.
         """
-        return self.hsp.query
+        return self._blast_record['qseq']
 
     def get_database_strand(self):
         """
@@ -132,7 +132,7 @@ class AMRHitHSP:
         Gets a SeqRecord for this hit.
         :return: A SeqRecord for this hit.
         """
-        return SeqRecord(Seq(self.get_hsp_query_proper()), id=self.get_hit_id(),
+        return SeqRecord(Seq(self.get_query_seq()), id=self.get_hit_id(),
                          description='isolate: ' + self.get_isolate_id() +
                                      ', contig: ' + self.get_contig() +
                                      ', contig_start: ' + str(self.get_contig_start()) +

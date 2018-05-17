@@ -9,8 +9,6 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
         Creates a new PointfinderHitHSPRNA.
         :param file: The input file.
         :param blast_record: The Bio.Blast.Record this hit came from.
-        :param hit: The particular Bio.Blast.Record.Alignment.
-        :param hsp: The particular Bio.Blast.Record.HSP.
         """
         super().__init__(file, blast_record)
 
