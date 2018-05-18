@@ -52,15 +52,11 @@ class BlastHitPartitions:
 
     def _hit_in_parition(self, hit, partition):
         if partition['name'] == hit.get_genome_contig_id():
-            start = hit.get_genome_contig_start()
-            end = hit.get_genome_contig_end()
-            if end > partition['start'] and end < partition['end']:
-                return True
-            elif start < partition['end'] and start > partition['start']:
-                return True
-            elif start <= partition['start'] and end >= partition['end']:
-                return True
-        return False
+            pstart, pend = partition['start'], partition['end']
+            start, end = hit.get_genome_contig_start(), hit.get_genome_contig_end()
+            return (pstart < start < pend) or (pstart < end < pend) or (start <= pstart and end >= pend)
+        else:
+            return False
 
     def _create_new_parition(self, hit):
         return {
