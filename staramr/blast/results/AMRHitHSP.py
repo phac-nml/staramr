@@ -118,10 +118,17 @@ class AMRHitHSP:
         """
         return self._blast_record['send']
 
+    def get_amr_gene_seq(self):
+        """
+        Gets the amr gene from the HSP.
+        :return: The amr gene (as a string) from the HSP.
+        """
+        return self._blast_record['sseq']
+
     def get_genome_seq(self):
         """
-        Gets the query sequence from the HSP.
-        :return: The query sequence (as a string) from the HSP.
+        Gets the genome sequence from the HSP.
+        :return: The genome sequence (as a string) from the HSP.
         """
         return self._blast_record['qseq']
 

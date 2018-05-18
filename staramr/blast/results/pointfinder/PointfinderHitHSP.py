@@ -28,12 +28,18 @@ class PointfinderHitHSP(AMRHitHSP):
         return self._blast_record['sseqid']
 
     def _get_match_positions(self):
-        return [i for i, (x, y) in enumerate(zip(self._blast_record['sseq'], self._blast_record['qseq'])) if x != y]
+        amr_seq = self.get_amr_gene_seq()
+        genome_seq = self.get_genome_seq()
+
+        return [i for i, (x, y) in enumerate(zip(amr_seq, genome_seq)) if x != y]
 
     def _get_mutation_positions(self, start, database_strand):
-        return [CodonMutationPosition(i, self._blast_record['sseq'], self._blast_record['qseq'], start, database_strand)
-                for i
-                in self._get_match_positions()]
+        amr_seq = self.get_amr_gene_seq()
+        genome_seq = self.get_genome_seq()
+
+        # @formatter:off
+        return [CodonMutationPosition(i, amr_seq, genome_seq, start, database_strand) for i in self._get_match_positions()]
+        # @formatter:on
 
     def get_mutations(self):
         """
