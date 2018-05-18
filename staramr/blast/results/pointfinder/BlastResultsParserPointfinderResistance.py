@@ -52,7 +52,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 db_mutation.get_mutation_string(),
                 hit.get_pid(),
                 hit.get_plength(),
-                str(hit.get_hsp_length()) + "/" + str(hit.get_alignment_length()),
+                str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
                 hit.get_genome_contig_id(),
                 hit.get_genome_contig_start(),
                 hit.get_genome_contig_end()

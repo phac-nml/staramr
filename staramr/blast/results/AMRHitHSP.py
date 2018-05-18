@@ -23,12 +23,12 @@ class AMRHitHSP:
         self._file = file
 
         if blast_record is not None:
-            self._blast_record = blast_record.to_dict()
+            self._blast_record = blast_record
 
-    def get_alignment_length(self):
+    def get_amr_gene_length(self):
         """
-        Gets the BLAST alignment length.
-        :return: The BLAST alignment length.
+        Gets the amr gene length.
+        :return: The amr gene length.
         """
         return self._blast_record['slen']
 
@@ -48,10 +48,10 @@ class AMRHitHSP:
 
     def get_plength(self):
         """
-        Gets the percent length of the HSP.
-        :return: The percent length of the HSP.
+        Gets the percent length of the HSP to the AMR gene.
+        :return: The percent length of the HSP to the AMR gene.
         """
-        return (self.get_hsp_length() / self.get_alignment_length()) * 100
+        return self._blast_record['plength']
 
     def get_amr_gene_id(self):
         """
@@ -118,10 +118,17 @@ class AMRHitHSP:
         """
         return self._blast_record['send']
 
+    def get_amr_gene_seq(self):
+        """
+        Gets the amr gene from the HSP.
+        :return: The amr gene (as a string) from the HSP.
+        """
+        return self._blast_record['sseq']
+
     def get_genome_seq(self):
         """
-        Gets the query sequence from the HSP.
-        :return: The query sequence (as a string) from the HSP.
+        Gets the genome sequence from the HSP.
+        :return: The genome sequence (as a string) from the HSP.
         """
         return self._blast_record['qseq']
 
@@ -148,13 +155,15 @@ class AMRHitHSP:
         :return: A SeqRecord for this hit.
         """
         return SeqRecord(Seq(self.get_genome_seq_in_amr_gene_strand()), id=self.get_amr_gene_id(),
-                         description='isolate: ' + self.get_genome_id() +
-                                     ', contig: ' + self.get_genome_contig_id() +
-                                     ', contig_start: ' + str(self.get_genome_contig_start()) +
-                                     ', contig_end: ' + str(self.get_genome_contig_end()) +
-                                     ', resistance_gene_start: ' + str(self.get_amr_gene_start()) +
-                                     ', resistance_gene_end: ' + str(self.get_amr_gene_end()) +
-                                     ', hsp/length: ' + str(self.get_hsp_length()) + '/' + str(
-                             self.get_alignment_length()) +
-                                     ', pid: ' + str("%0.2f%%" % self.get_pid()) +
-                                     ', plength: ' + str("%0.2f%%" % self.get_plength()))
+                         description=('isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},'+
+                                     ' resistance_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
+                             self.get_genome_id(),
+                             self.get_genome_contig_id(),
+                             self.get_genome_contig_start(),
+                             self.get_genome_contig_end(),
+                             self.get_amr_gene_start(),
+                             self.get_amr_gene_end(),
+                             self.get_hsp_length(),
+                             self.get_amr_gene_length(),
+                             self.get_pid(),
+                             self.get_plength()))
