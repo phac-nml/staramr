@@ -155,13 +155,15 @@ class AMRHitHSP:
         :return: A SeqRecord for this hit.
         """
         return SeqRecord(Seq(self.get_genome_seq_in_amr_gene_strand()), id=self.get_amr_gene_id(),
-                         description='isolate: ' + self.get_genome_id() +
-                                     ', contig: ' + self.get_genome_contig_id() +
-                                     ', contig_start: ' + str(self.get_genome_contig_start()) +
-                                     ', contig_end: ' + str(self.get_genome_contig_end()) +
-                                     ', resistance_gene_start: ' + str(self.get_amr_gene_start()) +
-                                     ', resistance_gene_end: ' + str(self.get_amr_gene_end()) +
-                                     ', hsp/length: ' + str(self.get_hsp_length()) + '/' + str(
-                             self.get_amr_gene_length()) +
-                                     ', pid: ' + str("%0.2f%%" % self.get_pid()) +
-                                     ', plength: ' + str("%0.2f%%" % self.get_plength()))
+                         description=('isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},'+
+                                     ' resistance_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
+                             self.get_genome_id(),
+                             self.get_genome_contig_id(),
+                             self.get_genome_contig_start(),
+                             self.get_genome_contig_end(),
+                             self.get_amr_gene_start(),
+                             self.get_amr_gene_end(),
+                             self.get_hsp_length(),
+                             self.get_amr_gene_length(),
+                             self.get_pid(),
+                             self.get_plength()))
