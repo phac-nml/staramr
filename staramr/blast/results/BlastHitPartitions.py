@@ -2,6 +2,7 @@ import logging
 from typing import Dict
 from typing import Union
 from typing import List
+from typing import Optional
 
 logger = logging.getLogger('BlastHits')
 
@@ -10,7 +11,6 @@ from staramr.blast.results.AMRHitHSP import AMRHitHSP
 """
 Class for partitioning up blast hits into non-overlapping regions.
 """
-
 
 class BlastHitPartitions:
 
@@ -37,7 +37,7 @@ class BlastHitPartitions:
         else:
             self._add_hit_partition(hit, partition)
 
-    def _add_hit_partition(self, hit: AMRHitHSP, partition: Dict) -> None:
+    def _add_hit_partition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> None:
         if hit.get_genome_contig_start() < partition['start']:
             partition['start'] = hit.get_genome_contig_start()
 
@@ -46,7 +46,7 @@ class BlastHitPartitions:
 
         partition['hits'].append(hit)
 
-    def _get_existing_partition(self, hit: AMRHitHSP) -> Dict:
+    def _get_existing_partition(self, hit: AMRHitHSP) -> Dict[str, Union[int, List[AMRHitHSP]]]:
         partition_name = hit.get_genome_contig_id()
 
         if partition_name in self._partitions:
@@ -57,7 +57,7 @@ class BlastHitPartitions:
 
         return None
 
-    def _hit_in_parition(self, hit: AMRHitHSP, partition: Dict) -> bool:
+    def _hit_in_parition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> bool:
         pstart, pend = partition['start'], partition['end']
         start, end = hit.get_genome_contig_start(), hit.get_genome_contig_end()
 
