@@ -76,9 +76,4 @@ class BlastHitPartitions:
         Gets BLAST hits divided up into separate lists for non-overlapping regions..
         :return: A list of BLAST hits divided up into non-overlapping regions.
         """
-        partitions_list = []
-        for name in self._partitions:
-            for partition in self._partitions[name]:
-                partitions_list.append(partition['hits'])
-
-        return partitions_list
+        return [p['hits'] for name in self._partitions for p in self._partitions[name]]
