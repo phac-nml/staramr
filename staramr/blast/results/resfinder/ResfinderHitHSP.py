@@ -12,40 +12,38 @@ A Class storing a ResFinder-specific BLAST hit/HSP.
 
 class ResfinderHitHSP(AMRHitHSP):
 
-    def __init__(self, file, blast_record, hit, hsp):
+    def __init__(self, file, blast_record):
         """
         Builds a new ResfinderHitHSP.
         :param file: The input file.
         :param blast_record: The Bio.Blast.Record this hit came from.
-        :param hit: The particular Bio.Blast.Record.Alignment.
-        :param hsp: The particular Bio.Blast.Record.HSP.
         """
-        super().__init__(file, blast_record, hit, hsp)
+        super().__init__(file, blast_record)
 
-        re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', hit.hit_id)
+        logger.debug("record=" + repr(self._blast_record))
+
+        re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', self._blast_record['sseqid'])
         if not re_search:
-            raise Exception("Could not split up seq name for [" + hit.hit_id + "]")
+            raise Exception("Could not split up seq name for [" + self._blast_record['sseqid'] + "]")
         self._gene = re_search.group(1)
         self._gene_variant = re_search.group(2)
         self._accession = re_search.group(3)
 
-        logger.debug("hit_id=" + str(hit.hit_id))
-
-    def get_gene(self):
+    def get_amr_gene_name(self):
         """
         Gets the gene name for the ResFinder hit.
         :return: The gene name.
         """
         return self._gene
 
-    def get_gene_with_variant(self):
+    def get_amr_gene_name_with_variant(self):
         """
         Gets the gene name + variant number for the ResFinder hit.
         :return: The gene name + variant number.
         """
-        return self.get_gene() + '_' + self._gene_variant
+        return self.get_amr_gene_name() + '_' + self._gene_variant
 
-    def get_accession(self):
+    def get_amr_gene_accession(self):
         """
         Gets the accession for the ResFinder hit.
         :return: The accession.

@@ -122,7 +122,7 @@ class Search(SubCommand):
 
         for file in args.files:
             if not path.exists(file):
-                raise CommandParseException('File ['+file+'] does not exist', self._root_arg_parser)        
+                raise CommandParseException('File [' + file + '] does not exist', self._root_arg_parser)
 
         if not path.isdir(args.database):
             if args.database == self._default_database_dir:

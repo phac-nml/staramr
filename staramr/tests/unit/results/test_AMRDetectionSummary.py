@@ -15,7 +15,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         # Resfinder tables
         self.resfinder_table_empty = pd.DataFrame([],
-                                                      columns=self.columns_resfinder)
+                                                  columns=self.columns_resfinder)
 
         self.resfinder_table1 = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,

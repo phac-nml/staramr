@@ -21,14 +21,10 @@ class BlastHitPartitions:
         :param hit: The hit to add.
         :return: None
         """
-        if hit.get_contig_start() > hit.get_contig_end():
+        if hit.get_genome_contig_start() > hit.get_genome_contig_end():
             raise Exception(
-                "Unsupported condition: contig start > contig end for hit (contig=" + hit.get_contig() + ", start=" +
-                str(hit.get_contig_start()) + ", end=" + str(hit.get_contig_end()) + ")")
-        if hit.get_query_frame() != 1:
-            raise Exception("Unsupported condition: query frame is not 1 for hit (contig=" + hit.get_contig() +
-                            ", start=" + str(hit.get_contig_start()) + ", end=" + str(
-                hit.get_contig_end()) + ", query_frame=" + str(hit.get_query_frame()) + ")")
+                "Unsupported condition: contig start > contig end for hit (contig=" + hit.get_genome_contig_id() + ", start=" +
+                str(hit.get_genome_contig_start()) + ", end=" + str(hit.get_genome_contig_end()) + ")")
 
         partition = self._find_parition(hit)
         if (partition is None):
@@ -37,14 +33,14 @@ class BlastHitPartitions:
             self._add_hit_partition(hit, partition)
 
     def _add_hit_partition(self, hit, partition):
-        if partition['name'] != hit.get_contig():
+        if partition['name'] != hit.get_genome_contig_id():
             raise Exception("Cannot add hit with different contig name to partition")
 
-        if hit.get_contig_start() < partition['start']:
-            partition['start'] = hit.get_contig_start()
+        if hit.get_genome_contig_start() < partition['start']:
+            partition['start'] = hit.get_genome_contig_start()
 
-        if hit.get_contig_end() > partition['end']:
-            partition['end'] = hit.get_contig_end()
+        if hit.get_genome_contig_end() > partition['end']:
+            partition['end'] = hit.get_genome_contig_end()
 
         partition['hits'].append(hit)
 
@@ -55,9 +51,9 @@ class BlastHitPartitions:
         return None
 
     def _hit_in_parition(self, hit, partition):
-        if partition['name'] == hit.get_contig():
-            start = hit.get_contig_start()
-            end = hit.get_contig_end()
+        if partition['name'] == hit.get_genome_contig_id():
+            start = hit.get_genome_contig_start()
+            end = hit.get_genome_contig_end()
             if end > partition['start'] and end < partition['end']:
                 return True
             elif start < partition['end'] and start > partition['start']:
@@ -68,9 +64,9 @@ class BlastHitPartitions:
 
     def _create_new_parition(self, hit):
         return {
-            'name': hit.get_contig(),
-            'start': hit.get_contig_start(),
-            'end': hit.get_contig_end(),
+            'name': hit.get_genome_contig_id(),
+            'start': hit.get_genome_contig_start(),
+            'end': hit.get_genome_contig_end(),
             'hits': [hit]
         }
 
@@ -81,8 +77,7 @@ class BlastHitPartitions:
         """
         partitions_list = []
         for partition in self._partitions:
-            logger.debug("Partition " + repr(partition))
+            # logger.debug("Partition " + repr(partition))
             partitions_list.append(partition['hits'])
-        logger.debug("Done printing partitions")
 
         return partitions_list

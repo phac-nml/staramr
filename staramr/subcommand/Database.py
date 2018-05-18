@@ -150,7 +150,8 @@ class Update(Database):
 
         if len(args.directories) == 0:
             if not args.update_default:
-                raise CommandParseException("Must pass at least one directory to update, or use '--update-default'", self._root_arg_parser,
+                raise CommandParseException("Must pass at least one directory to update, or use '--update-default'",
+                                            self._root_arg_parser,
                                             print_help=True)
             else:
                 try:

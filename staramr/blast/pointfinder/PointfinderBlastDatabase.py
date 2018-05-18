@@ -87,7 +87,7 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         :return: A list of organisms.
         """
         config = pd.read_table(path.join(database_dir, 'config'), comment='#', header=None,
-                                 names=['db_prefix', 'name', 'description'])
+                               names=['db_prefix', 'name', 'description'])
         return config['db_prefix'].tolist()
 
     @classmethod
