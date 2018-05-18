@@ -43,9 +43,3 @@ class PointfinderHitHSP(AMRHitHSP):
         start = self._blast_record['sstart']
         database_strand = self.get_amr_database_strand()
         return self._get_mutation_positions(start, database_strand)
-
-    def __eq__(self, other):
-        if not isinstance(other, self.__class__):
-            return False
-        else:
-            return self.__dict__ == other.__dict__

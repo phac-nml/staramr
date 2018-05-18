@@ -23,7 +23,7 @@ class AMRHitHSP:
         self._file = file
 
         if blast_record is not None:
-            self._blast_record = blast_record.to_dict()
+            self._blast_record = blast_record
 
     def get_alignment_length(self):
         """

@@ -49,9 +49,3 @@ class ResfinderHitHSP(AMRHitHSP):
         :return: The accession.
         """
         return self._accession
-
-    def __eq__(self, other):
-        if not isinstance(other, self.__class__):
-            return False
-        else:
-            return self.__dict__ == other.__dict__
