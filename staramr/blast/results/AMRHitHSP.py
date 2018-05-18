@@ -125,7 +125,7 @@ class AMRHitHSP:
         """
         return self._blast_record['qseq']
 
-    def get_genome_seq_in_amr_database_strand(self):
+    def get_genome_seq_in_amr_gene_strand(self):
         """
         Gets the query sequence from the HSP.
         :return: The query sequence (as a string) from the HSP.
@@ -147,7 +147,7 @@ class AMRHitHSP:
         Gets a SeqRecord for this hit.
         :return: A SeqRecord for this hit.
         """
-        return SeqRecord(Seq(self.get_genome_seq_in_amr_database_strand()), id=self.get_amr_gene_id(),
+        return SeqRecord(Seq(self.get_genome_seq_in_amr_gene_strand()), id=self.get_amr_gene_id(),
                          description='isolate: ' + self.get_genome_id() +
                                      ', contig: ' + self.get_genome_contig_id() +
                                      ', contig_start: ' + str(self.get_genome_contig_start()) +
