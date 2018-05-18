@@ -55,6 +55,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
@@ -82,6 +84,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
         self.assertFalse('Predicted Phenotype' in result.columns, 'Should not exist phenotype column')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
@@ -113,6 +117,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 91.90, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '681/741', msg='Wrong lengths')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-start.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -132,6 +138,32 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.assertEqual(len(os.listdir(self.outdir.name)), 0, 'File found where none should exist')
 
+    def testResfinderBetaLactamInsStartSuccess(self):
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-start.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 91, 90)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
+
+        hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-ins-start.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
+        logger.debug('expected_seq=' + expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug('actual_seq=' + records['blaIMP-42_1_AB753456'].seq)
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
+                         "records don't match")
+
     def testResfinderBetaLactamDelMiddleSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-middle.fsa")
         files = [file]
@@ -143,7 +175,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.33, places=2, msg='Wrong pid')
-        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong percent overlap')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -169,6 +202,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.33, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong percent overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
@@ -185,6 +219,32 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
+    def testResfinderBetaLactamInsMiddleSuccess(self):
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-middle.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 97, 99, 99)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.14, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 101.62, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '753/741', msg='Wrong lengths')
+
+        hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-ins-middle.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-ins-middle.fsa'), 'fasta'))
+        logger.debug('expected_seq=' + expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug('actual_seq=' + records['blaIMP-42_1_AB753456'].seq)
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(), records['blaIMP-42_1_AB753456'].seq,
+                         "records don't match")
+
     def testResfinderBetaLactamTwoCopies(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies.fsa")
         files = [file]
@@ -196,6 +256,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results.iloc[0]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
         self.assertAlmostEqual(result['%Identity'], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'], 100.00, places=2, msg='Wrong percent overlap')
+        self.assertEqual(result['HSP Length/Total Length'], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
@@ -205,6 +267,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results.iloc[1]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
         self.assertAlmostEqual(result['%Identity'], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'], 100.00, places=2, msg='Wrong percent overlap')
+        self.assertEqual(result['HSP Length/Total Length'], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')
@@ -233,6 +297,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results.iloc[0]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
         self.assertAlmostEqual(result['%Identity'], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'], 100.00, places=2, msg='Wrong percent overlap')
+        self.assertEqual(result['HSP Length/Total Length'], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
@@ -242,6 +308,8 @@ class AMRDetectionIT(unittest.TestCase):
         result = resfinder_results.iloc[1]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
         self.assertAlmostEqual(result['%Identity'], 99.73, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'], 100.00, places=2, msg='Wrong percent overlap')
+        self.assertEqual(result['HSP Length/Total Length'], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')

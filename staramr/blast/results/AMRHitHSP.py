@@ -25,10 +25,10 @@ class AMRHitHSP:
         if blast_record is not None:
             self._blast_record = blast_record
 
-    def get_alignment_length(self):
+    def get_amr_gene_length(self):
         """
-        Gets the BLAST alignment length.
-        :return: The BLAST alignment length.
+        Gets the amr gene length.
+        :return: The amr gene length.
         """
         return self._blast_record['slen']
 
@@ -48,10 +48,10 @@ class AMRHitHSP:
 
     def get_plength(self):
         """
-        Gets the percent length of the HSP.
-        :return: The percent length of the HSP.
+        Gets the percent length of the HSP to the AMR gene.
+        :return: The percent length of the HSP to the AMR gene.
         """
-        return (self.get_hsp_length() / self.get_alignment_length()) * 100
+        return (self.get_hsp_length() / self.get_amr_gene_length()) * 100
 
     def get_amr_gene_id(self):
         """
@@ -155,6 +155,6 @@ class AMRHitHSP:
                                      ', resistance_gene_start: ' + str(self.get_amr_gene_start()) +
                                      ', resistance_gene_end: ' + str(self.get_amr_gene_end()) +
                                      ', hsp/length: ' + str(self.get_hsp_length()) + '/' + str(
-                             self.get_alignment_length()) +
+                             self.get_amr_gene_length()) +
                                      ', pid: ' + str("%0.2f%%" % self.get_pid()) +
                                      ', plength: ' + str("%0.2f%%" % self.get_plength()))
