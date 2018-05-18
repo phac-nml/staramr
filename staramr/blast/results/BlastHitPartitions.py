@@ -13,7 +13,7 @@ class BlastHitPartitions:
         """
         Creates a new object to store BLAST hit partitions.
         """
-        self._partitions = []
+        self._partitions = {}
 
     def append(self, hit):
         """
@@ -28,14 +28,11 @@ class BlastHitPartitions:
 
         partition = self._get_existing_partition(hit)
         if (partition is None):
-            self._partitions.append(self._create_new_parition(hit))
+            self._create_new_parition(hit)
         else:
             self._add_hit_partition(hit, partition)
 
     def _add_hit_partition(self, hit, partition):
-        if partition['name'] != hit.get_genome_contig_id():
-            raise Exception("Cannot add hit with different contig name to partition")
-
         if hit.get_genome_contig_start() < partition['start']:
             partition['start'] = hit.get_genome_contig_start()
 
@@ -45,26 +42,34 @@ class BlastHitPartitions:
         partition['hits'].append(hit)
 
     def _get_existing_partition(self, hit):
-        for partition in self._partitions:
-            if self._hit_in_parition(hit, partition):
-                return partition
+        partition_name = hit.get_genome_contig_id()
+
+        if partition_name in self._partitions:
+            contig_partitions_list = self._partitions[partition_name]
+            for partition in contig_partitions_list:
+                if self._hit_in_parition(hit, partition):
+                    return partition
+
         return None
 
     def _hit_in_parition(self, hit, partition):
-        if partition['name'] == hit.get_genome_contig_id():
-            pstart, pend = partition['start'], partition['end']
-            start, end = hit.get_genome_contig_start(), hit.get_genome_contig_end()
-            return (pstart < start < pend) or (pstart < end < pend) or (start <= pstart and end >= pend)
-        else:
-            return False
+        pstart, pend = partition['start'], partition['end']
+        start, end = hit.get_genome_contig_start(), hit.get_genome_contig_end()
+
+        return (pstart < start < pend) or (pstart < end < pend) or (start <= pstart and end >= pend)
 
     def _create_new_parition(self, hit):
-        return {
-            'name': hit.get_genome_contig_id(),
+        contig_name = hit.get_genome_contig_id()
+        partition =  {
             'start': hit.get_genome_contig_start(),
             'end': hit.get_genome_contig_end(),
             'hits': [hit]
         }
+
+        if contig_name in self._partitions:
+            self._partitions[contig_name].append(partition)
+        else:
+            self._partitions[contig_name] = [partition]
 
     def get_hits_nonoverlapping_regions(self):
         """
@@ -72,8 +77,8 @@ class BlastHitPartitions:
         :return: A list of BLAST hits divided up into non-overlapping regions.
         """
         partitions_list = []
-        for partition in self._partitions:
-            # logger.debug("Partition " + repr(partition))
-            partitions_list.append(partition['hits'])
+        for name in self._partitions:
+            for partition in self._partitions[name]:
+                partitions_list.append(partition['hits'])
 
         return partitions_list
