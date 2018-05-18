@@ -26,7 +26,7 @@ class BlastHitPartitions:
                 "Unsupported condition: contig start > contig end for hit (contig=" + hit.get_genome_contig_id() + ", start=" +
                 str(hit.get_genome_contig_start()) + ", end=" + str(hit.get_genome_contig_end()) + ")")
 
-        partition = self._find_parition(hit)
+        partition = self._get_existing_partition(hit)
         if (partition is None):
             self._partitions.append(self._create_new_parition(hit))
         else:
@@ -44,7 +44,7 @@ class BlastHitPartitions:
 
         partition['hits'].append(hit)
 
-    def _find_parition(self, hit):
+    def _get_existing_partition(self, hit):
         for partition in self._partitions:
             if self._hit_in_parition(hit, partition):
                 return partition
