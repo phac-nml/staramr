@@ -28,13 +28,13 @@ class CodonMutationPosition(MutationPosition):
         self._amr_gene_codon = self._find_codon(amr_gene_string, match_position, amr_gene_strand, frame_shift)
         self._genome_codon = self._find_codon(genome_string, match_position, amr_gene_strand, frame_shift)
 
-    def _find_codon(self, string, match_position, strand, frame_shift):
+    def _find_codon(self, nucleotides, match_position, strand, frame_shift):
         if strand == 'plus':
             codon_start_index = match_position - frame_shift
-            return string[codon_start_index:(codon_start_index + 3)].upper()
+            return nucleotides[codon_start_index:(codon_start_index + 3)].upper()
         else:
             codon_end_index = match_position + frame_shift
-            return Bio.Seq.reverse_complement(string[(codon_end_index - 3 + 1):(codon_end_index + 1)].upper())
+            return Bio.Seq.reverse_complement(nucleotides[(codon_end_index - 3 + 1):(codon_end_index + 1)].upper())
 
     def get_codon_start(self):
         """
