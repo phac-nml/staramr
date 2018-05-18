@@ -51,7 +51,7 @@ class AMRHitHSP:
         Gets the percent length of the HSP to the AMR gene.
         :return: The percent length of the HSP to the AMR gene.
         """
-        return (self.get_hsp_length() / self.get_amr_gene_length()) * 100
+        return self._blast_record['plength']
 
     def get_amr_gene_id(self):
         """

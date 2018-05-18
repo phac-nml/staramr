@@ -77,11 +77,11 @@ class BlastResultsParser:
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
         blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.BLAST_COLUMNS, index_col=False)
         partitions = BlastHitPartitions()
+
+        blast_table['plength'] = (blast_table.length / blast_table.slen) * 100.0
+        blast_table = blast_table[(blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold)]
         for index, blast_record in blast_table.iterrows():
-            hit = self._create_hit(in_file, database_name, blast_record)
-            logger.debug('blast_record=' + repr(hit._blast_record))
-            if hit.get_pid() >= self._pid_threshold and hit.get_plength() >= self._plength_threshold:
-                partitions.append(hit)
+            partitions.append(self._create_hit(in_file, database_name, blast_record))
 
         for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
             for hit in self._select_hits_to_include(hits_non_overlapping):
