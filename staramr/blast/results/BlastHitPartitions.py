@@ -46,7 +46,7 @@ class BlastHitPartitions:
 
         partition['hits'].append(hit)
 
-    def _get_existing_partition(self, hit: AMRHitHSP) -> Dict[str, Union[int, List[AMRHitHSP]]]:
+    def _get_existing_partition(self, hit: AMRHitHSP) -> Optional[Dict[str, Union[int, List[AMRHitHSP]]]]:
         partition_name = hit.get_genome_contig_id()
 
         if partition_name in self._partitions:
