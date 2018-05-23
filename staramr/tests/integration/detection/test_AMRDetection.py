@@ -311,8 +311,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'], 100.00, places=2, msg='Wrong percent overlap')
         self.assertEqual(result['HSP Length/Total Length'], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
-        self.assertEqual(result['Start'], 841, msg='Wrong start')
-        self.assertEqual(result['End'], 1581, msg='Wrong end')
+        self.assertEqual(result['Start'], 1581, msg='Wrong start')
+        self.assertEqual(result['End'], 841, msg='Wrong end')
         self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 

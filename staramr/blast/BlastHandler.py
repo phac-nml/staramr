@@ -76,7 +76,7 @@ class BlastHandler:
         self._resfinder_future_blasts = []
 
         if path.exists(self._input_genomes_tmp_dir):
-            logger.warning("Directory ["+self._input_genomes_tmp_dir+"] already exists")
+            logger.debug("Directory ["+self._input_genomes_tmp_dir+"] already exists")
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 

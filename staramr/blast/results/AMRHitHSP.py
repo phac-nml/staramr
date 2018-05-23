@@ -137,10 +137,7 @@ class AMRHitHSP:
         Gets the query sequence from the HSP.
         :return: The query sequence (as a string) from the HSP.
         """
-        if self.get_amr_gene_strand() == 'plus':
-            return self.get_genome_seq()
-        else:
-            return Bio.Seq.reverse_complement(self.get_genome_seq())
+        return self.get_genome_seq()
 
     def get_amr_gene_strand(self):
         """
@@ -154,7 +151,7 @@ class AMRHitHSP:
         Gets a SeqRecord for this hit.
         :return: A SeqRecord for this hit.
         """
-        return SeqRecord(Seq(self.get_genome_seq_in_amr_gene_strand()), id=self.get_amr_gene_id(),
+        return SeqRecord(Seq(self.get_genome_seq()), id=self.get_amr_gene_id(),
                          description=('isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},'+
                                      ' resistance_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
                              self.get_genome_id(),
