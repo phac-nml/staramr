@@ -10,7 +10,6 @@ logger = logging.getLogger('BlastResultsParserPointfinder')
 """
 A Class for parsing BLAST results specific to PointFinder.
 """
-logger = logging.getLogger('BlastResultsParserPointfinder')
 
 
 class BlastResultsParserPointfinder(BlastResultsParser):
