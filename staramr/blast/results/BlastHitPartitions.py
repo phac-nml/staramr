@@ -76,7 +76,7 @@ class BlastHitPartitions:
         else:
             self._partitions[contig_name] = [partition]
 
-    def get_hits_nonoverlapping_regions(self) -> List[AMRHitHSP]:
+    def get_hits_nonoverlapping_regions(self) -> List[List[AMRHitHSP]]:
         """
         Gets BLAST hits divided up into separate lists for non-overlapping regions..
         :return: A list of BLAST hits divided up into non-overlapping regions.
