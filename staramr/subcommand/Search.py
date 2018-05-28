@@ -137,18 +137,8 @@ class Search(SubCommand):
 
         if args.database == AMRDatabasesManager.get_default_database_directory():
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
-            if database_handler.is_error():
-                raise CommandParseException(
-                    "Default database [" + database_handler.get_database_dir() + "] is in an error state. Please try " +
-                    "restoring with 'staramr db restore'.",
-                    self._root_arg_parser)
         else:
             database_handler = AMRDatabasesManager(args.database).get_database_handler()
-            if database_handler.is_error():
-                raise CommandParseException(
-                    "Database [" + database_handler.get_database_dir() + "] is in an error state. Please try " +
-                    "rebuilding the database with 'staramr db build --dir " + database_handler.get_database_dir() +"'.",
-                    self._root_arg_parser)
 
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()

@@ -272,8 +272,6 @@ class Info(Database):
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
                 logger.error("No database found. Perhaps try restoring the default with 'staramr db restore'")
-            except DatabaseErrorException as e:
-                logger.error("Error with default database ["+database_handler.get_database_dir()+"]. Please try restoring with 'staramr db restore'")
         else:
             for directory in args.directories:
                 try:

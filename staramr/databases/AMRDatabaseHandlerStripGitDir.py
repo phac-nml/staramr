@@ -80,9 +80,6 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         :return: Database information as a list containing key/value pairs.
         """
 
-        if self.is_error():
-            raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
-
         try:
             data = self._read_database_info_from_file(self._info_file)
             data.insert(0, ['resfinder_db_dir', self._resfinder_dir])
