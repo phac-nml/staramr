@@ -42,7 +42,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         # in which case, replace with 'Sensitive'
         df_summary = df_summary \
             .sort_values(by=['Gene.Lower']) \
-            .groupby(['Isolate ID']) \
+            .groupby(['Isolate ID'], sort=True) \
             .aggregate(self._aggregate_gene_phenotype) \
             .replace({'Predicted Phenotype': {self.BLANK: 'Sensitive'}}) \
             .replace({'Predicted Phenotype': {(self.SEPARATOR + ' ') + self.BLANK: '',
