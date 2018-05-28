@@ -87,3 +87,18 @@ class AMRDatabasesManagerIT(unittest.TestCase):
                          'resfinder .git directory was not removed')
         self.assertFalse(path.exists(path.join(database_handler.get_pointfinder_dir(), '.git')),
                          'pointfinder .git directory was not removed')
+
+    def testIsHandlerDefaultCommitsTrue(self):
+        # Setup default database
+        self.databases_manager.setup_default()
+
+        database_handler = self.databases_manager.get_database_handler()
+
+        self.assertTrue(AMRDatabasesManager.is_handler_default_commits(database_handler), "Database is not default")
+
+    def testIsHandlerDefaultCommitsFalse(self):
+        # Setup database
+        database_handler = self.databases_manager.get_database_handler(force_use_git=True)
+        database_handler.update()
+
+        self.assertFalse(AMRDatabasesManager.is_handler_default_commits(database_handler), "Database is default")
