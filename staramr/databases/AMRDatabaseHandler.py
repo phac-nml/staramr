@@ -2,6 +2,7 @@ import logging
 import shutil
 import time
 from os import path
+from collections import OrderedDict
 
 import git
 
@@ -102,27 +103,26 @@ class AMRDatabaseHandler:
     def info(self):
         """
         Gets information on the ResFinder/PointFinder databases.
-        :return: Database information as a list containing key/value pairs.
+        :return: Database information as a OrderedDict of key/value pairs.
         """
-        data = []
+        data = OrderedDict()
 
         try:
             resfinder_repo = git.Repo(self._resfinder_dir)
             resfinder_repo_head = resfinder_repo.commit('HEAD')
 
-            data.append(['resfinder_db_dir', self._resfinder_dir])
-            data.append(['resfinder_db_url', self._resfinder_url])
-            data.append(['resfinder_db_commit', str(resfinder_repo_head)])
-            data.append(
-                ['resfinder_db_date', time.strftime(self.TIME_FORMAT, time.gmtime(resfinder_repo_head.committed_date))])
+            data['resfinder_db_dir'] = self._resfinder_dir
+            data['resfinder_db_url'] = self._resfinder_url
+            data['resfinder_db_commit'] = str(resfinder_repo_head)
+            data['resfinder_db_date'] = time.strftime(self.TIME_FORMAT, time.gmtime(resfinder_repo_head.committed_date))
 
             pointfinder_repo = git.Repo(self._pointfinder_dir)
             pointfinder_repo_head = pointfinder_repo.commit('HEAD')
-            data.append(['pointfinder_db_dir', self._pointfinder_dir])
-            data.append(['pointfinder_db_url', self._pointfinder_url])
-            data.append(['pointfinder_db_commit', str(pointfinder_repo_head)])
-            data.append(['pointfinder_db_date',
-                         time.strftime(self.TIME_FORMAT, time.gmtime(pointfinder_repo_head.committed_date))])
+
+            data['pointfinder_db_dir'] = self._pointfinder_dir
+            data['pointfinder_db_url'] = self._pointfinder_url
+            data['pointfinder_db_commit'] = str(pointfinder_repo_head)
+            data['pointfinder_db_date'] = time.strftime(self.TIME_FORMAT, time.gmtime(pointfinder_repo_head.committed_date))
 
         except git.exc.NoSuchPathError as e:
             raise DatabaseNotFoundException('Invalid database in [' + self._database_dir + ']') from e

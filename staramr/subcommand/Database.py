@@ -268,7 +268,7 @@ class Info(Database):
 
             try:
                 database_info = database_handler.info()
-                database_info.extend(arg_drug_table.get_resistance_table_info())
+                database_info.update(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
                 logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
@@ -277,7 +277,7 @@ class Info(Database):
                 try:
                     database_handler = AMRDatabasesManager(directory).get_database_handler()
                     database_info = database_handler.info()
-                    database_info.extend(arg_drug_table.get_resistance_table_info())
+                    database_info.update(arg_drug_table.get_resistance_table_info())
                     sys.stdout.write(get_string_with_spacing(database_info))
                 except DatabaseNotFoundException as e:
                     logger.error(

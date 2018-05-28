@@ -192,20 +192,28 @@ class Search(SubCommand):
                     self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
 
                 settings = database_handler.info()
-                settings.insert(0, ['command_line', ' '.join(sys.argv)])
-                settings.insert(1, ['version', self._version])
-                settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
-                settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
-                settings.insert(4, ['total_minutes', time_difference_minutes])
+                settings['command_line'] = ' '.join(sys.argv)
+                settings['version'] = self._version
+                settings['start_time'] = start_time.strftime(self.TIME_FORMAT)
+                settings['end_time'] = end_time.strftime(self.TIME_FORMAT)
+                settings['total_minutes'] = time_difference_minutes
+                settings.move_to_end('total_minutes', last=False)
+                settings.move_to_end('end_time', last=False)
+                settings.move_to_end('start_time', last=False)
+                settings.move_to_end('version', last=False)
+                settings.move_to_end('command_line', last=False)
+
                 if args.include_resistance_phenotypes:
                     arg_drug_table = ARGDrugTable()
                     info = arg_drug_table.get_resistance_table_info()
-                    settings.extend(info)
+                    settings.update(info)
                     logger.info(
                         "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
                 self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
-                settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
+                settings_dataframe = pd.DataFrame.from_dict(settings, orient='index')
+                settings_dataframe.index.name = 'Key'
+                settings_dataframe.set_axis(['Value'], axis='columns', inplace=True)
 
                 self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
                                                 amr_detection.get_summary_results(),

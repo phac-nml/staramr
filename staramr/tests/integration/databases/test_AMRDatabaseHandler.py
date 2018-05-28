@@ -68,11 +68,9 @@ class AMRDatabaseHandlerIT(unittest.TestCase):
                                     pointfinder_commit=self.POINTFINDER_VALID_COMMIT)
 
         database_info = self.database_handler.info()
-        resfinder_commit_info = [x[1] for x in database_info if x[0] == 'resfinder_db_commit'][0]
-        pointfinder_commit_info = [x[1] for x in database_info if x[0] == 'pointfinder_db_commit'][0]
 
         # Verify correct commits in info
-        self.assertEqual(resfinder_commit_info, self.RESFINDER_VALID_COMMIT,
+        self.assertEqual(database_info['resfinder_db_commit'], self.RESFINDER_VALID_COMMIT,
                          'Resfinder commits invalid')
-        self.assertEqual(pointfinder_commit_info, self.POINTFINDER_VALID_COMMIT,
+        self.assertEqual(database_info['pointfinder_db_commit'], self.POINTFINDER_VALID_COMMIT,
                          'Pointfinder commits invalid')
