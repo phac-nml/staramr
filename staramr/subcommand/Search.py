@@ -127,7 +127,7 @@ class Search(SubCommand):
         if not path.isdir(args.database):
             if args.database == self._default_database_dir:
                 raise CommandParseException(
-                    "Default database does not exist. Perhaps try restoring with 'staramr db restore'",
+                    "Default database does not exist. Perhaps try restoring with 'staramr db restore-default'",
                     self._root_arg_parser)
             else:
                 raise CommandParseException(

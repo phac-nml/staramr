@@ -160,7 +160,7 @@ class Update(Database):
                     database_handler.update(resfinder_commit=args.resfinder_commit,
                                             pointfinder_commit=args.pointfinder_commit)
                 except DatabaseErrorException as e:
-                    logger.error("Could not update default database. Please try restoring with 'staramr db restore'")
+                    logger.error("Could not update default database. Please try restoring with 'staramr db restore-default'")
                     raise e
         else:
             for directory in args.directories:
@@ -187,9 +187,9 @@ class RestoreDefault(Database):
     def _setup_args(self, arg_parser):
         name = self._script_name
         epilog = ("Example:\n"
-                  "\t" + name + " restore/\n"
+                  "\t" + name + " restore-default/\n"
                                 "\t\tRestores the default ResFinder/PointFinder database\n\n")
-        arg_parser = self._subparser.add_parser('restore',
+        arg_parser = self._subparser.add_parser('restore-default',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Restores the default ResFinder/PointFinder databases.')
@@ -271,7 +271,7 @@ class Info(Database):
                 database_info.extend(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
-                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore'")
+                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
         else:
             for directory in args.directories:
                 try:
