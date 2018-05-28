@@ -42,18 +42,18 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         self._arg_drug_table = arg_drug_table
 
     def _get_result(self, hit, db_mutation):
-        drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_hit_id(),
+        drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_amr_gene_id(),
                                              db_mutation.get_mutation_position())
-        return [hit.get_isolate_id(),
-                hit.get_hit_id() + " (" + db_mutation.get_mutation_string_short() + ")",
+        return [hit.get_genome_id(),
+                hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")",
                 drug,
                 db_mutation.get_type(),
                 db_mutation.get_mutation_position(),
                 db_mutation.get_mutation_string(),
                 hit.get_pid(),
                 hit.get_plength(),
-                str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
-                hit.get_contig(),
-                hit.get_contig_start(),
-                hit.get_contig_end()
+                str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
+                hit.get_genome_contig_id(),
+                hit.get_genome_contig_start(),
+                hit.get_genome_contig_end()
                 ]

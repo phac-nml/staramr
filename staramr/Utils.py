@@ -12,7 +12,7 @@ def get_string_with_spacing(data):
     s = ''
     max_width = max([len(w[0]) for w in data])
 
-    for x,y in data:
+    for x, y in data:
         d = dict(x=x.ljust(max_width), y=y)
         s += '{x} = {y}\n'.format(**d)
 
