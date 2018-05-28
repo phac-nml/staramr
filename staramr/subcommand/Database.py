@@ -105,6 +105,10 @@ class Build(Database):
         else:
             database_handler = AMRDatabasesManager(args.destination).get_database_handler()
         database_handler.build(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
+        if not AMRDatabasesManager.is_handler_default(database_handler):
+            logger.warning(
+                "Built non-default ResFinder/PointFinder database version. This may lead to " +
+                "differences in the detected AMR genes depending on how the database files are structured.")
 
 
 """
@@ -157,8 +161,14 @@ class Update(Database):
                 try:
                     database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
                         force_use_git=True)
+
                     database_handler.update(resfinder_commit=args.resfinder_commit,
                                             pointfinder_commit=args.pointfinder_commit)
+
+                    if not AMRDatabasesManager.is_handler_default(database_handler):
+                        logger.warning(
+                            "Updated to non-default ResFinder/PointFinder database version. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.")
                 except DatabaseErrorException as e:
                     logger.error("Could not update default database. Please try restoring with 'staramr db restore-default'")
                     raise e
@@ -167,6 +177,10 @@ class Update(Database):
                 database_handler = AMRDatabasesManager(directory).get_database_handler()
                 database_handler.update(resfinder_commit=args.resfinder_commit,
                                         pointfinder_commit=args.pointfinder_commit)
+                if not AMRDatabasesManager.is_handler_default(database_handler):
+                    logger.warning(
+                        "Updated to non-default ResFinder/PointFinder database version ["+directory+"]. This may lead to " +
+                        "differences in the detected AMR genes depending on how the database files are structured.")
 
 
 """
@@ -265,6 +279,10 @@ class Info(Database):
 
         if len(args.directories) == 0:
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+            if not AMRDatabasesManager.is_handler_default(database_handler):
+                logger.warning(
+                    "Using non-default ResFinder/PointFinder database versions. This may lead to differences in the detected " +
+                    "AMR genes depending on how the database files are structured.")
 
             try:
                 database_info = database_handler.info()
@@ -276,6 +294,11 @@ class Info(Database):
             for directory in args.directories:
                 try:
                     database_handler = AMRDatabasesManager(directory).get_database_handler()
+                    if not AMRDatabasesManager.is_handler_default(database_handler):
+                        logger.warning(
+                            "Using non-default ResFinder/PointFinder database version ["+directory+"]. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.")
+
                     database_info = database_handler.info()
                     database_info.update(arg_drug_table.get_resistance_table_info())
                     sys.stdout.write(get_string_with_spacing(database_info))

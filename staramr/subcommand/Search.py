@@ -140,6 +140,10 @@ class Search(SubCommand):
         else:
             database_handler = AMRDatabasesManager(args.database).get_database_handler()
 
+        if not AMRDatabasesManager.is_handler_default(database_handler):
+            logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected "+
+                           "AMR genes depending on how the database files are structured.")
+
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
 
