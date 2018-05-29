@@ -83,7 +83,16 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
             data['resfinder_db_dir'] = self._resfinder_dir
             data['pointfinder_db_dir'] = self._pointfinder_dir
 
-            data.move_to_end('resfinder_db_dir', last=False)
+            # re-order all fields
+            data.move_to_end('resfinder_db_dir', last=True)
+            data.move_to_end('resfinder_db_url', last=True)
+            data.move_to_end('resfinder_db_commit', last=True)
+            data.move_to_end('resfinder_db_date', last=True)
+
+            data.move_to_end('pointfinder_db_dir', last=True)
+            data.move_to_end('pointfinder_db_url', last=True)
+            data.move_to_end('pointfinder_db_commit', last=True)
+            data.move_to_end('pointfinder_db_date', last=True)
 
             return data
         except FileNotFoundError as e:
