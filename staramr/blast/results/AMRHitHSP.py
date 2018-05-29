@@ -25,6 +25,11 @@ class AMRHitHSP:
         if blast_record is not None:
             self._blast_record = blast_record
 
+            if self.get_genome_contig_start() > self.get_genome_contig_end() and self.get_amr_gene_strand() != 'minus':
+                raise Exception("contig start = {} > contig end = {} and strand is {}".format(self.get_genome_contig_start(), self.get_genome_contig_end(), self.get_amr_gene_strand()))
+            elif self.get_amr_gene_start() > self.get_amr_gene_end():
+                raise Exception("amr gene start = {} > amr gene end = {}".format(self.get_amr_gene_start(), self.get_amr_gene_end()))
+
     def get_amr_gene_length(self):
         """
         Gets the amr gene length.

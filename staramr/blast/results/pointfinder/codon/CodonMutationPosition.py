@@ -11,30 +11,25 @@ A Class defining a codon-based mutation for PointFinder.
 
 class CodonMutationPosition(MutationPosition):
 
-    def __init__(self, match_position, amr_gene_string, genome_string, amr_gene_start, amr_gene_strand):
+    def __init__(self, match_position, amr_gene_string, genome_string, amr_gene_start):
         """
         Creates a new CodonMutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
         :param amr_gene_string: The amr gene string from BLAST.
         :param genome_string: The genome BLAST string.
         :param amr_gene_start: The start coordinates of the BLAST amr gene hit.
-        :param amr_gene_strand: The strand of the amr gene.
         """
-        super().__init__(match_position, amr_gene_start, amr_gene_strand)
+        super().__init__(match_position, amr_gene_start)
 
         self._codon_start = math.ceil(self._nucleotide_position_amr_gene / 3)
         frame_shift = (self._nucleotide_position_amr_gene - 1) % 3
 
-        self._amr_gene_codon = self._find_codon(amr_gene_string, match_position, amr_gene_strand, frame_shift)
-        self._genome_codon = self._find_codon(genome_string, match_position, amr_gene_strand, frame_shift)
+        self._amr_gene_codon = self._find_codon(amr_gene_string, match_position, frame_shift)
+        self._genome_codon = self._find_codon(genome_string, match_position, frame_shift)
 
-    def _find_codon(self, nucleotides, match_position, strand, frame_shift):
-        if strand == 'plus':
-            codon_start_index = match_position - frame_shift
-            return nucleotides[codon_start_index:(codon_start_index + 3)].upper()
-        else:
-            codon_end_index = match_position + frame_shift
-            return Bio.Seq.reverse_complement(nucleotides[(codon_end_index - 3 + 1):(codon_end_index + 1)].upper())
+    def _find_codon(self, nucleotides, match_position, frame_shift):
+        codon_start_index = match_position - frame_shift
+        return nucleotides[codon_start_index:(codon_start_index + 3)].upper()
 
     def get_codon_start(self):
         """
@@ -94,7 +89,6 @@ class CodonMutationPosition(MutationPosition):
         return 'codon'
 
     def __repr__(self):
-        return "[amr_gene_start=" + str(self._amr_gene_start) + ", amr_gene_strand=" + str(
-            self._amr_gene_strand) + ", nucleotide_position=" \
+        return "[amr_gene_start=" + str(self._amr_gene_start) + ", nucleotide_position=" \
                + str(self._nucleotide_position_amr_gene) + ", codon_start=" + str(self._codon_start) \
                + ", codon=" + self._amr_gene_codon + "]"

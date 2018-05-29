@@ -7,28 +7,16 @@ A Class defining a nucleotide-based mutation for PointFinder.
 
 class MutationPosition:
 
-    def __init__(self, match_position, amr_gene_start, amr_gene_strand):
+    def __init__(self, match_position, amr_gene_start):
         """
         Creates a new MutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
         :param amr_gene_start: The start coordinates of the amr gene from the BLAST hit.
-        :param amr_gene_strand: The strand of the amr gene from the BLAST results.
         """
         __metaclass__ = abc.ABCMeta
 
-        self._check_strand(amr_gene_strand)
-
         self._amr_gene_start = amr_gene_start
-        self._amr_gene_strand = amr_gene_strand
-
-        if amr_gene_strand == 'plus':
-            self._nucleotide_position_amr_gene = amr_gene_start + match_position
-        else:
-            self._nucleotide_position_amr_gene = amr_gene_start - match_position
-
-    def _check_strand(self, strand):
-        if strand not in ['plus', 'minus']:
-            raise Exception("Error, strand=" + strand + " not in [plus, minus].")
+        self._nucleotide_position_amr_gene = amr_gene_start + match_position
 
     def get_nucleotide_position(self):
         """

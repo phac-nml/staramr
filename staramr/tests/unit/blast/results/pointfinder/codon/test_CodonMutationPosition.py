@@ -12,10 +12,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "TTCGATCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -33,10 +31,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "AGCGATCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -54,10 +50,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATGGATCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -75,10 +69,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATCAATCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -96,10 +88,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATCGACCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 6, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -117,10 +107,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATCGATGGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 7, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 3, 'Incorrect codon start')
@@ -138,10 +126,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATGGATCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -159,10 +145,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "TAAGATCGA"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -180,10 +164,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "-TCG"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -201,10 +183,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "A-CG"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -222,10 +202,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "AT-G"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -243,10 +221,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "AT--G"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -265,10 +241,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         #@formatter:on
         # @formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -286,10 +260,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "CC----GACT"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -307,10 +279,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "C-----GACTT"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -328,10 +298,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "-CCA--GAC"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -349,10 +317,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "-CCA--GA-T"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
@@ -370,10 +336,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATCG"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -391,10 +355,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATCG"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -412,10 +374,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         genome_string   = "ATCG"
         #@formatter:on
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
 
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
+        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
@@ -425,108 +385,3 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_amr_gene_mutation(), 'X', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_genome_mutation(), 'I', 'Incorrect query amino acid')
         self.assertEqual(mutation.get_mutation_string_short(), 'X1I', 'Incorrect string')
-
-    def testMutationPositionStartCodon1DBNegative(self):
-        mutation_position = 8
-        # @formatter:off
-        amr_gene_string = "TCGATCGAT" # rc("ATCGATCGA")
-        genome_string   = "TCGATCGAA"
-        #@formatter:on
-        amr_gene_start = 9
-        amr_gene_strand = 'minus'
-
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
-
-        self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
-        self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
-        self.assertEqual(mutation.get_amr_gene_codon(), 'ATC', 'Incorrect database codon')
-        self.assertEqual(mutation.get_genome_codon(), 'TTC', 'Incorrect query codon')
-        self.assertEqual(mutation.get_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_genome_mutation(), 'F', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1F', 'Incorrect string')
-
-    def testMutationPositionMiddleCodon1DBNegative(self):
-        mutation_position = 7
-        # @formatter:off
-        amr_gene_string = "TCGATCGAT" # rc("ATCGATCGA")
-        genome_string   = "TCGATCGGT"
-        #@formatter:on
-        amr_gene_start = 9
-        amr_gene_strand = 'minus'
-
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
-
-        self.assertEqual(mutation.get_nucleotide_position(), 2, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
-        self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
-        self.assertEqual(mutation.get_amr_gene_codon(), 'ATC', 'Incorrect database codon')
-        self.assertEqual(mutation.get_genome_codon(), 'ACC', 'Incorrect query codon')
-        self.assertEqual(mutation.get_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_genome_mutation(), 'T', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1T', 'Incorrect string')
-
-    def testMutationPositionEndCodon1DBNegative(self):
-        mutation_position = 6
-        # @formatter:off
-        amr_gene_string = "TCGATCGAT" # rc("ATCGATCGA")
-        genome_string   = "TCGATCTAT"
-        #@formatter:on
-        amr_gene_start = 9
-        amr_gene_strand = 'minus'
-
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
-
-        self.assertEqual(mutation.get_nucleotide_position(), 3, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
-        self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
-        self.assertEqual(mutation.get_amr_gene_codon(), 'ATC', 'Incorrect database codon')
-        self.assertEqual(mutation.get_genome_codon(), 'ATA', 'Incorrect query codon')
-        self.assertEqual(mutation.get_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_genome_mutation(), 'I', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1I', 'Incorrect string')
-
-    def testMutationPositionStartCodon2DBNegative(self):
-        mutation_position = 5
-        # @formatter:off
-        amr_gene_string = "TCGATCGAT" # rc("ATCGATCGA")
-        genome_string   = "TCGATTGAT"
-        #@formatter:on
-        amr_gene_start = 9
-        amr_gene_strand = 'minus'
-
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
-
-        self.assertEqual(mutation.get_nucleotide_position(), 4, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 2, 'Incorrect codon start')
-        self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect mutation start')
-        self.assertEqual(mutation.get_amr_gene_codon(), 'GAT', 'Incorrect database codon')
-        self.assertEqual(mutation.get_genome_codon(), 'AAT', 'Incorrect query codon')
-        self.assertEqual(mutation.get_amr_gene_mutation(), 'D', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_genome_mutation(), 'N', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'D2N', 'Incorrect string')
-
-    def testMutationPositionStartCodon1QNegative(self):
-        mutation_position = 0
-        # @formatter:off
-        amr_gene_string = "ATCGATCGA"
-        genome_string   = "TTCGATCGA"
-        #@formatter:on
-        amr_gene_start = 1
-        amr_gene_strand = 'plus'
-
-        mutation = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                         amr_gene_strand)
-
-        self.assertEqual(mutation.get_nucleotide_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_codon_start(), 1, 'Incorrect codon start')
-        self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
-        self.assertEqual(mutation.get_amr_gene_codon(), 'ATC', 'Incorrect database codon')
-        self.assertEqual(mutation.get_genome_codon(), 'TTC', 'Incorrect query codon')
-        self.assertEqual(mutation.get_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_genome_mutation(), 'F', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1F', 'Incorrect string')

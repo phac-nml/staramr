@@ -23,25 +23,19 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         amr_gene_string = "ATCGATCGA"
         genome_string = "TTCGATCGA"
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
-        self.mutation1 = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                               amr_gene_strand)
+        self.mutation1 = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         mutation_position = 3
         amr_gene_string = "ATCGATCGA"
         genome_string = "ATCAATCGA"
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
-        self.mutation2 = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                               amr_gene_strand)
+        self.mutation2 = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         mutation_position = 8
         amr_gene_string = "ATCGATCGA"
         genome_string = "ATCGATCGT"
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
-        self.mutation_missing = CodonMutationPosition(mutation_position, amr_gene_string, genome_string,
-                                                      amr_gene_start, amr_gene_strand)
+        self.mutation_missing = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
     def testGetResistanceCodons1Mutation1Codon(self):
         resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation1])
@@ -73,9 +67,7 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         amr_gene_string = "ATCGATCGA"
         genome_string = "ATCGAACGA"
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
-        mutation_aa_not_match = CodonMutationPosition(mutation_position, amr_gene_string, genome_string,
-                                                      amr_gene_start, amr_gene_strand)
+        mutation_aa_not_match = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_aa_not_match])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
@@ -85,9 +77,7 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         amr_gene_string = "ATCGATCGA"
         genome_string = "ATGGATCGA"
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
-        mutation_start_methionine = CodonMutationPosition(mutation_position, amr_gene_string, genome_string,
-                                                          amr_gene_start, amr_gene_strand)
+        mutation_start_methionine = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_start_methionine])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
@@ -97,9 +87,7 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         amr_gene_string = "TACGATCGA"
         genome_string = "TAAGATCGA"
         amr_gene_start = 1
-        amr_gene_strand = 'plus'
-        mutation_stop = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start,
-                                              amr_gene_strand)
+        mutation_stop = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_stop])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")

@@ -33,12 +33,12 @@ class PointfinderHitHSP(AMRHitHSP):
 
         return [i for i, (x, y) in enumerate(zip(amr_seq, genome_seq)) if x != y]
 
-    def _get_mutation_positions(self, start, amr_gene_strand):
+    def _get_mutation_positions(self, start):
         amr_seq = self.get_amr_gene_seq()
         genome_seq = self.get_genome_seq()
 
         # @formatter:off
-        return [CodonMutationPosition(i, amr_seq, genome_seq, start, amr_gene_strand) for i in self._get_match_positions()]
+        return [CodonMutationPosition(i, amr_seq, genome_seq, start) for i in self._get_match_positions()]
         # @formatter:on
 
     def get_mutations(self):
@@ -46,6 +46,4 @@ class PointfinderHitHSP(AMRHitHSP):
         Gets a list of NucleotideMutationPosition for the individual mutations.
         :return: A list of NucleotideMutationPosition.
         """
-        start = self.get_amr_gene_start()
-        amr_gene_strand = 'plus'
-        return self._get_mutation_positions(start, amr_gene_strand)
+        return self._get_mutation_positions(self.get_amr_gene_start())
