@@ -1,8 +1,8 @@
 import logging
 from typing import Dict
-from typing import Union
 from typing import List
 from typing import Optional
+from typing import Union
 
 logger = logging.getLogger('BlastHits')
 
@@ -12,6 +12,7 @@ from staramr.exceptions.InvalidPositionException import InvalidPositionException
 """
 Class for partitioning up blast hits into non-overlapping regions.
 """
+
 
 class BlastHitPartitions:
 
@@ -72,7 +73,7 @@ class BlastHitPartitions:
         end = hit.get_genome_contig_end() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_start()
 
         contig_name = hit.get_genome_contig_id()
-        partition =  {
+        partition = {
             'start': start,
             'end': end,
             'hits': [hit]

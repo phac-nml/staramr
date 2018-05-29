@@ -27,9 +27,14 @@ class AMRHitHSP:
             self._blast_record = blast_record
 
             if self.get_genome_contig_start() > self.get_genome_contig_end() and self.get_genome_contig_strand() != 'minus':
-                raise InvalidPositionException("contig start = {} > contig end = {} and strand is {}".format(self.get_genome_contig_start(), self.get_genome_contig_end(), self.get_genome_contig_strand()))
+                raise InvalidPositionException(
+                    "contig start = {} > contig end = {} and strand is {}".format(self.get_genome_contig_start(),
+                                                                                  self.get_genome_contig_end(),
+                                                                                  self.get_genome_contig_strand()))
             elif self.get_amr_gene_start() > self.get_amr_gene_end():
-                raise InvalidPositionException("amr gene start = {} > amr gene end = {}".format(self.get_amr_gene_start(), self.get_amr_gene_end()))
+                raise InvalidPositionException(
+                    "amr gene start = {} > amr gene end = {}".format(self.get_amr_gene_start(),
+                                                                     self.get_amr_gene_end()))
 
     def get_amr_gene_length(self):
         """
@@ -158,7 +163,8 @@ class AMRHitHSP:
         :return: A SeqRecord for this hit.
         """
         return SeqRecord(Seq(self.get_genome_seq()), id=self.get_amr_gene_id(),
-                         description=('isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},'+
+                         description=(
+                                     'isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},' +
                                      ' resistance_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
                              self.get_genome_id(),
                              self.get_genome_contig_id(),

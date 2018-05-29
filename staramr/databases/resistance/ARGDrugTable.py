@@ -1,6 +1,6 @@
 import configparser
-from os import path
 from collections import OrderedDict
+from os import path
 
 import pandas as pd
 

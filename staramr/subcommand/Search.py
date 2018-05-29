@@ -131,7 +131,7 @@ class Search(SubCommand):
                     self._root_arg_parser)
             else:
                 raise CommandParseException(
-                    "Database directory [" + args.database + "] does not exist. Perhaps try building with"+
+                    "Database directory [" + args.database + "] does not exist. Perhaps try building with" +
                     "'staramr db build --dir " + args.database + "'",
                     self._root_arg_parser)
 
@@ -141,7 +141,7 @@ class Search(SubCommand):
             database_handler = AMRDatabasesManager(args.database).get_database_handler()
 
         if not AMRDatabasesManager.is_handler_default_commits(database_handler):
-            logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected "+
+            logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected " +
                            "AMR genes depending on how the database files are structured.")
 
         resfinder_database_dir = database_handler.get_resfinder_dir()

@@ -77,7 +77,8 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         amr_gene_string = "ATCGATCGA"
         genome_string = "ATGGATCGA"
         amr_gene_start = 1
-        mutation_start_methionine = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
+        mutation_start_methionine = CodonMutationPosition(mutation_position, amr_gene_string, genome_string,
+                                                          amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_start_methionine])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")

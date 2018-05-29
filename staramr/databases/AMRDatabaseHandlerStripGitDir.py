@@ -1,8 +1,8 @@
 import configparser
 import logging
 import shutil
-from os import path
 from collections import OrderedDict
+from os import path
 
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException

@@ -84,7 +84,8 @@ class AMRDatabasesManager:
         """
         database_info = amr_database_handler.info()
 
-        return database_info['resfinder_db_commit'] == self.DEFAULT_RESFINDER_COMMIT and database_info['pointfinder_db_commit'] == self.DEFAULT_POINTFINDER_COMMIT
+        return database_info['resfinder_db_commit'] == self.DEFAULT_RESFINDER_COMMIT and database_info[
+            'pointfinder_db_commit'] == self.DEFAULT_POINTFINDER_COMMIT
 
     @classmethod
     def get_default_database_directory(cls):

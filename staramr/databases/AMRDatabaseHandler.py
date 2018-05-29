@@ -1,8 +1,8 @@
 import logging
 import shutil
 import time
-from os import path
 from collections import OrderedDict
+from os import path
 
 import git
 
@@ -122,7 +122,8 @@ class AMRDatabaseHandler:
             data['pointfinder_db_dir'] = self._pointfinder_dir
             data['pointfinder_db_url'] = self._pointfinder_url
             data['pointfinder_db_commit'] = str(pointfinder_repo_head)
-            data['pointfinder_db_date'] = time.strftime(self.TIME_FORMAT, time.gmtime(pointfinder_repo_head.committed_date))
+            data['pointfinder_db_date'] = time.strftime(self.TIME_FORMAT,
+                                                        time.gmtime(pointfinder_repo_head.committed_date))
 
         except git.exc.NoSuchPathError as e:
             raise DatabaseNotFoundException('Invalid database in [' + self._database_dir + ']') from e

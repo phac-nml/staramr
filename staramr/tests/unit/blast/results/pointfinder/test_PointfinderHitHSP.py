@@ -1,8 +1,10 @@
 import unittest
+
 import pandas as pd
 
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 from staramr.exceptions.InvalidPositionException import InvalidPositionException
+
 
 class PointfinderHitHSPTest(unittest.TestCase):
 
@@ -20,4 +22,3 @@ class PointfinderHitHSPTest(unittest.TestCase):
         blast_record = pd.Series({'sstart': 1, 'send': 10, 'qstart': 10, 'qend': 1, 'sstrand': 'plus'})
 
         self.assertRaises(InvalidPositionException, PointfinderHitHSP, None, blast_record)
-

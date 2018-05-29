@@ -1,10 +1,8 @@
 import logging
 import os
-from os import path
-import time
-import shutil
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
+from os import path
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -76,7 +74,7 @@ class BlastHandler:
         self._resfinder_future_blasts = []
 
         if path.exists(self._input_genomes_tmp_dir):
-            logger.debug("Directory ["+self._input_genomes_tmp_dir+"] already exists")
+            logger.debug("Directory [" + self._input_genomes_tmp_dir + "] already exists")
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 
@@ -95,7 +93,7 @@ class BlastHandler:
         else:
             database_names_pointfinder = None
 
-        db_files=self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
+        db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
         for file in db_files:
@@ -111,7 +109,7 @@ class BlastHandler:
 
         for file in files:
             destination = path.join(db_dir, path.basename(file))
-            logger.debug("Creating symlink from ["+file+"] to ["+destination+"]")
+            logger.debug("Creating symlink from [" + file + "] to [" + destination + "]")
             os.symlink(path.abspath(file), destination)
             db_files.append(destination)
 

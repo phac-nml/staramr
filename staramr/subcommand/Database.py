@@ -11,8 +11,8 @@ from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
-from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 """
 Base class for interacting with a database.
@@ -170,7 +170,8 @@ class Update(Database):
                             "Updated to non-default ResFinder/PointFinder database version. This may lead to " +
                             "differences in the detected AMR genes depending on how the database files are structured.")
                 except DatabaseErrorException as e:
-                    logger.error("Could not update default database. Please try restoring with 'staramr db restore-default'")
+                    logger.error(
+                        "Could not update default database. Please try restoring with 'staramr db restore-default'")
                     raise e
         else:
             for directory in args.directories:
@@ -179,7 +180,7 @@ class Update(Database):
                                         pointfinder_commit=args.pointfinder_commit)
                 if not AMRDatabasesManager.is_handler_default_commits(database_handler):
                     logger.warning(
-                        "Updated to non-default ResFinder/PointFinder database version ["+directory+"]. This may lead to " +
+                        "Updated to non-default ResFinder/PointFinder database version [" + directory + "]. This may lead to " +
                         "differences in the detected AMR genes depending on how the database files are structured.")
 
 
@@ -296,7 +297,7 @@ class Info(Database):
                     database_handler = AMRDatabasesManager(directory).get_database_handler()
                     if not AMRDatabasesManager.is_handler_default_commits(database_handler):
                         logger.warning(
-                            "Using non-default ResFinder/PointFinder database version ["+directory+"]. This may lead to " +
+                            "Using non-default ResFinder/PointFinder database version [" + directory + "]. This may lead to " +
                             "differences in the detected AMR genes depending on how the database files are structured.")
 
                     database_info = database_handler.info()

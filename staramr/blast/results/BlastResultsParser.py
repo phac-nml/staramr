@@ -79,7 +79,8 @@ class BlastResultsParser:
         partitions = BlastHitPartitions()
 
         blast_table['plength'] = (blast_table.length / blast_table.qlen) * 100.0
-        blast_table = blast_table[(blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold)]
+        blast_table = blast_table[
+            (blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold)]
         for index, blast_record in blast_table.iterrows():
             partitions.append(self._create_hit(in_file, database_name, blast_record))
 
