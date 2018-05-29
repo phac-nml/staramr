@@ -26,8 +26,8 @@ class AMRHitHSP:
         if blast_record is not None:
             self._blast_record = blast_record
 
-            if self.get_genome_contig_start() > self.get_genome_contig_end() and self.get_amr_gene_strand() != 'minus':
-                raise InvalidPositionException("contig start = {} > contig end = {} and strand is {}".format(self.get_genome_contig_start(), self.get_genome_contig_end(), self.get_amr_gene_strand()))
+            if self.get_genome_contig_start() > self.get_genome_contig_end() and self.get_genome_contig_strand() != 'minus':
+                raise InvalidPositionException("contig start = {} > contig end = {} and strand is {}".format(self.get_genome_contig_start(), self.get_genome_contig_end(), self.get_genome_contig_strand()))
             elif self.get_amr_gene_start() > self.get_amr_gene_end():
                 raise InvalidPositionException("amr gene start = {} > amr gene end = {}".format(self.get_amr_gene_start(), self.get_amr_gene_end()))
 
@@ -145,10 +145,10 @@ class AMRHitHSP:
         """
         return self.get_genome_seq()
 
-    def get_amr_gene_strand(self):
+    def get_genome_contig_strand(self):
         """
-        Gets the amr gene strand for the BLAST hit.
-        :return: The amr gene strand for the BLAST hit.
+        Gets the genome contig strand for the BLAST hit.
+        :return: The genome contig strand for the BLAST hit.
         """
         return self._blast_record['sstrand']
 

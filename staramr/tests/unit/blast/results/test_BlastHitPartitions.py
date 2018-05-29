@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
+from staramr.exceptions.InvalidPositionException import InvalidPositionException
 
 
 class BlastHitPartitionsTest(unittest.TestCase):
@@ -12,7 +13,7 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -30,7 +31,7 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=10)
         hit1.get_genome_contig_end = MagicMock(return_value=1)
-        hit1.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -48,11 +49,11 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=10)
         hit1.get_genome_contig_end = MagicMock(return_value=1)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
-        self.assertRaises(Exception, parts.append, hit1)
+        self.assertRaises(InvalidPositionException, parts.append, hit1)
 
     def testSinglePartitionIdenticalHits(self):
         hit1 = AMRHitHSP(None, None)
@@ -60,7 +61,7 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -83,7 +84,7 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=10)
         hit1.get_genome_contig_end = MagicMock(return_value=1)
-        hit1.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -106,14 +107,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=10)
         hit1.get_genome_contig_end = MagicMock(return_value=1)
-        hit1.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='minus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=10)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -136,14 +137,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=11)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -166,14 +167,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=11)
         hit2.get_genome_contig_end = MagicMock(return_value=1)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -196,14 +197,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=2)
         hit2.get_genome_contig_end = MagicMock(return_value=11)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -226,14 +227,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=11)
         hit2.get_genome_contig_end = MagicMock(return_value=2)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -256,14 +257,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=9)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -286,14 +287,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=9)
         hit2.get_genome_contig_end = MagicMock(return_value=1)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -316,14 +317,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=2)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=9)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -346,14 +347,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=2)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=9)
         hit2.get_genome_contig_end = MagicMock(return_value=1)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -376,14 +377,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=2)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=11)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -406,14 +407,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=2)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=11)
         hit2.get_genome_contig_end = MagicMock(return_value=1)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -436,14 +437,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=2)
         hit2.get_genome_contig_end = MagicMock(return_value=9)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -466,14 +467,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=9)
         hit2.get_genome_contig_end = MagicMock(return_value=2)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -496,14 +497,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=6)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -526,14 +527,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=5)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -562,14 +563,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=11)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=10)
         hit2.get_genome_contig_end = MagicMock(return_value=15)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -592,14 +593,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=10)
         hit2.get_genome_contig_end = MagicMock(return_value=15)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -628,14 +629,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=4)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -664,14 +665,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=11)
         hit2.get_genome_contig_end = MagicMock(return_value=15)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
@@ -700,14 +701,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=5)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig1")
         hit2.get_genome_contig_start = MagicMock(return_value=15)
         hit2.get_genome_contig_end = MagicMock(return_value=11)
-        hit2.get_amr_gene_strand = MagicMock(return_value='minus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='minus')
 
         parts = BlastHitPartitions()
 
@@ -736,14 +737,14 @@ class BlastHitPartitionsTest(unittest.TestCase):
         hit1.get_genome_contig_id = MagicMock(return_value="contig1")
         hit1.get_genome_contig_start = MagicMock(return_value=1)
         hit1.get_genome_contig_end = MagicMock(return_value=10)
-        hit1.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit1.get_genome_contig_strand = MagicMock(return_value='plus')
 
         hit2 = AMRHitHSP(None, None)
 
         hit2.get_genome_contig_id = MagicMock(return_value="contig2")
         hit2.get_genome_contig_start = MagicMock(return_value=1)
         hit2.get_genome_contig_end = MagicMock(return_value=10)
-        hit2.get_amr_gene_strand = MagicMock(return_value='plus')
+        hit2.get_genome_contig_strand = MagicMock(return_value='plus')
 
         parts = BlastHitPartitions()
 
