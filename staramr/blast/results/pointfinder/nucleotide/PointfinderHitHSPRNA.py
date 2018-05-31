@@ -14,7 +14,7 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
 
     def _get_mutation_positions(self, start):
         amr_seq = self.get_amr_gene_seq()
-        genome_seq = self.get_genome_seq()
+        genome_seq = self.get_genome_contig_hsp_seq()
 
         # @formatter:off
         return [NucleotideMutationPosition(i, amr_seq, genome_seq, start) for i in self._get_match_positions()]
