@@ -12,4 +12,4 @@ def get_string_with_spacing(data: Dict[str, str]) -> str:
     :return: A string representation of the Dictionary.
     """
     max_width = max([len(k) for k in data])
-    return '\n'.join(('{} = {}'.format(k.ljust(max_width), v) for k, v in data.items()))+'\n'
+    return '\n'.join(('{} = {}'.format(k.ljust(max_width), v) for k, v in data.items())) + '\n'

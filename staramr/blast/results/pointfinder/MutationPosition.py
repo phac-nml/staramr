@@ -26,7 +26,8 @@ class MutationPosition:
         return self._nucleotide_position_amr_gene
 
     def get_mutation_string_short(self):
-        return self.get_database_amr_gene_mutation() + str(self.get_mutation_position()) + self.get_input_genome_mutation()
+        return self.get_database_amr_gene_mutation() + str(
+            self.get_mutation_position()) + self.get_input_genome_mutation()
 
     @abc.abstractmethod
     def get_type(self):

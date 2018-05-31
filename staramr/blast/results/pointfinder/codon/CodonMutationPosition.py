@@ -91,4 +91,5 @@ class CodonMutationPosition(MutationPosition):
     def __repr__(self):
         return (
             'CodonMutationPosition(_database_amr_gene_start={_database_amr_gene_start}, _nucleotide_position_amr_gene={_nucleotide_position_amr_gene}, '
-            '_codon_start={_codon_start}, _database_amr_gene_codon={_database_amr_gene_codon}, _input_genome_codon={_input_genome_codon})').format(**self.__dict__)
+            '_codon_start={_codon_start}, _database_amr_gene_codon={_database_amr_gene_codon}, _input_genome_codon={_input_genome_codon})').format(
+            **self.__dict__)

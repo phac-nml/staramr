@@ -13,7 +13,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         #@formatter:on
         amr_gene_start = 1
 
-        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string, amr_gene_start)
+        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
+                                              amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'A', 'Incorrect database mutation')
@@ -28,7 +29,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         #@formatter:on
         amr_gene_start = 1
 
-        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string, amr_gene_start)
+        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
+                                              amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 5, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'A', 'Incorrect database mutation')
@@ -43,7 +45,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         #@formatter:on
         amr_gene_start = 1
 
-        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string, amr_gene_start)
+        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
+                                              amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 9, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'A', 'Incorrect database mutation')
@@ -58,7 +61,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         #@formatter:on
         amr_gene_start = 1
 
-        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string, amr_gene_start)
+        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
+                                              amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'A', 'Incorrect database mutation')
@@ -73,7 +77,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         #@formatter:on
         amr_gene_start = 1
 
-        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string, amr_gene_start)
+        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
+                                              amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'G', 'Incorrect database mutation')
@@ -88,7 +93,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
         #@formatter:on
         amr_gene_start = 1
 
-        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string, amr_gene_start)
+        mutation = NucleotideMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
+                                              amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), '-', 'Incorrect database mutation')
