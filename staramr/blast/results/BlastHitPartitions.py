@@ -2,6 +2,7 @@ import logging
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Tuple
 from typing import Union
 
 logger = logging.getLogger('BlastHits')
@@ -40,8 +41,8 @@ class BlastHitPartitions:
             self._add_hit_partition(hit, partition)
 
     def _add_hit_partition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> None:
-        start = hit.get_genome_contig_start() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_end()
-        end = hit.get_genome_contig_end() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_start()
+        start, end = self._stranded_ends(hit)
+
         if start < partition['start']:
             partition['start'] = start
 
@@ -63,14 +64,12 @@ class BlastHitPartitions:
 
     def _hit_in_parition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> bool:
         pstart, pend = partition['start'], partition['end']
-        start = hit.get_genome_contig_start() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_end()
-        end = hit.get_genome_contig_end() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_start()
+        start, end = self._stranded_ends(hit)
 
         return (pstart < start < pend) or (pstart < end < pend) or (start <= pstart and end >= pend)
 
     def _create_new_parition(self, hit: AMRHitHSP) -> None:
-        start = hit.get_genome_contig_start() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_end()
-        end = hit.get_genome_contig_end() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_start()
+        start, end = self._stranded_ends(hit)
 
         contig_name = hit.get_genome_contig_id()
         partition = {
@@ -90,3 +89,13 @@ class BlastHitPartitions:
         :return: A list of BLAST hits divided up into non-overlapping regions.
         """
         return [p['hits'] for name in self._partitions for p in self._partitions[name]]
+
+    def _stranded_ends(self, hit: AMRHitHSP) -> Tuple[int, int]:
+        """
+        Gets the start/end coordinates, taking into account the strand.
+        :param hit: The hit.
+        :return: The (start,end) as a tuple.
+        """
+        start = hit.get_genome_contig_start() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_end()
+        end = hit.get_genome_contig_end() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_start()
+        return start, end
