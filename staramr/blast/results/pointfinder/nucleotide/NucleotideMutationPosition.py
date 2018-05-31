@@ -36,6 +36,5 @@ class NucleotideMutationPosition(MutationPosition):
         return self.get_amr_gene_mutation() + ' -> ' + self.get_genome_mutation()
 
     def __repr__(self):
-        return "[amr_gene_start=" + str(self._amr_gene_start) + ", nucleotide_position=" \
-               + str(self._nucleotide_position_amr_gene) + ", mutation_start=" + str(self.get_mutation_position()) \
-               + ", mutation=" + self.get_mutation_string() + "]"
+        return ('NucleotideMutationPosition(_amr_gene_start={_amr_gene_start}, _nucleotide_position_amr_gene={_nucleotide_position_amr_gene}, '
+            '_amr_gene_nucleotide={_amr_gene_nucleotide}, _genome_nucleotide={_genome_nucleotide})').format(**self.__dict__)

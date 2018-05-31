@@ -89,6 +89,6 @@ class CodonMutationPosition(MutationPosition):
         return 'codon'
 
     def __repr__(self):
-        return "[amr_gene_start=" + str(self._amr_gene_start) + ", nucleotide_position=" \
-               + str(self._nucleotide_position_amr_gene) + ", codon_start=" + str(self._codon_start) \
-               + ", codon=" + self._amr_gene_codon + "]"
+        return (
+            'CodonMutationPosition(_amr_gene_start={_amr_gene_start}, _nucleotide_position_amr_gene={_nucleotide_position_amr_gene}, '
+            '_codon_start={_codon_start}, _amr_gene_codon={_amr_gene_codon}, _genome_codon={_genome_codon})').format(**self.__dict__)
