@@ -1,16 +1,19 @@
 import logging
 from typing import Dict
-from typing import Union
 from typing import List
 from typing import Optional
+from typing import Tuple
+from typing import Union
 
 logger = logging.getLogger('BlastHits')
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
+from staramr.exceptions.InvalidPositionException import InvalidPositionException
 
 """
 Class for partitioning up blast hits into non-overlapping regions.
 """
+
 
 class BlastHitPartitions:
 
@@ -26,9 +29,9 @@ class BlastHitPartitions:
         :param hit: The hit to add.
         :return: None
         """
-        if hit.get_genome_contig_start() > hit.get_genome_contig_end():
-            raise Exception(
-                "Unsupported condition: contig start > contig end for hit (contig=" + hit.get_genome_contig_id() + ", start=" +
+        if hit.get_genome_contig_start() > hit.get_genome_contig_end() and hit.get_genome_contig_strand() == 'plus':
+            raise InvalidPositionException(
+                "Unsupported condition: strand=plus and contig start > contig end for hit (contig=" + hit.get_genome_contig_id() + ", start=" +
                 str(hit.get_genome_contig_start()) + ", end=" + str(hit.get_genome_contig_end()) + ")")
 
         partition = self._get_existing_partition(hit)
@@ -38,11 +41,13 @@ class BlastHitPartitions:
             self._add_hit_partition(hit, partition)
 
     def _add_hit_partition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> None:
-        if hit.get_genome_contig_start() < partition['start']:
-            partition['start'] = hit.get_genome_contig_start()
+        start, end = self._stranded_ends(hit)
 
-        if hit.get_genome_contig_end() > partition['end']:
-            partition['end'] = hit.get_genome_contig_end()
+        if start < partition['start']:
+            partition['start'] = start
+
+        if end > partition['end']:
+            partition['end'] = end
 
         partition['hits'].append(hit)
 
@@ -59,15 +64,17 @@ class BlastHitPartitions:
 
     def _hit_in_parition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> bool:
         pstart, pend = partition['start'], partition['end']
-        start, end = hit.get_genome_contig_start(), hit.get_genome_contig_end()
+        start, end = self._stranded_ends(hit)
 
         return (pstart < start < pend) or (pstart < end < pend) or (start <= pstart and end >= pend)
 
     def _create_new_parition(self, hit: AMRHitHSP) -> None:
+        start, end = self._stranded_ends(hit)
+
         contig_name = hit.get_genome_contig_id()
-        partition =  {
-            'start': hit.get_genome_contig_start(),
-            'end': hit.get_genome_contig_end(),
+        partition = {
+            'start': start,
+            'end': end,
             'hits': [hit]
         }
 
@@ -82,3 +89,13 @@ class BlastHitPartitions:
         :return: A list of BLAST hits divided up into non-overlapping regions.
         """
         return [p['hits'] for name in self._partitions for p in self._partitions[name]]
+
+    def _stranded_ends(self, hit: AMRHitHSP) -> Tuple[int, int]:
+        """
+        Gets the start/end coordinates, taking into account the strand.
+        :param hit: The hit.
+        :return: The (start,end) as a tuple.
+        """
+        start = hit.get_genome_contig_start() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_end()
+        end = hit.get_genome_contig_end() if hit.get_genome_contig_strand() == 'plus' else hit.get_genome_contig_start()
+        return start, end

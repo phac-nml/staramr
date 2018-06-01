@@ -10,7 +10,7 @@ from Bio import SeqIO
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
+from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
 from staramr.detection.AMRDetection import AMRDetection
@@ -22,7 +22,7 @@ logger = logging.getLogger('AMRDetectionIT')
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         self.resfinder_dir = database_handler.get_resfinder_dir()
         self.pointfinder_dir = database_handler.get_pointfinder_dir()
 
@@ -311,8 +311,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'], 100.00, places=2, msg='Wrong percent overlap')
         self.assertEqual(result['HSP Length/Total Length'], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
-        self.assertEqual(result['Start'], 841, msg='Wrong start')
-        self.assertEqual(result['End'], 1581, msg='Wrong end')
+        self.assertEqual(result['Start'], 1581, msg='Wrong start')
+        self.assertEqual(result['End'], 841, msg='Wrong end')
         self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 

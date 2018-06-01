@@ -1,4 +1,5 @@
 import configparser
+from collections import OrderedDict
 from os import path
 
 import pandas as pd
@@ -31,8 +32,7 @@ class ARGDrugTable:
         """
         config = configparser.ConfigParser()
         config.read(self._info_file)
-        versions = config['Versions']
-        return [[k, versions[k]] for k in versions]
+        return OrderedDict(config['Versions'])
 
     def _drug_string_to_correct_separators(self, drug):
         """

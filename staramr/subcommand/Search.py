@@ -13,7 +13,7 @@ from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
+from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
@@ -52,7 +52,7 @@ class Search(SubCommand):
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Search for AMR genes')
 
-        self._default_database_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        self._default_database_dir = AMRDatabasesManager.get_default_database_directory()
         cpu_count = multiprocessing.cpu_count()
 
         arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
@@ -124,23 +124,25 @@ class Search(SubCommand):
             if not path.exists(file):
                 raise CommandParseException('File [' + file + '] does not exist', self._root_arg_parser)
 
-        hits_output_dir = None
-        if args.output_dir:
-            if path.exists(args.output_dir):
-                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
-                                            self._root_arg_parser)
-            else:
-                hits_output_dir = path.join(args.output_dir, 'hits')
-                mkdir(args.output_dir)
-                mkdir(hits_output_dir)
-
         if not path.isdir(args.database):
-            raise CommandParseException("Database directory [" + args.database + "] does not exist")
+            if args.database == self._default_database_dir:
+                raise CommandParseException(
+                    "Default database does not exist. Perhaps try restoring with 'staramr db restore-default'",
+                    self._root_arg_parser)
+            else:
+                raise CommandParseException(
+                    "Database directory [" + args.database + "] does not exist. Perhaps try building with" +
+                    "'staramr db build --dir " + args.database + "'",
+                    self._root_arg_parser)
 
-        if args.database == AMRDatabaseHandlerFactory.get_default_database_directory():
-            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        if args.database == AMRDatabasesManager.get_default_database_directory():
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         else:
-            database_handler = AMRDatabaseHandlerFactory(args.database)
+            database_handler = AMRDatabasesManager(args.database).get_database_handler()
+
+        if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+            logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected " +
+                           "AMR genes depending on how the database files are structured.")
 
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
@@ -155,6 +157,16 @@ class Search(SubCommand):
         else:
             logger.info("No --pointfinder-organism specified. Will not search the PointFinder databases")
             pointfinder_database = None
+
+        hits_output_dir = None
+        if args.output_dir:
+            if path.exists(args.output_dir):
+                raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
+                                            self._root_arg_parser)
+            else:
+                hits_output_dir = path.join(args.output_dir, 'hits')
+                mkdir(args.output_dir)
+                mkdir(hits_output_dir)
 
         with tempfile.TemporaryDirectory() as blast_out:
             blast_handler = BlastHandler(resfinder_database, args.nprocs, blast_out, pointfinder_database)
@@ -176,6 +188,7 @@ class Search(SubCommand):
             if args.output_dir:
                 with open(path.join(args.output_dir, "resfinder.tsv"), 'w') as fh:
                     self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
+
                 if args.pointfinder_organism:
                     with open(path.join(args.output_dir, "pointfinder.tsv"), 'w') as fh:
                         self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
@@ -183,20 +196,28 @@ class Search(SubCommand):
                     self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
 
                 settings = database_handler.info()
-                settings.insert(0, ['command_line', ' '.join(sys.argv)])
-                settings.insert(1, ['version', self._version])
-                settings.insert(2, ['start_time', start_time.strftime(self.TIME_FORMAT)])
-                settings.insert(3, ['end_time', end_time.strftime(self.TIME_FORMAT)])
-                settings.insert(4, ['total_minutes', time_difference_minutes])
+                settings['command_line'] = ' '.join(sys.argv)
+                settings['version'] = self._version
+                settings['start_time'] = start_time.strftime(self.TIME_FORMAT)
+                settings['end_time'] = end_time.strftime(self.TIME_FORMAT)
+                settings['total_minutes'] = time_difference_minutes
+                settings.move_to_end('total_minutes', last=False)
+                settings.move_to_end('end_time', last=False)
+                settings.move_to_end('start_time', last=False)
+                settings.move_to_end('version', last=False)
+                settings.move_to_end('command_line', last=False)
+
                 if args.include_resistance_phenotypes:
                     arg_drug_table = ARGDrugTable()
                     info = arg_drug_table.get_resistance_table_info()
-                    settings.extend(info)
+                    settings.update(info)
                     logger.info(
                         "Predicting AMR resistance phenotypes has been enabled. The predictions are for microbiolocial resistance and *not* clinical resistance. This is an experimental feature which is continually being improved.")
                 self._print_settings_to_file(settings, path.join(args.output_dir, "settings.txt"))
 
-                settings_dataframe = pd.DataFrame(settings, columns=('Key', 'Value')).set_index('Key')
+                settings_dataframe = pd.DataFrame.from_dict(settings, orient='index')
+                settings_dataframe.index.name = 'Key'
+                settings_dataframe.set_axis(['Value'], axis='columns', inplace=True)
 
                 self._print_dataframes_to_excel(path.join(args.output_dir, 'results.xlsx'),
                                                 amr_detection.get_summary_results(),

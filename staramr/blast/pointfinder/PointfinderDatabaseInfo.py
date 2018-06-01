@@ -39,8 +39,8 @@ class PointfinderDatabaseInfo:
 
         matches = table[(table['#Gene_ID'] == gene)
                         & (table['Codon_pos'] == codon_mutation.get_mutation_position())
-                        & (table['Ref_codon'] == codon_mutation.get_amr_gene_mutation())
-                        & (table['Res_codon'].str.contains(codon_mutation.get_genome_mutation(), regex=False))]
+                        & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
+                        & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
 
         if len(matches.index) > 1:
             raise Exception("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))

@@ -22,9 +22,9 @@ class ResfinderHitHSP(AMRHitHSP):
 
         logger.debug("record=" + repr(self._blast_record))
 
-        re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', self._blast_record['sseqid'])
+        re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', self.get_amr_gene_id())
         if not re_search:
-            raise Exception("Could not split up seq name for [" + self._blast_record['sseqid'] + "]")
+            raise Exception("Could not split up seq name for [" + self.get_amr_gene_id() + "]")
         self._gene = re_search.group(1)
         self._gene_variant = re_search.group(2)
         self._accession = re_search.group(3)
