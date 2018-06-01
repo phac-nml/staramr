@@ -1,6 +1,8 @@
 import logging
 import os
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
+from os import path
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -12,6 +14,21 @@ Class for handling scheduling of BLAST jobs.
 
 
 class BlastHandler:
+    BLAST_COLUMNS = [x.strip() for x in '''
+    qseqid
+    sseqid
+    pident
+    length
+    qstart
+    qend
+    sstart
+    send
+    slen
+    qlen
+    sstrand
+    sseq
+    qseq
+    '''.strip().split('\n')]
 
     def __init__(self, resfinder_database, threads, output_directory, pointfinder_database=None):
         """
@@ -32,6 +49,7 @@ class BlastHandler:
             raise Exception("output_directory is None")
 
         self._output_directory = output_directory
+        self._input_genomes_tmp_dir = path.join(output_directory, 'input-genomes')
 
         if (pointfinder_database == None):
             self._pointfinder_configured = False
@@ -55,6 +73,11 @@ class BlastHandler:
         self._pointfinder_future_blasts = []
         self._resfinder_future_blasts = []
 
+        if path.exists(self._input_genomes_tmp_dir):
+            logger.debug("Directory [" + self._input_genomes_tmp_dir + "] already exists")
+        else:
+            os.mkdir(self._input_genomes_tmp_dir)
+
     def run_blasts(self, files):
         """
         Scans all files with BLAST against the ResFinder/PointFinder databases.
@@ -70,11 +93,33 @@ class BlastHandler:
         else:
             database_names_pointfinder = None
 
-        for file in files:
-            logger.info("Scheduling blast for " + file)
+        db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
+        logger.debug("Done making blast databases for input files")
+
+        for file in db_files:
+            logger.info("Scheduling blast for " + path.basename(file))
             self._schedule_resfinder_blast(file, database_names_resfinder)
             if self.is_pointfinder_configured():
                 self._schedule_pointfinder_blast(file, database_names_pointfinder)
+
+    def _make_db_from_input_files(self, db_dir, files):
+        logger.info("Making BLAST databases for input files")
+        future_makeblastdbs = []
+        db_files = []
+
+        for file in files:
+            destination = path.join(db_dir, path.basename(file))
+            logger.debug("Creating symlink from [" + file + "] to [" + destination + "]")
+            os.symlink(path.abspath(file), destination)
+            db_files.append(destination)
+
+            future_makeblastdbs.append(self._thread_pool_executor.submit(self._make_blast_db, destination))
+
+        # Blocks until all blast dbs are made. If an exception is raised, will raise same exception
+        for future_blastdb in future_makeblastdbs:
+            future_blastdb.result()
+
+        return db_files
 
     def _schedule_resfinder_blast(self, file, database_names):
         for database_name in database_names:
@@ -87,7 +132,7 @@ class BlastHandler:
 
             self._resfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
 
-            future_blast = self._thread_pool_executor.submit(self._launch_blast, file, database, blast_out)
+            future_blast = self._thread_pool_executor.submit(self._launch_blast, database, file, blast_out)
             self._resfinder_future_blasts.append(future_blast)
 
     def _schedule_pointfinder_blast(self, file, database_names):
@@ -101,7 +146,7 @@ class BlastHandler:
 
             self._pointfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
 
-            future_blast = self._thread_pool_executor.submit(self._launch_blast, file, database, blast_out)
+            future_blast = self._thread_pool_executor.submit(self._launch_blast, database, file, blast_out)
             self._pointfinder_future_blasts.append(future_blast)
 
     def is_pointfinder_configured(self):
@@ -138,8 +183,14 @@ class BlastHandler:
             raise Exception("Error, pointfinder has not been configured")
 
     def _launch_blast(self, query, db, output):
-        blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=5, out=output)
+        blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
+        blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
         logger.debug(blastn_command)
         stdout, stderr = blastn_command()
         if stderr:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
+
+    def _make_blast_db(self, path):
+        command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
+        logger.debug(' '.join(command))
+        subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).check_returncode()

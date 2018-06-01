@@ -1,16 +1,13 @@
 import logging
 import shutil
-import subprocess
 import time
+from collections import OrderedDict
 from os import path
-import os
 
 import git
 
-from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
-from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 logger = logging.getLogger('AMRDatabaseHandler')
 
@@ -21,7 +18,6 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 class AMRDatabaseHandler:
     TIME_FORMAT = "%a, %d %b %Y %H:%M"
-    ERROR_FILE_NAME = '.error'
 
     def __init__(self, database_dir):
         """
@@ -34,19 +30,6 @@ class AMRDatabaseHandler:
 
         self._resfinder_url = "https://bitbucket.org/genomicepidemiology/resfinder_db.git"
         self._pointfinder_url = "https://bitbucket.org/genomicepidemiology/pointfinder_db.git"
-
-        self._error_file = path.join(database_dir, self.ERROR_FILE_NAME)
-
-    def _mark_error(self):
-        """
-        Marks this database directory as having an error.
-        :return: None
-        """
-        with open(self._error_file, 'a'):
-            os.utime(self._error_file)
-
-    def is_error(self):
-        return path.exists(self._error_file)
 
     def build(self, resfinder_commit=None, pointfinder_commit=None):
         """
@@ -70,10 +53,7 @@ class AMRDatabaseHandler:
             if pointfinder_commit is not None:
                 logger.info("Checking out pointfinder commit " + pointfinder_commit)
                 pointfinder_repo.git.checkout(pointfinder_commit)
-
-            self._blast_format()
         except Exception as e:
-            self._mark_error()
             raise DatabaseErrorException("Could not build database in [" + self._database_dir + "]") from e
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
@@ -110,10 +90,7 @@ class AMRDatabaseHandler:
                     pointfinder_repo.git.checkout(pointfinder_commit)
 
                 resfinder_repo.git.reset('--hard')
-
-                self._blast_format()
             except Exception as e:
-                self._mark_error()
                 raise DatabaseErrorException("Could not build database in [" + self._database_dir + "]") from e
 
     def remove(self):
@@ -126,52 +103,32 @@ class AMRDatabaseHandler:
     def info(self):
         """
         Gets information on the ResFinder/PointFinder databases.
-        :return: Database information as a list containing key/value pairs.
+        :return: Database information as a OrderedDict of key/value pairs.
         """
-        data = []
-
-        if self.is_error():
-            raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
+        data = OrderedDict()
 
         try:
             resfinder_repo = git.Repo(self._resfinder_dir)
             resfinder_repo_head = resfinder_repo.commit('HEAD')
 
-            data.append(['resfinder_db_dir', self._resfinder_dir])
-            data.append(['resfinder_db_url', self._resfinder_url])
-            data.append(['resfinder_db_commit', str(resfinder_repo_head)])
-            data.append(
-                ['resfinder_db_date', time.strftime(self.TIME_FORMAT, time.gmtime(resfinder_repo_head.committed_date))])
+            data['resfinder_db_dir'] = self._resfinder_dir
+            data['resfinder_db_url'] = self._resfinder_url
+            data['resfinder_db_commit'] = str(resfinder_repo_head)
+            data['resfinder_db_date'] = time.strftime(self.TIME_FORMAT, time.gmtime(resfinder_repo_head.committed_date))
 
             pointfinder_repo = git.Repo(self._pointfinder_dir)
             pointfinder_repo_head = pointfinder_repo.commit('HEAD')
-            data.append(['pointfinder_db_dir', self._pointfinder_dir])
-            data.append(['pointfinder_db_url', self._pointfinder_url])
-            data.append(['pointfinder_db_commit', str(pointfinder_repo_head)])
-            data.append(['pointfinder_db_date',
-                         time.strftime(self.TIME_FORMAT, time.gmtime(pointfinder_repo_head.committed_date))])
+
+            data['pointfinder_db_dir'] = self._pointfinder_dir
+            data['pointfinder_db_url'] = self._pointfinder_url
+            data['pointfinder_db_commit'] = str(pointfinder_repo_head)
+            data['pointfinder_db_date'] = time.strftime(self.TIME_FORMAT,
+                                                        time.gmtime(pointfinder_repo_head.committed_date))
 
         except git.exc.NoSuchPathError as e:
             raise DatabaseNotFoundException('Invalid database in [' + self._database_dir + ']') from e
 
         return data
-
-    def _blast_format(self):
-
-        logger.info("Formatting resfinder db")
-        resfinder_db = ResfinderBlastDatabase(self._resfinder_dir)
-        for path in resfinder_db.get_database_paths():
-            self._make_blast_db(path)
-
-        logger.info("Formatting pointfinder db")
-        for organism_db in PointfinderBlastDatabase.build_databases(self._pointfinder_dir):
-            for path in organism_db.get_database_paths():
-                self._make_blast_db(path)
-
-    def _make_blast_db(self, path):
-        command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
-        logger.debug(' '.join(command))
-        subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).check_returncode()
 
     def get_database_dir(self):
         """

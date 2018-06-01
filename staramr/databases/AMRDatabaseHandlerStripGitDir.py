@@ -1,11 +1,11 @@
 import configparser
 import logging
 import shutil
+from collections import OrderedDict
 from os import path
 
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
 from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
-from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
 
@@ -40,10 +40,9 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         database_info = super().info()
 
         # remove directories from info as they are unimportant here
-        database_info_stripped = []
-        for i in database_info:
-            if i[0] != 'resfinder_db_dir' and i[0] != 'pointfinder_db_dir':
-                database_info_stripped.append(i)
+        database_info_stripped = OrderedDict(database_info)
+        del database_info_stripped['resfinder_db_dir']
+        del database_info_stripped['pointfinder_db_dir']
 
         self._write_database_info_to_file(database_info_stripped, self._info_file)
 
@@ -54,7 +53,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
 
     def _write_database_info_to_file(self, database_info, file):
         config = configparser.ConfigParser()
-        config[self.GIT_INFO_SECTION] = {k: v for k, v in database_info}
+        config[self.GIT_INFO_SECTION] = database_info
 
         with open(file, 'w') as file_handle:
             config.write(file_handle)
@@ -62,8 +61,7 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
     def _read_database_info_from_file(self, file):
         config = configparser.ConfigParser()
         config.read(file)
-        git_info = config[self.GIT_INFO_SECTION]
-        return [[k, git_info[k]] for k in git_info]
+        return OrderedDict(config[self.GIT_INFO_SECTION])
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
@@ -80,13 +78,21 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         :return: Database information as a list containing key/value pairs.
         """
 
-        if self.is_error():
-            raise DatabaseErrorException('Database [' + self._database_dir + '] is in an error state')
-
         try:
             data = self._read_database_info_from_file(self._info_file)
-            data.insert(0, ['resfinder_db_dir', self._resfinder_dir])
-            data.insert(4, ['pointfinder_db_dir', self._pointfinder_dir])
+            data['resfinder_db_dir'] = self._resfinder_dir
+            data['pointfinder_db_dir'] = self._pointfinder_dir
+
+            # re-order all fields
+            data.move_to_end('resfinder_db_dir', last=True)
+            data.move_to_end('resfinder_db_url', last=True)
+            data.move_to_end('resfinder_db_commit', last=True)
+            data.move_to_end('resfinder_db_date', last=True)
+
+            data.move_to_end('pointfinder_db_dir', last=True)
+            data.move_to_end('pointfinder_db_url', last=True)
+            data.move_to_end('pointfinder_db_commit', last=True)
+            data.move_to_end('pointfinder_db_date', last=True)
 
             return data
         except FileNotFoundError as e:

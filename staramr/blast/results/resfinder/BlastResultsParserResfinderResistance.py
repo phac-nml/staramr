@@ -36,19 +36,20 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
         self._arg_drug_table = arg_drug_table
 
     def _get_result_rows(self, hit, database_name):
-        drug = self._arg_drug_table.get_drug(database_name, hit.get_gene_with_variant(), hit.get_accession())
+        drug = self._arg_drug_table.get_drug(database_name, hit.get_amr_gene_name_with_variant(),
+                                             hit.get_amr_gene_accession())
 
         if drug is None:
-            drug = 'unknown['+hit.get_gene_variant_accession()+']'
+            drug = 'unknown['+hit.get_amr_gene_accession()+']'
 
         return [[hit.get_isolate_id(),
                  hit.get_gene(),
                  drug,
                  hit.get_pid(),
                  hit.get_plength(),
-                 str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
-                 hit.get_contig(),
-                 hit.get_contig_start(),
-                 hit.get_contig_end(),
-                 hit.get_accession()
+                 str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
+                 hit.get_genome_contig_id(),
+                 hit.get_genome_contig_start(),
+                 hit.get_genome_contig_end(),
+                 hit.get_amr_gene_accession()
                  ]]

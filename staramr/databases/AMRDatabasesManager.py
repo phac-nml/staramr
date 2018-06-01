@@ -76,6 +76,18 @@ class AMRDatabasesManager:
                 logger.info('Default database already in use under directory [' + self._git_strip_database_dir + ']')
 
     @classmethod
+    def is_handler_default_commits(self, amr_database_handler: AMRDatabaseHandler) -> bool:
+        """
+        Checks whether the past database handler is linked to default commits of the database.
+        :param amr_database_handler: The database handler.
+        :return: True if it's setup with default commit versions, false otherwise.
+        """
+        database_info = amr_database_handler.info()
+
+        return database_info['resfinder_db_commit'] == self.DEFAULT_RESFINDER_COMMIT and database_info[
+            'pointfinder_db_commit'] == self.DEFAULT_POINTFINDER_COMMIT
+
+    @classmethod
     def get_default_database_directory(cls):
         """
         Class method for getting the default database root directory.

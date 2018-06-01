@@ -5,7 +5,7 @@ An Exception to be raised during command-line parsing.
 
 class CommandParseException(Exception):
 
-    def __init__(self, msg, parser, print_help = False):
+    def __init__(self, msg, parser, print_help=False):
         """
         Constructs a new CommandParseException
         :param msg: The Exception message.

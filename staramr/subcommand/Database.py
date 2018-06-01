@@ -11,8 +11,8 @@ from staramr.Utils import get_string_with_spacing
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
-from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 """
 Base class for interacting with a database.
@@ -105,6 +105,10 @@ class Build(Database):
         else:
             database_handler = AMRDatabasesManager(args.destination).get_database_handler()
         database_handler.build(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
+        if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+            logger.warning(
+                "Built non-default ResFinder/PointFinder database version. This may lead to " +
+                "differences in the detected AMR genes depending on how the database files are structured.")
 
 
 """
@@ -150,22 +154,34 @@ class Update(Database):
 
         if len(args.directories) == 0:
             if not args.update_default:
-                raise CommandParseException("Must pass at least one directory to update, or use '--update-default'", self._root_arg_parser,
+                raise CommandParseException("Must pass at least one directory to update, or use '--update-default'",
+                                            self._root_arg_parser,
                                             print_help=True)
             else:
                 try:
                     database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
                         force_use_git=True)
+
                     database_handler.update(resfinder_commit=args.resfinder_commit,
                                             pointfinder_commit=args.pointfinder_commit)
+
+                    if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                        logger.warning(
+                            "Updated to non-default ResFinder/PointFinder database version. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.")
                 except DatabaseErrorException as e:
-                    logger.error("Could not update default database. Please try restoring with 'staramr db restore'")
+                    logger.error(
+                        "Could not update default database. Please try restoring with 'staramr db restore-default'")
                     raise e
         else:
             for directory in args.directories:
                 database_handler = AMRDatabasesManager(directory).get_database_handler()
                 database_handler.update(resfinder_commit=args.resfinder_commit,
                                         pointfinder_commit=args.pointfinder_commit)
+                if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                    logger.warning(
+                        "Updated to non-default ResFinder/PointFinder database version [" + directory + "]. This may lead to " +
+                        "differences in the detected AMR genes depending on how the database files are structured.")
 
 
 """
@@ -186,9 +202,9 @@ class RestoreDefault(Database):
     def _setup_args(self, arg_parser):
         name = self._script_name
         epilog = ("Example:\n"
-                  "\t" + name + " restore/\n"
+                  "\t" + name + " restore-default/\n"
                                 "\t\tRestores the default ResFinder/PointFinder database\n\n")
-        arg_parser = self._subparser.add_parser('restore',
+        arg_parser = self._subparser.add_parser('restore-default',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Restores the default ResFinder/PointFinder databases.')
@@ -264,21 +280,28 @@ class Info(Database):
 
         if len(args.directories) == 0:
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+            if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                logger.warning(
+                    "Using non-default ResFinder/PointFinder database versions. This may lead to differences in the detected " +
+                    "AMR genes depending on how the database files are structured.")
 
             try:
                 database_info = database_handler.info()
-                database_info.extend(arg_drug_table.get_resistance_table_info())
+                database_info.update(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
             except DatabaseNotFoundException as e:
-                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore'")
-            except DatabaseErrorException as e:
-                logger.error("Error with default database ["+database_handler.get_database_dir()+"]. Please try restoring with 'staramr db restore'")
+                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
         else:
             for directory in args.directories:
                 try:
                     database_handler = AMRDatabasesManager(directory).get_database_handler()
+                    if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                        logger.warning(
+                            "Using non-default ResFinder/PointFinder database version [" + directory + "]. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.")
+
                     database_info = database_handler.info()
-                    database_info.extend(arg_drug_table.get_resistance_table_info())
+                    database_info.update(arg_drug_table.get_resistance_table_info())
                     sys.stdout.write(get_string_with_spacing(database_info))
                 except DatabaseNotFoundException as e:
                     logger.error(

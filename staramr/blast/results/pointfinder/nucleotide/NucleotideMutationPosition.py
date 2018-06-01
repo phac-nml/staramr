@@ -1,5 +1,3 @@
-import Bio.Seq
-
 from staramr.blast.results.pointfinder.MutationPosition import MutationPosition
 
 """
@@ -9,24 +7,18 @@ A Class defining a nucleotide-based mutation for PointFinder.
 
 class NucleotideMutationPosition(MutationPosition):
 
-    def __init__(self, match_position, database_string, query_string, database_start, database_frame, query_frame):
+    def __init__(self, match_position, database_amr_gene_string, input_genome_string, database_amr_gene_start):
         """
         Creates a new NucleotideMutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
-        :param database_string: The BLAST database string.
-        :param query_string: The BLAST query string.
-        :param database_start: The start coordinates of the BLAST database hit.
-        :param database_frame: The frame (strand) of the BLAST database.
-        :param query_frame: The frame (strand) of the BLAST query.
+        :param database_amr_gene_string: The amr gene string.
+        :param input_genome_string: The input genome string.
+        :param database_amr_gene_start: The start coordinates of the BLAST database hit.
         """
-        super().__init__(match_position, database_start, database_frame, query_frame)
+        super().__init__(match_position, database_amr_gene_start)
 
-        self._database_nucleotide = database_string[match_position].upper()
-        self._query_nucleotide = query_string[match_position].upper()
-
-        if self._database_frame == -1:
-            self._database_nucleotide = Bio.Seq.reverse_complement(self._database_nucleotide)
-            self._query_nucleotide = Bio.Seq.reverse_complement(self._query_nucleotide)
+        self._database_amr_gene_mutation = database_amr_gene_string[match_position].upper()
+        self._input_genome_mutation = input_genome_string[match_position].upper()
 
     def get_type(self):
         return 'nucleotide'
@@ -34,17 +26,17 @@ class NucleotideMutationPosition(MutationPosition):
     def get_mutation_position(self):
         return self.get_nucleotide_position()
 
-    def get_database_mutation(self):
-        return self._database_nucleotide
+    def get_database_amr_gene_mutation(self):
+        return self._database_amr_gene_mutation
 
-    def get_query_mutation(self):
-        return self._query_nucleotide
+    def get_input_genome_mutation(self):
+        return self._input_genome_mutation
 
     def get_mutation_string(self):
-        return self.get_database_mutation() + ' -> ' + self.get_query_mutation()
+        return self.get_database_amr_gene_mutation() + ' -> ' + self.get_input_genome_mutation()
 
     def __repr__(self):
-        return "[database_start=" + str(self._database_start) + ", database_frame=" + str(
-            self._database_frame) + ", query_frame=" + str(self._query_frame) + ", nucleotide_position=" \
-               + str(self._nucleotide_position_database) + ", mutation_start=" + str(self.get_mutation_position()) \
-               + ", mutation=" + self.get_mutation_string() + "]"
+        return (
+            'NucleotideMutationPosition(_database_amr_gene_start={_database_amr_gene_start}, _nucleotide_position_amr_gene={_nucleotide_position_amr_gene}, '
+            '_database_amr_gene_mutation={_database_amr_gene_mutation}, _input_genome_mutation={_input_genome_mutation})').format(
+            **self.__dict__)

@@ -248,33 +248,27 @@ class Search(SubCommand):
 
         for file in args.files:
             if not path.exists(file):
-                raise CommandParseException('File ['+file+'] does not exist', self._root_arg_parser)        
+                raise CommandParseException('File [' + file + '] does not exist', self._root_arg_parser)
 
         if not path.isdir(args.database):
             if args.database == self._default_database_dir:
                 raise CommandParseException(
-                    "Default database does not exist. Perhaps try restoring with 'staramr db restore'",
+                    "Default database does not exist. Perhaps try restoring with 'staramr db restore-default'",
                     self._root_arg_parser)
             else:
                 raise CommandParseException(
-                    "Database directory [" + args.database + "] does not exist. Perhaps try building with"+
+                    "Database directory [" + args.database + "] does not exist. Perhaps try building with" +
                     "'staramr db build --dir " + args.database + "'",
                     self._root_arg_parser)
 
         if args.database == AMRDatabasesManager.get_default_database_directory():
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
-            if database_handler.is_error():
-                raise CommandParseException(
-                    "Default database [" + database_handler.get_database_dir() + "] is in an error state. Please try " +
-                    "restoring with 'staramr db restore'.",
-                    self._root_arg_parser)
         else:
             database_handler = AMRDatabasesManager(args.database).get_database_handler()
-            if database_handler.is_error():
-                raise CommandParseException(
-                    "Database [" + database_handler.get_database_dir() + "] is in an error state. Please try " +
-                    "rebuilding the database with 'staramr db build --dir " + database_handler.get_database_dir() +"'.",
-                    self._root_arg_parser)
+
+        if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+            logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected " +
+                           "AMR genes depending on how the database files are structured.")
 
         resfinder_database_dir = database_handler.get_resfinder_dir()
         pointfinder_database_dir = database_handler.get_pointfinder_dir()
@@ -287,6 +281,7 @@ class Search(SubCommand):
             pointfinder_database = PointfinderBlastDatabase(pointfinder_database_dir,
                                                             args.pointfinder_organism)
         else:
+            logger.info("No --pointfinder-organism specified. Will not search the PointFinder databases")
             pointfinder_database = None
 
         hits_output_dir = None
