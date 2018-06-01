@@ -202,7 +202,7 @@ class RestoreDefault(Database):
     def _setup_args(self, arg_parser):
         name = self._script_name
         epilog = ("Example:\n"
-                  "\t" + name + " restore-default/\n"
+                  "\t" + name + " restore-default\n"
                                 "\t\tRestores the default ResFinder/PointFinder database\n\n")
         arg_parser = self._subparser.add_parser('restore-default',
                                                 epilog=epilog,
