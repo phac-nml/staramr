@@ -45,12 +45,12 @@ class ResfinderHitHSP(AMRHitHSP):
         """
         return self.get_amr_gene_name() + '_' + self._gene_variant
 
-    def get_gene_variant_accession(self):
+    def get_amr_gene_variant_accession(self):
         """
         Gets the gene name + variant number + accession for the ResFinder hit.
         :return: The gene name + variant number + accession.
         """
-        return self.get_gene() + '_' + self._gene_variant + '_' + self._accession
+        return self.get_amr_gene_name() + '_' + self._gene_variant + '_' + self._accession
 
     def get_amr_gene_accession(self):
         """
@@ -58,9 +58,3 @@ class ResfinderHitHSP(AMRHitHSP):
         :return: The accession.
         """
         return self._accession
-
-    def __eq__(self, other):
-        if not isinstance(other, self.__class__):
-            return False
-        else:
-            return self.__dict__ == other.__dict__
