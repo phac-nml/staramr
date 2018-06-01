@@ -43,10 +43,10 @@ class Search(SubCommand):
     def _setup_args(self, arg_parser):
         name = self._script_name
         epilog = ("Example:\n"
-                  "\t" + name + " search --output-dir out *.fasta\n"
+                  "\t" + name + " search -o out *.fasta\n"
                                 "\t\tSearches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.\n\n" +
-                  "\t" + name + " search --pointfinder-organism salmonella --output-dir out *.fasta\n" +
-                  "\t\tSearches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in out/.")
+                  "\t" + name + " search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta\n" +
+                  "\t\tSearches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in results.xlsx.")
 
         arg_parser = self._subparser.add_parser('search',
                                                 epilog=epilog,
@@ -91,7 +91,7 @@ class Search(SubCommand):
                                 help='Report all blast hits (vs. only top blast hits) [False].',
                                 required=False)
 
-        output_group = arg_parser.add_argument_group(title='Output', description='Use one of --output-dir or specify individual output files')
+        output_group = arg_parser.add_argument_group(title='Output', description='Use either --output-dir or specify individual output files')
         output_group.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
                                 help="The output directory for results [None].",
                                 default=None, required=False)
