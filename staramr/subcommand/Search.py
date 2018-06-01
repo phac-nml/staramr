@@ -324,14 +324,15 @@ class Search(SubCommand):
             output_excel = args.output_excel
             hits_output_dir = args.hits_output_dir
 
-            if path.exists(hits_output_dir) and not path.isdir(hits_output_dir):
-                raise CommandParseException("--output-hits-dir ["+hits_output_dir+"] exists and is not a directory",
-                                            self._root_arg_parser)
-            elif path.exists(hits_output_dir):
-                logger.debug("Found --output-hits-dir ["+hits_output_dir+"] and is a directory. Will write hits here")
-            else:
-                logger.debug("Making directory ["+hits_output_dir+"]")
-                mkdir(hits_output_dir)
+            if hits_output_dir is not None:
+                if path.exists(hits_output_dir) and not path.isdir(hits_output_dir):
+                    raise CommandParseException("--output-hits-dir ["+hits_output_dir+"] exists and is not a directory",
+                                                self._root_arg_parser)
+                elif path.exists(hits_output_dir):
+                    logger.debug("Found --output-hits-dir ["+hits_output_dir+"] and is a directory. Will write hits here")
+                else:
+                    logger.debug("Making directory ["+hits_output_dir+"]")
+                    mkdir(hits_output_dir)
         else:
             raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
                                         self._root_arg_parser)
@@ -389,6 +390,9 @@ class Search(SubCommand):
                                             amr_detection.get_resfinder_results(),
                                             amr_detection.get_pointfinder_results(),
                                             settings_dataframe)
+        else:
+            logger.info("--output-dir or --output-excel unset. No excel file will be written")
+
         if hits_output_dir:
             logger.info('BLAST hits are stored in ['+hits_output_dir+']')
         else:
