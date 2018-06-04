@@ -218,7 +218,7 @@ class Search(SubCommand):
             time_difference = end_time - start_time
             time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
 
-            logger.info("Finished. Took " + str(time_difference_minutes) + " minutes.")
+            logger.info("Finished. Took %s minutes.", str(time_difference_minutes))
 
             settings = database_handler.info()
             settings['command_line'] = ' '.join(sys.argv)
@@ -314,7 +314,7 @@ class Search(SubCommand):
 
                 mkdir(hits_output_dir)
 
-                logger.info('--output-dir set. All files will be output to ['+args.output_dir+']')
+                logger.info("--output-dir set. All files will be output to [%s]", args.output_dir)
         elif args.output_summary or args.output_excel:
             logger.info('--output-dir not set. Files will be output to the respective --output-[type] setting')
             output_resfinder = args.output_resfinder
@@ -329,9 +329,9 @@ class Search(SubCommand):
                     raise CommandParseException("--output-hits-dir ["+hits_output_dir+"] exists and is not a directory",
                                                 self._root_arg_parser)
                 elif path.exists(hits_output_dir):
-                    logger.debug("Found --output-hits-dir ["+hits_output_dir+"] and is a directory. Will write hits here")
+                    logger.debug("Found --output-hits-dir [%s] and is a directory. Will write hits here", hits_output_dir)
                 else:
-                    logger.debug("Making directory ["+hits_output_dir+"]")
+                    logger.debug("Making directory [%s]", hits_output_dir)
                     mkdir(hits_output_dir)
         else:
             raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
@@ -353,34 +353,34 @@ class Search(SubCommand):
         settings=results['settings']
 
         if output_resfinder:
-            logger.info('Writing resfinder to ['+output_resfinder+']')
+            logger.info("Writing resfinder to [%s]", output_resfinder)
             with open(output_resfinder, 'w') as fh:
                 self._print_dataframe_to_text_file_handle(amr_detection.get_resfinder_results(), fh)
         else:
             logger.info("--output-dir or --output-resfinder unset. No resfinder file will be written")
 
         if args.pointfinder_organism and output_pointfinder:
-            logger.info('Writing pointfinder to [' + output_pointfinder + ']')
+            logger.info("Writing pointfinder to [%s]", output_pointfinder)
             with open(output_pointfinder, 'w') as fh:
                 self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
         else:
             logger.info("--output-dir or --output-pointfinder unset. No pointfinder file will be written")
 
         if output_summary:
-            logger.info('Writing summary to [' + output_summary + ']')
+            logger.info("Writing summary to [%s]", output_summary)
             with open(output_summary, 'w') as fh:
                 self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
         else:
             logger.info("--output-dir or --output-summary unset. No summary file will be written")
 
         if output_settings:
-            logger.info('Writing settings to [' + output_settings + ']')
+            logger.info("Writing settings to [%s]", output_settings)
             self._print_settings_to_file(settings, output_settings)
         else:
             logger.info("--output-dir or --output-settings unset. No settings file will be written")
 
         if output_excel:
-            logger.info('Writing Excel to [' + output_excel + ']')
+            logger.info("Writing Excel to [%s]", output_excel)
             settings_dataframe = pd.DataFrame.from_dict(settings, orient='index')
             settings_dataframe.index.name = 'Key'
             settings_dataframe.set_axis(['Value'], axis='columns', inplace=True)
@@ -394,6 +394,6 @@ class Search(SubCommand):
             logger.info("--output-dir or --output-excel unset. No excel file will be written")
 
         if hits_output_dir:
-            logger.info('BLAST hits are stored in ['+hits_output_dir+']')
+            logger.info("BLAST hits are stored in [%s]", hits_output_dir)
         else:
             logger.info("--output-dir or --output-hits-dir not set. No BLAST hits will be saved.")

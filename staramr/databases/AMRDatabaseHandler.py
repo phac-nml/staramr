@@ -40,18 +40,18 @@ class AMRDatabaseHandler:
         """
 
         try:
-            logger.info("Cloning resfinder db [" + self._resfinder_url + "] to [" + self._resfinder_dir + "]")
+            logger.info("Cloning resfinder db [%s] to [%s]", self._resfinder_url, self._resfinder_dir)
             resfinder_repo = git.repo.base.Repo.clone_from(self._resfinder_url, self._resfinder_dir)
 
             if resfinder_commit is not None:
-                logger.info("Checking out resfinder commit " + resfinder_commit)
+                logger.info("Checking out resfinder commit %s", resfinder_commit)
                 resfinder_repo.git.checkout(resfinder_commit)
 
-            logger.info("Cloning pointfinder db [" + self._pointfinder_url + "] to [" + self._pointfinder_dir + "]")
+            logger.info("Cloning pointfinder db [%s] to [%s]", self._pointfinder_url, self._pointfinder_dir)
             pointfinder_repo = git.repo.base.Repo.clone_from(self._pointfinder_url, self._pointfinder_dir)
 
             if pointfinder_commit is not None:
-                logger.info("Checking out pointfinder commit " + pointfinder_commit)
+                logger.info("Checking out pointfinder commit %s", pointfinder_commit)
                 pointfinder_repo.git.checkout(pointfinder_commit)
         except Exception as e:
             raise DatabaseErrorException("Could not build database in [" + self._database_dir + "]") from e
@@ -71,22 +71,22 @@ class AMRDatabaseHandler:
                 resfinder_repo = git.Repo(self._resfinder_dir)
                 pointfinder_repo = git.Repo(self._pointfinder_dir)
 
-                logger.info("Updating " + self._resfinder_dir)
+                logger.info("Updating %s", self._resfinder_dir)
                 resfinder_repo.heads.master.checkout()
                 resfinder_repo.remotes.origin.pull()
 
                 if resfinder_commit is not None:
-                    logger.info("Checking out resfinder commit " + resfinder_commit)
+                    logger.info("Checking out resfinder commit %s", resfinder_commit)
                     resfinder_repo.git.checkout(resfinder_commit)
 
                 resfinder_repo.git.reset('--hard')
 
-                logger.info("Updating " + self._pointfinder_dir)
+                logger.info("Updating %s", self._pointfinder_dir)
                 pointfinder_repo.heads.master.checkout()
                 pointfinder_repo.remotes.origin.pull()
 
                 if pointfinder_commit is not None:
-                    logger.info("Checking out pointfinder commit " + pointfinder_commit)
+                    logger.info("Checking out pointfinder commit %s", pointfinder_commit)
                     pointfinder_repo.git.checkout(pointfinder_commit)
 
                 resfinder_repo.git.reset('--hard')

@@ -46,9 +46,9 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
 
         self._write_database_info_to_file(database_info_stripped, self._info_file)
 
-        logger.info("Removing " + self._resfinder_dir_git)
+        logger.info("Removing %s", self._resfinder_dir_git)
         shutil.rmtree(self._resfinder_dir_git)
-        logger.info("Removing " + self._pointfinder_dir_git)
+        logger.info("Removing %s", self._pointfinder_dir_git)
         shutil.rmtree(self._pointfinder_dir_git)
 
     def _write_database_info_to_file(self, database_info, file):

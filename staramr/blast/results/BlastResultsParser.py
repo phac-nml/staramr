@@ -56,10 +56,10 @@ class BlastResultsParser:
             if self._output_dir:
                 out_file = self._get_out_file_name(file)
                 if hit_seq_records:
-                    logger.debug("Writting hits to " + out_file)
+                    logger.debug("Writting hits to %s", out_file)
                     Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
                 else:
-                    logger.debug("No hits found, skipping writing output file to " + out_file)
+                    logger.debug("No hits found, skipping writing output file to %s", out_file)
             else:
                 logger.debug("No output directory defined for blast hits, skipping writing file")
 
@@ -88,7 +88,7 @@ class BlastResultsParser:
             for hit in self._select_hits_to_include(hits_non_overlapping):
                 blast_results = self._get_result_rows(hit, database_name)
                 if blast_results is not None:
-                    logger.debug("record = " + str(blast_results))
+                    logger.debug("record = %s", str(blast_results))
                     results.extend(blast_results)
                     hit_seq_records.append(hit.get_seq_record())
 

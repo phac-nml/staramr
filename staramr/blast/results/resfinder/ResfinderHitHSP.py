@@ -22,7 +22,7 @@ class ResfinderHitHSP(AMRHitHSP):
         """
         super().__init__(file, blast_record)
 
-        logger.debug("record=" + repr(self._blast_record))
+        logger.debug("record=%s", repr(self._blast_record))
 
         re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', self.get_amr_gene_id())
         if not re_search:

@@ -180,8 +180,8 @@ class Update(Database):
                                         pointfinder_commit=args.pointfinder_commit)
                 if not AMRDatabasesManager.is_handler_default_commits(database_handler):
                     logger.warning(
-                        "Updated to non-default ResFinder/PointFinder database version [" + directory + "]. This may lead to " +
-                        "differences in the detected AMR genes depending on how the database files are structured.")
+                        "Updated to non-default ResFinder/PointFinder database version [%s]. This may lead to " +
+                        "differences in the detected AMR genes depending on how the database files are structured.", directory)
 
 
 """
@@ -297,12 +297,11 @@ class Info(Database):
                     database_handler = AMRDatabasesManager(directory).get_database_handler()
                     if not AMRDatabasesManager.is_handler_default_commits(database_handler):
                         logger.warning(
-                            "Using non-default ResFinder/PointFinder database version [" + directory + "]. This may lead to " +
-                            "differences in the detected AMR genes depending on how the database files are structured.")
+                            "Using non-default ResFinder/PointFinder database version [%s]. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.", directory)
 
                     database_info = database_handler.info()
                     database_info.update(arg_drug_table.get_resistance_table_info())
                     sys.stdout.write(get_string_with_spacing(database_info))
                 except DatabaseNotFoundException as e:
-                    logger.error(
-                        'Database not found in [' + directory + "]. Perhaps try building with 'staramr db build --dir " + directory + "'")
+                    logger.error("Database not found in [%s]. Perhaps try building with 'staramr db build --dir %s'", directory, directory)
