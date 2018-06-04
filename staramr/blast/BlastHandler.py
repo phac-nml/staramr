@@ -85,11 +85,11 @@ class BlastHandler:
         :return: None
         """
         database_names_resfinder = self._resfinder_database.get_database_names()
-        logger.debug("Resfinder Databases: %s", str(database_names_resfinder))
+        logger.debug("Resfinder Databases: %s", database_names_resfinder)
 
         if self.is_pointfinder_configured():
             database_names_pointfinder = self._pointfinder_database.get_database_names()
-            logger.debug("Pointfinder Databases: %s", str(database_names_pointfinder))
+            logger.debug("Pointfinder Databases: %s", database_names_pointfinder)
         else:
             database_names_pointfinder = None
 

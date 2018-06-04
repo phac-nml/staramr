@@ -221,7 +221,7 @@ class Search(SubCommand):
             time_difference = end_time - start_time
             time_difference_minutes = "%0.2f" % (time_difference.total_seconds() / 60)
 
-            logger.info("Finished. Took %s minutes.", str(time_difference_minutes))
+            logger.info("Finished. Took %s minutes.", time_difference_minutes)
 
             settings = database_handler.info()
             settings['command_line'] = ' '.join(sys.argv)

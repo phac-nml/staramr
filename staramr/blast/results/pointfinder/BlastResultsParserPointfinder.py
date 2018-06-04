@@ -68,14 +68,13 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         gene = hit.get_amr_gene_name()
 
         for x in database_mutations:
-            logger.debug("database_mutations: position=%s, mutation=%s", str(x.get_mutation_position()),
-                         x.get_mutation_string())
+            logger.debug("database_mutations: position=%s, mutation=%s", x.get_mutation_position(), x.get_mutation_string())
 
         if database_name == '16S_rrsD':
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
-        logger.debug("database_resistance_mutations=%s", str(database_resistance_mutations))
+        logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
 
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
@@ -83,7 +82,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             results = []
             for db_mutation in database_resistance_mutations:
                 logger.debug("multiple resistance mutations for [%s]: mutations=[%s], file=[%s]",
-                             hit.get_amr_gene_id(), str(database_resistance_mutations), hit.get_file())
+                             hit.get_amr_gene_id(), database_resistance_mutations, hit.get_file())
                 results.append(self._get_result(hit, db_mutation))
 
             return results
