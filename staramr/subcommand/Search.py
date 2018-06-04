@@ -6,8 +6,8 @@ import sys
 import tempfile
 from os import path, mkdir
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
@@ -58,7 +58,8 @@ class Search(SubCommand):
 
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                                 help='The organism to use for pointfinder {' + ', '.join(
-                                    PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].', default=None,
+                                    PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].',
+                                default=None,
                                 required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
@@ -69,50 +70,51 @@ class Search(SubCommand):
 
         threshold_group = arg_parser.add_argument_group('BLAST Thesholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
-                                help='The percent identity threshold [98.0].', default=98.0, required=False)
+                                     help='The percent identity threshold [98.0].', default=98.0, required=False)
         threshold_group.add_argument('--percent-length-overlap-resfinder', action='store',
-                                dest='plength_threshold_resfinder', type=float,
-                                help='The percent length overlap for resfinder results [60.0].', default=60.0,
-                                required=False)
+                                     dest='plength_threshold_resfinder', type=float,
+                                     help='The percent length overlap for resfinder results [60.0].', default=60.0,
+                                     required=False)
         threshold_group.add_argument('--percent-length-overlap-pointfinder', action='store',
-                                dest='plength_threshold_pointfinder', type=float,
-                                help='The percent length overlap for pointfinder results [95.0].', default=95.0,
-                                required=False)
+                                     dest='plength_threshold_pointfinder', type=float,
+                                     help='The percent length overlap for pointfinder results [95.0].', default=95.0,
+                                     required=False)
 
         report_group = arg_parser.add_argument_group('Reporting options')
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
-                                help='Exclude negative results (those sensitive to antimicrobials) [False].',
-                                required=False)
+                                  help='Exclude negative results (those sensitive to antimicrobials) [False].',
+                                  required=False)
         report_group.add_argument('--exclude-resistance-phenotypes', action='store_true',
-                                dest='exclude_resistance_phenotypes',
-                                help='Exclude predicted antimicrobial resistances [False].',
-                                required=False)
+                                  dest='exclude_resistance_phenotypes',
+                                  help='Exclude predicted antimicrobial resistances [False].',
+                                  required=False)
         report_group.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
-                                help='Report all blast hits (vs. only top blast hits) [False].',
-                                required=False)
+                                  help='Report all blast hits (vs. only top blast hits) [False].',
+                                  required=False)
 
-        output_group = arg_parser.add_argument_group(title='Output', description='Use either --output-dir or specify individual output files')
+        output_group = arg_parser.add_argument_group(title='Output',
+                                                     description='Use either --output-dir or specify individual output files')
         output_group.add_argument('-o', '--output-dir', action='store', dest='output_dir', type=str,
-                                help="The output directory for results [None].",
-                                default=None, required=False)
+                                  help="The output directory for results [None].",
+                                  default=None, required=False)
         output_group.add_argument('--output-summary', action='store', dest='output_summary', type=str,
-                                help="The name of the output file containing the summary results. Not be be used with '--output-dir'. [None]",
-                                default=None, required=False)
+                                  help="The name of the output file containing the summary results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-resfinder', action='store', dest='output_resfinder', type=str,
-                                help="The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]",
-                                default=None, required=False)
+                                  help="The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-pointfinder', action='store', dest='output_pointfinder', type=str,
-                                help="The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]",
-                                default=None, required=False)
+                                  help="The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-settings', action='store', dest='output_settings', type=str,
-                                help="The name of the output file containing the settings. Not be be used with '--output-dir'. [None]",
-                                default=None, required=False)
+                                  help="The name of the output file containing the settings. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-excel', action='store', dest='output_excel', type=str,
-                                help="The name of the output file containing the excel results. Not be be used with '--output-dir'. [None]",
-                                default=None, required=False)
+                                  help="The name of the output file containing the excel results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-hits-dir', action='store', dest='hits_output_dir', type=str,
-                                help="The name of the directory to contain the BLAST hit files. Not be be used with '--output-dir'. [None]",
-                                default=None, required=False)
+                                  help="The name of the directory to contain the BLAST hit files. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
 
         arg_parser.add_argument('files', nargs='+')
 
@@ -130,7 +132,8 @@ class Search(SubCommand):
 
         for name in ['Summary', 'ResFinder', 'PointFinder']:
             if name in sheetname_dataframe:
-                sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f", na_rep=self.BLANK)
+                sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",
+                                                   na_rep=self.BLANK)
         self._resize_columns(sheetname_dataframe, writer, max_width=50)
 
         settings_dataframe.to_excel(writer, 'Settings')
@@ -138,7 +141,7 @@ class Search(SubCommand):
 
         writer.save()
 
-    def _resize_columns(self, sheetname_dataframe, writer, max_width, text_wrap = True):
+    def _resize_columns(self, sheetname_dataframe, writer, max_width, text_wrap=True):
         """
         Resizes columns in workbook.
         :param sheetname_dataframe: A map mapping the sheet name to a dataframe.
@@ -168,7 +171,7 @@ class Search(SubCommand):
         extra = 2
         for c in df.columns:
             # get max length of column contents and length of column header (plus some extra)
-            yield np.max([df[c].astype(str).str.len().max(), len(c)])+extra
+            yield np.max([df[c].astype(str).str.len().max(), len(c)]) + extra
 
     def _print_dataframe_to_text_file_handle(self, dataframe, file_handle):
         dataframe.to_csv(file_handle, sep="\t", float_format="%0.2f", na_rep=self.BLANK)
@@ -300,7 +303,7 @@ class Search(SubCommand):
                 raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
                                             self._root_arg_parser)
             elif args.output_summary or args.output_resfinder or args.output_pointfinder or args.output_excel or \
-                 args.hits_output_dir:
+                    args.hits_output_dir:
                 raise CommandParseException('You cannot use --output-[type] with --output-dir', self._root_arg_parser)
             else:
                 mkdir(args.output_dir)
@@ -326,10 +329,12 @@ class Search(SubCommand):
 
             if hits_output_dir is not None:
                 if path.exists(hits_output_dir) and not path.isdir(hits_output_dir):
-                    raise CommandParseException("--output-hits-dir ["+hits_output_dir+"] exists and is not a directory",
-                                                self._root_arg_parser)
+                    raise CommandParseException(
+                        "--output-hits-dir [" + hits_output_dir + "] exists and is not a directory",
+                        self._root_arg_parser)
                 elif path.exists(hits_output_dir):
-                    logger.debug("Found --output-hits-dir [%s] and is a directory. Will write hits here", hits_output_dir)
+                    logger.debug("Found --output-hits-dir [%s] and is a directory. Will write hits here",
+                                 hits_output_dir)
                 else:
                     logger.debug("Making directory [%s]", hits_output_dir)
                     mkdir(hits_output_dir)
@@ -349,8 +354,8 @@ class Search(SubCommand):
                                          plength_threshold_pointfinder=args.plength_threshold_pointfinder,
                                          report_all_blast=args.report_all_blast,
                                          files=args.files)
-        amr_detection=results['results']
-        settings=results['settings']
+        amr_detection = results['results']
+        settings = results['settings']
 
         if output_resfinder:
             logger.info("Writing resfinder to [%s]", output_resfinder)

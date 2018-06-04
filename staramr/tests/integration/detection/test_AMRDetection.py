@@ -39,9 +39,10 @@ class AMRDetectionIT(unittest.TestCase):
                                                     self.pointfinder_database, output_dir=self.outdir.name)
 
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
-        self.drug_key_resfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables', 'drug_key_resfinder_invalid.tsv')
+        self.drug_key_resfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
+                                                         'drug_key_resfinder_invalid.tsv')
         self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
-                                                         'drug_key_pointfinder_invalid.tsv')
+                                                           'drug_key_pointfinder_invalid.tsv')
 
     def tearDown(self):
         self.blast_out.cleanup()
@@ -281,7 +282,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
@@ -292,7 +294,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies.fsa')
@@ -322,7 +325,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
@@ -333,7 +337,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 1581, msg='Wrong start')
         self.assertEqual(result['End'], 841, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name,

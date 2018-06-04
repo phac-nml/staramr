@@ -40,7 +40,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
                                              hit.get_amr_gene_accession())
 
         if drug is None:
-            drug = 'unknown['+hit.get_amr_gene_variant_accession()+']'
+            drug = 'unknown[' + hit.get_amr_gene_variant_accession() + ']'
 
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),

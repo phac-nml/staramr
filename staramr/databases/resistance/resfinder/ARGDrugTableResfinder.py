@@ -33,7 +33,8 @@ class ARGDrugTableResfinder(ARGDrugTable):
         drug = table[(table['Class'] == drug_class) & (table['Gene'] == gene_plus_variant) & (
                 table['Accession'] == accession)]['Drug']
         if (drug.empty):
-            logger.warning("No drug found for drug_class=%s, gene=%s, accession=%s", drug_class, gene_plus_variant, accession)
+            logger.warning("No drug found for drug_class=%s, gene=%s, accession=%s", drug_class, gene_plus_variant,
+                           accession)
             return None
         else:
             return self._drug_string_to_correct_separators(drug.iloc[0])
