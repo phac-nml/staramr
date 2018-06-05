@@ -1,6 +1,6 @@
 import unittest
 
-import pandas
+import pandas as pd
 
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
@@ -9,7 +9,7 @@ from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonM
 class PointfinderDatabaseInfoTest(unittest.TestCase):
 
     def setUp(self):
-        pandas_pointfinder_table = pandas.DataFrame([
+        pandas_pointfinder_table = pd.DataFrame([
             ['gyrA', 'gyrA', 1, 1, 'ATC', 'I', 'F', 'Quinolones', 15848289],
             ['gyrA', 'gyrA', 1, 2, 'GAT', 'D', 'N,H', 'Quinolones', 15848289],
         ],
@@ -20,31 +20,22 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         self.database = PointfinderDatabaseInfo.from_pandas_table(pandas_pointfinder_table)
 
         mutation_position = 0
-        database_string = "ATCGATCGA"
-        query_string = "TTCGATCGA"
-        database_start = 1
-        database_frame = 1
-        query_frame = 1
-        self.mutation1 = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                               database_frame, query_frame)
+        amr_gene_string = "ATCGATCGA"
+        genome_string = "TTCGATCGA"
+        amr_gene_start = 1
+        self.mutation1 = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         mutation_position = 3
-        database_string = "ATCGATCGA"
-        query_string = "ATCAATCGA"
-        database_start = 1
-        database_frame = 1
-        query_frame = 1
-        self.mutation2 = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                               database_frame, query_frame)
+        amr_gene_string = "ATCGATCGA"
+        genome_string = "ATCAATCGA"
+        amr_gene_start = 1
+        self.mutation2 = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
         mutation_position = 8
-        database_string = "ATCGATCGA"
-        query_string = "ATCGATCGT"
-        database_start = 1
-        database_frame = 1
-        query_frame = 1
-        self.mutation_missing = CodonMutationPosition(mutation_position, database_string, query_string,
-                                                      database_start, database_frame, query_frame)
+        amr_gene_string = "ATCGATCGA"
+        genome_string = "ATCGATCGT"
+        amr_gene_start = 1
+        self.mutation_missing = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
 
     def testGetResistanceCodons1Mutation1Codon(self):
         resistance_mutations = self.database.get_resistance_codons('gyrA', [self.mutation1])
@@ -73,39 +64,31 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
 
     def testGetResistanceCodons1MutationAANotMatch(self):
         mutation_position = 3
-        database_string = "ATCGATCGA"
-        query_string = "ATCGAACGA"
-        database_start = 1
-        database_frame = 1
-        query_frame = 1
-        mutation_aa_not_match = CodonMutationPosition(mutation_position, database_string, query_string,
-                                                      database_start, database_frame, query_frame)
+        amr_gene_string = "ATCGATCGA"
+        genome_string = "ATCGAACGA"
+        amr_gene_start = 1
+        mutation_aa_not_match = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_aa_not_match])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
 
     def testGetResistanceCodons1MutationStartCodon(self):
         mutation_position = 0
-        database_string = "ATCGATCGA"
-        query_string = "ATGGATCGA"
-        database_start = 1
-        database_frame = 1
-        query_frame = 1
-        mutation_start_methionine = CodonMutationPosition(mutation_position, database_string, query_string,
-                                                          database_start, database_frame, query_frame)
+        amr_gene_string = "ATCGATCGA"
+        genome_string = "ATGGATCGA"
+        amr_gene_start = 1
+        mutation_start_methionine = CodonMutationPosition(mutation_position, amr_gene_string, genome_string,
+                                                          amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_start_methionine])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
 
     def testGetResistanceCodons1MutationStopCodon(self):
         mutation_position = 2
-        database_string = "TACGATCGA"
-        query_string = "TAAGATCGA"
-        database_start = 1
-        database_frame = 1
-        query_frame = 1
-        mutation_stop = CodonMutationPosition(mutation_position, database_string, query_string, database_start,
-                                              database_frame, query_frame)
+        amr_gene_string = "TACGATCGA"
+        genome_string = "TAAGATCGA"
+        amr_gene_start = 1
+        mutation_stop = CodonMutationPosition(mutation_position, amr_gene_string, genome_string, amr_gene_start)
         resistance_mutations = self.database.get_resistance_codons('gyrA', [mutation_stop])
 
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")

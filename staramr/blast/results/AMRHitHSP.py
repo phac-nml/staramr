@@ -1,7 +1,11 @@
+import abc
 import os
 import re
 
-import Bio.Seq
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+
+from staramr.exceptions.InvalidPositionException import InvalidPositionException
 
 """
 Class used to store/parse AMR BLAST hits/hsps.
@@ -10,53 +14,70 @@ Class used to store/parse AMR BLAST hits/hsps.
 
 class AMRHitHSP:
 
-    def __init__(self, file, blast_record, hit, hsp):
+    def __init__(self, file, blast_record):
         """
         Creates a new AMRHitHSP.
         :param file: The particular file this BLAST hit came from.
         :param blast_record: The Bio.Blast.Record this hit came from.
-        :param hit: The particular Bio.Blast.Record.Alignment.
-        :param hsp: The particular Bio.Blast.Record.HSP.
         """
+        __metaclass__ = abc.ABCMeta
         self._file = file
-        self._blast_record = blast_record
-        self.hit = hit
-        self.hsp = hsp
 
-    def get_alignment_length(self):
-        """
-        Gets the BLAST alignment length.
-        :return: The BLAST alignment length.
-        """
-        return self.hit.length
+        if blast_record is not None:
+            self._blast_record = blast_record
 
-    def get_hsp_alignment_length(self):
+            if self.get_genome_contig_start() > self.get_genome_contig_end() and self.get_genome_contig_strand() != 'minus':
+                raise InvalidPositionException(
+                    "contig start = {} > contig end = {} and strand is {}".format(self.get_genome_contig_start(),
+                                                                                  self.get_genome_contig_end(),
+                                                                                  self.get_genome_contig_strand()))
+            elif self.get_amr_gene_start() > self.get_amr_gene_end():
+                raise InvalidPositionException(
+                    "amr gene start = {} > amr gene end = {}".format(self.get_amr_gene_start(),
+                                                                     self.get_amr_gene_end()))
+
+    def get_amr_gene_length(self):
+        """
+        Gets the amr gene length.
+        :return: The amr gene length.
+        """
+        return self._blast_record['qlen']
+
+    def get_hsp_length(self):
         """
         Gets the BLAST HSP length.
         :return: The BLAST HSP length.
         """
-        return self.hsp.align_length
+        return self._blast_record['length']
 
     def get_pid(self):
         """
         Gets the percent identity of the HSP.
         :return: The HSP percent identity.
         """
-        return (self.hsp.identities / self.hsp.align_length) * 100
+        return self._blast_record['pident']
 
     def get_plength(self):
         """
-        Gets the percent length of the HSP.
-        :return: The percent length of the HSP.
+        Gets the percent length of the HSP to the AMR gene.
+        :return: The percent length of the HSP to the AMR gene.
         """
-        return (self.get_hsp_alignment_length() / self.get_alignment_length()) * 100
+        return self._blast_record['plength']
 
-    def get_hit_id(self):
+    def get_amr_gene_id(self):
         """
         Gets the hit id.
         :return: The hit id.
         """
-        return self.hit.hit_id
+        return self._blast_record['qseqid']
+
+    @abc.abstractmethod
+    def get_amr_gene_name(self):
+        """
+        Gets the gene name for the amr gene.
+        :return: The gene name.
+        """
+        pass
 
     def get_file(self):
         """
@@ -65,85 +86,93 @@ class AMRHitHSP:
         """
         return self._file
 
-    def get_isolate_id(self):
+    def get_genome_id(self):
         """
-        Gets isolate id for the file.
-        :return: The isolate id for the file
+        Gets genome id for the file.
+        :return: The genome id for the file
         """
         return os.path.splitext(self._file)[0]
 
-    def get_contig(self):
+    def get_genome_contig_id(self):
         """
-        Gets the particular contig id this HSP came from in the input file.
+        Gets the particular id from the genome input file.
         :return: The contig id.
         """
-        re_search = re.search(r'^(\S+)', self._blast_record.query)
+        re_search = re.search(r'^(\S+)', self._blast_record['sseqid'])
         return re_search.group(1)
 
-    def get_contig_start(self):
+    def get_genome_contig_start(self):
         """
-        Gets the start of the HSP in the contig in the input file.
+        Gets the start of the HSP in the genome input file.
         :return: The start of the HSP.
         """
-        return self.hsp.query_start
+        return self._blast_record['sstart']
 
-    def get_contig_end(self):
+    def get_genome_contig_end(self):
         """
-        Gets the end of the HSP in the contig from the input file.
+        Gets the end of the HSP in the genome input file.
         :return: The end of the HSP.
         """
-        return self.hsp.query_end
+        return self._blast_record['send']
 
-    def get_resistance_gene_start(self):
+    def get_amr_gene_start(self):
         """
         Gets the start of the hsp to the resistance gene.
         :return: The start of the resistance gene hsp.
         """
-        return self.hsp.sbjct_start
+        return self._blast_record['qstart']
 
-    def get_resistance_gene_end(self):
+    def get_amr_gene_end(self):
         """
         Gets the end of the hsp to the resistance gene.
         :return: The end of the resistance gene hsp.
         """
-        return self.hsp.sbjct_end
+        return self._blast_record['qend']
 
-    def _get_hsp_frame(self, index):
-        frame = self.hsp.frame[index]
-        if frame not in [1, -1]:
-            raise Exception("frame=" + str(frame) + ", is unexpected")
-        else:
-            return frame
+    def get_amr_gene_seq(self):
+        """
+        Gets the amr gene from the HSP.
+        :return: The amr gene (as a string) from the HSP.
+        """
+        return self._blast_record['qseq']
 
-    def get_hsp_query(self):
+    def get_genome_contig_hsp_seq(self):
+        """
+        Gets the genome sequence from the HSP.
+        :return: The genome sequence (as a string) from the HSP.
+        """
+        return self._blast_record['sseq']
+
+    def get_genome_seq_in_amr_gene_strand(self):
         """
         Gets the query sequence from the HSP.
         :return: The query sequence (as a string) from the HSP.
         """
-        return self.hsp.query
+        return self.get_genome_contig_hsp_seq()
 
-    def get_hsp_query_proper(self):
+    def get_genome_contig_strand(self):
         """
-        Gets the query sequence from the HSP (proper frame/strand).
-        :return: The query sequence (as a string) from the HSP.
+        Gets the genome contig strand for the BLAST hit.
+        :return: The genome contig strand for the BLAST hit.
         """
-        seq = self.hsp.query
+        return self._blast_record['sstrand']
 
-        if self.get_database_frame() == -1 or self.get_query_frame() == -1:
-            return Bio.Seq.reverse_complement(seq)
-        else:
-            return seq
-
-    def get_database_frame(self):
+    def get_seq_record(self):
         """
-        Gets the frame (strand) of the BLAST database for the hit/hsp.
-        :return: The frame (strand) of the BLAST database.
+        Gets a SeqRecord for this hit.
+        :return: A SeqRecord for this hit.
         """
-        return self._get_hsp_frame(1)
-
-    def get_query_frame(self):
-        """
-        Gets the frame (strand) of the BLAST query for the hit/hsp.
-        :return: The frame (strand) of the BLAST query.
-        """
-        return self._get_hsp_frame(0)
+        return SeqRecord(Seq(self.get_genome_contig_hsp_seq()), id=self.get_amr_gene_id(),
+                         description=(
+                             'isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},'
+                             ' resistance_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
+                             self.get_genome_id(),
+                             self.get_genome_contig_id(),
+                             self.get_genome_contig_start(),
+                             self.get_genome_contig_end(),
+                             self.get_amr_gene_start(),
+                             self.get_amr_gene_end(),
+                             self.get_hsp_length(),
+                             self.get_amr_gene_length(),
+                             self.get_pid(),
+                             self.get_plength()))

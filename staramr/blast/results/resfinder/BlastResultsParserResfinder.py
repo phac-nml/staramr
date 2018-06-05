@@ -1,7 +1,5 @@
 from os import path
 
-import pandas
-
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
 
@@ -11,6 +9,18 @@ Class used to parse out BLAST results for ResFinder.
 
 
 class BlastResultsParserResfinder(BlastResultsParser):
+    COLUMNS = [x.strip() for x in '''
+    Isolate ID
+    Gene
+    %Identity
+    %Overlap
+    HSP Length/Total Length
+    Contig
+    Start
+    End
+    Accession
+    '''.strip().split('\n')]
+    SORT_COLUMNS = ['Isolate ID', 'Gene']
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -26,26 +36,20 @@ class BlastResultsParserResfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir)
 
-    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
-        return ResfinderHitHSP(file, blast_record, alignment, hsp)
+    def _create_hit(self, file, database_name, blast_record):
+        return ResfinderHitHSP(file, blast_record)
 
-    def _create_data_frame(self, results):
-        df = pandas.DataFrame(results, columns=('Isolate ID', 'Gene', '%Identity', '%Overlap',
-                                                'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession'))
-        return df.set_index('Isolate ID')
-
-    def _append_results_to(self, hit, database_name, results, seq_records):
-        self._append_seqrecords_to(hit, seq_records)
-        results.append([hit.get_isolate_id(),
-                        hit.get_gene(),
-                        hit.get_pid(),
-                        hit.get_plength(),
-                        str(hit.get_hsp_alignment_length()) + "/" + str(hit.get_alignment_length()),
-                        hit.get_contig(),
-                        hit.get_contig_start(),
-                        hit.get_contig_end(),
-                        hit.get_accession()
-                        ])
+    def _get_result_rows(self, hit, database_name):
+        return [[hit.get_genome_id(),
+                 hit.get_amr_gene_name(),
+                 hit.get_pid(),
+                 hit.get_plength(),
+                 str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
+                 hit.get_genome_contig_id(),
+                 hit.get_genome_contig_start(),
+                 hit.get_genome_contig_end(),
+                 hit.get_amr_gene_accession()
+                 ]]
 
     def _get_out_file_name(self, in_file):
         if self._output_dir:

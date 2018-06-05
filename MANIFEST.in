@@ -4,3 +4,4 @@ include README.md
 include MANIFEST.in
 include staramr/tests/integration/data/*.fsa
 recursive-include staramr/databases/data/dist/ *
+include staramr/databases/resistance/data/*

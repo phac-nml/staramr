@@ -1,11 +1,11 @@
+import configparser
 import logging
 import shutil
+from collections import OrderedDict
 from os import path
 
-import pandas
-
-import staramr.Utils as Utils
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
 
@@ -15,6 +15,7 @@ A Class used to handle interactions with the ResFinder/PointFinder database file
 
 
 class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
+    GIT_INFO_SECTION = 'GitInfo'
 
     def __init__(self, database_dir):
         """
@@ -39,25 +40,28 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         database_info = super().info()
 
         # remove directories from info as they are unimportant here
-        database_info_stripped = []
-        for i in database_info:
-            if i[0] != 'resfinder_db_dir' and i[0] != 'pointfinder_db_dir':
-                database_info_stripped.append(i)
+        database_info_stripped = OrderedDict(database_info)
+        del database_info_stripped['resfinder_db_dir']
+        del database_info_stripped['pointfinder_db_dir']
 
         self._write_database_info_to_file(database_info_stripped, self._info_file)
 
-        logger.info("Removing " + self._resfinder_dir_git)
+        logger.info("Removing %s", self._resfinder_dir_git)
         shutil.rmtree(self._resfinder_dir_git)
-        logger.info("Removing " + self._pointfinder_dir_git)
+        logger.info("Removing %s", self._pointfinder_dir_git)
         shutil.rmtree(self._pointfinder_dir_git)
 
     def _write_database_info_to_file(self, database_info, file):
-        file_handle = open(file, 'w')
-        file_handle.write(Utils.get_string_with_spacing(database_info))
-        file_handle.close()
+        config = configparser.ConfigParser()
+        config[self.GIT_INFO_SECTION] = database_info
+
+        with open(file, 'w') as file_handle:
+            config.write(file_handle)
 
     def _read_database_info_from_file(self, file):
-        return pandas.read_csv(file, sep="=", index_col=False, header=None)
+        config = configparser.ConfigParser()
+        config.read(file)
+        return OrderedDict(config[self.GIT_INFO_SECTION])
 
     def update(self, resfinder_commit=None, pointfinder_commit=None):
         """
@@ -73,9 +77,23 @@ class AMRDatabaseHandlerStripGitDir(AMRDatabaseHandler):
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a list containing key/value pairs.
         """
-        data = self._read_database_info_from_file(self._info_file)
-        data_matrix = data.as_matrix().tolist()
-        data_matrix.insert(0, ['resfinder_db_dir', self._resfinder_dir])
-        data_matrix.insert(3, ['pointfinder_db_dir', self._pointfinder_dir])
 
-        return data_matrix
+        try:
+            data = self._read_database_info_from_file(self._info_file)
+            data['resfinder_db_dir'] = self._resfinder_dir
+            data['pointfinder_db_dir'] = self._pointfinder_dir
+
+            # re-order all fields
+            data.move_to_end('resfinder_db_dir', last=True)
+            data.move_to_end('resfinder_db_url', last=True)
+            data.move_to_end('resfinder_db_commit', last=True)
+            data.move_to_end('resfinder_db_date', last=True)
+
+            data.move_to_end('pointfinder_db_dir', last=True)
+            data.move_to_end('pointfinder_db_url', last=True)
+            data.move_to_end('pointfinder_db_commit', last=True)
+            data.move_to_end('pointfinder_db_date', last=True)
+
+            return data
+        except FileNotFoundError as e:
+            raise DatabaseNotFoundException('Database could not be found in [' + self._database_dir + ']') from e

@@ -3,10 +3,9 @@ import logging
 import os
 
 import Bio.SeqIO
-from Bio.Blast import NCBIXML
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
+import pandas as pd
 
+from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
 
 logger = logging.getLogger('BlastResultsParser')
@@ -17,6 +16,14 @@ Class for parsing BLAST results.
 
 
 class BlastResultsParser:
+    INDEX = 'Isolate ID'
+    COLUMNS = None
+    SORT_COLUMNS = None
+    BLAST_SORT_COLUMNS = [x.strip() for x in '''
+    plength
+    pident
+    sstart
+    '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -40,14 +47,14 @@ class BlastResultsParser:
     def parse_results(self):
         """
         Parses the BLAST files passed to this particular object.
-        :return: A pandas.DataFrame containing the AMR matches from BLAST.
+        :return: A pd.DataFrame containing the AMR matches from BLAST.
         """
         results = []
 
         for file in self._file_blast_map:
             databases = self._file_blast_map[file]
             hit_seq_records = []
-            for database_name, blast_out in databases.items():
+            for database_name, blast_out in sorted(databases.items()):
                 logger.debug(str(blast_out))
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
@@ -56,14 +63,14 @@ class BlastResultsParser:
             if self._output_dir:
                 out_file = self._get_out_file_name(file)
                 if hit_seq_records:
-                    logger.debug("Writting hits to " + out_file)
+                    logger.debug("Writting hits to %s", out_file)
                     Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
                 else:
-                    logger.debug("No hits found, skipping writing output file to " + out_file)
+                    logger.debug("No hits found, skipping writing output file to %s", out_file)
             else:
                 logger.debug("No output directory defined for blast hits, skipping writing file")
 
-        return self._create_data_frame(results)
+        return pd.DataFrame(results, columns=self.COLUMNS).sort_values(by=self.SORT_COLUMNS).set_index(self.INDEX)
 
     @abc.abstractmethod
     def _get_out_file_name(self, in_file):
@@ -75,28 +82,32 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
-        blast_handle = open(blast_file)
-        blast_records = NCBIXML.parse(blast_handle)
-        for blast_record in blast_records:
-            partitions = BlastHitPartitions()
-            for alignment in blast_record.alignments:
-                for hsp in alignment.hsps:
-                    hit = self._create_hit(in_file, database_name, blast_record, alignment, hsp)
-                    if hit.get_pid() >= self._pid_threshold and hit.get_plength() >= self._plength_threshold:
-                        partitions.append(hit)
-            for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
-                for hit in self._select_hits_to_include(hits_non_overlapping):
-                    self._append_results_to(hit, database_name, results, hit_seq_records)
-        blast_handle.close()
+        blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.BLAST_COLUMNS, index_col=False)
+        partitions = BlastHitPartitions()
+
+        blast_table['plength'] = (blast_table.length / blast_table.qlen) * 100.0
+        blast_table = blast_table[
+            (blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold)]
+        blast_table.sort_values(by=self.BLAST_SORT_COLUMNS, inplace=True)
+        for index, blast_record in blast_table.iterrows():
+            partitions.append(self._create_hit(in_file, database_name, blast_record))
+
+        for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
+            for hit in self._select_hits_to_include(hits_non_overlapping):
+                blast_results = self._get_result_rows(hit, database_name)
+                if blast_results is not None:
+                    logger.debug("record = %s", blast_results)
+                    results.extend(blast_results)
+                    hit_seq_records.append(hit.get_seq_record())
 
     def _select_hits_to_include(self, hits):
         hits_to_include = []
 
         if len(hits) >= 1:
             sorted_hits_pid_first = sorted(hits, key=lambda x: (
-                x.get_pid(), x.get_plength(), x.get_alignment_length(), x.get_hit_id()), reverse=True)
+                x.get_pid(), x.get_plength(), x.get_amr_gene_length(), x.get_amr_gene_id()), reverse=True)
             sorted_hits_length_first = sorted(hits, key=lambda x: (
-                x.get_alignment_length(), x.get_pid(), x.get_plength(), x.get_hit_id()), reverse=True)
+                x.get_amr_gene_length(), x.get_pid(), x.get_plength(), x.get_amr_gene_id()), reverse=True)
 
             if self._report_all:
                 hits_to_include = sorted_hits_pid_first
@@ -107,7 +118,7 @@ class BlastResultsParser:
                 if first_hit_pid == first_hit_length:
                     hits_to_include.append(first_hit_length)
                 # if the top length hit is significantly longer, and the pid is not too much below the top pid hit (nor percent overlap too much below top pid hit), use the longer hit
-                elif (first_hit_length.get_alignment_length() - first_hit_pid.get_alignment_length()) > 10 and (
+                elif (first_hit_length.get_amr_gene_length() - first_hit_pid.get_amr_gene_length()) > 10 and (
                         first_hit_length.get_pid() - first_hit_pid.get_pid()) > -1 and (
                         first_hit_length.get_plength() - first_hit_pid.get_plength()) > -1:
                     hits_to_include.append(first_hit_length)
@@ -118,28 +129,9 @@ class BlastResultsParser:
         return hits_to_include
 
     @abc.abstractmethod
-    def _create_data_frame(self, results):
+    def _create_hit(self, file, database_name, blast_record):
         pass
 
     @abc.abstractmethod
-    def _create_hit(self, file, database_name, blast_record, alignment, hsp):
+    def _get_result_rows(self, hit, database_name):
         pass
-
-    @abc.abstractmethod
-    def _append_results_to(self, hit, database_name, results, hit_seq_records):
-        pass
-
-    def _append_seqrecords_to(self, hit, hit_seq_records):
-        seq_record = SeqRecord(Seq(hit.get_hsp_query_proper()), id=hit.get_hit_id(),
-                               description='isolate: ' + hit.get_isolate_id() +
-                                           ', contig: ' + hit.get_contig() +
-                                           ', contig_start: ' + str(hit.get_contig_start()) +
-                                           ', contig_end: ' + str(hit.get_contig_end()) +
-                                           ', resistance_gene_start: ' + str(hit.get_resistance_gene_start()) +
-                                           ', resistance_gene_end: ' + str(hit.get_resistance_gene_end()) +
-                                           ', hsp/length: ' + str(hit.get_hsp_alignment_length()) + '/' + str(
-                                   hit.get_alignment_length()) +
-                                           ', pid: ' + str("%0.2f%%" % hit.get_pid()) +
-                                           ', plength: ' + str("%0.2f%%" % hit.get_plength()))
-        logger.debug("seq_record=" + repr(seq_record))
-        hit_seq_records.append(seq_record)

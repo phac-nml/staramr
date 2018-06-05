@@ -2,17 +2,23 @@
 Classes for interacting with the (ResFinder/PointFinder) databases used to detect AMR genes.
 """
 import argparse
+import logging
 import sys
 from os import path, mkdir
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
-from staramr.databases.AMRDatabaseHandlerFactory import AMRDatabaseHandlerFactory
+from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
+from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.exceptions.DatabaseErrorException import DatabaseErrorException
+from staramr.exceptions.DatabaseNotFoundException import DatabaseNotFoundException
 
 """
 Base class for interacting with a database.
 """
+
+logger = logging.getLogger('AMRDatabaseHandler')
 
 
 class Database(SubCommand):
@@ -29,12 +35,11 @@ class Database(SubCommand):
         arg_parser = self._subparser.add_parser('db', help='Download ResFinder/PointFinder databases')
         subparser = arg_parser.add_subparsers(dest='db_command',
                                               help='Subcommand for ResFinder/PointFinder databases.')
-        arg_parser.add_argument('--version', action='store_true', dest='version',
-                                help='Prints version information.', required=False)
 
         Build(subparser, self._script_name + " db")
         Update(subparser, self._script_name + " db")
         Info(subparser, self._script_name + " db")
+        RestoreDefault(subparser, self._script_name + " db")
 
         return arg_parser
 
@@ -62,10 +67,10 @@ class Build(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        self._default_dir = AMRDatabasesManager.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " build\n"
-                                "\t\tBuilds a new ResFinder/PointFinder database under " + default_dir + " if it does not exist\n\n" +
+                                "\t\tBuilds a new ResFinder/PointFinder database under " + self._default_dir + " if it does not exist\n\n" +
                   "\t" + name + " build --dir databases\n" +
                   "\t\tBuilds a new ResFinder/PointFinder database under databases/")
 
@@ -74,8 +79,8 @@ class Build(Database):
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Downloads and builds databases in the given directory.')
         arg_parser.add_argument('--dir', action='store', dest='destination', type=str,
-                                help='The directory to download the databases into [' + default_dir + '].',
-                                default=default_dir, required=False)
+                                help='The directory to download the databases into [' + self._default_dir + '].',
+                                default=self._default_dir, required=False)
         arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
@@ -86,16 +91,24 @@ class Build(Database):
         super(Build, self).run(args)
 
         if path.exists(args.destination):
-            raise CommandParseException("Error, destination [" + args.destination + "] already exists",
-                                        self._root_arg_parser)
+            if args.destination == self._default_dir:
+                raise CommandParseException("Error, default destination [" + args.destination + "] already exists",
+                                            self._root_arg_parser, print_help=True)
+            else:
+                raise CommandParseException("Error, destination [" + args.destination + "] already exists",
+                                            self._root_arg_parser)
         else:
             mkdir(args.destination)
 
-        if args.destination == AMRDatabaseHandlerFactory.get_default_database_directory():
-            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
+        if args.destination == AMRDatabasesManager.get_default_database_directory():
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         else:
-            database_handler = AMRDatabaseHandlerFactory(args.destination).get_database_handler()
+            database_handler = AMRDatabasesManager(args.destination).get_database_handler()
         database_handler.build(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
+        if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+            logger.warning(
+                "Built non-default ResFinder/PointFinder database version. This may lead to " +
+                "differences in the detected AMR genes depending on how the database files are structured.")
 
 
 """
@@ -114,25 +127,25 @@ class Update(Database):
         super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        self._default_dir = AMRDatabasesManager.get_default_database_directory()
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " update databases/\n"
                                 "\t\tUpdates the ResFinder/PointFinder database under databases/\n\n" +
                   "\t" + name + " update -d\n" +
-                  "\t\tUpdates the default ResFinder/PointFinder database under " + default_dir)
+                  "\t\tUpdates the default ResFinder/PointFinder database under " + self._default_dir)
         arg_parser = self._subparser.add_parser('update',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Updates databases in the given directories.')
 
         arg_parser.add_argument('-d', '--update-default', action='store_true', dest='update_default',
-                                help='Updates default database directory (' + default_dir + ').', required=False)
+                                help='Updates default database directory (' + self._default_dir + ').', required=False)
         arg_parser.add_argument('--resfinder-commit', action='store', dest='resfinder_commit', type=str,
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
                                 help='The specific git commit for the pointfinder database [latest].', required=False)
-        arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('directories', nargs='*')
 
         return arg_parser
 
@@ -141,17 +154,92 @@ class Update(Database):
 
         if len(args.directories) == 0:
             if not args.update_default:
-                raise CommandParseException("Must pass at least one directory to update", self._root_arg_parser)
+                raise CommandParseException("Must pass at least one directory to update, or use '--update-default'",
+                                            self._root_arg_parser,
+                                            print_help=True)
             else:
-                database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler(
-                    force_use_git=True)
-                database_handler.update(resfinder_commit=args.resfinder_commit,
-                                        pointfinder_commit=args.pointfinder_commit)
+                try:
+                    database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
+                        force_use_git=True)
+
+                    database_handler.update(resfinder_commit=args.resfinder_commit,
+                                            pointfinder_commit=args.pointfinder_commit)
+
+                    if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                        logger.warning(
+                            "Updated to non-default ResFinder/PointFinder database version. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.")
+                except DatabaseErrorException as e:
+                    logger.error(
+                        "Could not update default database. Please try restoring with 'staramr db restore-default'")
+                    raise e
         else:
             for directory in args.directories:
-                database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
+                database_handler = AMRDatabasesManager(directory).get_database_handler()
                 database_handler.update(resfinder_commit=args.resfinder_commit,
                                         pointfinder_commit=args.pointfinder_commit)
+                if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                    logger.warning(
+                        "Updated to non-default ResFinder/PointFinder database version [%s]. This may lead to " +
+                        "differences in the detected AMR genes depending on how the database files are structured.",
+                        directory)
+
+
+"""
+Class for restoring the default database.
+"""
+
+
+class RestoreDefault(Database):
+
+    def __init__(self, subparser, script_name):
+        """
+        Creates a SubCommand for restoring to the default database.
+        :param subparser: The subparser to use.  Generated from argparse.ArgumentParser.add_subparsers().
+        :param script_name: The name of the script being run.
+        """
+        super().__init__(subparser, script_name)
+
+    def _setup_args(self, arg_parser):
+        name = self._script_name
+        epilog = ("Example:\n"
+                  "\t" + name + " restore-default\n"
+                                "\t\tRestores the default ResFinder/PointFinder database\n\n")
+        arg_parser = self._subparser.add_parser('restore-default',
+                                                epilog=epilog,
+                                                formatter_class=argparse.RawTextHelpFormatter,
+                                                help='Restores the default ResFinder/PointFinder databases.')
+
+        arg_parser.add_argument('-f', '--force', action='store_true', dest='force',
+                                help='Force restore without asking for confirmation.', required=False)
+        return arg_parser
+
+    def _confirm_restore(self):
+        """
+        Confirms with the user whether or not to restore the database directory.
+        :return: True if should restore, False otherwise.
+        """
+        confirmed = False
+        while not confirmed:
+            response = str(input(
+                "Restore the default ResFinder/PointFinder databases (Y/N)? ").lower().strip())
+            if response == 'y' or response == 'yes':
+                return True
+            elif response == 'n' or response == 'no':
+                return False
+
+    def run(self, args):
+        super(RestoreDefault, self).run(args)
+
+        database_manager = AMRDatabasesManager.create_default_manager()
+
+        if not args.force:
+            response = self._confirm_restore()
+        else:
+            response = True
+
+        if response:
+            database_manager.restore_default()
 
 
 """
@@ -172,7 +260,7 @@ class Info(Database):
 
     def _setup_args(self, arg_parser):
         name = self._script_name
-        default_dir = AMRDatabaseHandlerFactory.get_default_database_directory()
+        default_dir = AMRDatabasesManager.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " info\n"
                                 "\t\tPrints information about the default database in " + default_dir + "\n\n" +
@@ -182,20 +270,41 @@ class Info(Database):
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
                                                 help='Prints information on databases in the given directories.')
-        arg_parser.add_argument('directories', nargs=argparse.REMAINDER)
+        arg_parser.add_argument('directories', nargs='*')
 
         return arg_parser
 
     def run(self, args):
         super(Info, self).run(args)
 
+        arg_drug_table = ARGDrugTable()
+
         if len(args.directories) == 0:
-            database_handler = AMRDatabaseHandlerFactory.create_default_factory().get_database_handler()
-            sys.stdout.write(get_string_with_spacing(database_handler.info()))
-        elif len(args.directories) == 1:
-            database_handler = AMRDatabaseHandlerFactory(args.directories[0]).get_database_handler()
-            sys.stdout.write(get_string_with_spacing(database_handler.info()))
+            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+            if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                logger.warning(
+                    "Using non-default ResFinder/PointFinder database versions. This may lead to differences in the detected " +
+                    "AMR genes depending on how the database files are structured.")
+
+            try:
+                database_info = database_handler.info()
+                database_info.update(arg_drug_table.get_resistance_table_info())
+                sys.stdout.write(get_string_with_spacing(database_info))
+            except DatabaseNotFoundException as e:
+                logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
         else:
             for directory in args.directories:
-                database_handler = AMRDatabaseHandlerFactory(directory).get_database_handler()
-                sys.stdout.write(get_string_with_spacing(database_handler.info()))
+                try:
+                    database_handler = AMRDatabasesManager(directory).get_database_handler()
+                    if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+                        logger.warning(
+                            "Using non-default ResFinder/PointFinder database version [%s]. This may lead to " +
+                            "differences in the detected AMR genes depending on how the database files are structured.",
+                            directory)
+
+                    database_info = database_handler.info()
+                    database_info.update(arg_drug_table.get_resistance_table_info())
+                    sys.stdout.write(get_string_with_spacing(database_info))
+                except DatabaseNotFoundException as e:
+                    logger.error("Database not found in [%s]. Perhaps try building with 'staramr db build --dir %s'",
+                                 directory, directory)
