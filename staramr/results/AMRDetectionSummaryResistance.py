@@ -50,4 +50,4 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         negative_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index(
             'Isolate ID')
-        return df.append(negative_entries)
+        return df.append(negative_entries, sort=True)

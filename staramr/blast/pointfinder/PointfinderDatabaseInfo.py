@@ -73,7 +73,6 @@ class PointfinderDatabaseInfo:
         """
         resistance_mutations = []
 
-        table = self._pointfinder_info
         for codon_mutation in codon_mutations:
             match = self._get_resistance_codon_match(gene, codon_mutation)
             if len(match.index) > 0:
@@ -90,7 +89,6 @@ class PointfinderDatabaseInfo:
         """
         resistance_mutations = []
 
-        table = self._pointfinder_info
         for nucleotide_mutation in nucleotide_mutations:
             match = self._get_resistance_nucleotide_match(gene, nucleotide_mutation)
             if len(match.index) > 0:

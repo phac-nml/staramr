@@ -26,6 +26,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Start
     End
     '''.strip().split('\n')]
+    SORT_COLUMNS = ['Isolate ID', 'Gene']
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
