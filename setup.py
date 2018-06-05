@@ -26,9 +26,10 @@ setup(name='staramr',
       classifiers=classifiers,
       install_requires=[
           'biopython>=1.70',
-          'pandas>=0.22.0',
+          'pandas>=0.23.0',
           'GitPython>=2.1.3',
           'xlsxwriter>=1.0.2',
+          'numpy>=1.12.1'
       ],
       test_suite='nose.collector',
       tests_require=['nose'],

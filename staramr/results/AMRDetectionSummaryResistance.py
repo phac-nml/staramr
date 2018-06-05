@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-import numpy
 import pandas as pd
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
@@ -11,7 +10,6 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 
 class AMRDetectionSummaryResistance(AMRDetectionSummary):
-    BLANK = '-'
 
     def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
         """
@@ -32,22 +30,16 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
                 }
 
     def _compile_results(self, df):
-        df_summary = df.replace(numpy.nan, self.BLANK)
+        df_summary = df.copy()
 
         # Used to sort by gene names, ignoring case
         df_summary['Gene.Lower'] = df['Gene'].str.lower()
 
         # Compiles the gene/phenotype results into a single entry per isolate (groupby)
-        # Removes any any blank character ('-') results in the predicted phenotype unless there is no other phenotypes
-        # in which case, replace with 'Sensitive'
         df_summary = df_summary \
             .sort_values(by=['Gene.Lower']) \
             .groupby(['Isolate ID'], sort=True) \
-            .aggregate(self._aggregate_gene_phenotype) \
-            .replace({'Predicted Phenotype': {self.BLANK: 'Sensitive'}}) \
-            .replace({'Predicted Phenotype': {(self.SEPARATOR + ' ') + self.BLANK: '',
-                                              self.BLANK + (self.SEPARATOR + ' '): ''}},
-                     regex=True)
+            .aggregate(self._aggregate_gene_phenotype)
         return df_summary[['Gene', 'Predicted Phenotype']]
 
     def _include_negatives(self, df):
@@ -58,4 +50,4 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         negative_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index(
             'Isolate ID')
-        return df.append(negative_entries)
+        return df.append(negative_entries, sort=True)

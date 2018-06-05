@@ -47,9 +47,9 @@ class AMRDatabasesManager:
         """
 
         if path.exists(self._git_strip_database_dir):
-            logger.warning("Default database already exists in [" + self._git_strip_database_dir + ']')
+            logger.warning("Default database already exists in [%s]", self._git_strip_database_dir)
         else:
-            logger.info('Setting up default database in [' + self._git_strip_database_dir + ']')
+            logger.info("Setting up default database in [%s]", self._git_strip_database_dir)
             database_handler = AMRDatabaseHandlerStripGitDir(self._git_strip_database_dir)
             database_handler.build(resfinder_commit=self.DEFAULT_RESFINDER_COMMIT,
                                    pointfinder_commit=self.DEFAULT_POINTFINDER_COMMIT)
@@ -61,19 +61,19 @@ class AMRDatabasesManager:
         """
 
         if path.exists(self._git_database_dir):
-            logger.info('Removing database in [' + self._git_database_dir + ']')
+            logger.info("Removing database in [%s]", self._git_database_dir)
             database_handler = AMRDatabaseHandler(self._git_database_dir)
             database_handler.remove()
 
             if not path.exists(self._git_strip_database_dir):
                 self.setup_default()
 
-            logger.info('Restored default database to [' + self._git_strip_database_dir + ']')
+            logger.info("Restored default database to [%s]", self._git_strip_database_dir)
         else:
             if not path.exists(self._git_strip_database_dir):
                 self.setup_default()
             else:
-                logger.info('Default database already in use under directory [' + self._git_strip_database_dir + ']')
+                logger.info("Default database already in use under directory [%s]", self._git_strip_database_dir)
 
     @classmethod
     def is_handler_default_commits(self, amr_database_handler: AMRDatabaseHandler) -> bool:

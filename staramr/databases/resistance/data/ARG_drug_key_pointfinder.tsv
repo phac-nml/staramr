@@ -108,15 +108,15 @@ e.coli	16S_rrsC	794	kasugamicin
 e.coli	16S_rrsC	926	kasugamicin
 e.coli	16S_rrsC	1519	kasugamicin
 e.coli	16S_rrsH	1192	spectinomycin
-e.coli	ampC_promoter_size_53bp	-42	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-e.coli	ampC_promoter_size_53bp	-32	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-e.coli	ampC_promoter_size_53bp	-13	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-e.coli	ampC_promoter_size_53bp	-12	ampicillin,amoxi/clav,cefoxitin,ceftriaxone
-campylobacter	gyrA	70	decreased susceptibility to ciprofloxacin
-campylobacter	gyrA	85	decreased susceptibility to ciprofloxacin
-campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
-campylobacter	gyrA	90	decreased susceptibility to ciprofloxacin
-campylobacter	gyrA	104	decreased susceptibility to ciprofloxacin
+e.coli	ampC_promoter_size_53bp	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+e.coli	ampC_promoter_size_53bp	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+e.coli	ampC_promoter_size_53bp	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+e.coli	ampC_promoter_size_53bp	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+campylobacter	gyrA	70	ciprofloxacin I/R
+campylobacter	gyrA	85	ciprofloxacin I/R
+campylobacter	gyrA	86	ciprofloxacin I/R,nalidixic acid
+campylobacter	gyrA	90	ciprofloxacin I/R
+campylobacter	gyrA	104	ciprofloxacin I/R
 campylobacter	23S	2074	erythromycin,azithromycin,telithromycin,clindamycin
 campylobacter	23S	2075	erythromycin,azithromycin,telithromycin,clindamycin
 campylobacter	cmeR	86	erythromycin,azithromycin,telithromycin,clindamycin

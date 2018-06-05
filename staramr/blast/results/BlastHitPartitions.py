@@ -4,6 +4,7 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import Union
+from collections import OrderedDict
 
 logger = logging.getLogger('BlastHits')
 
@@ -21,7 +22,7 @@ class BlastHitPartitions:
         """
         Creates a new object to store BLAST hit partitions.
         """
-        self._partitions = {}
+        self._partitions = OrderedDict()
 
     def append(self, hit: AMRHitHSP) -> None:
         """

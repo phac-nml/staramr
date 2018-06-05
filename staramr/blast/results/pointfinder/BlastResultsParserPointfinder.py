@@ -26,6 +26,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Start
     End
     '''.strip().split('\n')]
+    SORT_COLUMNS = ['Isolate ID', 'Gene']
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -42,7 +43,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                          output_dir=output_dir)
 
     def _create_hit(self, file, database_name, blast_record):
-        logger.debug("database_name=" + database_name)
+        logger.debug("database_name=%s", database_name)
         if database_name == '16S_rrsD':
             return PointfinderHitHSPRNA(file, blast_record)
         else:
@@ -68,22 +69,21 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         gene = hit.get_amr_gene_name()
 
         for x in database_mutations:
-            logger.debug("database_mutations: position=" + str(
-                x.get_mutation_position()) + ", mutation=" + x.get_mutation_string())
+            logger.debug("database_mutations: position=%s, mutation=%s", x.get_mutation_position(), x.get_mutation_string())
 
         if database_name == '16S_rrsD':
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
-        logger.debug("database_resistance_mutations=" + str(database_resistance_mutations))
+        logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
 
         if len(database_resistance_mutations) == 0:
-            logger.debug("No mutations for [id=" + hit.get_amr_gene_id() + ", file=" + hit.get_file() + "]")
+            logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
         else:
             results = []
             for db_mutation in database_resistance_mutations:
-                logger.debug("multiple resistance mutations for [" + hit.get_amr_gene_id() + "], mutations " + str(
-                    database_resistance_mutations) + ", file=" + hit.get_file() + "]")
+                logger.debug("multiple resistance mutations for [%s]: mutations=[%s], file=[%s]",
+                             hit.get_amr_gene_id(), database_resistance_mutations, hit.get_file())
                 results.append(self._get_result(hit, db_mutation))
 
             return results

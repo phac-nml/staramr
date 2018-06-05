@@ -74,7 +74,7 @@ class BlastHandler:
         self._resfinder_future_blasts = []
 
         if path.exists(self._input_genomes_tmp_dir):
-            logger.debug("Directory [" + self._input_genomes_tmp_dir + "] already exists")
+            logger.debug("Directory [%s] already exists", self._input_genomes_tmp_dir)
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 
@@ -85,11 +85,11 @@ class BlastHandler:
         :return: None
         """
         database_names_resfinder = self._resfinder_database.get_database_names()
-        logger.debug("Resfinder Databases: " + str(database_names_resfinder))
+        logger.debug("Resfinder Databases: %s", database_names_resfinder)
 
         if self.is_pointfinder_configured():
             database_names_pointfinder = self._pointfinder_database.get_database_names()
-            logger.debug("Pointfinder Databases: " + str(database_names_pointfinder))
+            logger.debug("Pointfinder Databases: %s", database_names_pointfinder)
         else:
             database_names_pointfinder = None
 
@@ -97,7 +97,7 @@ class BlastHandler:
         logger.debug("Done making blast databases for input files")
 
         for file in db_files:
-            logger.info("Scheduling blast for " + path.basename(file))
+            logger.info("Scheduling blast for %s", path.basename(file))
             self._schedule_resfinder_blast(file, database_names_resfinder)
             if self.is_pointfinder_configured():
                 self._schedule_pointfinder_blast(file, database_names_pointfinder)
@@ -109,7 +109,7 @@ class BlastHandler:
 
         for file in files:
             destination = path.join(db_dir, path.basename(file))
-            logger.debug("Creating symlink from [" + file + "] to [" + destination + "]")
+            logger.debug("Creating symlink from [%s] to [%s]", file, destination)
             os.symlink(path.abspath(file), destination)
             db_files.append(destination)
 
@@ -128,7 +128,7 @@ class BlastHandler:
 
             blast_out = os.path.join(self._output_directory, file_name + "." + database_name + ".resfinder.blast.xml")
             if os.path.exists(blast_out):
-                raise Exception("Error, blast_out [" + blast_out + "] already exists")
+                raise Exception("Error, blast_out [%s] already exists", blast_out)
 
             self._resfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
 
@@ -142,7 +142,7 @@ class BlastHandler:
 
             blast_out = os.path.join(self._output_directory, file_name + "." + database_name + ".pointfinder.blast.xml")
             if os.path.exists(blast_out):
-                raise Exception("Error, blast_out [" + blast_out + "] already exists")
+                raise Exception("Error, blast_out [%s] already exists", blast_out)
 
             self._pointfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
 

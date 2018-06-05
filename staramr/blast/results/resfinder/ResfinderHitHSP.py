@@ -17,10 +17,12 @@ class ResfinderHitHSP(AMRHitHSP):
         Builds a new ResfinderHitHSP.
         :param file: The input file.
         :param blast_record: The Bio.Blast.Record this hit came from.
+        :param hit: The particular Bio.Blast.Record.Alignment.
+        :param hsp: The particular Bio.Blast.Record.HSP.
         """
         super().__init__(file, blast_record)
 
-        logger.debug("record=" + repr(self._blast_record))
+        logger.debug("record=%s", self._blast_record)
 
         re_search = re.search(r'([^_]+)_([^_]+)_([^_\s]+)$', self.get_amr_gene_id())
         if not re_search:
@@ -42,6 +44,13 @@ class ResfinderHitHSP(AMRHitHSP):
         :return: The gene name + variant number.
         """
         return self.get_amr_gene_name() + '_' + self._gene_variant
+
+    def get_amr_gene_variant_accession(self):
+        """
+        Gets the gene name + variant number + accession for the ResFinder hit.
+        :return: The gene name + variant number + accession.
+        """
+        return self.get_amr_gene_name() + '_' + self._gene_variant + '_' + self._accession
 
     def get_amr_gene_accession(self):
         """

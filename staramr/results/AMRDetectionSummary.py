@@ -38,7 +38,7 @@ class AMRDetectionSummary:
         negative_names_set = names_set - result_names_set
         negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
-        return df.append(negative_entries)
+        return df.append(negative_entries, sort=True)
 
     def create_summary(self, include_negatives=False):
         """
@@ -49,7 +49,7 @@ class AMRDetectionSummary:
         df = self._resfinder_dataframe
 
         if self._has_pointfinder:
-            df = df.append(self._pointfinder_dataframe)
+            df = df.append(self._pointfinder_dataframe, sort=True)
 
         df = self._compile_results(df)
 

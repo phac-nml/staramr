@@ -17,6 +17,13 @@ Class for parsing BLAST results.
 
 class BlastResultsParser:
     INDEX = 'Isolate ID'
+    COLUMNS = None
+    SORT_COLUMNS = None
+    BLAST_SORT_COLUMNS = [x.strip() for x in '''
+    plength
+    pident
+    sstart
+    '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None):
@@ -47,7 +54,7 @@ class BlastResultsParser:
         for file in self._file_blast_map:
             databases = self._file_blast_map[file]
             hit_seq_records = []
-            for database_name, blast_out in databases.items():
+            for database_name, blast_out in sorted(databases.items()):
                 logger.debug(str(blast_out))
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
@@ -56,14 +63,14 @@ class BlastResultsParser:
             if self._output_dir:
                 out_file = self._get_out_file_name(file)
                 if hit_seq_records:
-                    logger.debug("Writting hits to " + out_file)
+                    logger.debug("Writting hits to %s", out_file)
                     Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
                 else:
-                    logger.debug("No hits found, skipping writing output file to " + out_file)
+                    logger.debug("No hits found, skipping writing output file to %s", out_file)
             else:
                 logger.debug("No output directory defined for blast hits, skipping writing file")
 
-        return pd.DataFrame(results, columns=self.COLUMNS).set_index(self.INDEX)
+        return pd.DataFrame(results, columns=self.COLUMNS).sort_values(by=self.SORT_COLUMNS).set_index(self.INDEX)
 
     @abc.abstractmethod
     def _get_out_file_name(self, in_file):
@@ -81,6 +88,7 @@ class BlastResultsParser:
         blast_table['plength'] = (blast_table.length / blast_table.qlen) * 100.0
         blast_table = blast_table[
             (blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold)]
+        blast_table.sort_values(by=self.BLAST_SORT_COLUMNS, inplace=True)
         for index, blast_record in blast_table.iterrows():
             partitions.append(self._create_hit(in_file, database_name, blast_record))
 
@@ -88,7 +96,7 @@ class BlastResultsParser:
             for hit in self._select_hits_to_include(hits_non_overlapping):
                 blast_results = self._get_result_rows(hit, database_name)
                 if blast_results is not None:
-                    logger.debug("record = " + str(blast_results))
+                    logger.debug("record = %s", blast_results)
                     results.extend(blast_results)
                     hit_seq_records.append(hit.get_seq_record())
 

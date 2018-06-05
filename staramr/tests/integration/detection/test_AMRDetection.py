@@ -39,6 +39,10 @@ class AMRDetectionIT(unittest.TestCase):
                                                     self.pointfinder_database, output_dir=self.outdir.name)
 
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
+        self.drug_key_resfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
+                                                         'drug_key_resfinder_invalid.tsv')
+        self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
+                                                           'drug_key_pointfinder_invalid.tsv')
 
     def tearDown(self):
         self.blast_out.cleanup()
@@ -58,7 +62,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
-                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
@@ -96,6 +100,23 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
+
+    def testResfinderBetaLactam2MutationsSuccessNoMatchDrugTable(self):
+        resfinder_drug_table = ARGDrugTableResfinder(self.drug_key_resfinder_invalid_file)
+        self.amr_detection = AMRDetectionResistance(self.resfinder_database, resfinder_drug_table,
+                                                    self.blast_handler, self.pointfinder_drug_table,
+                                                    self.pointfinder_database, output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[blaIMP-42_1_AB753456]', 'Wrong phenotype')
 
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
@@ -159,8 +180,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(
             SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
-        logger.debug('expected_seq=' + expected_records['blaIMP-42_1_AB753456'].seq)
-        logger.debug('actual_seq=' + records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("expected_seq=%s", expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("actual_seq=%s", records['blaIMP-42_1_AB753456'].seq)
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
@@ -185,8 +206,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(
             SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
-        logger.debug('expected_seq=' + expected_records['blaIMP-42_1_AB753456'].seq)
-        logger.debug('actual_seq=' + records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("expected_seq=%s", expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("actual_seq=%s", records['blaIMP-42_1_AB753456'].seq)
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
@@ -204,7 +225,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong percent overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '741/741', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
-                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle-rc.fsa')
@@ -214,8 +235,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(
             SeqIO.parse(path.join(self.test_data_dir, 'resfinder_beta-lactam-blaIMP-42-del-middle.fsa'), 'fasta'))
-        logger.debug('expected_seq=' + expected_records['blaIMP-42_1_AB753456'].seq)
-        logger.debug('actual_seq=' + records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("expected_seq=%s", expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("actual_seq=%s", records['blaIMP-42_1_AB753456'].seq)
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq, records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
@@ -240,8 +261,8 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(
             SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-ins-middle.fsa'), 'fasta'))
-        logger.debug('expected_seq=' + expected_records['blaIMP-42_1_AB753456'].seq)
-        logger.debug('actual_seq=' + records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("expected_seq=%s", expected_records['blaIMP-42_1_AB753456'].seq)
+        logger.debug("actual_seq=%s", records['blaIMP-42_1_AB753456'].seq)
         self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(), records['blaIMP-42_1_AB753456'].seq,
                          "records don't match")
 
@@ -261,7 +282,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
@@ -272,7 +294,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 841, msg='Wrong start')
         self.assertEqual(result['End'], 1581, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies.fsa')
@@ -302,7 +325,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 61, msg='Wrong start')
         self.assertEqual(result['End'], 801, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
@@ -313,7 +337,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Contig'], 'blaIMP-42_1_AB753456', msg='Wrong contig name')
         self.assertEqual(result['Start'], 1581, msg='Wrong start')
         self.assertEqual(result['End'], 841, msg='Wrong end')
-        self.assertEqual(result['Predicted Phenotype'], 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+        self.assertEqual(result['Predicted Phenotype'],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name,
@@ -561,7 +586,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
-                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
@@ -626,7 +651,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
-                         'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
