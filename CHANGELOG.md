@@ -1,3 +1,10 @@
+# Version 0.2.1 (in development)
+
+* Minor
+    * Updating default ResFinder/PointFinder databases to version from July 2018.
+    * Fix regex extracting gene/variant/accession values from ResFinder/PointFinder databases.
+    * Fixing a few entries in table mapping genes to phenotypes.
+
 # Version 0.2.0
 
 * Major
