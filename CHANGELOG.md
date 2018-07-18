@@ -4,6 +4,7 @@
     * Updating default ResFinder/PointFinder databases to version from July 2018.
     * Fix regex extracting gene/variant/accession values from ResFinder/PointFinder databases.
     * Fixing a few entries in table mapping genes to phenotypes.
+    * Print stderr for errors with `makeblastdb`
 
 # Version 0.2.0
 
