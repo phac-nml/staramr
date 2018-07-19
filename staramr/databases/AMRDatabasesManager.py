@@ -12,8 +12,8 @@ A Class used to manage interactions with default and updatable ResFinder/PointFi
 
 
 class AMRDatabasesManager:
-    DEFAULT_RESFINDER_COMMIT = 'dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2'
-    DEFAULT_POINTFINDER_COMMIT = 'ba65c4d175decdc841a0bef9f9be1c1589c0070a'
+    DEFAULT_RESFINDER_COMMIT = 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535'
+    DEFAULT_POINTFINDER_COMMIT = '8706a6363bb29e47e0e398c53043b037c24b99a7'
 
     def __init__(self, database_dir, sub_dirs=False):
         """

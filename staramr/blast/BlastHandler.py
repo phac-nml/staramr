@@ -6,6 +6,8 @@ from os import path
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
+from staramr.exceptions.BlastProcessError import BlastProcessError
+
 logger = logging.getLogger('BlastHandler')
 
 """
@@ -116,8 +118,11 @@ class BlastHandler:
             future_makeblastdbs.append(self._thread_pool_executor.submit(self._make_blast_db, destination))
 
         # Blocks until all blast dbs are made. If an exception is raised, will raise same exception
-        for future_blastdb in future_makeblastdbs:
-            future_blastdb.result()
+        try:
+            for future_blastdb in future_makeblastdbs:
+                future_blastdb.result()
+        except subprocess.CalledProcessError as e:
+            raise BlastProcessError("Error running makeblastdb", e)
 
         return db_files
 
@@ -193,4 +198,4 @@ class BlastHandler:
     def _make_blast_db(self, path):
         command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
         logger.debug(' '.join(command))
-        subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE).check_returncode()
+        subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)

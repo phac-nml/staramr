@@ -9,8 +9,8 @@ from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 
 
 class AMRDatabasesManagerIT(unittest.TestCase):
-    RESFINDER_DEFAULT_COMMIT = 'dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2'
-    POINTFINDER_DEFAULT_COMMIT = 'ba65c4d175decdc841a0bef9f9be1c1589c0070a'
+    RESFINDER_DEFAULT_COMMIT = 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535'
+    POINTFINDER_DEFAULT_COMMIT = '8706a6363bb29e47e0e398c53043b037c24b99a7'
 
     def setUp(self):
         self.databases_dir = tempfile.TemporaryDirectory()
@@ -99,6 +99,6 @@ class AMRDatabasesManagerIT(unittest.TestCase):
     def testIsHandlerDefaultCommitsFalse(self):
         # Setup database
         database_handler = self.databases_manager.get_database_handler(force_use_git=True)
-        database_handler.update()
+        database_handler.update(resfinder_commit='dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2')
 
         self.assertFalse(AMRDatabasesManager.is_handler_default_commits(database_handler), "Database is default")
