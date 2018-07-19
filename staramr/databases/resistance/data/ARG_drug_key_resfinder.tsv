@@ -240,8 +240,8 @@ aminoglycoside	rmtD_1	DQ914960	amikacin,gentamicin,kanamycin,streptomycin
 aminoglycoside	rmtD2_1	HQ401565	amikacin,gentamicin,kanamycin,streptomycin
 aminoglycoside	rmtE_1	GU201947	amikacin,gentamicin,kanamycin,streptomycin
 aminoglycoside	spc_1	X02588	spectinomycin
-aminoglycoside	aac(6')Ib-cr_1	DQ303918	gentamicin
-aminoglycoside	aac(6')Ib-cr_2	EF636461	gentamicin
+aminoglycoside	aac(6')-Ib-cr_1	DQ303918	gentamicin
+aminoglycoside	aac(6')-Ib-cr_2	EF636461	gentamicin
 aminoglycoside	strA_1	M96392	streptomycin
 aminoglycoside	aph(3'')-Ib_1	M28829	streptomycin
 aminoglycoside	aph(3'')-Ib_2	AF024602	streptomycin
@@ -2188,6 +2188,7 @@ quinolone	qnrVC6_1	KC202804	ciprofloxacin I/R
 quinolone	qnrVC7_1	KM555152	ciprofloxacin I/R
 quinolone	qnrC_1	EU917444	ciprofloxacin I/R
 quinolone	qnrD_1	FJ228229	ciprofloxacin I/R
+quinolone	qnrD1_1	FJ228229	ciprofloxacin I/R
 quinolone	qnrD2_1	KF055448	ciprofloxacin I/R
 quinolone	qnrD3_1	KX130945	ciprofloxacin I/R
 quinolone	qnrS1_1	AB187515	ciprofloxacin I/R
@@ -2204,8 +2205,8 @@ quinolone	qepA1_1	AB263754	ciprofloxacin I/R
 quinolone	qepA2_1	EU847537	ciprofloxacin I/R
 quinolone	qepA3_1	JQ064560	ciprofloxacin I/R
 quinolone	qepA4_1	KX580704	ciprofloxacin I/R
-quinolone	aac(6')Ib-cr_1	DQ303918	ciprofloxacin I/R
-quinolone	aac(6')Ib-cr_2	EF636461	ciprofloxacin I/R
+quinolone	aac(6')-Ib-cr_1	DQ303918	ciprofloxacin I/R
+quinolone	aac(6')-Ib-cr_2	EF636461	ciprofloxacin I/R
 quinolone	oqxA_1	EU370913	chloramphenicol
 quinolone	oqxB_1	EU370913	chloramphenicol
 quinolone	qnrE_1	KY073238	ciprofloxacin I/R
