@@ -1,4 +1,4 @@
-# Version 0.2.1 (in development)
+# Version 0.2.1
 
 * Minor
     * Updating default ResFinder/PointFinder databases to version from July 2018.
