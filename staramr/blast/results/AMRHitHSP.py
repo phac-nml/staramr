@@ -69,7 +69,7 @@ class AMRHitHSP:
         Gets the hit id.
         :return: The hit id.
         """
-        return self._blast_record['qseqid']
+        return str(self._blast_record['qseqid'])
 
     @abc.abstractmethod
     def get_amr_gene_name(self):
@@ -98,7 +98,7 @@ class AMRHitHSP:
         Gets the particular id from the genome input file.
         :return: The contig id.
         """
-        re_search = re.search(r'^(\S+)', self._blast_record['sseqid'])
+        re_search = re.search(r'^(\S+)', str(self._blast_record['sseqid']))
         return re_search.group(1)
 
     def get_genome_contig_start(self):
