@@ -70,7 +70,8 @@ class AMRDetectionIT(unittest.TestCase):
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
 
-        result = resfinder_results[resfinder_results['Contig'] == "1"]
+        result = resfinder_results[resfinder_results['Gene'] == "aac(6')-Iaa"]
+        self.assertEqual(result['Contig'].iloc[0], "1", "Incorrect contig id")
 
     def testResfinderBetaLactam2MutationsSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
