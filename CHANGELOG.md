@@ -1,3 +1,7 @@
+# Version 0.2.2
+
+* Fix issue where `staramr` crashes if an input contig id is a number.
+
 # Version 0.2.1
 
 * Minor

@@ -62,6 +62,17 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['Accession'].iloc[0], 'NC_003197', msg='Wrong accession')
 
+    def testNumericalSequenceID(self):
+        file = path.join(self.test_data_dir, "test-seq-id.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == "aac(6')-Iaa"]
+        self.assertEqual(result['Contig'].iloc[0], "1", "Incorrect contig id")
+
     def testResfinderBetaLactam2MutationsSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
