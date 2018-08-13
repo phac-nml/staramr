@@ -25,7 +25,7 @@ class PointfinderHitHSP(AMRHitHSP):
         Gets the particular gene name for the PointFinder hit.
         :return: The gene name.
         """
-        return str(self._blast_record['qseqid'])
+        return self._blast_record['qseqid']
 
     def _get_match_positions(self):
         amr_seq = self.get_amr_gene_seq()

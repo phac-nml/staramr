@@ -4,6 +4,7 @@ import os
 
 import Bio.SeqIO
 import pandas as pd
+import numpy as np
 
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
@@ -82,7 +83,8 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
-        blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.BLAST_COLUMNS, index_col=False)
+        blast_table = pd.read_table(blast_file, header=None, names=BlastHandler.BLAST_COLUMNS, index_col=False).astype(
+            dtype={'qseqid': np.unicode_, 'sseqid': np.unicode_})
         partitions = BlastHitPartitions()
 
         blast_table['plength'] = (blast_table.length / blast_table.qlen) * 100.0
