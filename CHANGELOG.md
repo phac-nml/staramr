@@ -1,4 +1,8 @@
-# Version 0.2.1 (in development)
+# Version 0.2.2
+
+* Fix issue where `staramr` crashes if an input contig id is a number.
+
+# Version 0.2.1
 
 * Minor
     * Updating default ResFinder/PointFinder databases to version from July 2018.
