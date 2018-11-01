@@ -18,3 +18,11 @@ class ExcludeGenesList:
         :return: A list with genes to exclude.
         """
         return self._data['#gene_id'].tolist()
+
+    @classmethod
+    def get_default_exclude_file(cls):
+        """
+        Get the default file containing the list of genes to exclude.
+        :return: The default file containing the list of genes to exclude.
+        """
+        return cls.DEFAULT_EXCLUDE_FILE

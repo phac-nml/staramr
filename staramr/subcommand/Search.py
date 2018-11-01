@@ -69,7 +69,7 @@ class Search(SubCommand):
                                 help='The number of processing cores to use [' + str(cpu_count) + '].',
                                 default=cpu_count, required=False)
 
-        threshold_group = arg_parser.add_argument_group('BLAST Thesholds')
+        threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
                                      help='The percent identity threshold [98.0].', default=98.0, required=False)
         threshold_group.add_argument('--percent-length-overlap-resfinder', action='store',
@@ -82,6 +82,9 @@ class Search(SubCommand):
                                      required=False)
 
         report_group = arg_parser.add_argument_group('Reporting options')
+        report_group.add_argument('--no-exclude-genes', action='store_true', dest='no_exclude_genes',
+                                  help='Disable the default exclusion of some genes from ResFinder/PointFinder.',
+                                  required=False)
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
                                   help='Exclude negative results (those sensitive to antimicrobials) [False].',
                                   required=False)
@@ -345,7 +348,12 @@ class Search(SubCommand):
             raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
                                         self._root_arg_parser)
 
-        exclude_genes=ExcludeGenesList()
+        if args.no_exclude_genes:
+            logger.debug("--no-exclude-genes enabled. Will not exclude any ResFinder/PointFinder genes.")
+            exclude_genes = []
+        else:
+            logger.debug("Will exclude ResFinder/PointFinder genes listed in [%s]",ExcludeGenesList.get_default_exclude_file())
+            exclude_genes=ExcludeGenesList().tolist()
 
         results = self._generate_results(database_handler=database_handler,
                                          resfinder_database=resfinder_database,
@@ -358,7 +366,7 @@ class Search(SubCommand):
                                          plength_threshold_resfinder=args.plength_threshold_resfinder,
                                          plength_threshold_pointfinder=args.plength_threshold_pointfinder,
                                          report_all_blast=args.report_all_blast,
-                                         genes_to_exclude=exclude_genes.tolist(),
+                                         genes_to_exclude=exclude_genes,
                                          files=args.files)
         amr_detection = results['results']
         settings = results['settings']
