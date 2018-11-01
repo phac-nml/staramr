@@ -198,6 +198,19 @@ staramr db restore-default
 * BLAST+
 * Git
 
+# Input
+
+## List of genes to exclude
+
+By default, the ResFinder/PointFinder genes listed in [genes_to_exclude.tsv][] will be excluded from the final results. To pass a custom list of genes the option `--exclude-genes-file` can be used, where the file specified will contains a list of the sequence ids (one per line) from the ResFinder/PointFinder databases. For example:
+
+```
+#gene_id
+aac(6')-Iaa_1_NC_003197
+```
+
+Please make sure to include `#gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
+
 # Output
 
 There are 5 different output files produced by `staramr`:
@@ -559,3 +572,4 @@ specific language governing permissions and limitations under the License.
 [bioconda]: https://bioconda.github.io/
 [card-web]: https://card.mcmaster.ca/
 [tutorial]: doc/tutorial/staramr-tutorial.ipynb
+[genes_to_exclude.tsv]: staramr/databases/exclude/data/genes_to_exclude.tsv

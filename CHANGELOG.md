@@ -1,3 +1,7 @@
+# Version 0.3.0 (in development)
+
+* Exclusion of `aac(6')-Iaa` from results by default. Added ability to override this with `--no-exclude-genes` or pass a custom list of genes to exclude from results with `--exclude-genes-file`.
+
 # Version 0.2.2
 
 * Fix issue where `staramr` crashes if an input contig id is a number.
