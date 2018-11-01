@@ -18,6 +18,7 @@ from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 
 logger = logging.getLogger("Search")
 
@@ -344,6 +345,8 @@ class Search(SubCommand):
             raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
                                         self._root_arg_parser)
 
+        exclude_genes=ExcludeGenesList()
+
         results = self._generate_results(database_handler=database_handler,
                                          resfinder_database=resfinder_database,
                                          pointfinder_database=pointfinder_database,
@@ -355,7 +358,7 @@ class Search(SubCommand):
                                          plength_threshold_resfinder=args.plength_threshold_resfinder,
                                          plength_threshold_pointfinder=args.plength_threshold_pointfinder,
                                          report_all_blast=args.report_all_blast,
-                                         genes_to_exclude=["aac(6')-Iaa_1_NC_003197"],
+                                         genes_to_exclude=exclude_genes.tolist(),
                                          files=args.files)
         amr_detection = results['results']
         settings = results['settings']
