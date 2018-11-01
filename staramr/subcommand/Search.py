@@ -183,7 +183,7 @@ class Search(SubCommand):
 
     def _generate_results(self, database_handler, resfinder_database, pointfinder_database, nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
-                          plength_threshold_pointfinder, report_all_blast, files):
+                          plength_threshold_pointfinder, report_all_blast, genes_to_exclude, files):
         """
         Runs AMR detection and generates results.
         :param database_handler: The database handler.
@@ -197,6 +197,7 @@ class Search(SubCommand):
         :param plength_threshold_resfinder: The plength threshold for resfinder.
         :param plength_threshold_pointfinder: The plength threshold for pointfinder.
         :param report_all_blast: Whether or not to report all BLAST results.
+        :param genes_to_exclude: A list of gene IDs to exclude from the results.
         :param files: The list of files to scan.
         :return: A dictionary containing the results as dict['results'] and settings as dict['settings'].
         """
@@ -211,7 +212,8 @@ class Search(SubCommand):
             amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                         include_negatives=include_negatives,
                                                         include_resistances=include_resistances,
-                                                        output_dir=hits_output)
+                                                        output_dir=hits_output,
+                                                        genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
                                             plength_threshold_pointfinder, report_all_blast)
 
@@ -353,6 +355,7 @@ class Search(SubCommand):
                                          plength_threshold_resfinder=args.plength_threshold_resfinder,
                                          plength_threshold_pointfinder=args.plength_threshold_pointfinder,
                                          report_all_blast=args.report_all_blast,
+                                         genes_to_exclude=["aac(6')-Iaa_1_NC_003197"],
                                          files=args.files)
         amr_detection = results['results']
         settings = results['settings']

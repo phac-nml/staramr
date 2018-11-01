@@ -14,7 +14,7 @@ class AMRDetectionFactory:
         pass
 
     def build(self, resfinder_database, blast_handler, pointfinder_database, include_negatives,
-              include_resistances=False, output_dir=None):
+              include_resistances=False, output_dir=None, genes_to_exclude=[]):
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
@@ -23,13 +23,14 @@ class AMRDetectionFactory:
         :param include_negatives:  If True, include files lacking AMR genes in the resulting summary table.
         :param include_resistances: If True, include predicted drug resistances in output.
         :param output_dir: The directory where output files are being written.
+        :param genes_to_exclude: A list of gene IDs to exclude from the results.
         :return: A new AMRDetection object.
         """
 
         if include_resistances:
             return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler,
                                           ARGDrugTablePointfinder(), pointfinder_database, include_negatives,
-                                          output_dir=output_dir)
+                                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,
-                                output_dir=output_dir)
+                                output_dir=output_dir, genes_to_exclude=genes_to_exclude)
