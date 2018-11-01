@@ -83,7 +83,11 @@ class Search(SubCommand):
 
         report_group = arg_parser.add_argument_group('Reporting options')
         report_group.add_argument('--no-exclude-genes', action='store_true', dest='no_exclude_genes',
-                                  help='Disable the default exclusion of some genes from ResFinder/PointFinder.',
+                                  help='Disable the default exclusion of some genes from ResFinder/PointFinder [False].',
+                                  required=False)
+        report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
+                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(ExcludeGenesList.get_default_exclude_file()),
+                                  default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
                                   help='Exclude negative results (those sensitive to antimicrobials) [False].',
@@ -349,11 +353,15 @@ class Search(SubCommand):
                                         self._root_arg_parser)
 
         if args.no_exclude_genes:
-            logger.debug("--no-exclude-genes enabled. Will not exclude any ResFinder/PointFinder genes.")
+            logger.info("--no-exclude-genes enabled. Will not exclude any ResFinder/PointFinder genes.")
             exclude_genes = []
         else:
-            logger.debug("Will exclude ResFinder/PointFinder genes listed in [%s]",ExcludeGenesList.get_default_exclude_file())
-            exclude_genes=ExcludeGenesList().tolist()
+            if not path.exists(args.exclude_genes_file):
+                raise CommandParseException('--exclude-genes-file [{}] does not exist'.format(args.exclude_genes_file),
+                                            self._root_arg_parser)
+            else:
+                logger.info("Will exclude ResFinder/PointFinder genes listed in [%s]. Use --no-exclude-genes to disable",args.exclude_genes_file)
+                exclude_genes=ExcludeGenesList(args.exclude_genes_file).tolist()
 
         results = self._generate_results(database_handler=database_handler,
                                          resfinder_database=resfinder_database,
