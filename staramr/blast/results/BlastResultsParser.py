@@ -27,7 +27,7 @@ class BlastResultsParser:
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
-                 output_dir=None):
+                 output_dir=None, genes_to_exclude=[]):
         """
         Creates a new class for parsing BLAST results.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -36,6 +36,7 @@ class BlastResultsParser:
         :param plength_threshold: A percent length threshold for results.
         :param report_all: Whether or not to report all blast hits.
         :param output_dir: The directory where output files are being written.
+        :param genes_to_exclude: A list of gene IDs to exclude from the results.
         """
         __metaclass__ = abc.ABCMeta
         self._file_blast_map = file_blast_map
@@ -44,6 +45,7 @@ class BlastResultsParser:
         self._plength_threshold = plength_threshold
         self._report_all = report_all
         self._output_dir = output_dir
+        self._genes_to_exclude = genes_to_exclude
 
     def parse_results(self):
         """
@@ -89,7 +91,8 @@ class BlastResultsParser:
 
         blast_table['plength'] = (blast_table.length / blast_table.qlen) * 100.0
         blast_table = blast_table[
-            (blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold)]
+            (blast_table.pident >= self._pid_threshold) & (blast_table.plength >= self._plength_threshold) &
+            ~blast_table.qseqid.isin(self._genes_to_exclude)]
         blast_table.sort_values(by=self.BLAST_SORT_COLUMNS, inplace=True)
         for index, blast_record in blast_table.iterrows():
             partitions.append(self._create_hit(in_file, database_name, blast_record))

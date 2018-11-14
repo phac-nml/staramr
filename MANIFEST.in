@@ -2,6 +2,7 @@ include LICENSE
 include NOTICE
 include README.md
 include MANIFEST.in
+include staramr/databases/exclude/data/genes_to_exclude.tsv
 include staramr/tests/integration/data/*.fsa
 recursive-include staramr/databases/data/dist/ *
 include staramr/databases/resistance/data/*

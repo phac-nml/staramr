@@ -18,6 +18,7 @@ from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
+from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 
 logger = logging.getLogger("Search")
 
@@ -68,7 +69,7 @@ class Search(SubCommand):
                                 help='The number of processing cores to use [' + str(cpu_count) + '].',
                                 default=cpu_count, required=False)
 
-        threshold_group = arg_parser.add_argument_group('BLAST Thesholds')
+        threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
                                      help='The percent identity threshold [98.0].', default=98.0, required=False)
         threshold_group.add_argument('--percent-length-overlap-resfinder', action='store',
@@ -81,6 +82,13 @@ class Search(SubCommand):
                                      required=False)
 
         report_group = arg_parser.add_argument_group('Reporting options')
+        report_group.add_argument('--no-exclude-genes', action='store_true', dest='no_exclude_genes',
+                                  help='Disable the default exclusion of some genes from ResFinder/PointFinder [False].',
+                                  required=False)
+        report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
+                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(ExcludeGenesList.get_default_exclude_file()),
+                                  default=ExcludeGenesList.get_default_exclude_file(),
+                                  required=False)
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
                                   help='Exclude negative results (those sensitive to antimicrobials) [False].',
                                   required=False)
@@ -183,7 +191,7 @@ class Search(SubCommand):
 
     def _generate_results(self, database_handler, resfinder_database, pointfinder_database, nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
-                          plength_threshold_pointfinder, report_all_blast, files):
+                          plength_threshold_pointfinder, report_all_blast, genes_to_exclude, files):
         """
         Runs AMR detection and generates results.
         :param database_handler: The database handler.
@@ -197,6 +205,7 @@ class Search(SubCommand):
         :param plength_threshold_resfinder: The plength threshold for resfinder.
         :param plength_threshold_pointfinder: The plength threshold for pointfinder.
         :param report_all_blast: Whether or not to report all BLAST results.
+        :param genes_to_exclude: A list of gene IDs to exclude from the results.
         :param files: The list of files to scan.
         :return: A dictionary containing the results as dict['results'] and settings as dict['settings'].
         """
@@ -211,7 +220,8 @@ class Search(SubCommand):
             amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
                                                         include_negatives=include_negatives,
                                                         include_resistances=include_resistances,
-                                                        output_dir=hits_output)
+                                                        output_dir=hits_output,
+                                                        genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
                                             plength_threshold_pointfinder, report_all_blast)
 
@@ -342,6 +352,17 @@ class Search(SubCommand):
             raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
                                         self._root_arg_parser)
 
+        if args.no_exclude_genes:
+            logger.info("--no-exclude-genes enabled. Will not exclude any ResFinder/PointFinder genes.")
+            exclude_genes = []
+        else:
+            if not path.exists(args.exclude_genes_file):
+                raise CommandParseException('--exclude-genes-file [{}] does not exist'.format(args.exclude_genes_file),
+                                            self._root_arg_parser)
+            else:
+                logger.info("Will exclude ResFinder/PointFinder genes listed in [%s]. Use --no-exclude-genes to disable",args.exclude_genes_file)
+                exclude_genes=ExcludeGenesList(args.exclude_genes_file).tolist()
+
         results = self._generate_results(database_handler=database_handler,
                                          resfinder_database=resfinder_database,
                                          pointfinder_database=pointfinder_database,
@@ -353,6 +374,7 @@ class Search(SubCommand):
                                          plength_threshold_resfinder=args.plength_threshold_resfinder,
                                          plength_threshold_pointfinder=args.plength_threshold_pointfinder,
                                          report_all_blast=args.report_all_blast,
+                                         genes_to_exclude=exclude_genes,
                                          files=args.files)
         amr_detection = results['results']
         settings = results['settings']
