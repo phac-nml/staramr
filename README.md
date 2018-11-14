@@ -198,6 +198,19 @@ staramr db restore-default
 * BLAST+
 * Git
 
+# Input
+
+## List of genes to exclude
+
+By default, the ResFinder/PointFinder genes listed in [genes_to_exclude.tsv][] will be excluded from the final results. To pass a custom list of genes the option `--exclude-genes-file` can be used, where the file specified will contains a list of the sequence ids (one per line) from the ResFinder/PointFinder databases. For example:
+
+```
+#gene_id
+aac(6')-Iaa_1_NC_003197
+```
+
+Please make sure to include `#gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
+
 # Output
 
 There are 5 different output files produced by `staramr`:
@@ -355,6 +368,8 @@ usage: staramr search [-h] [--pointfinder-organism POINTFINDER_ORGANISM]
                       [--pid-threshold PID_THRESHOLD]
                       [--percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER]
                       [--percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER]
+                      [--no-exclude-genes]
+                      [--exclude-genes-file EXCLUDE_GENES_FILE]
                       [--exclude-negatives] [--exclude-resistance-phenotypes]
                       [--report-all-blast] [-o OUTPUT_DIR]
                       [--output-summary OUTPUT_SUMMARY]
@@ -377,7 +392,7 @@ optional arguments:
   -n NPROCS, --nprocs NPROCS
                         The number of processing cores to use [MAX CPU CORES].
 
-BLAST Thesholds:
+BLAST Thresholds:
   --pid-threshold PID_THRESHOLD
                         The percent identity threshold [98.0].
   --percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER
@@ -386,6 +401,10 @@ BLAST Thesholds:
                         The percent length overlap for pointfinder results [95.0].
 
 Reporting options:
+  --no-exclude-genes    Disable the default exclusion of some genes from ResFinder/PointFinder [False].
+  --exclude-genes-file EXCLUDE_GENES_FILE
+                        A containing a list of ResFinder/PointFinder gene names to exclude from results
+                        [staramr/databases/exclude/data/genes_to_exclude.tsv].
   --exclude-negatives   Exclude negative results (those sensitive to antimicrobials) [False].
   --exclude-resistance-phenotypes
                         Exclude predicted antimicrobial resistances [False].
@@ -410,11 +429,11 @@ Output:
                         The name of the directory to contain the BLAST hit files. Not be be used with '--output-dir'. [None]
 
 Example:
-	staramr search -o out *.fasta
-		Searches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.
+        staramr search -o out *.fasta
+                Searches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.
 
-	staramr search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta
-		Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in results.xlsx.
+        staramr search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta
+                Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in results.xlsx.
 ```
 
 ## Database Build
@@ -559,3 +578,4 @@ specific language governing permissions and limitations under the License.
 [bioconda]: https://bioconda.github.io/
 [card-web]: https://card.mcmaster.ca/
 [tutorial]: doc/tutorial/staramr-tutorial.ipynb
+[genes_to_exclude.tsv]: staramr/databases/exclude/data/genes_to_exclude.tsv

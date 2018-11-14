@@ -26,7 +26,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
-                 report_all=False, output_dir=None):
+                 report_all=False, output_dir=None, genes_to_exclude=[]):
         """
         Creates a new BlastResultsParserPointfinderResistance.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -36,9 +36,10 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         :param plength_threshold: A percent length threshold for results.
         :param report_all: Whether or not to report all blast hits.
         :param output_dir: The directory where output files are being written.
+        :param genes_to_exclude: A list of gene IDs to exclude from the results.
         """
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
-                         output_dir=output_dir)
+                         output_dir=output_dir, genes_to_exclude=genes_to_exclude)
         self._arg_drug_table = arg_drug_table
 
     def _get_result(self, hit, db_mutation):

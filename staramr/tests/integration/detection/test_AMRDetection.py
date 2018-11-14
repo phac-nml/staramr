@@ -62,6 +62,19 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['Accession'].iloc[0], 'NC_003197', msg='Wrong accession')
 
+    def testResfinderExcludeGeneListSuccess(self):
+        self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                                    self.blast_handler, self.pointfinder_drug_table,
+                                                    self.pointfinder_database, output_dir=self.outdir.name,
+                                                    genes_to_exclude=["aac(6')-Iaa_1_NC_003197"])
+
+        file = path.join(self.test_data_dir, "test-aminoglycoside.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
+
     def testNumericalSequenceID(self):
         file = path.join(self.test_data_dir, "test-seq-id.fsa")
         files = [file]
@@ -657,6 +670,29 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
         self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
                          "records don't match")
+
+    def testResfinderPointfinderSalmonellaExcludeGenesListSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
+        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name, genes_to_exclude=['gyrA'])
+
+        file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
+
+        resfinder_results = amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
 
     def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
