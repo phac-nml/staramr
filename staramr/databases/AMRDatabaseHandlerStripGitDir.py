@@ -1,7 +1,7 @@
 import logging
 
 from staramr.databases.AMRDatabaseHandler import AMRDatabaseHandler
-from staramr.databases.BlastDatabaseRepositoryStripGitDir import BlastDatabaseRepositoryStripGitDir
+from staramr.databases.BlastDatabaseRepository import BlastDatabaseRepositoryStripGitDir
 
 logger = logging.getLogger('AMRDatabaseHandlerStripGitDir')
 
