@@ -82,6 +82,14 @@ class BlastDatabaseRepository:
         """
         shutil.rmtree(self._git_dir)
 
+    def is_at_commit(self, commit: str = None) -> bool:
+        """
+        Determines whether this database repo is at the specified commit.
+        :param commit: The commit to check.
+        :return: True if the database is at the specified commit, otherwise False.
+        """
+        return self.info()[self._get_info_name('commit')] == commit
+
     def info(self) -> OrderedDict:
         """
         Gets information on the Blast databases.

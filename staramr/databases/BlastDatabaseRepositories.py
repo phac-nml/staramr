@@ -101,6 +101,18 @@ class BlastDatabaseRepositories:
         """
         return self._database_repositories[name].get_git_dir()
 
+    def is_at_commits(self, commits: Dict[str,str]):
+        """
+        Are the database repositories at the passed commits?
+        :param commits: A dict of the commits {'database_name': 'commit'}.
+        :return: True if the database repositories are at the passed commits (ignores repos not passed in dict). False otherwise.
+        """
+        for name, repo in self._database_repositories.items():
+            if name in commits and not repo.is_at_commit(commits[name]):
+                return False
+
+        return True
+
     def is_dist(self):
         """
         Whether or not we are building distributable versions of the blast database repositories (that is, should we strip out the .git directories).

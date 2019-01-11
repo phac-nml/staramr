@@ -11,8 +11,10 @@ A Class used to manage interactions with default and updatable ResFinder/PointFi
 
 
 class AMRDatabasesManager:
-    DEFAULT_RESFINDER_COMMIT = 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535'
-    DEFAULT_POINTFINDER_COMMIT = '8706a6363bb29e47e0e398c53043b037c24b99a7'
+    DEFAULT_COMMITS = {
+        'resfinder': 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535',
+        'pointfinder': '8706a6363bb29e47e0e398c53043b037c24b99a7'
+    }
 
     def __init__(self, database_dir: str, sub_dirs: bool = False):
         """
@@ -51,8 +53,7 @@ class AMRDatabasesManager:
             logger.info("Setting up default database in [%s]", self._git_strip_database_dir)
             database_repos = BlastDatabaseRepositories.create_default_repositories(self._git_strip_database_dir,
                                                                                      is_dist=True)
-            database_repos.build(
-                {'resfinder': self.DEFAULT_RESFINDER_COMMIT, 'pointfinder': self.DEFAULT_POINTFINDER_COMMIT})
+            database_repos.build(self.DEFAULT_COMMITS)
 
     def restore_default(self):
         """
@@ -82,10 +83,7 @@ class AMRDatabasesManager:
         :param database_repos: The database repos handler.
         :return: True if it's setup with default commit versions, false otherwise.
         """
-        database_info = database_repos.info()
-
-        return database_info['resfinder_db_commit'] == self.DEFAULT_RESFINDER_COMMIT and database_info[
-            'pointfinder_db_commit'] == self.DEFAULT_POINTFINDER_COMMIT
+        return database_repos.is_at_commits(self.DEFAULT_COMMITS)
 
     @classmethod
     def get_default_database_directory(cls) -> str:
