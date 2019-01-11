@@ -104,7 +104,7 @@ class Build(Database):
             database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
         else:
             database_handler = AMRDatabasesManager(args.destination).get_database_handler()
-        database_handler.build(resfinder_commit=args.resfinder_commit, pointfinder_commit=args.pointfinder_commit)
+        database_handler.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
         if not AMRDatabasesManager.is_handler_default_commits(database_handler):
             logger.warning(
                 "Built non-default ResFinder/PointFinder database version. This may lead to " +
@@ -162,8 +162,8 @@ class Update(Database):
                     database_handler = AMRDatabasesManager.create_default_manager().get_database_handler(
                         force_use_git=True)
 
-                    database_handler.update(resfinder_commit=args.resfinder_commit,
-                                            pointfinder_commit=args.pointfinder_commit)
+                    database_handler.update(
+                        {'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
 
                     if not AMRDatabasesManager.is_handler_default_commits(database_handler):
                         logger.warning(
@@ -176,8 +176,7 @@ class Update(Database):
         else:
             for directory in args.directories:
                 database_handler = AMRDatabasesManager(directory).get_database_handler()
-                database_handler.update(resfinder_commit=args.resfinder_commit,
-                                        pointfinder_commit=args.pointfinder_commit)
+                database_handler.update({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
                 if not AMRDatabasesManager.is_handler_default_commits(database_handler):
                     logger.warning(
                         "Updated to non-default ResFinder/PointFinder database version [%s]. This may lead to " +

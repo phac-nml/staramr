@@ -15,10 +15,10 @@ from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
+from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
-from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 
 logger = logging.getLogger("Search")
 
@@ -86,7 +86,8 @@ class Search(SubCommand):
                                   help='Disable the default exclusion of some genes from ResFinder/PointFinder [False].',
                                   required=False)
         report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
-                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(ExcludeGenesList.get_default_exclude_file()),
+                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(
+                                      ExcludeGenesList.get_default_exclude_file()),
                                   default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
@@ -288,8 +289,8 @@ class Search(SubCommand):
             logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected " +
                            "AMR genes depending on how the database files are structured.")
 
-        resfinder_database_dir = database_handler.get_resfinder_dir()
-        pointfinder_database_dir = database_handler.get_pointfinder_dir()
+        resfinder_database_dir = database_handler.get_repo_dir('resfinder')
+        pointfinder_database_dir = database_handler.get_repo_dir('pointfinder')
 
         resfinder_database = ResfinderBlastDatabase(resfinder_database_dir)
         if (args.pointfinder_organism):
@@ -360,8 +361,10 @@ class Search(SubCommand):
                 raise CommandParseException('--exclude-genes-file [{}] does not exist'.format(args.exclude_genes_file),
                                             self._root_arg_parser)
             else:
-                logger.info("Will exclude ResFinder/PointFinder genes listed in [%s]. Use --no-exclude-genes to disable",args.exclude_genes_file)
-                exclude_genes=ExcludeGenesList(args.exclude_genes_file).tolist()
+                logger.info(
+                    "Will exclude ResFinder/PointFinder genes listed in [%s]. Use --no-exclude-genes to disable",
+                    args.exclude_genes_file)
+                exclude_genes = ExcludeGenesList(args.exclude_genes_file).tolist()
 
         results = self._generate_results(database_handler=database_handler,
                                          resfinder_database=resfinder_database,
