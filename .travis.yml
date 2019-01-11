@@ -19,6 +19,6 @@ install:
   - source activate test-environment
   - python setup.py install
   - mkdir -p staramr/databases/data/
-  - staramr db build --dir staramr/databases/data/update $DATABASE_COMMITS
+  - staramr db build --dir staramr/databases/data $DATABASE_COMMITS
 
 script: python setup.py test
