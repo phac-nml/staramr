@@ -22,7 +22,7 @@ logger = logging.getLogger('AMRDetectionIT')
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        blast_databases_repositories = AMRDatabasesManager.create_default_manager().get_database_handler()
+        blast_databases_repositories = AMRDatabasesManager.create_default_manager().get_database_repos()
         self.resfinder_dir = blast_databases_repositories.get_repo_dir('resfinder')
         self.pointfinder_dir = blast_databases_repositories.get_repo_dir('pointfinder')
 

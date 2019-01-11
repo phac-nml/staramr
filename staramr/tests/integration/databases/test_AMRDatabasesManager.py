@@ -18,7 +18,7 @@ class AMRDatabasesManagerIT(unittest.TestCase):
         self.databases_dir.cleanup()
 
     def testSetupDefault(self):
-        blast_database_repos = self.databases_manager.get_database_handler()
+        blast_database_repos = self.databases_manager.get_database_repos()
 
         # Verify that databases don't exist beforehand
         self.assertFalse(path.exists(blast_database_repos.get_repo_dir('resfinder')),
@@ -59,12 +59,12 @@ class AMRDatabasesManagerIT(unittest.TestCase):
         self.databases_manager.setup_default()
 
         # Build updated database
-        database_handler_git = self.databases_manager.get_database_handler(force_use_git=True)
-        database_handler_git.build(
+        blast_database_repos_git = self.databases_manager.get_database_repos(force_use_git=True)
+        blast_database_repos_git.build(
             {'resfinder': self.RESFINDER_DEFAULT_COMMIT, 'pointfinder': self.POINTFINDER_DEFAULT_COMMIT})
 
         # Verify that updated database is the one that gets returned by get_database_handler()
-        blast_database_repos = self.databases_manager.get_database_handler()
+        blast_database_repos = self.databases_manager.get_database_repos()
         self.assertEqual(blast_database_repos.get_database_dir(), path.join(self.databases_dir.name, 'update'),
                         'Invalid database directory')
         self.assertTrue(path.exists(path.join(blast_database_repos.get_repo_dir('resfinder'), '.git')),
@@ -76,8 +76,9 @@ class AMRDatabasesManagerIT(unittest.TestCase):
         self.databases_manager.restore_default()
 
         # Verify that default database (git stripped version) is the one that gets returned by get_database_handler()
-        blast_database_repos = self.databases_manager.get_database_handler()
-        # self.assertIsInstance(blast_database_repos, AMRDatabaseHandlerStripGitDir, 'Invalid instance returned')
+        blast_database_repos = self.databases_manager.get_database_repos()
+        self.assertEqual(blast_database_repos.get_database_dir(), path.join(self.databases_dir.name, 'dist'),
+                         'Invalid database directory')
         self.assertFalse(path.exists(path.join(blast_database_repos.get_repo_dir('resfinder'), '.git')),
                          'resfinder .git directory was not removed')
         self.assertFalse(path.exists(path.join(blast_database_repos.get_repo_dir('pointfinder'), '.git')),
@@ -87,13 +88,13 @@ class AMRDatabasesManagerIT(unittest.TestCase):
         # Setup default database
         self.databases_manager.setup_default()
 
-        blast_database_repos = self.databases_manager.get_database_handler()
+        blast_database_repos = self.databases_manager.get_database_repos()
 
-        self.assertTrue(AMRDatabasesManager.is_handler_default_commits(blast_database_repos), "Database is not default")
+        self.assertTrue(AMRDatabasesManager.is_database_repos_default_commits(blast_database_repos), "Database is not default")
 
     def testIsHandlerDefaultCommitsFalse(self):
         # Setup database
-        blast_database_repos = self.databases_manager.get_database_handler(force_use_git=True)
+        blast_database_repos = self.databases_manager.get_database_repos(force_use_git=True)
         blast_database_repos.update({'resfinder': 'dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2'})
 
-        self.assertFalse(AMRDatabasesManager.is_handler_default_commits(blast_database_repos), "Database is default")
+        self.assertFalse(AMRDatabasesManager.is_database_repos_default_commits(blast_database_repos), "Database is default")
