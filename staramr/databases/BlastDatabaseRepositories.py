@@ -14,15 +14,18 @@ A Class used to handle interactions with blast database repository files.
 
 class BlastDatabaseRepositories:
 
-    def __init__(self, database_dir: str):
+    def __init__(self, database_dir: str, is_dist: bool = False):
         """
         Creates a new AMRDatabaseHandler.
         :param database_dir: The root directory for the databases.
+        :param is_dist: Whether or not we are building distributable versions of the blast database repositories
+            (that is, should we strip out the .git directories).
         """
         self._database_dir = database_dir
         self._database_repositories = {}
+        self._is_dist = is_dist
 
-    def register_database_repository(self, database_name: str, git_repository_url: str, is_dist: bool = False):
+    def register_database_repository(self, database_name: str, git_repository_url: str):
         """
         Registers a new database repository.
         :param database_name: The name of the database.
@@ -30,7 +33,7 @@ class BlastDatabaseRepositories:
         :param is_dist: True if this database should be interpreted as the distributable version (no .git directory).
         :return: None
         """
-        if is_dist:
+        if self._is_dist:
             database_repository = BlastDatabaseRepositoryStripGitDir(self._database_dir, database_name,
                                                                      git_repository_url)
         else:
@@ -41,24 +44,24 @@ class BlastDatabaseRepositories:
         else:
             self._database_repositories[database_name] = database_repository
 
-    def build(self, commits: Dict[str, str] = {}):
+    def build(self, commits: Dict[str, str] = None):
         """
         Downloads and builds new databases.
         :param commits: A map of {'database_name' : 'commit'} defining the particular commits to build.
         :return: None
         """
         for database_name in self._database_repositories:
-            commit = commits.get(database_name)
+            commit = commits.get(database_name) if commits else None
             self._database_repositories[database_name].build(commit)
 
-    def update(self, commits: Dict[str, str] = {}):
+    def update(self, commits: Dict[str, str] = None):
         """
         Updates an existing ResFinder/PointFinder database to the latest revisions (or passed specific revisions).
         :param commits: A map of {'database_name' : 'commit'} defining the particular commits to update to.
         :return: None
         """
         for database_name in self._database_repositories:
-            commit = commits.get(database_name)
+            commit = commits.get(database_name) if commits else None
             self._database_repositories[database_name].update(commit)
 
     def remove(self):
@@ -98,6 +101,13 @@ class BlastDatabaseRepositories:
         """
         return self._database_repositories[name].get_git_dir()
 
+    def is_dist(self):
+        """
+        Whether or not we are building distributable versions of the blast database repositories (that is, should we strip out the .git directories).
+        :return: True if is_dist, False otherwise.
+        """
+        return self._is_dist
+
     @classmethod
     def create_default_repositories(cls, root_database_dir: str, is_dist: bool = False):
         """
@@ -107,11 +117,9 @@ class BlastDatabaseRepositories:
             (that is, should we strip out the .git directories).
         :return: The BlastDatabaseRepositories.
         """
-        repos = cls(root_database_dir)
-        repos.register_database_repository('resfinder', 'https://bitbucket.org/genomicepidemiology/resfinder_db.git',
-                                           is_dist)
+        repos = cls(root_database_dir, is_dist)
+        repos.register_database_repository('resfinder', 'https://bitbucket.org/genomicepidemiology/resfinder_db.git')
         repos.register_database_repository('pointfinder',
-                                           'https://bitbucket.org/genomicepidemiology/pointfinder_db.git',
-                                           is_dist)
+                                           'https://bitbucket.org/genomicepidemiology/pointfinder_db.git')
 
         return repos

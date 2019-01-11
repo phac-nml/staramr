@@ -65,6 +65,7 @@ class AMRDatabasesManagerIT(unittest.TestCase):
 
         # Verify that updated database is the one that gets returned by get_database_handler()
         blast_database_repos = self.databases_manager.get_database_repos()
+        self.assertFalse(blast_database_repos.is_dist(), 'Invalid is_dist')
         self.assertEqual(blast_database_repos.get_database_dir(), path.join(self.databases_dir.name, 'update'),
                         'Invalid database directory')
         self.assertTrue(path.exists(path.join(blast_database_repos.get_repo_dir('resfinder'), '.git')),
@@ -77,6 +78,7 @@ class AMRDatabasesManagerIT(unittest.TestCase):
 
         # Verify that default database (git stripped version) is the one that gets returned by get_database_handler()
         blast_database_repos = self.databases_manager.get_database_repos()
+        self.assertTrue(blast_database_repos.is_dist(), 'Invalid is_dist')
         self.assertEqual(blast_database_repos.get_database_dir(), path.join(self.databases_dir.name, 'dist'),
                          'Invalid database directory')
         self.assertFalse(path.exists(path.join(blast_database_repos.get_repo_dir('resfinder'), '.git')),
