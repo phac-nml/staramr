@@ -18,7 +18,6 @@ install:
   - conda create -c bioconda -c conda-forge -q -y -n test-environment python=$TRAVIS_PYTHON_VERSION blast=2.7.1 git
   - source activate test-environment
   - python setup.py install
-  - mkdir -p staramr/databases/data/
   - staramr db build --dir staramr/databases/data $DATABASE_COMMITS
 
 script: python setup.py test
