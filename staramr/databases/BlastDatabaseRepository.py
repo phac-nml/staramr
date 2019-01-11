@@ -4,6 +4,7 @@ import shutil
 import time
 from collections import OrderedDict
 from os import path
+from typing import Dict
 
 import git
 
@@ -19,7 +20,7 @@ class BlastDatabaseRepository:
     TIME_FORMAT = "%a, %d %b %Y %H:%M"
     LOGGER = logging.getLogger('BlastDatabaseRepository')
 
-    def __init__(self, database_root_dir, database_name, git_repository_url):
+    def __init__(self, database_root_dir: str, database_name: str, git_repository_url: str):
         """
         Creates a new BlastDatabaseRepository.
         :param database_root_dir: The root directory for both the Blast databases.
@@ -32,10 +33,10 @@ class BlastDatabaseRepository:
 
         self._git_dir = path.join(database_root_dir, database_name)
 
-    def build(self, commit=None):
+    def build(self, commit: Dict[str, str] = None):
         """
         Downloads and builds a new Blast database.
-        :param commit: The specific git commit to download (if unspecified defaults to latest commit).
+        :param commit: The specific git commits to download as a dict {'database_name': 'commit'}. Defaults to latest commit.
         :return: None
         """
 
@@ -49,10 +50,10 @@ class BlastDatabaseRepository:
         except Exception as e:
             raise DatabaseErrorException("Could not build database in [" + self._database_dir + "]") from e
 
-    def update(self, commit=None):
+    def update(self, commit: Dict[str, str] = None):
         """
         Updates an existing Blast database to the latest revisions (or passed specific revisions).
-        :param commit: The specific git commit (if unspecified defaults to latest commit).
+        :param commit: The specific git commits to update as a dict {'database_name': 'commit'}. Defaults to latest commit.
         :return: None
         """
 
@@ -81,7 +82,7 @@ class BlastDatabaseRepository:
         """
         shutil.rmtree(self._git_dir)
 
-    def info(self):
+    def info(self) -> OrderedDict:
         """
         Gets information on the Blast databases.
         :return: Database information as a OrderedDict of key/value pairs.
@@ -106,14 +107,14 @@ class BlastDatabaseRepository:
     def _get_info_name(self, info_type):
         return self._database_name + '_db_' + info_type
 
-    def get_database_dir(self):
+    def get_database_dir(self) -> str:
         """
         Gets the root database dir.
         :return: The root database dir.
         """
         return self._database_dir
 
-    def get_git_dir(self):
+    def get_git_dir(self) -> str:
         """
         Gets the database git directory.
         :return: The database git directory.
@@ -130,7 +131,7 @@ class BlastDatabaseRepositoryStripGitDir(BlastDatabaseRepository):
     GIT_INFO_SECTION = 'GitInfo'
     LOGGER = logging.getLogger('BlastDatabaseRepositoryStripGitDir')
 
-    def __init__(self, database_root_dir, database_name, git_repository_url):
+    def __init__(self, database_root_dir: str, database_name: str, git_repository_url: str):
         """
         Creates a new BlastDatabaseRepositoryStripGitDir.
         :param database_root_dir: The root directory for both the Blast databases.
@@ -142,10 +143,10 @@ class BlastDatabaseRepositoryStripGitDir(BlastDatabaseRepository):
         self._git_dot_git_dir = path.join(self._git_dir, '.git')
         self._info_file = path.join(database_root_dir, database_name + '-info.ini')
 
-    def build(self, commit=None):
+    def build(self, commit: Dict[str, str] = None):
         """
         Downloads and builds a new Blast database.
-        :param commit: The specific git commit to download (if unspecified defaults to latest commit).
+        :param commit: The specific git commits to download as a dict {'database_name': 'commit'}. Defaults to latest commit.
         :return: None
         """
         super().build(commit=commit)
@@ -173,16 +174,14 @@ class BlastDatabaseRepositoryStripGitDir(BlastDatabaseRepository):
         config.read(file)
         return OrderedDict(config[self.GIT_INFO_SECTION])
 
-    def update(self, resfinder_commit=None, pointfinder_commit=None):
+    def update(self, commit=None):
         """
         Updates an existing ResFinder/PointFinder database to the latest revisions (or passed specific revisions).
-        :param resfinder_commit: The specific git commit for ResFinder.
-        :param pointfinder_commit: The specific git commit for PointFinder.
         :return: None
         """
         raise Exception("Cannot update when .git directory has been removed")
 
-    def info(self):
+    def info(self) -> OrderedDict:
         """
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a list containing key/value pairs.
