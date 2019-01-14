@@ -4,6 +4,9 @@ from collections import OrderedDict
 from typing import Dict
 
 from staramr.databases.BlastDatabaseRepository import BlastDatabaseRepository, BlastDatabaseRepositoryStripGitDir
+from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 
 logger = logging.getLogger('BlastDatabaseRepositories')
 
@@ -135,3 +138,20 @@ class BlastDatabaseRepositories:
                                            'https://bitbucket.org/genomicepidemiology/pointfinder_db.git')
 
         return repos
+
+    def build_blast_database(self, database_name: str, options: Dict[str,str] = {}) -> AbstractBlastDatabase:
+        """
+        Builds a staramr.blast.AbstractBlastDatabase from the given parameters.
+        :param database_name: The name of the database to build.
+        :param options: Options for the particular database in the form of a map {'key': 'value'}
+        :return: A new staramr.blast.AbstractBlastDatabase.
+        """
+        if database_name not in self._database_repositories:
+            raise Exception("database_name={} not registered", database_name)
+
+        if database_name == 'resfinder':
+            return ResfinderBlastDatabase(self.get_repo_dir(database_name))
+        elif database_name == 'pointfinder':
+            return PointfinderBlastDatabase(self.get_repo_dir(database_name), options['organism'])
+        else:
+            raise Exception("Unknown database name [{}]", database_name)

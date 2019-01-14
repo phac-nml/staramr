@@ -289,16 +289,12 @@ class Search(SubCommand):
             logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected " +
                            "AMR genes depending on how the database files are structured.")
 
-        resfinder_database_dir = database_repos.get_repo_dir('resfinder')
-        pointfinder_database_dir = database_repos.get_repo_dir('pointfinder')
-
-        resfinder_database = ResfinderBlastDatabase(resfinder_database_dir)
+        resfinder_database = database_repos.build_blast_database('resfinder')
         if (args.pointfinder_organism):
             if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
                 raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
                     PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
-            pointfinder_database = PointfinderBlastDatabase(pointfinder_database_dir,
-                                                            args.pointfinder_organism)
+            pointfinder_database = database_repos.build_blast_database('pointfinder', {'organism': args.pointfinder_organism})
         else:
             logger.info("No --pointfinder-organism specified. Will not search the PointFinder databases")
             pointfinder_database = None
