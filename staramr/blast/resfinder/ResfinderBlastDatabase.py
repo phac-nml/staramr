@@ -25,3 +25,6 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_path(self, database_name):
         return os.path.join(self.database_dir, database_name + self.fasta_suffix)
+
+    def get_name(self):
+        return 'resfinder'

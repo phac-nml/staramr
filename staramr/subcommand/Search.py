@@ -215,7 +215,7 @@ class Search(SubCommand):
         with tempfile.TemporaryDirectory() as blast_out:
             start_time = datetime.datetime.now()
 
-            blast_handler = BlastHandler(resfinder_database, nprocs, blast_out, pointfinder_database)
+            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database}, nprocs, blast_out)
 
             amr_detection_factory = AMRDetectionFactory()
             amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
