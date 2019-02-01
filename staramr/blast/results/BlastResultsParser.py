@@ -1,10 +1,11 @@
 import abc
 import logging
 import os
+from typing import List
 
 import Bio.SeqIO
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
@@ -17,10 +18,10 @@ Class for parsing BLAST results.
 
 
 class BlastResultsParser:
-    INDEX = 'Isolate ID'
-    COLUMNS = None
-    SORT_COLUMNS = None
-    BLAST_SORT_COLUMNS = [x.strip() for x in '''
+    INDEX: str = 'Isolate ID'
+    COLUMNS: List[str] = []
+    SORT_COLUMNS: List[str] = []
+    BLAST_SORT_COLUMNS: List[str] = [x.strip() for x in '''
     plength
     pident
     sstart

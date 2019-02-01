@@ -25,10 +25,10 @@ class BlastDatabaseRepositories:
             (that is, should we strip out the .git directories).
         """
         self._database_dir = database_dir
-        self._database_repositories = {}
+        self._database_repositories: Dict[str,BlastDatabaseRepository] = {}
         self._is_dist = is_dist
 
-    def register_database_repository(self, database_name: str, git_repository_url: str):
+    def register_database_repository(self, database_name: str, git_repository_url: str) -> None:
         """
         Registers a new database repository.
         :param database_name: The name of the database.
@@ -36,6 +36,7 @@ class BlastDatabaseRepositories:
         :param is_dist: True if this database should be interpreted as the distributable version (no .git directory).
         :return: None
         """
+        database_repository: BlastDatabaseRepository
         if self._is_dist:
             database_repository = BlastDatabaseRepositoryStripGitDir(self._database_dir, database_name,
                                                                      git_repository_url)
@@ -59,7 +60,7 @@ class BlastDatabaseRepositories:
 
     def update(self, commits: Dict[str, str] = None):
         """
-        Updates an existing ResFinder/PointFinder database to the latest revisions (or passed specific revisions).
+        Updates an existing database to the latest revisions (or passed specific revisions).
         :param commits: A map of {'database_name' : 'commit'} defining the particular commits to update to.
         :return: None
         """
@@ -77,12 +78,12 @@ class BlastDatabaseRepositories:
 
         shutil.rmtree(self._database_dir)
 
-    def info(self) -> OrderedDict:
+    def info(self) -> Dict[str,str]:
         """
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a OrderedDict of key/value pairs.
         """
-        info = OrderedDict()
+        info: Dict[str,str] = OrderedDict()
 
         for name, repo in self._database_repositories.items():
             info.update(repo.info())

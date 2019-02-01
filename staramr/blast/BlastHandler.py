@@ -56,10 +56,10 @@ class BlastHandler:
         self._blast_database_objects_map = blast_database_objects_map
 
         if (self._blast_database_objects_map['pointfinder'] is None):
-            self._pointfinder_configured = False
+            self._pointfinder_configured: bool = False
             del self._blast_database_objects_map['pointfinder']
         else:
-            self._pointfinder_configured = True
+            self._pointfinder_configured: bool = True
 
         self._thread_pool_executor = None
         self.reset()
