@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ROOT_DIR="$SCRIPT_DIR/.."
+
+mypy --config $ROOT_DIR/.mypy.ini $ROOT_DIR/bin/staramr $ROOT_DIR/staramr
