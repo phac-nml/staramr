@@ -35,7 +35,7 @@ class BlastHandler:
     '''.strip().split('\n')]
 
     def __init__(self, blast_database_objects_map: Dict[str, AbstractBlastDatabase], threads: int,
-                 output_directory: str):
+                 output_directory: str) -> None:
         """
         Creates a new BlastHandler.
         :param blast_database_objects_map: A map containing the blast databases.

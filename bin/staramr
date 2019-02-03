@@ -67,10 +67,10 @@ if __name__ == '__main__':
         try:
             args.run_command(args)
         except CommandParseException as e:
-            logger.error(e)
+            logger.error(str(e))
             if e.print_help():
                 e.get_parser().print_help()
             sys.exit(1)
         except Exception as e:
-            logger.exception(e)
+            logger.exception(str(e))
             sys.exit(1)

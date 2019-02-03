@@ -17,7 +17,7 @@ A Class used to handle interactions with blast database repository files.
 
 class BlastDatabaseRepositories:
 
-    def __init__(self, database_dir: str, is_dist: bool = False):
+    def __init__(self, database_dir: str, is_dist: bool = False) -> None:
         """
         Creates a new AMRDatabaseHandler.
         :param database_dir: The root directory for the databases.

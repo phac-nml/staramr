@@ -16,7 +16,7 @@ class AMRDatabasesManager:
         'pointfinder': '8706a6363bb29e47e0e398c53043b037c24b99a7'
     }
 
-    def __init__(self, database_dir: str, sub_dirs: bool = False):
+    def __init__(self, database_dir: str, sub_dirs: bool = False) -> None:
         """
         Builds a new AMRDatabasesManager with the passed directory.
         :param database_dir: The directory containing the ResFinder/PointFinder databases.

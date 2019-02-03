@@ -20,7 +20,7 @@ class BlastDatabaseRepository:
     TIME_FORMAT = "%a, %d %b %Y %H:%M"
     LOGGER = logging.getLogger('BlastDatabaseRepository')
 
-    def __init__(self, database_root_dir: str, database_name: str, git_repository_url: str):
+    def __init__(self, database_root_dir: str, database_name: str, git_repository_url: str) -> None:
         """
         Creates a new BlastDatabaseRepository.
         :param database_root_dir: The root directory for both the Blast databases.
@@ -139,7 +139,7 @@ class BlastDatabaseRepositoryStripGitDir(BlastDatabaseRepository):
     GIT_INFO_SECTION = 'GitInfo'
     LOGGER = logging.getLogger('BlastDatabaseRepositoryStripGitDir')
 
-    def __init__(self, database_root_dir: str, database_name: str, git_repository_url: str):
+    def __init__(self, database_root_dir: str, database_name: str, git_repository_url: str) -> None:
         """
         Creates a new BlastDatabaseRepositoryStripGitDir.
         :param database_root_dir: The root directory for both the Blast databases.
