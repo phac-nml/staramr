@@ -10,3 +10,4 @@ __pycache__
 /staramr/databases/data/
 /.eggs
 /.venv
+/.mypy_cache

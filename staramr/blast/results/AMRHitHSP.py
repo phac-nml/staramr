@@ -101,14 +101,14 @@ class AMRHitHSP:
         re_search = re.search(r'^(\S+)', self._blast_record['sseqid'])
         return re_search.group(1)
 
-    def get_genome_contig_start(self):
+    def get_genome_contig_start(self) -> int:
         """
         Gets the start of the HSP in the genome input file.
         :return: The start of the HSP.
         """
         return self._blast_record['sstart']
 
-    def get_genome_contig_end(self):
+    def get_genome_contig_end(self) -> int:
         """
         Gets the end of the HSP in the genome input file.
         :return: The end of the HSP.

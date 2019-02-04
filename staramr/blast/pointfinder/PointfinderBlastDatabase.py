@@ -71,6 +71,9 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self.organism
 
+    def get_name(self):
+        return 'pointfinder'
+
     @classmethod
     def get_available_organisms(cls):
         """

@@ -3,9 +3,11 @@ import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from os import path
+from typing import Dict
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
+from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.exceptions.BlastProcessError import BlastProcessError
 
 logger = logging.getLogger('BlastHandler')
@@ -32,16 +34,14 @@ class BlastHandler:
     qseq
     '''.strip().split('\n')]
 
-    def __init__(self, resfinder_database, threads, output_directory, pointfinder_database=None):
+    def __init__(self, blast_database_objects_map: Dict[str, AbstractBlastDatabase], threads: int,
+                 output_directory: str) -> None:
         """
         Creates a new BlastHandler.
-        :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
+        :param blast_database_objects_map: A map containing the blast databases.
         :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
         :param output_directory: The output directory to store BLAST results.
-        :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         """
-        self._resfinder_database = resfinder_database
-
         if threads is None:
             raise Exception("threads is None")
 
@@ -53,11 +53,13 @@ class BlastHandler:
         self._output_directory = output_directory
         self._input_genomes_tmp_dir = path.join(output_directory, 'input-genomes')
 
-        if (pointfinder_database == None):
-            self._pointfinder_configured = False
+        self._blast_database_objects_map = blast_database_objects_map
+
+        if (self._blast_database_objects_map['pointfinder'] is None):
+            self._pointfinder_configured: bool = False
+            del self._blast_database_objects_map['pointfinder']
         else:
-            self._pointfinder_database = pointfinder_database
-            self._pointfinder_configured = True
+            self._pointfinder_configured: bool = True
 
         self._thread_pool_executor = None
         self.reset()
@@ -70,10 +72,8 @@ class BlastHandler:
         if self._thread_pool_executor is not None:
             self._thread_pool_executor.shutdown()
         self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
-        self._resfinder_blast_map = {}
-        self._pointfinder_blast_map = {}
-        self._pointfinder_future_blasts = []
-        self._resfinder_future_blasts = []
+        self._blast_map = {}
+        self._future_blasts_map = {}
 
         if path.exists(self._input_genomes_tmp_dir):
             logger.debug("Directory [%s] already exists", self._input_genomes_tmp_dir)
@@ -86,23 +86,15 @@ class BlastHandler:
         :param files: The files to scan.
         :return: None
         """
-        database_names_resfinder = self._resfinder_database.get_database_names()
-        logger.debug("Resfinder Databases: %s", database_names_resfinder)
-
-        if self.is_pointfinder_configured():
-            database_names_pointfinder = self._pointfinder_database.get_database_names()
-            logger.debug("Pointfinder Databases: %s", database_names_pointfinder)
-        else:
-            database_names_pointfinder = None
-
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
         for file in db_files:
-            logger.info("Scheduling blast for %s", path.basename(file))
-            self._schedule_resfinder_blast(file, database_names_resfinder)
-            if self.is_pointfinder_configured():
-                self._schedule_pointfinder_blast(file, database_names_pointfinder)
+            logger.info("Scheduling blasts for %s", path.basename(file))
+
+            for name in self._blast_database_objects_map:
+                database_object = self._blast_database_objects_map[name]
+                self._schedule_blast(file, database_object)
 
     def _make_db_from_input_files(self, db_dir, files):
         logger.info("Making BLAST databases for input files")
@@ -126,33 +118,34 @@ class BlastHandler:
 
         return db_files
 
-    def _schedule_resfinder_blast(self, file, database_names):
+    def _schedule_blast(self, file, blast_database):
+        database_names = blast_database.get_database_names()
+        logger.debug("%s databases: %s", blast_database.get_name(), database_names)
         for database_name in database_names:
-            database = self._resfinder_database.get_path(database_name)
+            database = blast_database.get_path(database_name)
             file_name = os.path.basename(file)
 
-            blast_out = os.path.join(self._output_directory, file_name + "." + database_name + ".resfinder.blast.xml")
+            blast_out = os.path.join(self._output_directory,
+                                     file_name + "." + database_name + "." + blast_database.get_name() + ".blast.tsv")
             if os.path.exists(blast_out):
                 raise Exception("Error, blast_out [%s] already exists", blast_out)
 
-            self._resfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
+            self._get_blast_map(blast_database.get_name()).setdefault(file_name, {})[database_name] = blast_out
 
             future_blast = self._thread_pool_executor.submit(self._launch_blast, database, file, blast_out)
-            self._resfinder_future_blasts.append(future_blast)
+            self._get_future_blasts_from_map(blast_database.get_name()).append(future_blast)
 
-    def _schedule_pointfinder_blast(self, file, database_names):
-        for database_name in database_names:
-            database = self._pointfinder_database.get_path(database_name)
-            file_name = os.path.basename(file)
+    def _get_blast_map(self, name):
+        if name not in self._blast_map:
+            self._blast_map[name] = {}
 
-            blast_out = os.path.join(self._output_directory, file_name + "." + database_name + ".pointfinder.blast.xml")
-            if os.path.exists(blast_out):
-                raise Exception("Error, blast_out [%s] already exists", blast_out)
+        return self._blast_map[name]
 
-            self._pointfinder_blast_map.setdefault(file_name, {})[database_name] = blast_out
+    def _get_future_blasts_from_map(self, name):
+        if name not in self._future_blasts_map:
+            self._future_blasts_map[name] = []
 
-            future_blast = self._thread_pool_executor.submit(self._launch_blast, database, file, blast_out)
-            self._pointfinder_future_blasts.append(future_blast)
+        return self._future_blasts_map[name]
 
     def is_pointfinder_configured(self):
         """
@@ -169,9 +162,9 @@ class BlastHandler:
         """
 
         # Forces any exceptions to be thrown if error with blasts
-        for future_blast in self._resfinder_future_blasts:
+        for future_blast in self._get_future_blasts_from_map('resfinder'):
             future_blast.result()
-        return self._resfinder_blast_map
+        return self._get_blast_map('resfinder')
 
     def get_pointfinder_outputs(self):
         """
@@ -181,9 +174,9 @@ class BlastHandler:
         """
         if (self.is_pointfinder_configured()):
             # Forces any exceptions to be thrown if error with blasts
-            for future_blast in self._pointfinder_future_blasts:
+            for future_blast in self._get_future_blasts_from_map('pointfinder'):
                 future_blast.result()
-            return self._pointfinder_blast_map
+            return self._get_blast_map('pointfinder')
         else:
             raise Exception("Error, pointfinder has not been configured")
 
