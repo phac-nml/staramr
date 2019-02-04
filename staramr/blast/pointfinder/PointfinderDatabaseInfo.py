@@ -22,7 +22,7 @@ class PointfinderDatabaseInfo:
         :param file: The file containing drug resistance mutations.
         :return: A new PointfinderDatabaseInfo.
         """
-        pointfinder_info = pd.read_table(file, index_col=False)
+        pointfinder_info = pd.read_csv(file, sep='\t', index_col=False)
         return cls(pointfinder_info)
 
     @classmethod
