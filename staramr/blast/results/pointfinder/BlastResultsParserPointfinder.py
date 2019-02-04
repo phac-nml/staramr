@@ -45,7 +45,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _create_hit(self, file, database_name, blast_record):
         logger.debug("database_name=%s", database_name)
-        if database_name == '16S_rrsD':
+        if (database_name == '16S_rrsD') or (database_name == '23S'):
             return PointfinderHitHSPRNA(file, blast_record)
         else:
             return PointfinderHitHSP(file, blast_record)
@@ -72,7 +72,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         for x in database_mutations:
             logger.debug("database_mutations: position=%s, mutation=%s", x.get_mutation_position(), x.get_mutation_string())
 
-        if database_name == '16S_rrsD':
+        if (database_name == '16S_rrsD') or (database_name == '23S'):
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
