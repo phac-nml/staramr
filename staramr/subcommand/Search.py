@@ -15,10 +15,10 @@ from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
+from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
-from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 
 logger = logging.getLogger("Search")
 
@@ -86,7 +86,8 @@ class Search(SubCommand):
                                   help='Disable the default exclusion of some genes from ResFinder/PointFinder [False].',
                                   required=False)
         report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
-                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(ExcludeGenesList.get_default_exclude_file()),
+                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(
+                                      ExcludeGenesList.get_default_exclude_file()),
                                   default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
@@ -189,12 +190,12 @@ class Search(SubCommand):
         file_handle.write(get_string_with_spacing(settings))
         file_handle.close()
 
-    def _generate_results(self, database_handler, resfinder_database, pointfinder_database, nprocs, include_negatives,
+    def _generate_results(self, database_repos, resfinder_database, pointfinder_database, nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
                           plength_threshold_pointfinder, report_all_blast, genes_to_exclude, files):
         """
         Runs AMR detection and generates results.
-        :param database_handler: The database handler.
+        :param database_repos: The database repos object.
         :param resfinder_database: The resfinder database.
         :param pointfinder_database: The pointfinder database.
         :param nprocs: The number of processing cores to use for BLAST.
@@ -214,7 +215,7 @@ class Search(SubCommand):
         with tempfile.TemporaryDirectory() as blast_out:
             start_time = datetime.datetime.now()
 
-            blast_handler = BlastHandler(resfinder_database, nprocs, blast_out, pointfinder_database)
+            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database}, nprocs, blast_out)
 
             amr_detection_factory = AMRDetectionFactory()
             amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
@@ -233,7 +234,7 @@ class Search(SubCommand):
 
             logger.info("Finished. Took %s minutes.", time_difference_minutes)
 
-            settings = database_handler.info()
+            settings = database_repos.info()
             settings['command_line'] = ' '.join(sys.argv)
             settings['version'] = self._version
             settings['start_time'] = start_time.strftime(self.TIME_FORMAT)
@@ -280,24 +281,20 @@ class Search(SubCommand):
                     self._root_arg_parser)
 
         if args.database == AMRDatabasesManager.get_default_database_directory():
-            database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
+            database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
         else:
-            database_handler = AMRDatabasesManager(args.database).get_database_handler()
+            database_repos = AMRDatabasesManager(args.database).get_database_repos()
 
-        if not AMRDatabasesManager.is_handler_default_commits(database_handler):
+        if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
             logger.warning("Using non-default ResFinder/PointFinder. This may lead to differences in the detected " +
                            "AMR genes depending on how the database files are structured.")
 
-        resfinder_database_dir = database_handler.get_resfinder_dir()
-        pointfinder_database_dir = database_handler.get_pointfinder_dir()
-
-        resfinder_database = ResfinderBlastDatabase(resfinder_database_dir)
+        resfinder_database = database_repos.build_blast_database('resfinder')
         if (args.pointfinder_organism):
             if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
                 raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
                     PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
-            pointfinder_database = PointfinderBlastDatabase(pointfinder_database_dir,
-                                                            args.pointfinder_organism)
+            pointfinder_database = database_repos.build_blast_database('pointfinder', {'organism': args.pointfinder_organism})
         else:
             logger.info("No --pointfinder-organism specified. Will not search the PointFinder databases")
             pointfinder_database = None
@@ -360,10 +357,12 @@ class Search(SubCommand):
                 raise CommandParseException('--exclude-genes-file [{}] does not exist'.format(args.exclude_genes_file),
                                             self._root_arg_parser)
             else:
-                logger.info("Will exclude ResFinder/PointFinder genes listed in [%s]. Use --no-exclude-genes to disable",args.exclude_genes_file)
-                exclude_genes=ExcludeGenesList(args.exclude_genes_file).tolist()
+                logger.info(
+                    "Will exclude ResFinder/PointFinder genes listed in [%s]. Use --no-exclude-genes to disable",
+                    args.exclude_genes_file)
+                exclude_genes = ExcludeGenesList(args.exclude_genes_file).tolist()
 
-        results = self._generate_results(database_handler=database_handler,
+        results = self._generate_results(database_repos=database_repos,
                                          resfinder_database=resfinder_database,
                                          pointfinder_database=pointfinder_database,
                                          nprocs=args.nprocs,
