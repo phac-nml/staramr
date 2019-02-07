@@ -837,6 +837,73 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.assertEqual(len(os.listdir(self.outdir.name)), 0, 'File found where none should exist')
 
+    def testPointfinderCampylobacterA70TSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "gyrA-A70T.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A70T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'gyrA-A70T', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 70, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCC -> ACC (A -> T)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2592/2592', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R', 'Wrong phenotype')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A70T.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+
+    def testPointfinderCampylobacterA2075GSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "23S-A2075G.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == '23S (A2075G)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '23S-A2075G', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 2075, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'A -> G', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.97, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2912/2912', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'erythromycin, azithromycin, telithromycin, clindamycin', 'Wrong phenotype')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_23S-A2075G.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['23S'].seq.upper(), records['23S'].seq.upper(), "records don't match")
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,3 +1,8 @@
+# Version 0.4.0
+
+* Add support for campylobacter.
+* Fix `read_table` deprecation warnings by replacing `read_table` with `read_csv`.
+
 # Version 0.3.0
 
 * Exclusion of `aac(6')-Iaa` from results by default. Added ability to override this with `--no-exclude-genes` or pass a custom list of genes to exclude from results with `--exclude-genes-file`.
