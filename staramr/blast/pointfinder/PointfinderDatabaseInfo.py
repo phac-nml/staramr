@@ -12,7 +12,7 @@ logger = logging.getLogger('PointfinderDatabaseInfo')
 
 class PointfinderDatabaseInfo:
 
-    def __init__(self, database_info_dataframe, file = None):
+    def __init__(self, database_info_dataframe, file=None):
         """
         Creates a new PointfinderDatabaseInfo.
         :param database_info_dataframe: A pd.DataFrame containing the information in PointFinder.
@@ -50,7 +50,8 @@ class PointfinderDatabaseInfo:
         :param table: The pointfinder resistance table to fix.
         :return: None, but modifies the passed table in place.
         """
-        if self._file and 'salmonella' in str(self._file):
+        if self._file and 'salmonella' in str(self._file) and path.exists(
+                path.join(path.dirname(self._file), '16S_rrsD.fsa')):
             logger.debug("Replacing [16S] with [16S_rrsD] for pointfinder organism [salmonella]")
             table[['#Gene_ID']] = table[['#Gene_ID']].replace('16S', '16S_rrsD')
 
