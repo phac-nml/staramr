@@ -579,197 +579,197 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, "gyrA-A67P.fsa"), 'fasta'))
         self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
 
-    # def testPointfinderSalmonella_16S_rrSD_C1065T_Success(self):
-    #     pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-    #     blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
-    #                                  self.blast_out.name)
-    #     amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
-    #                                            self.pointfinder_drug_table, pointfinder_database,
-    #                                            output_dir=self.outdir.name)
+    def testPointfinderSalmonella_16S_rrSD_C1065T_Success(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
 
-    #     file = path.join(self.test_data_dir, "16S_rrsD-1T1065.fsa")
-    #     files = [file]
-    #     amr_detection.run_amr_detection(files, 99, 99, 90)
+        file = path.join(self.test_data_dir, "16S_rrsD-1T1065.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
 
-    #     pointfinder_results = amr_detection.get_pointfinder_results()
-    #     self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
-    #     result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertEqual(result.index[0], '16S_rrsD-1T1065', msg='Wrong file')
-    #     self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
-    #     self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
-    #     self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
-    #     self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
-    #     self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
-    #                      'Wrong phenotype')
+        result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S_rrsD-1T1065', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
+                         'Wrong phenotype')
 
-    #     hit_file = path.join(self.outdir.name, 'pointfinder_16S_rrsD-1T1065.fsa')
-    #     records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+        hit_file = path.join(self.outdir.name, 'pointfinder_16S_rrsD-1T1065.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
 
-    #     self.assertEqual(len(records), 1, 'Wrong number of hit records')
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
-    #     expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-    #     self.assertEqual(expected_records['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
-    #                      "records don't match")
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
+                         "records don't match")
 
-    # def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
-    #     pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-    #     blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
-    #                                  self.blast_out.name)
-    #     amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
-    #                                            self.pointfinder_drug_table, pointfinder_database,
-    #                                            output_dir=self.outdir.name)
+    def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
 
-    #     file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
-    #     files = [file]
-    #     amr_detection.run_amr_detection(files, 99, 99, 90)
+        file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
 
-    #     resfinder_results = amr_detection.get_resfinder_results()
-    #     self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+        resfinder_results = amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
 
-    #     result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0],
-    #                      'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
-    #                      'Wrong phenotype')
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
 
-    #     hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
-    #     records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
-    #     self.assertEqual(len(records), 1, 'Wrong number of hit records')
-    #     expected_records = SeqIO.to_dict(
-    #         SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
-    #     self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(),
-    #                      records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
+        hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(),
+                         records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
 
-    #     pointfinder_results = amr_detection.get_pointfinder_results()
-    #     self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
 
-    #     result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertEqual(result.index[0], '16S_gyrA_beta-lactam', msg='Wrong file')
-    #     self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
-    #     self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
-    #     self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
-    #     self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
-    #     self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
-    #                      'Wrong phenotype')
+        result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S_gyrA_beta-lactam', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
+                         'Wrong phenotype')
 
-    #     result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertEqual(result.index[0], '16S_gyrA_beta-lactam', msg='Wrong file')
-    #     self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
-    #     self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
-    #     self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
-    #     self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
-    #     self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
-    #                      'Wrong phenotype')
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S_gyrA_beta-lactam', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
+                         'Wrong phenotype')
 
-    #     hit_file = path.join(self.outdir.name, 'pointfinder_16S_gyrA_beta-lactam.fsa')
-    #     records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
-    #     self.assertEqual(len(records), 2, 'Wrong number of hit records')
-    #     expected_records1 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'gyrA-A67P.fsa'), 'fasta'))
-    #     self.assertEqual(expected_records1['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
-    #     expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
-    #     self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
-    #                      "records don't match")
+        hit_file = path.join(self.outdir.name, 'pointfinder_16S_gyrA_beta-lactam.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+        self.assertEqual(len(records), 2, 'Wrong number of hit records')
+        expected_records1 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'gyrA-A67P.fsa'), 'fasta'))
+        self.assertEqual(expected_records1['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+        expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
+        self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
+                         "records don't match")
 
-    # def testResfinderPointfinderSalmonellaExcludeGenesListSuccess(self):
-    #     pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-    #     blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
-    #                                  self.blast_out.name)
-    #     amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
-    #                                            self.pointfinder_drug_table, pointfinder_database,
-    #                                            output_dir=self.outdir.name, genes_to_exclude=['gyrA'])
+    def testResfinderPointfinderSalmonellaExcludeGenesListSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name, genes_to_exclude=['gyrA'])
 
-    #     file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
-    #     files = [file]
-    #     amr_detection.run_amr_detection(files, 99, 99, 90)
+        file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
 
-    #     resfinder_results = amr_detection.get_resfinder_results()
-    #     self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+        resfinder_results = amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
 
-    #     result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
 
-    #     pointfinder_results = amr_detection.get_pointfinder_results()
-    #     self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
-    #     result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
 
-    # def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
-    #     pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-    #     blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
-    #                                  self.blast_out.name)
-    #     amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
-    #                                            self.pointfinder_drug_table, pointfinder_database,
-    #                                            output_dir=self.outdir.name)
+    def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
 
-    #     file = path.join(self.test_data_dir, "16S-rc_gyrA-rc_beta-lactam.fsa")
-    #     files = [file]
-    #     amr_detection.run_amr_detection(files, 99, 99, 90)
+        file = path.join(self.test_data_dir, "16S-rc_gyrA-rc_beta-lactam.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
 
-    #     resfinder_results = amr_detection.get_resfinder_results()
-    #     self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+        resfinder_results = amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
 
-    #     result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0],
-    #                      'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
-    #                      'Wrong phenotype')
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
 
-    #     hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
-    #     records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
-    #     self.assertEqual(len(records), 1, 'Wrong number of hit records')
-    #     expected_records = SeqIO.to_dict(
-    #         SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
-    #     self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(),
-    #                      records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
+        hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+        expected_records = SeqIO.to_dict(
+            SeqIO.parse(path.join(self.test_data_dir, 'beta-lactam-blaIMP-42-mut-2.fsa'), 'fasta'))
+        self.assertEqual(expected_records['blaIMP-42_1_AB753456'].seq.upper(),
+                         records['blaIMP-42_1_AB753456'].seq.upper(), "records don't match")
 
-    #     pointfinder_results = amr_detection.get_pointfinder_results()
-    #     self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 2, 'Wrong number of rows in result')
 
-    #     result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertEqual(result.index[0], '16S-rc_gyrA-rc_beta-lactam', msg='Wrong file')
-    #     self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
-    #     self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
-    #     self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
-    #     self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
-    #     self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
-    #                      'Wrong phenotype')
+        result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S-rc_gyrA-rc_beta-lactam', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 1065, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'C -> T', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.94, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
+                         'Wrong phenotype')
 
-    #     result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
-    #     self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-    #     self.assertEqual(result.index[0], '16S-rc_gyrA-rc_beta-lactam', msg='Wrong file')
-    #     self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
-    #     self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
-    #     self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
-    #     self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
-    #     self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
-    #     self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
-    #     self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
-    #                      'Wrong phenotype')
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '16S-rc_gyrA-rc_beta-lactam', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 67, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCC -> CCC (A -> P)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
+                         'Wrong phenotype')
 
-    #     hit_file = path.join(self.outdir.name, 'pointfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
-    #     records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
-    #     self.assertEqual(len(records), 2, 'Wrong number of hit records')
-    #     expected_records1 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'gyrA-A67P.fsa'), 'fasta'))
-    #     self.assertEqual(expected_records1['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
-    #     expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
-    #     self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
-    #                      "records don't match")
+        hit_file = path.join(self.outdir.name, 'pointfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+        self.assertEqual(len(records), 2, 'Wrong number of hit records')
+        expected_records1 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, 'gyrA-A67P.fsa'), 'fasta'))
+        self.assertEqual(expected_records1['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+        expected_records2 = SeqIO.to_dict(SeqIO.parse(path.join(self.test_data_dir, '16S_rrsD-1T1065.fsa'), 'fasta'))
+        self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
+                         "records don't match")
 
     def testResfinderExcludeNonMatches(self):
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
