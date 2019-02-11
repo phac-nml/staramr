@@ -5,7 +5,7 @@ python:
 
 env:
   matrix:
-    - "DATABASE_COMMITS='--resfinder-commit e8f1eb2585cd9610c4034a54ce7fc4f93aa95535 --pointfinder-commit 8706a6363bb29e47e0e398c53043b037c24b99a7'"
+    - "DATABASE_COMMITS='--resfinder-commit 25ee4cd5bc9a9ff519b2fc7e53384aceb5fa942d --pointfinder-commit 7fdb7f4cddfb06932e1ae0c6d3b23a0f297d7922'"
 
 install:
   - sudo apt-get update -qq
