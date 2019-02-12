@@ -137,6 +137,8 @@ class BlastDatabaseRepositories:
         repos.register_database_repository('resfinder', 'https://bitbucket.org/genomicepidemiology/resfinder_db.git')
         repos.register_database_repository('pointfinder',
                                            'https://bitbucket.org/genomicepidemiology/pointfinder_db.git')
+        repos.register_database_repository('plasmidfinder',
+                                           'https://bitbucket.org/genomicepidemiology/plasmidfinder_db.git')
 
         return repos
 
