@@ -106,7 +106,7 @@ class Build(Database):
             database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
         else:
             database_repos = AMRDatabasesManager(args.destination).get_database_repos()
-        database_repos.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
+        database_repos.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
         if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
             logger.warning(
                 "Built non-default ResFinder/PointFinder/PlasmidFinder database version. This may lead to " +
