@@ -1,7 +1,8 @@
 # Version 0.4.0
 
-* Add support for campylobacter.
+* Add support for campylobacter from PointFinder database.
 * Fix `read_table` deprecation warnings by replacing `read_table` with `read_csv`.
+* Handling issue with name of `16S` gene in PointFinder database for salmonella.
 
 # Version 0.3.0
 
