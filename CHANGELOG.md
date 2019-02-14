@@ -1,7 +1,10 @@
 # Version 0.4.0
 
-* Add support for campylobacter.
+* Add support for campylobacter from PointFinder database.
 * Fix `read_table` deprecation warnings by replacing `read_table` with `read_csv`.
+* Handling issue with name of `16S` gene in PointFinder database for salmonella.
+* Refactoring and simplifying some of the git ResFinder/PointFinder database code.
+* Added automated type checking with [mypy](https://mypy.readthedocs.io).
 
 # Version 0.3.0
 

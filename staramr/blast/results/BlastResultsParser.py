@@ -18,14 +18,14 @@ Class for parsing BLAST results.
 
 
 class BlastResultsParser:
-    INDEX: str = 'Isolate ID'
-    COLUMNS: List[str] = []
-    SORT_COLUMNS: List[str] = []
-    BLAST_SORT_COLUMNS: List[str] = [x.strip() for x in '''
+    INDEX = 'Isolate ID'  # type: str
+    COLUMNS = []  # type: List[str]
+    SORT_COLUMNS = []  # type: List[str]
+    BLAST_SORT_COLUMNS = [x.strip() for x in '''
     plength
     pident
     sstart
-    '''.strip().split('\n')]
+    '''.strip().split('\n')]  # type: List[str]
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
                  output_dir=None, genes_to_exclude=[]):
@@ -86,7 +86,8 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
-        blast_table = pd.read_csv(blast_file, sep='\t', header=None, names=BlastHandler.BLAST_COLUMNS, index_col=False).astype(
+        blast_table = pd.read_csv(blast_file, sep='\t', header=None, names=BlastHandler.BLAST_COLUMNS,
+                                  index_col=False).astype(
             dtype={'qseqid': np.unicode_, 'sseqid': np.unicode_})
         partitions = BlastHitPartitions()
 
