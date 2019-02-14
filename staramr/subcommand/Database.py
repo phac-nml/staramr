@@ -1,5 +1,5 @@
 """
-Classes for interacting with the (ResFinder/PointFinder) databases used to detect AMR genes.
+Classes for interacting with the (ResFinder/PointFinder/PlasmidFinder) databases used to detect AMR genes.
 """
 import argparse
 import logging
@@ -32,9 +32,9 @@ class Database(SubCommand):
         super().__init__(subparser, script_name)
 
     def _setup_args(self, arg_parser):
-        arg_parser = self._subparser.add_parser('db', help='Download ResFinder/PointFinder databases')
+        arg_parser = self._subparser.add_parser('db', help='Download ResFinder/PointFinder/PlasmidFinder databases')
         subparser = arg_parser.add_subparsers(dest='db_command',
-                                              help='Subcommand for ResFinder/PointFinder databases.')
+                                              help='Subcommand for ResFinder/PointFinder/PlasmidFinder databases.')
 
         Build(subparser, self._script_name + " db")
         Update(subparser, self._script_name + " db")
@@ -70,9 +70,9 @@ class Build(Database):
         self._default_dir = AMRDatabasesManager.get_default_database_directory()
         epilog = ("Example:\n"
                   "\t" + name + " build\n"
-                                "\t\tBuilds a new ResFinder/PointFinder database under " + self._default_dir + " if it does not exist\n\n" +
+                                "\t\tBuilds a new ResFinder/PointFinder/PlasmidFinder database under " + self._default_dir + " if it does not exist\n\n" +
                   "\t" + name + " build --dir databases\n" +
-                  "\t\tBuilds a new ResFinder/PointFinder database under databases/")
+                  "\t\tBuilds a new ResFinder/PointFinder/PlasmidFinder database under databases/")
 
         arg_parser = self._subparser.add_parser('build',
                                                 epilog=epilog,
@@ -85,6 +85,8 @@ class Build(Database):
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
                                 help='The specific git commit for the pointfinder database [latest].', required=False)
+        arg_parser.add_argument('--plasmidfinder-commit', action='store', dest='plasmidfinder_commit', type=str,
+                                help='The specific git commit for the plasmidfinder database [latest].', required=False)
         return arg_parser
 
     def run(self, args):
@@ -104,10 +106,10 @@ class Build(Database):
             database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
         else:
             database_repos = AMRDatabasesManager(args.destination).get_database_repos()
-        database_repos.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
+        database_repos.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
         if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
             logger.warning(
-                "Built non-default ResFinder/PointFinder database version. This may lead to " +
+                "Built non-default ResFinder/PointFinder/PlasmidFinder database version. This may lead to " +
                 "differences in the detected AMR genes depending on how the database files are structured.")
 
 
@@ -131,9 +133,9 @@ class Update(Database):
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " update databases/\n"
-                                "\t\tUpdates the ResFinder/PointFinder database under databases/\n\n" +
+                                "\t\tUpdates the ResFinder/PointFinder/PlasmidFinder database under databases/\n\n" +
                   "\t" + name + " update -d\n" +
-                  "\t\tUpdates the default ResFinder/PointFinder database under " + self._default_dir)
+                  "\t\tUpdates the default ResFinder/PointFinder/PlasmidFinder database under " + self._default_dir)
         arg_parser = self._subparser.add_parser('update',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
@@ -145,6 +147,8 @@ class Update(Database):
                                 help='The specific git commit for the resfinder database [latest].', required=False)
         arg_parser.add_argument('--pointfinder-commit', action='store', dest='pointfinder_commit', type=str,
                                 help='The specific git commit for the pointfinder database [latest].', required=False)
+        arg_parser.add_argument('--plasmidfinder-commit', action='store', dest='plasmidfinder_commit', type=str,
+                                help='The specific git commit for the plasmidfinder database [latest].', required=False)
         arg_parser.add_argument('directories', nargs='*')
 
         return arg_parser
@@ -163,11 +167,11 @@ class Update(Database):
                         force_use_git=True)
 
                     database_repos.update(
-                        {'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
+                        {'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
 
                     if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
                         logger.warning(
-                            "Updated to non-default ResFinder/PointFinder database version. This may lead to " +
+                            "Updated to non-default ResFinder/PointFinder/PlasmidFinder database version. This may lead to " +
                             "differences in the detected AMR genes depending on how the database files are structured.")
                 except DatabaseErrorException as e:
                     logger.error(
@@ -176,10 +180,10 @@ class Update(Database):
         else:
             for directory in args.directories:
                 database_repos = AMRDatabasesManager(directory).get_database_repos()
-                database_repos.update({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit})
+                database_repos.update({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
                 if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
                     logger.warning(
-                        "Updated to non-default ResFinder/PointFinder database version [%s]. This may lead to " +
+                        "Updated to non-default ResFinder/PointFinder/PlasmidFinder database version [%s]. This may lead to " +
                         "differences in the detected AMR genes depending on how the database files are structured.",
                         directory)
 
@@ -203,11 +207,11 @@ class RestoreDefault(Database):
         name = self._script_name
         epilog = ("Example:\n"
                   "\t" + name + " restore-default\n"
-                                "\t\tRestores the default ResFinder/PointFinder database\n\n")
+                                "\t\tRestores the default ResFinder/PointFinder/PlasmidFinder database\n\n")
         arg_parser = self._subparser.add_parser('restore-default',
                                                 epilog=epilog,
                                                 formatter_class=argparse.RawTextHelpFormatter,
-                                                help='Restores the default ResFinder/PointFinder databases.')
+                                                help='Restores the default ResFinder/PointFinder/PlasmidFinder databases.')
 
         arg_parser.add_argument('-f', '--force', action='store_true', dest='force',
                                 help='Force restore without asking for confirmation.', required=False)
@@ -221,7 +225,7 @@ class RestoreDefault(Database):
         confirmed = False
         while not confirmed:
             response = str(input(
-                "Restore the default ResFinder/PointFinder databases (Y/N)? ").lower().strip())
+                "Restore the default ResFinder/PointFinder/PlasmidFinder databases (Y/N)? ").lower().strip())
             if response == 'y' or response == 'yes':
                 return True
             elif response == 'n' or response == 'no':
@@ -282,7 +286,7 @@ class Info(Database):
             database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
             if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
                 logger.warning(
-                    "Using non-default ResFinder/PointFinder database versions. This may lead to differences in the detected " +
+                    "Using non-default ResFinder/PointFinder/PlasmidFinder database versions. This may lead to differences in the detected " +
                     "AMR genes depending on how the database files are structured.")
 
             try:
@@ -297,7 +301,7 @@ class Info(Database):
                     database_repos = AMRDatabasesManager(directory).get_database_repos()
                     if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
                         logger.warning(
-                            "Using non-default ResFinder/PointFinder database version [%s]. This may lead to " +
+                            "Using non-default ResFinder/PointFinder/PlasmidFinder database version [%s]. This may lead to " +
                             "differences in the detected AMR genes depending on how the database files are structured.",
                             directory)
 

@@ -90,12 +90,12 @@ class BlastDatabaseRepository:
         """
         return self.info()[self._get_info_name('commit')] == commit
 
-    def info(self) -> Dict[str,str]:
+    def info(self) -> Dict[str, str]:
         """
         Gets information on the Blast databases.
         :return: Database information as a OrderedDict of key/value pairs.
         """
-        data: Dict[str,str] = OrderedDict()
+        data = OrderedDict()  # type: Dict[str,str]
 
         try:
             repo = git.Repo(self._git_dir)
@@ -190,7 +190,7 @@ class BlastDatabaseRepositoryStripGitDir(BlastDatabaseRepository):
         """
         raise Exception("Cannot update when .git directory has been removed")
 
-    def info(self) -> Dict[str,str]:
+    def info(self) -> Dict[str, str]:
         """
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a list containing key/value pairs.

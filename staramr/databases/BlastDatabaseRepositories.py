@@ -25,7 +25,7 @@ class BlastDatabaseRepositories:
             (that is, should we strip out the .git directories).
         """
         self._database_dir = database_dir
-        self._database_repositories: Dict[str,BlastDatabaseRepository] = {}
+        self._database_repositories = {}  # type: Dict[str,BlastDatabaseRepository]
         self._is_dist = is_dist
 
     def register_database_repository(self, database_name: str, git_repository_url: str) -> None:
@@ -36,12 +36,11 @@ class BlastDatabaseRepositories:
         :param is_dist: True if this database should be interpreted as the distributable version (no .git directory).
         :return: None
         """
-        database_repository: BlastDatabaseRepository
+        database_repository = BlastDatabaseRepository(self._database_dir, database_name,
+                                                      git_repository_url)  # type: BlastDatabaseRepository
         if self._is_dist:
             database_repository = BlastDatabaseRepositoryStripGitDir(self._database_dir, database_name,
                                                                      git_repository_url)
-        else:
-            database_repository = BlastDatabaseRepository(self._database_dir, database_name, git_repository_url)
 
         if database_name in self._database_repositories:
             raise Exception("A database with name [{}] already exists", database_name)
@@ -78,12 +77,12 @@ class BlastDatabaseRepositories:
 
         shutil.rmtree(self._database_dir)
 
-    def info(self) -> Dict[str,str]:
+    def info(self) -> Dict[str, str]:
         """
         Gets information on the ResFinder/PointFinder databases.
         :return: Database information as a OrderedDict of key/value pairs.
         """
-        info: Dict[str,str] = OrderedDict()
+        info = OrderedDict()  # type: Dict[str,str]
 
         for name, repo in self._database_repositories.items():
             info.update(repo.info())
@@ -105,7 +104,7 @@ class BlastDatabaseRepositories:
         """
         return self._database_repositories[name].get_git_dir()
 
-    def is_at_commits(self, commits: Dict[str,str]):
+    def is_at_commits(self, commits: Dict[str, str]):
         """
         Are the database repositories at the passed commits?
         :param commits: A dict of the commits {'database_name': 'commit'}.
@@ -137,10 +136,12 @@ class BlastDatabaseRepositories:
         repos.register_database_repository('resfinder', 'https://bitbucket.org/genomicepidemiology/resfinder_db.git')
         repos.register_database_repository('pointfinder',
                                            'https://bitbucket.org/genomicepidemiology/pointfinder_db.git')
+        repos.register_database_repository('plasmidfinder',
+                                           'https://bitbucket.org/genomicepidemiology/plasmidfinder_db.git')
 
         return repos
 
-    def build_blast_database(self, database_name: str, options: Dict[str,str] = {}) -> AbstractBlastDatabase:
+    def build_blast_database(self, database_name: str, options: Dict[str, str] = {}) -> AbstractBlastDatabase:
         """
         Builds a staramr.blast.AbstractBlastDatabase from the given parameters.
         :param database_name: The name of the database to build.

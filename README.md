@@ -194,7 +194,7 @@ staramr db restore-default
 
 ## Dependencies
 
-* Python 3
+* Python 3.5+
 * BLAST+
 * Git
 
@@ -386,7 +386,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --pointfinder-organism POINTFINDER_ORGANISM
-                        The organism to use for pointfinder {salmonella}. Defaults to disabling search for point mutations. [None].
+                        The organism to use for pointfinder {salmonella, campylobacter}. Defaults to disabling search for point mutations. [None].
   -d DATABASE, --database DATABASE
                         The directory containing the resfinder/pointfinder databases [staramr/databases/data].
   -n NPROCS, --nprocs NPROCS
