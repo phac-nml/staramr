@@ -71,13 +71,16 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self.organism
 
+    def get_name(self):
+        return 'pointfinder'
+
     @classmethod
     def get_available_organisms(cls):
         """
         A Class Method to get a list of organisms that are currently supported by staramr.
         :return: The list of organisms currently supported by staramr.
         """
-        return ['salmonella']
+        return ['salmonella','campylobacter']
 
     @classmethod
     def get_organisms(cls, database_dir):
@@ -86,7 +89,7 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         :param database_dir: The PointFinder database root directory.
         :return: A list of organisms.
         """
-        config = pd.read_table(path.join(database_dir, 'config'), comment='#', header=None,
+        config = pd.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
                                names=['db_prefix', 'name', 'description'])
         return config['db_prefix'].tolist()
 

@@ -10,7 +10,7 @@ class ExcludeGenesList:
     DEFAULT_EXCLUDE_FILE = path.join(path.dirname(__file__), 'data', 'genes_to_exclude.tsv')
 
     def __init__(self, file=DEFAULT_EXCLUDE_FILE):
-        self._data = pd.read_table(file)
+        self._data = pd.read_csv(file, sep='\t')
 
     def tolist(self):
         """

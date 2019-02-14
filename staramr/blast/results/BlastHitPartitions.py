@@ -3,7 +3,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import Union
+from typing import Any
 from collections import OrderedDict
 
 logger = logging.getLogger('BlastHits')
@@ -41,7 +41,7 @@ class BlastHitPartitions:
         else:
             self._add_hit_partition(hit, partition)
 
-    def _add_hit_partition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> None:
+    def _add_hit_partition(self, hit: AMRHitHSP, partition: Dict[str, Any]) -> None:
         start, end = self._stranded_ends(hit)
 
         if start < partition['start']:
@@ -52,7 +52,7 @@ class BlastHitPartitions:
 
         partition['hits'].append(hit)
 
-    def _get_existing_partition(self, hit: AMRHitHSP) -> Optional[Dict[str, Union[int, List[AMRHitHSP]]]]:
+    def _get_existing_partition(self, hit: AMRHitHSP) -> Optional[Dict[str, Any]]:
         partition_name = hit.get_genome_contig_id()
 
         if partition_name in self._partitions:
@@ -63,7 +63,7 @@ class BlastHitPartitions:
 
         return None
 
-    def _hit_in_parition(self, hit: AMRHitHSP, partition: Dict[str, Union[int, List[AMRHitHSP]]]) -> bool:
+    def _hit_in_parition(self, hit: AMRHitHSP, partition: Dict[str, Any]) -> bool:
         pstart, pend = partition['start'], partition['end']
         start, end = self._stranded_ends(hit)
 

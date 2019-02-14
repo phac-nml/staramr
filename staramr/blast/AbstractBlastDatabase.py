@@ -33,6 +33,14 @@ class AbstractBlastDatabase:
         """
         pass
 
+    @abc.abstractmethod
+    def get_name(self) -> str:
+        """
+        Gets a name for this blast database implementation.
+        :return: A name for this implementation.
+        """
+        pass
+
     def get_database_paths(self):
         """
         Gets a list of all database paths.

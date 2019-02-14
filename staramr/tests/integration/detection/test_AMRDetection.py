@@ -22,16 +22,17 @@ logger = logging.getLogger('AMRDetectionIT')
 class AMRDetectionIT(unittest.TestCase):
 
     def setUp(self):
-        database_handler = AMRDatabasesManager.create_default_manager().get_database_handler()
-        self.resfinder_dir = database_handler.get_resfinder_dir()
-        self.pointfinder_dir = database_handler.get_pointfinder_dir()
+        blast_databases_repositories = AMRDatabasesManager.create_default_manager().get_database_repos()
+        self.resfinder_dir = blast_databases_repositories.get_repo_dir('resfinder')
+        self.pointfinder_dir = blast_databases_repositories.get_repo_dir('pointfinder')
 
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
-        self.blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, self.pointfinder_database)
+        self.blast_handler = BlastHandler(
+            {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database}, 2, self.blast_out.name)
 
         self.outdir = tempfile.TemporaryDirectory()
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
@@ -393,7 +394,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -427,7 +429,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PSuccessNoPhenotype(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
                                      output_dir=self.outdir.name)
 
@@ -459,7 +462,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PDelEndSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -493,7 +497,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PDelEndFailPlength(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -509,7 +514,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PFailPID(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -524,7 +530,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67TFail(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -539,7 +546,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PReverseComplementSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -573,7 +581,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonella_16S_rrSD_C1065T_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -608,7 +617,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -673,7 +683,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderPointfinderSalmonellaExcludeGenesListSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name, genes_to_exclude=['gyrA'])
@@ -696,7 +707,8 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler(self.resfinder_database, 2, self.blast_out.name, pointfinder_database)
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
@@ -825,6 +837,73 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.assertEqual(len(os.listdir(self.outdir.name)), 0, 'File found where none should exist')
 
+    def testPointfinderCampylobacterA70TSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "gyrA-A70T.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A70T)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'gyrA-A70T', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 70, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCC -> ACC (A -> T)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2592/2592', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R', 'Wrong phenotype')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A70T.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+
+    def testPointfinderCampylobacterA2075GSuccess(self):
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
+        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "23S-A2075G.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == '23S (A2075G)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], '23S-A2075G', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 2075, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'A -> G', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.97, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2912/2912', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'erythromycin, azithromycin, telithromycin, clindamycin', 'Wrong phenotype')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_23S-A2075G.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['23S'].seq.upper(), records['23S'].seq.upper(), "records don't match")
 
 if __name__ == '__main__':
     unittest.main()

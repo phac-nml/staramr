@@ -1,6 +1,7 @@
 sudo: required
 language: python
 python:
+  - "3.5"
   - "3.6"
 
 env:
@@ -18,7 +19,7 @@ install:
   - conda create -c bioconda -c conda-forge -q -y -n test-environment python=$TRAVIS_PYTHON_VERSION blast=2.7.1 git
   - source activate test-environment
   - python setup.py install
-  - mkdir -p staramr/databases/data/
-  - staramr db build --dir staramr/databases/data/update $DATABASE_COMMITS
+  - staramr db build --dir staramr/databases/data $DATABASE_COMMITS
+  - pip install mypy==0.600
 
-script: python setup.py test
+script: ./scripts/mypy && python setup.py test
