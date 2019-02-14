@@ -1,3 +1,7 @@
+# Version 1.0.0
+
+* Add support for enterococcus faecalis from Pointfinder database.
+
 # Version 0.4.0
 
 * Add support for campylobacter from PointFinder database.
