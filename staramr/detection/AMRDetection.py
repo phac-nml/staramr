@@ -1,5 +1,6 @@
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
+from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
 """
@@ -10,12 +11,13 @@ A Class to handle scanning files for AMR genes.
 class AMRDetection:
 
     def __init__(self, resfinder_database, amr_detection_handler, pointfinder_database=None,
-                 include_negative_results=False, output_dir=None, genes_to_exclude=[]):
+                 include_negative_results=False, output_dir=None, genes_to_exclude=[], plasmidfinder_database=None):
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
+        :param plasmidfinder_database: The staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase for the particular PlasmidFinder database.
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
         :param output_dir: The directory where output fasta files are to be written into (None for no output fasta files).
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
@@ -23,6 +25,7 @@ class AMRDetection:
         self._resfinder_database = resfinder_database
         self._amr_detection_handler = amr_detection_handler
         self._pointfinder_database = pointfinder_database
+        self._plasmidfinder_database = plasmidfinder_database
         self._include_negative_results = include_negative_results
 
         if pointfinder_database is None:
@@ -34,9 +37,9 @@ class AMRDetection:
 
         self._genes_to_exclude = genes_to_exclude
 
-    def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe):
+    def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe):
         amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
-                                                    pointfinder_dataframe)
+                                                    pointfinder_dataframe, plasmidfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
@@ -52,14 +55,20 @@ class AMRDetection:
                                                            genes_to_exclude=self._genes_to_exclude)
         return pointfinder_parser.parse_results()
 
-    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
-                          report_all=False):
+    def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map, pid_threshold, plength_threshold, report_all):
+        plasmidfinder_parser = BlastResultsParserPlasmidfinder(plasmidfinder_blast_map, self._plasmidfinder_database, pid_threshold,
+                                                       plength_threshold, report_all, output_dir=self._output_dir,
+                                                       genes_to_exclude=self._genes_to_exclude)
+        return plasmidfinder_parser.parse_results()
+
+    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all=False):
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
         :param pid_threshold: The percent identity threshold for BLAST results.
         :param plength_threshold_resfinder: The percent length overlap for BLAST results (resfinder).
         :param plength_threshold_pointfinder: The percent length overlap for BLAST results (pointfinder).
+        :param plength_threshold_plasmidfinder: The percent length overlap for BLAST results (plasmidfinder).
         :param report_all: Whether or not to report all blast hits.
         :return: None
         """
@@ -69,6 +78,9 @@ class AMRDetection:
         self._resfinder_dataframe = self._create_resfinder_dataframe(resfinder_blast_map, pid_threshold,
                                                                      plength_threshold_resfinder, report_all)
 
+        plasmidfinder_blast_map = self._amr_detection_handler.get_plasmidfinder_outputs()
+        self._plasmidfinder_dataframe = self._create_plasmidfinder_dataframe(plasmidfinder_blast_map, pid_threshold, plength_threshold_plasmidfinder, report_all)
+
         if self._has_pointfinder:
             pointfinder_blast_map = self._amr_detection_handler.get_pointfinder_outputs()
             self._pointfinder_dataframe = self._create_pointfinder_dataframe(pointfinder_blast_map, pid_threshold,
@@ -76,8 +88,8 @@ class AMRDetection:
         else:
             self._pointfinder_dataframe = None
 
-        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe,
-                                                           self._pointfinder_dataframe)
+        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe, 
+                                                           self._pointfinder_dataframe, self._plasmidfinder_dataframe)
 
     def get_resfinder_results(self):
         """
@@ -92,6 +104,13 @@ class AMRDetection:
         :return: A pd.DataFrame for the PointFinder results.
         """
         return self._pointfinder_dataframe
+
+    def get_plasmidfinder_results(self):
+        """
+        Gets a pd.DataFrame for the PlasmidFinder results.
+        :return: A pd.DataFrame for the PlasmidFinder results.
+        """
+        return self._plasmidfinder_dataframe
 
     def get_summary_results(self):
         """
