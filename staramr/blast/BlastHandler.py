@@ -166,7 +166,7 @@ class BlastHandler:
             future_blast.result()
         return self._get_blast_map('resfinder')
 
-    def get_plasmidfinder_outputs(self):
+    def get_plasmidfinder_outputs(self) -> Dict[str,str]:
         """
         Gets the PlasmidFinder output files in the form of a dictionary which looks like:
             { 'input_file_name' => 'blast_results_file.xml' }

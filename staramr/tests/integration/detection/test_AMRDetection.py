@@ -26,7 +26,7 @@ class AMRDetectionIT(unittest.TestCase):
         blast_databases_repositories = AMRDatabasesManager.create_default_manager().get_database_repos()
         self.resfinder_dir = blast_databases_repositories.get_repo_dir('resfinder')
         self.pointfinder_dir = blast_databases_repositories.get_repo_dir('pointfinder')
-        self.plasmidfinder_dir = blast_databases_repositories.get_repo_dir('pointfinder')
+        self.plasmidfinder_dir = blast_databases_repositories.get_repo_dir('plasmidfinder')
 
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()

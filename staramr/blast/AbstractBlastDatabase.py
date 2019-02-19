@@ -1,4 +1,6 @@
 import abc
+import os
+from typing import List
 
 """
 An Abstract Class for interacting with particular ResFinder/PointFinder databases (fasta files, etc).
@@ -17,12 +19,13 @@ class AbstractBlastDatabase:
         self.database_dir = database_dir
 
     @abc.abstractmethod
-    def get_database_names(self):
+    def get_database_names(self) -> List[str]:
         """
         Get the names of the databases (fasta files) used for BLAST.
         :return: The names of the databases.
         """
-        pass
+        return [f[:-len(self.fasta_suffix)] for f in os.listdir(self.database_dir) if
+        (os.path.isfile(os.path.join(self.database_dir, f)) and f.endswith(self.fasta_suffix))]
 
     @abc.abstractmethod
     def get_path(self, database_name):
@@ -31,7 +34,7 @@ class AbstractBlastDatabase:
         :param database_name: The name of the database.
         :return: The path to the database (fasta) file.
         """
-        pass
+        return os.path.join(self.database_dir, database_name + self.fasta_suffix)
 
     @abc.abstractmethod
     def get_name(self) -> str:
