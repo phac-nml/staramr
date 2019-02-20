@@ -18,7 +18,6 @@ class AbstractBlastDatabase:
         __metaclass__ = abc.ABCMeta
         self.database_dir = database_dir
 
-    @abc.abstractmethod
     def get_database_names(self) -> List[str]:
         """
         Get the names of the databases (fasta files) used for BLAST.
@@ -27,7 +26,6 @@ class AbstractBlastDatabase:
         return [f[:-len(self.fasta_suffix)] for f in os.listdir(self.database_dir) if
         (os.path.isfile(os.path.join(self.database_dir, f)) and f.endswith(self.fasta_suffix))]
 
-    @abc.abstractmethod
     def get_path(self, database_name):
         """
         Gets the path to a particular database with the given name.
