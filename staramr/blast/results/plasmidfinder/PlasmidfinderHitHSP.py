@@ -23,12 +23,21 @@ class PlasmidfinderHitHSP(AMRHitHSP):
 
         logger.debug("record=%s", self._blast_record)
 
-        re_search = re.search(r'^([^_]+)_([^_]+)_(\S+)', self.get_amr_gene_id())
+        re_search = list(filter(None, re.split('_', self.get_amr_gene_id())))
+
         if not re_search:
             raise Exception("Could not split up seq name for [" + self.get_amr_gene_id() + "]")
-        self._gene = re_search.group(1)
-        self._gene_variant = re_search.group(2)
-        self._accession = re_search.group(3)
+
+        length = len(re_search)
+        self._gene = re_search[0]
+        self._gene_variant = re_search[1]
+
+        if length == 3:
+            self._accession = re_search[2]
+        elif length == 4:
+            self._accession = re_search[3]
+        elif length == 5:
+            self._accession = re_search[3] + "_" + re_search[4]
 
     def get_amr_gene_name(self):
         """
@@ -49,7 +58,14 @@ class PlasmidfinderHitHSP(AMRHitHSP):
         Gets the gene name + variant number + accession for the PlasmidFinder hit.
         :return: The gene name + variant number + accession.
         """
-        return self.get_amr_gene_name() + '_' + self._gene_variant + '_' + self._accession
+        return self._gene + '_' + self._gene_variant + '_' + self._accession
+
+    def get_amr_gene_variant(self):
+        """
+        Gets the variant number for the PlasmidFinder hit.
+        :return: The variant number.
+        """
+        return self._gene_variant
 
     def get_amr_gene_accession(self):
         """
