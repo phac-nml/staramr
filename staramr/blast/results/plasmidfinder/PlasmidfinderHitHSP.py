@@ -39,35 +39,35 @@ class PlasmidfinderHitHSP(AMRHitHSP):
         elif length == 5:
             self._accession = re_search[3] + "_" + re_search[4]
 
-    def get_amr_gene_name(self):
+    def get_amr_gene_name(self) -> str:
         """
         Gets the gene name for the PlasmidFinder hit.
         :return: The gene name.
         """
         return self._gene
 
-    def get_amr_gene_name_with_variant(self):
+    def get_amr_gene_name_with_variant(self) -> str:
         """
         Gets the gene name + variant number for the PlasmidFinder hit.
         :return: The gene name + variant number.
         """
         return self.get_amr_gene_name() + '_' + self._gene_variant
 
-    def get_amr_gene_variant_accession(self):
+    def get_amr_gene_variant_accession(self) -> str:
         """
         Gets the gene name + variant number + accession for the PlasmidFinder hit.
         :return: The gene name + variant number + accession.
         """
         return self._gene + '_' + self._gene_variant + '_' + self._accession
 
-    def get_amr_gene_variant(self):
+    def get_amr_gene_variant(self) -> str:
         """
         Gets the variant number for the PlasmidFinder hit.
         :return: The variant number.
         """
         return self._gene_variant
 
-    def get_amr_gene_accession(self):
+    def get_amr_gene_accession(self) -> str:
         """
         Gets the accession for the PlasmidFinder hit.
         :return: The accession.
