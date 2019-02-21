@@ -67,3 +67,12 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['Accession'].iloc[0], 'EF633507', msg='Wrong accession')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '243/243', msg='Wrong lengths')
+
+        hit_file = path.join(self.outdir.name, 'plasmidfinder_test-plasmids-seq.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['IncW_1__EF633507'].seq, records['IncW_1__EF633507'].seq,
+                         "records don't match")

@@ -7,7 +7,6 @@ from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import Plasmidfinde
 Class used to parse out BLAST results for Plasmidfinder.
 """
 
-
 class BlastResultsParserPlasmidfinder(BlastResultsParser):
     COLUMNS = [x.strip() for x in '''
     Isolate ID
@@ -37,10 +36,10 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
-    def _create_hit(self, file, database_name, blast_record):
+    def _create_hit(self, file, database_name, blast_record) -> PlasmidfinderHitHSP:
         return PlasmidfinderHitHSP(file, blast_record)
 
-    def _get_result_rows(self, hit, database_name):
+    def _get_result_rows(self, hit, database_name) -> list:
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),
                  hit.get_pid(),
@@ -52,7 +51,7 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
                  hit.get_amr_gene_accession()
                  ]]
 
-    def _get_out_file_name(self, in_file):
+    def _get_out_file_name(self, in_file) -> str:
         if self._output_dir:
             return path.join(self._output_dir, 'plasmidfinder_' + path.basename(in_file))
         else:

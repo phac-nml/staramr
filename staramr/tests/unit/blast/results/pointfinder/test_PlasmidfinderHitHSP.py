@@ -5,7 +5,6 @@ import pandas as pd
 from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import PlasmidfinderHitHSP
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 
-
 class PlasmidfinderHitHSPTest(unittest.TestCase):
 
     def testParseSequenceId1(self):

@@ -29,15 +29,21 @@ class PlasmidfinderHitHSP(AMRHitHSP):
             raise Exception("Could not split up seq name for [" + self.get_amr_gene_id() + "]")
 
         length = len(re_search)
-        self._gene = re_search[0]
-        self._gene_variant = re_search[1]
 
-        if length == 3:
-            self._accession = re_search[2]
-        elif length == 4:
-            self._accession = re_search[3]
-        elif length == 5:
-            self._accession = re_search[3] + "_" + re_search[4]
+        if 3 <= length <= 5:
+            self._gene = re_search[0]
+            self._gene_variant = re_search[1]
+
+            if length == 3:
+                self._accession = re_search[2]
+            elif length == 4:
+                self._accession = re_search[3]
+            elif length == 5:
+                self._accession = re_search[3] + "_" + re_search[4]
+            else:
+                raise Exception("Length not valid for variable assignment, for [" + self.get_amr_gene_id() + "]")
+        else:
+            raise Exception("Index length not within range, for [" + self.get_amr_gene_id() + "]")
 
     def get_amr_gene_name(self) -> str:
         """
