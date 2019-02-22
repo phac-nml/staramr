@@ -1,6 +1,7 @@
 # Version 1.0.0
 
 * Add support for enterococcus faecalis from Pointfinder database.
+* Add support for scanning against the PlasmidFinder database.
 
 # Version 0.4.0
 
