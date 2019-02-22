@@ -22,4 +22,4 @@ install:
   - staramr db build --dir staramr/databases/data $DATABASE_COMMITS
   - pip install mypy==0.600
 
-script: ./scripts/mypy && python setup.py test
+script: ./scripts/mypy && python setup.py green

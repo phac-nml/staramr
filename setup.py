@@ -31,9 +31,8 @@ setup(name='staramr',
           'xlsxwriter>=1.0.2',
           'numpy>=1.12.1'
       ],
-      test_suite='nose.collector',
-      tests_require=['nose'],
       packages=find_packages(),
       include_package_data=True,
-      scripts=['bin/staramr']
+      scripts=['bin/staramr'],
+      setup_requires = ['green']
       )
