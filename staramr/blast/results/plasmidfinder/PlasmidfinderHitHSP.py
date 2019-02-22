@@ -1,5 +1,6 @@
 import logging
 import re
+import pandas as pd
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 
@@ -11,7 +12,7 @@ A Class storing a PlasmidFinder-specific BLAST hit/HSP.
 
 class PlasmidfinderHitHSP(AMRHitHSP):
 
-    def __init__(self, file: str, blast_record: list) -> None:
+    def __init__(self, file: str, blast_record: pd.Series) -> None:
         """
         Builds a new PlasmidfinderHitHSP.
         :param file: The input file.
@@ -23,7 +24,8 @@ class PlasmidfinderHitHSP(AMRHitHSP):
 
         logger.debug("record=%s", self._blast_record)
 
-        re_search = list(filter(None, re.split('_', self.get_amr_gene_id())))
+        splitList = re.split('_', self.get_amr_gene_id())
+        re_search = list(filter(None, splitList))
 
         if not re_search:
             raise Exception("Could not split up seq name for [" + self.get_amr_gene_id() + "]")

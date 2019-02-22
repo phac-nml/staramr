@@ -414,6 +414,8 @@ class Search(SubCommand):
 
         if output_plasmidfinder:
             logger.info("Writing plasmidfinder to [%s]", output_plasmidfinder)
+            with open(output_plasmidfinder, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_plasmidfinder_results(), fh)
         else:
             logger.info("--output-dir or --output-plasmidfinder unset. No plasmidfinder file will be written")
 

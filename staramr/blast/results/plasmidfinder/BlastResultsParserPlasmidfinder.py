@@ -1,9 +1,11 @@
 from os import path
+import pandas as pd
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import PlasmidfinderHitHSP
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from typing import Dict
+from typing import List
 
 """
 Class used to parse out BLAST results for Plasmidfinder.
@@ -23,8 +25,8 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
-    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase, pid_threshold: int, plength_threshold: int, report_all=False,
-                 output_dir=None, genes_to_exclude=[]) -> None:
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase, pid_threshold: float, plength_threshold: float, report_all: bool =False,
+                 output_dir: str =None, genes_to_exclude: List[str]=[]) -> None:
         """
         Creates a new BlastResultsParserPlasmidfinder.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -38,10 +40,10 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
-    def _create_hit(self, file: str, database_name: str, blast_record: list) -> PlasmidfinderHitHSP:
+    def _create_hit(self, file: str, database_name: str, blast_record: pd.Series) -> PlasmidfinderHitHSP:
         return PlasmidfinderHitHSP(file, blast_record)
 
-    def _get_result_rows(self, hit: list, database_name: str) -> list:
+    def _get_result_rows(self, hit: PlasmidfinderHitHSP, database_name: str) -> list:
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),
                  hit.get_pid(),
