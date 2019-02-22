@@ -12,7 +12,7 @@ A Class for pulling information from the PlasmidFinder database.
 
 class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
 
-    def __init__(self, database_dir):
+    def __init__(self, database_dir: str) -> None:
         """
         Creates a new PlasmidfinderBlastDatabase.
         :param database_dir: The specific ResFinder database (drug class) directory.

@@ -2,6 +2,8 @@ from os import path
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from typing import Dict
 
 """
 Class used to parse out BLAST results for ResFinder.
@@ -22,8 +24,8 @@ class BlastResultsParserResfinder(BlastResultsParser):
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
-                 output_dir=None, genes_to_exclude=[]):
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: ResfinderBlastDatabase, pid_threshold: int, plength_threshold: int, report_all=False,
+                 output_dir=None, genes_to_exclude=[]) -> None:
         """
         Creates a new BlastResultsParserResfinder.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -37,10 +39,10 @@ class BlastResultsParserResfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
-    def _create_hit(self, file, database_name, blast_record):
+    def _create_hit(self, file: str, database_name: str, blast_record: list) -> ResfinderHitHSP:
         return ResfinderHitHSP(file, blast_record)
 
-    def _get_result_rows(self, hit, database_name):
+    def _get_result_rows(self, hit: list, database_name: str) -> list:
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),
                  hit.get_pid(),
@@ -52,7 +54,7 @@ class BlastResultsParserResfinder(BlastResultsParser):
                  hit.get_amr_gene_accession()
                  ]]
 
-    def _get_out_file_name(self, in_file):
+    def _get_out_file_name(self, in_file: str) -> str:
         if self._output_dir:
             return path.join(self._output_dir, 'resfinder_' + path.basename(in_file))
         else:

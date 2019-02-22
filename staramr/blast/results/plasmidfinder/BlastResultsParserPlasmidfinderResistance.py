@@ -1,4 +1,6 @@
 from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from typing import Dict
 
 """
 Class used to parse out BLAST results for PlasmidFinder, including phenotyhpes/resistances.
@@ -18,8 +20,8 @@ class BlastResultsParserPlasmidfinderResistance(BlastResultsParserPlasmidfinder)
     Accession
     '''.strip().split('\n')]
 
-    def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold,
-                 report_all=False, output_dir=None, genes_to_exclude=[]):
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParserPlasmidfinder], blast_database: PlasmidfinderBlastDatabase, pid_threshold: int, plength_threshold: int,
+                 report_all=False, output_dir=None, genes_to_exclude=[]) -> None:
         """
         Creates a new BlastResultsParserPlasmidfinderResistance.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -33,7 +35,7 @@ class BlastResultsParserPlasmidfinderResistance(BlastResultsParserPlasmidfinder)
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
-    def _get_result_rows(self, hit, database_name):
+    def _get_result_rows(self, hit: list, database_name: str) -> list:
 
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),

@@ -11,7 +11,7 @@ A Class storing a PlasmidFinder-specific BLAST hit/HSP.
 
 class PlasmidfinderHitHSP(AMRHitHSP):
 
-    def __init__(self, file, blast_record):
+    def __init__(self, file: str, blast_record: list) -> None:
         """
         Builds a new PlasmidfinderHitHSP.
         :param file: The input file.
