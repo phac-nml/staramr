@@ -1,19 +1,16 @@
-from os import path
-
-import pandas as pd
-
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
-from staramr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
-from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import PlasmidfinderHitHSP
+from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
 from typing import Dict
 from typing import List
 
 """
-Class used to parse out BLAST results for ResFinder.
+Class used to parse out BLAST results for PlasmidFinder, including phenotyhpes/resistances.
 """
 
 
-class BlastResultsParserResfinder(BlastResultsParser):
+class BlastResultsParserPlasmidfinderResistance(BlastResultsParserPlasmidfinder):
     COLUMNS = [x.strip() for x in '''
     Isolate ID
     Gene
@@ -25,12 +22,11 @@ class BlastResultsParserResfinder(BlastResultsParser):
     End
     Accession
     '''.strip().split('\n')]
-    SORT_COLUMNS = ['Isolate ID', 'Gene']
 
-    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: ResfinderBlastDatabase, pid_threshold: float, plength_threshold: float, report_all: bool =False,
-                 output_dir: str =None, genes_to_exclude: List[str]=[]) -> None:
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase, pid_threshold: float, plength_threshold: float,
+                 report_all: bool =False, output_dir: str =None, genes_to_exclude: List[str] =[]) -> None:
         """
-        Creates a new BlastResultsParserResfinder.
+        Creates a new BlastResultsParserPlasmidfinderResistance.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
         :param blast_database: The particular staramr.blast.AbstractBlastDatabase to use.
         :param pid_threshold: A percent identity threshold for BLAST results.
@@ -42,10 +38,8 @@ class BlastResultsParserResfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
-    def _create_hit(self, file: str, database_name: str, blast_record: pd.Series) -> ResfinderHitHSP:
-        return ResfinderHitHSP(file, blast_record)
+    def _get_result_rows(self, hit: PlasmidfinderHitHSP, database_name: str) -> list:
 
-    def _get_result_rows(self, hit: ResfinderHitHSP, database_name: str) -> list:
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),
                  hit.get_pid(),
@@ -56,9 +50,3 @@ class BlastResultsParserResfinder(BlastResultsParser):
                  hit.get_genome_contig_end(),
                  hit.get_amr_gene_accession()
                  ]]
-
-    def _get_out_file_name(self, in_file: str) -> str:
-        if self._output_dir:
-            return path.join(self._output_dir, 'resfinder_' + path.basename(in_file))
-        else:
-            raise Exception("output_dir is None")

@@ -7,6 +7,7 @@ from staramr.databases.BlastDatabaseRepository import BlastDatabaseRepository, B
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 
 logger = logging.getLogger('BlastDatabaseRepositories')
 
@@ -155,5 +156,7 @@ class BlastDatabaseRepositories:
             return ResfinderBlastDatabase(self.get_repo_dir(database_name))
         elif database_name == 'pointfinder':
             return PointfinderBlastDatabase(self.get_repo_dir(database_name), options['organism'])
+        elif database_name == 'plasmidfinder':
+            return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name))
         else:
             raise Exception("Unknown database name [{}]", database_name)

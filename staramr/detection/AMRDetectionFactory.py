@@ -13,10 +13,11 @@ class AMRDetectionFactory:
     def __init__(self):
         pass
 
-    def build(self, resfinder_database, blast_handler, pointfinder_database, include_negatives,
+    def build(self, plasmidfinder_database, resfinder_database, blast_handler, pointfinder_database, include_negatives,
               include_resistances=False, output_dir=None, genes_to_exclude=[]):
         """
         Builds a new AMRDetection object.
+        :param plasmidfinder_database: The staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase to use for the particular PlasmidFinder database.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param blast_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
@@ -30,7 +31,7 @@ class AMRDetectionFactory:
         if include_resistances:
             return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler,
                                           ARGDrugTablePointfinder(), pointfinder_database, include_negatives,
-                                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
+                                          output_dir=output_dir, genes_to_exclude=genes_to_exclude, plasmidfinder_database=plasmidfinder_database)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,
-                                output_dir=output_dir, genes_to_exclude=genes_to_exclude)
+                                output_dir=output_dir, genes_to_exclude=genes_to_exclude, plasmidfinder_database=plasmidfinder_database)
