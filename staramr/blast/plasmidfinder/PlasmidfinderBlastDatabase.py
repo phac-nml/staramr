@@ -19,5 +19,5 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
         """
         super().__init__(database_dir)
 
-    def get_name(self):
+    def get_name(self) -> str:
         return 'plasmidfinder'
