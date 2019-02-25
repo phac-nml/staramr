@@ -29,11 +29,11 @@ setup(name='staramr',
           'pandas>=0.23.0',
           'GitPython>=2.1.3',
           'xlsxwriter>=1.0.2',
-          'numpy>=1.12.1'
+          'numpy>=1.12.1',
+          'green>=2.13.0'
       ],
-      test_suite='nose.collector',
-      tests_require=['nose'],
       packages=find_packages(),
       include_package_data=True,
-      scripts=['bin/staramr']
+      scripts=['bin/staramr'],
+      setup_requires = ['green']
       )

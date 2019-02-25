@@ -2,6 +2,7 @@
 
 * Add support for enterococcus faecalis from Pointfinder database.
 * Add support for scanning against the PlasmidFinder database.
+* Upgraded the testing package to use [Green test runner](https://github.com/CleanCut/green). 
 
 # Version 0.4.0
 
