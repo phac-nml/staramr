@@ -35,5 +35,5 @@ setup(name='staramr',
       packages=find_packages(),
       include_package_data=True,
       scripts=['bin/staramr'],
-      tests_require = ['green']
+      setup_requires = ['green']
       )
