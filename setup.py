@@ -29,7 +29,8 @@ setup(name='staramr',
           'pandas>=0.23.0',
           'GitPython>=2.1.3',
           'xlsxwriter>=1.0.2',
-          'numpy>=1.12.1'
+          'numpy>=1.12.1',
+          'green>=2.13.0'
       ],
       packages=find_packages(),
       include_package_data=True,
