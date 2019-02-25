@@ -14,6 +14,7 @@ from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
@@ -80,6 +81,10 @@ class Search(SubCommand):
                                      dest='plength_threshold_pointfinder', type=float,
                                      help='The percent length overlap for pointfinder results [95.0].', default=95.0,
                                      required=False)
+        threshold_group.add_argument('--percent-length-overlap-plasmidfinder', action='store',
+                            dest='plength_threshold_plasmidfinder', type=float,
+                            help='The percent length overlap for resfinder results [60.0].', default=60.0,
+                            required=False)
 
         report_group = arg_parser.add_argument_group('Reporting options')
         report_group.add_argument('--no-exclude-genes', action='store_true', dest='no_exclude_genes',
@@ -115,6 +120,9 @@ class Search(SubCommand):
         output_group.add_argument('--output-pointfinder', action='store', dest='output_pointfinder', type=str,
                                   help="The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]",
                                   default=None, required=False)
+        output_group.add_argument('--output-plasmidfinder', action='store', dest='output_plasmidfinder', type=str,
+                                  help="The name of the output file containing the plasmidfinder results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-settings', action='store', dest='output_settings', type=str,
                                   help="The name of the output file containing the settings. Not be be used with '--output-dir'. [None]",
                                   default=None, required=False)
@@ -129,17 +137,18 @@ class Search(SubCommand):
 
         return arg_parser
 
-    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
+    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, 
                                    settings_dataframe):
         writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
         sheetname_dataframe = {}
         sheetname_dataframe['Summary'] = summary_dataframe
         sheetname_dataframe['ResFinder'] = resfinder_dataframe
+        sheetname_dataframe['PlasmidFinder'] = plasmidfinder_dataframe
         if pointfinder_dataframe is not None:
             sheetname_dataframe['PointFinder'] = pointfinder_dataframe
 
-        for name in ['Summary', 'ResFinder', 'PointFinder']:
+        for name in ['Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder']:
             if name in sheetname_dataframe:
                 sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",
                                                    na_rep=self.BLANK)
@@ -190,14 +199,15 @@ class Search(SubCommand):
         file_handle.write(get_string_with_spacing(settings))
         file_handle.close()
 
-    def _generate_results(self, database_repos, resfinder_database, pointfinder_database, nprocs, include_negatives,
+    def _generate_results(self, database_repos, resfinder_database, pointfinder_database, plasmidfinder_database, nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
-                          plength_threshold_pointfinder, report_all_blast, genes_to_exclude, files):
+                          plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast, genes_to_exclude, files):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
         :param resfinder_database: The resfinder database.
         :param pointfinder_database: The pointfinder database.
+        :param plasmidfinder_database: The plasmidfinder database.
         :param nprocs: The number of processing cores to use for BLAST.
         :param include_negatives: Whether or not to include negative results in output.
         :param include_resistances: Whether or not to include resistance phenotypes in output.
@@ -205,6 +215,7 @@ class Search(SubCommand):
         :param pid_threshold: The pid threshold.
         :param plength_threshold_resfinder: The plength threshold for resfinder.
         :param plength_threshold_pointfinder: The plength threshold for pointfinder.
+        :param plength_threshold_plasmidfinder: The plength threshold for plasmidfinder.
         :param report_all_blast: Whether or not to report all BLAST results.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
         :param files: The list of files to scan.
@@ -215,16 +226,19 @@ class Search(SubCommand):
         with tempfile.TemporaryDirectory() as blast_out:
             start_time = datetime.datetime.now()
 
-            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database}, nprocs, blast_out)
+            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database, 'plasmidfinder': plasmidfinder_database}, nprocs, blast_out)
 
             amr_detection_factory = AMRDetectionFactory()
-            amr_detection = amr_detection_factory.build(resfinder_database, blast_handler, pointfinder_database,
+            amr_detection = amr_detection_factory.build(plasmidfinder_database,
+                                                        resfinder_database, 
+                                                        blast_handler, 
+                                                        pointfinder_database,
                                                         include_negatives=include_negatives,
                                                         include_resistances=include_resistances,
                                                         output_dir=hits_output,
                                                         genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
-                                            plength_threshold_pointfinder, report_all_blast)
+                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast)
 
             results['results'] = amr_detection
 
@@ -290,6 +304,7 @@ class Search(SubCommand):
                            "AMR genes depending on how the database files are structured.")
 
         resfinder_database = database_repos.build_blast_database('resfinder')
+        plasmidfinder_database = database_repos.build_blast_database('plasmidfinder')
         if (args.pointfinder_organism):
             if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
                 raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
@@ -303,13 +318,14 @@ class Search(SubCommand):
         output_summary = None
         output_resfinder = None
         output_pointfinder = None
+        output_plasmidfinder = None
         output_excel = None
         output_settings = None
         if args.output_dir:
             if path.exists(args.output_dir):
                 raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
                                             self._root_arg_parser)
-            elif args.output_summary or args.output_resfinder or args.output_pointfinder or args.output_excel or \
+            elif args.output_summary or args.output_resfinder or args.output_pointfinder or args.output_plasmidfinder or args.output_excel or \
                     args.hits_output_dir:
                 raise CommandParseException('You cannot use --output-[type] with --output-dir', self._root_arg_parser)
             else:
@@ -318,6 +334,7 @@ class Search(SubCommand):
                 hits_output_dir = path.join(args.output_dir, 'hits')
                 output_resfinder = path.join(args.output_dir, "resfinder.tsv")
                 output_pointfinder = path.join(args.output_dir, "pointfinder.tsv")
+                output_plasmidfinder = path.join(args.output_dir, "plasmidfinder.tsv")
                 output_summary = path.join(args.output_dir, "summary.tsv")
                 output_settings = path.join(args.output_dir, "settings.txt")
                 output_excel = path.join(args.output_dir, 'results.xlsx')
@@ -329,6 +346,7 @@ class Search(SubCommand):
             logger.info('--output-dir not set. Files will be output to the respective --output-[type] setting')
             output_resfinder = args.output_resfinder
             output_pointfinder = args.output_pointfinder
+            output_plasmidfinder = args.output_plasmidfinder
             output_summary = args.output_summary
             output_settings = args.output_settings
             output_excel = args.output_excel
@@ -365,6 +383,7 @@ class Search(SubCommand):
         results = self._generate_results(database_repos=database_repos,
                                          resfinder_database=resfinder_database,
                                          pointfinder_database=pointfinder_database,
+                                         plasmidfinder_database=plasmidfinder_database,
                                          nprocs=args.nprocs,
                                          include_negatives=not args.exclude_negatives,
                                          include_resistances=not args.exclude_resistance_phenotypes,
@@ -372,6 +391,7 @@ class Search(SubCommand):
                                          pid_threshold=args.pid_threshold,
                                          plength_threshold_resfinder=args.plength_threshold_resfinder,
                                          plength_threshold_pointfinder=args.plength_threshold_pointfinder,
+                                         plength_threshold_plasmidfinder=args.plength_threshold_plasmidfinder,
                                          report_all_blast=args.report_all_blast,
                                          genes_to_exclude=exclude_genes,
                                          files=args.files)
@@ -391,6 +411,13 @@ class Search(SubCommand):
                 self._print_dataframe_to_text_file_handle(amr_detection.get_pointfinder_results(), fh)
         else:
             logger.info("--output-dir or --output-pointfinder unset. No pointfinder file will be written")
+
+        if output_plasmidfinder:
+            logger.info("Writing plasmidfinder to [%s]", output_plasmidfinder)
+            with open(output_plasmidfinder, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_plasmidfinder_results(), fh)
+        else:
+            logger.info("--output-dir or --output-plasmidfinder unset. No plasmidfinder file will be written")
 
         if output_summary:
             logger.info("Writing summary to [%s]", output_summary)
@@ -415,6 +442,7 @@ class Search(SubCommand):
                                             amr_detection.get_summary_results(),
                                             amr_detection.get_resfinder_results(),
                                             amr_detection.get_pointfinder_results(),
+                                            amr_detection.get_plasmidfinder_results(),
                                             settings_dataframe)
         else:
             logger.info("--output-dir or --output-excel unset. No excel file will be written")

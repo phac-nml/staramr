@@ -11,7 +11,7 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 class AMRDetectionSummaryResistance(AMRDetectionSummary):
 
-    def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None):
+    def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None, plasmidfinder_dataframe=None):
         """
         Creates a new AMRDetectionSummaryResistance.
         :param files: The list of genome files we have scanned against.

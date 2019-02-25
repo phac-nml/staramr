@@ -10,6 +10,7 @@ from Bio import SeqIO
 from staramr.blast.BlastHandler import BlastHandler
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
@@ -25,10 +26,12 @@ class AMRDetectionIT(unittest.TestCase):
         blast_databases_repositories = AMRDatabasesManager.create_default_manager().get_database_repos()
         self.resfinder_dir = blast_databases_repositories.get_repo_dir('resfinder')
         self.pointfinder_dir = blast_databases_repositories.get_repo_dir('pointfinder')
+        self.plasmidfinder_dir = blast_databases_repositories.get_repo_dir('plasmidfinder')
 
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
+        self.plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir)
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
         self.blast_handler = BlastHandler(
@@ -52,7 +55,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderAminoglycosideNameSuccess(self):
         file = path.join(self.test_data_dir, "test-aminoglycoside.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -71,7 +74,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "test-aminoglycoside.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
@@ -79,7 +82,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testNumericalSequenceID(self):
         file = path.join(self.test_data_dir, "test-seq-id.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -90,7 +93,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactam2MutationsSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -119,7 +122,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -148,7 +151,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -159,7 +162,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
-        self.amr_detection.run_amr_detection(files, 99.8, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99.8, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
@@ -169,7 +172,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamDelStartSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -191,7 +194,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderBetaLactamDelStartFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")]
-        self.amr_detection.run_amr_detection(files, 99, 92, 90)
+        self.amr_detection.run_amr_detection(files, 99, 92, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
@@ -201,7 +204,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamInsStartSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-start.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -227,7 +230,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamDelMiddleSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-middle.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -253,7 +256,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamDelMiddleReverseComplementSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-middle-rc.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -282,7 +285,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamInsMiddleSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-middle.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 97, 99, 99)
+        self.amr_detection.run_amr_detection(files, 97, 99, 99, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -308,7 +311,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamTwoCopies(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 2, 'Wrong number of rows in result')
@@ -351,7 +354,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamTwoCopiesOneReverseComplement(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies-one-rev-complement.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 2, 'Wrong number of rows in result')
@@ -402,7 +405,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -436,7 +439,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -470,7 +473,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P-del-end.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 98)
+        amr_detection.run_amr_detection(files, 99, 99, 98, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -505,7 +508,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P-del-end.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 99)
+        amr_detection.run_amr_detection(files, 99, 99, 99, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
@@ -521,7 +524,7 @@ class AMRDetectionIT(unittest.TestCase):
                                                output_dir=self.outdir.name)
 
         files = [path.join(self.test_data_dir, "gyrA-A67P.fsa")]
-        amr_detection.run_amr_detection(files, 99.97, 99, 90)
+        amr_detection.run_amr_detection(files, 99.97, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
@@ -537,7 +540,7 @@ class AMRDetectionIT(unittest.TestCase):
                                                output_dir=self.outdir.name)
 
         files = [path.join(self.test_data_dir, "gyrA-A67T.fsa")]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
@@ -554,7 +557,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P-rc.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -589,7 +592,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_rrsD-1T1065.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -625,7 +628,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -691,7 +694,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -715,7 +718,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S-rc_gyrA-rc_beta-lactam.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -778,7 +781,7 @@ class AMRDetectionIT(unittest.TestCase):
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
         files = [file_beta_lactam, file_non_match]
-        amr_detection.run_amr_detection(files, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
@@ -799,7 +802,7 @@ class AMRDetectionIT(unittest.TestCase):
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
         files = [file_beta_lactam, file_non_match]
-        amr_detection.run_amr_detection(files, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 2, 'Wrong number of rows in result')
@@ -826,7 +829,7 @@ class AMRDetectionIT(unittest.TestCase):
                                                self.pointfinder_drug_table, self.pointfinder_database,
                                                include_negative_results=True, output_dir=self.outdir.name)
         files = [path.join(self.test_data_dir, "non-match.fsa")]
-        amr_detection.run_amr_detection(files, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
@@ -847,7 +850,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A70T.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -881,7 +884,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "23S-A2075G.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -915,7 +918,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-S97N.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')

@@ -82,7 +82,7 @@ class BlastHandler:
 
     def run_blasts(self, files):
         """
-        Scans all files with BLAST against the ResFinder/PointFinder databases.
+        Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases.
         :param files: The files to scan.
         :return: None
         """
@@ -165,6 +165,18 @@ class BlastHandler:
         for future_blast in self._get_future_blasts_from_map('resfinder'):
             future_blast.result()
         return self._get_blast_map('resfinder')
+
+    def get_plasmidfinder_outputs(self) -> Dict[str,str]:
+        """
+        Gets the PlasmidFinder output files in the form of a dictionary which looks like:
+            { 'input_file_name' => 'blast_results_file.xml' }
+        :return: A dictionary mapping input file names to ResFinder BLAST output files.
+        """
+
+        # Forces any exceptions to be thrown if error with blasts
+        for future_blast in self._get_future_blasts_from_map('plasmidfinder'):
+            future_blast.result()
+        return self._get_blast_map('plasmidfinder')
 
     def get_pointfinder_outputs(self):
         """
