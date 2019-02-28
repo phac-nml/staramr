@@ -64,16 +64,18 @@ class AMRDetectionSummary:
             df = df.append(self._pointfinder_dataframe, sort=True)
 
         df = self._compile_results(df)
-        ds = self._compile_plasmids(ds)
 
         if include_negatives:
             df = self._include_negatives(df)
 
         df.rename(columns={'Gene': 'Genotype'}, inplace=True)
 
-        if not ds.empty:
-            df = df.merge(ds, on='Isolate ID', how='left').drop(['Plasmid Genes_x'], axis=1)
-            df.rename(columns={'Plasmid Genes_y': 'Plasmid Genes'}, inplace=True)
-            df = df.reindex(columns=['Genotype', 'Plasmid Genes', 'Predicted Phenotype'])
+        if ds is not None:
+            ds = self._compile_plasmids(ds)
+
+            if not ds.empty and not df.empty:
+                df = df.merge(ds, on='Isolate ID', how='left').drop(['Plasmid Genes_x'], axis=1)
+                df.rename(columns={'Plasmid Genes_y': 'Plasmid Genes'}, inplace=True)
+                df = df.reindex(columns=['Genotype', 'Plasmid Genes', 'Predicted Phenotype'])
 
         return df.sort_index()
