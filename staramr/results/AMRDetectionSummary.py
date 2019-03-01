@@ -38,7 +38,7 @@ class AMRDetectionSummary:
 
         ds_frame = ds_summary[['Gene']]
 
-        plasmid_frame = ds_frame.rename(columns={ds_frame.columns[0]: "Plasmid Genes"})
+        plasmid_frame = ds_frame.rename(columns={'Gene': 'Plasmid Genes'})
 
         return plasmid_frame
 
@@ -73,9 +73,7 @@ class AMRDetectionSummary:
         if ds is not None:
             ds = self._compile_plasmids(ds)
 
-            if not ds.empty and not df.empty:
-                df = df.merge(ds, on='Isolate ID', how='left').drop(['Plasmid Genes_x'], axis=1)
-                df.rename(columns={'Plasmid Genes_y': 'Plasmid Genes'}, inplace=True)
-                df = df.reindex(columns=['Genotype', 'Plasmid Genes', 'Predicted Phenotype'])
+            df = df.merge(ds, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
+            df = df.reindex(columns=['Genotype', 'Plasmid Genes', 'Predicted Phenotype'])
 
         return df.sort_index()

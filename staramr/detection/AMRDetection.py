@@ -90,7 +90,6 @@ class AMRDetection:
 
         self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe, 
                                                            self._pointfinder_dataframe, self._plasmidfinder_dataframe)
-        self._summary_dataframe = self._summary_dataframe.fillna('None')
 
     def get_resfinder_results(self):
         """
