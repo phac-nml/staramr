@@ -58,7 +58,6 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
 
         plasmidfinder_results = self.amr_detection.get_plasmidfinder_results()
-        logger.debug("results is %s", plasmidfinder_results)
         self.assertEqual(len(plasmidfinder_results.index), 1, 'Wrong number of rows in result')
 
         result = plasmidfinder_results[plasmidfinder_results['Gene'] == "IncW"]
@@ -76,3 +75,18 @@ class AMRDetectionPlasmid(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['IncW_1__EF633507'].seq, records['IncW_1__EF633507'].seq,
                          "records don't match")
+
+    def testResistancePlasmidGenesSummary(self):
+        file = path.join(self.test_data_dir, "test-resistance-plasmid.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+
+        summary_results = self.amr_detection.get_summary_results()
+
+        self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
+
+        result = summary_results[summary_results['Genotype'] == "blaIMP-42"]
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem', msg='Wrong Predicted Phenotype')
+        self.assertEqual(result['Plasmid Genes'].iloc[0], 'IncW', msg='Wrong Plasmid Gene')
+
