@@ -4,6 +4,7 @@ import pandas as pd
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
+
 """
 Summarizes both ResFinder and PointFinder database results into a single table.
 """
@@ -17,8 +18,9 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         :param files: The list of genome files we have scanned against.
         :param resfinder_dataframe: The pd.DataFrame containing the ResFinder results.
         :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
+        :param plasmidfinder_dataframe: The pd.DataFrame containing the PlasmidFinder results.
         """
-        super().__init__(files, resfinder_dataframe, pointfinder_dataframe)
+        super().__init__(files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe)
 
     def _aggregate_gene_phenotype(self, dataframe):
         flattened_phenotype_list = [y.strip() for x in dataframe['Predicted Phenotype'].tolist() for y in

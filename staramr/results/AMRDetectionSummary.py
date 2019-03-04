@@ -19,6 +19,7 @@ class AMRDetectionSummary:
         """
         self._names = [path.splitext(path.basename(x))[0] for x in files]
         self._resfinder_dataframe = resfinder_dataframe
+        self._plasmidfinder_dataframe = plasmidfinder_dataframe
 
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
@@ -30,6 +31,16 @@ class AMRDetectionSummary:
         df_summary = df.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
             lambda x: {'Gene': (self.SEPARATOR + ' ').join(x['Gene'])})
         return df_summary[['Gene']]
+
+    def _compile_plasmids(self, ds):
+        ds_summary = ds.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
+            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x['Gene'])})
+
+        ds_frame = ds_summary[['Gene']]
+
+        plasmid_frame = ds_frame.rename(columns={'Gene': 'Plasmid Genes'})
+
+        return plasmid_frame
 
     def _include_negatives(self, df):
         result_names_set = set(df.index.tolist())
@@ -47,6 +58,7 @@ class AMRDetectionSummary:
         :return: A pd.DataFrame summarizing the results.
         """
         df = self._resfinder_dataframe
+        ds = self._plasmidfinder_dataframe
 
         if self._has_pointfinder:
             df = df.append(self._pointfinder_dataframe, sort=True)
@@ -57,5 +69,10 @@ class AMRDetectionSummary:
             df = self._include_negatives(df)
 
         df.rename(columns={'Gene': 'Genotype'}, inplace=True)
+
+        if ds is not None:
+            ds = self._compile_plasmids(ds)
+
+            df = df.merge(ds, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
 
         return df.sort_index()
