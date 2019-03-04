@@ -74,6 +74,5 @@ class AMRDetectionSummary:
             ds = self._compile_plasmids(ds)
 
             df = df.merge(ds, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
-            df = df.reindex(columns=['Genotype', 'Plasmid Genes', 'Predicted Phenotype'])
 
         return df.sort_index()
