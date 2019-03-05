@@ -53,8 +53,8 @@ class AMRDetectionSummary:
 
     def create_summary(self, include_negatives=False):
         """
-        Constructs a summary pd.DataFrame for all ResFinder/PointFinder results.
-        :param include_negatives: If True, include files with no ResFinder/PointFinder results.
+        Constructs a summary pd.DataFrame for all ResFinder/PointFinder/PlasmidFinder results.
+        :param include_negatives: If True, include files with no ResFinder/PointFinder/PlasmidFinder results.
         :return: A pd.DataFrame summarizing the results.
         """
         df = self._resfinder_dataframe
@@ -75,4 +75,18 @@ class AMRDetectionSummary:
 
             df = df.merge(ds, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
 
+        return df.sort_index()
+
+    def create_detailed_summary(self, include_negatives=False):
+        df = self._resfinder_dataframe
+        ds = self._plasmidfinder_dataframe
+
+        if self._has_pointfinder:
+            df = df.append(self._pointfinder_dataframe, sort=True)
+
+        df = self._compile_results(df)
+
+        if include_negatives:
+            df = self._include_negatives(df)
+        
         return df.sort_index()

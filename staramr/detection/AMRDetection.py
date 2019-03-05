@@ -42,6 +42,11 @@ class AMRDetection:
                                                     pointfinder_dataframe, plasmidfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
+    def _create_detailed_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe):
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
+                                                    pointfinder_dataframe, plasmidfinder_dataframe)
+        return amr_detection_summary.create_detailed_summary(self._include_negative_results)
+
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
         resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, self._resfinder_database, pid_threshold,
                                                        plength_threshold, report_all, output_dir=self._output_dir,
@@ -91,6 +96,9 @@ class AMRDetection:
         self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe, 
                                                            self._pointfinder_dataframe, self._plasmidfinder_dataframe)
 
+        self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe, 
+                                                        self._pointfinder_dataframe, self._plasmidfinder_dataframe)           
+
     def get_resfinder_results(self):
         """
         Gets a pd.DataFrame for the ResFinder results.
@@ -118,3 +126,12 @@ class AMRDetection:
         :return: A pd.DataFrame for a summary table of the results.
         """
         return self._summary_dataframe
+
+    def get_detailed_summary_results(self):
+        """
+        Gets a pd.DataFrame for a detailed summary table of the results.
+        :return: A pd.DataFrame for a detailed summary table of the results.
+        """
+
+        return self._summary_dataframe
+        
