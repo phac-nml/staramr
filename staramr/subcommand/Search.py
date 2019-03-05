@@ -329,6 +329,7 @@ class Search(SubCommand):
 
         hits_output_dir = None
         output_summary = None
+        output_detailed_summary = None
         output_resfinder = None
         output_pointfinder = None
         output_plasmidfinder = None
@@ -349,6 +350,7 @@ class Search(SubCommand):
                 output_pointfinder = path.join(args.output_dir, "pointfinder.tsv")
                 output_plasmidfinder = path.join(args.output_dir, "plasmidfinder.tsv")
                 output_summary = path.join(args.output_dir, "summary.tsv")
+                output_detailed_summary = path.join(args.output_dir, "detailed_summary.tsv")
                 output_settings = path.join(args.output_dir, "settings.txt")
                 output_excel = path.join(args.output_dir, 'results.xlsx')
 
@@ -361,6 +363,7 @@ class Search(SubCommand):
             output_pointfinder = args.output_pointfinder
             output_plasmidfinder = args.output_plasmidfinder
             output_summary = args.output_summary
+            output_detailed_summary = args.output_detailed_summary
             output_settings = args.output_settings
             output_excel = args.output_excel
             hits_output_dir = args.hits_output_dir
@@ -438,6 +441,13 @@ class Search(SubCommand):
                 self._print_dataframe_to_text_file_handle(amr_detection.get_summary_results(), fh)
         else:
             logger.info("--output-dir or --output-summary unset. No summary file will be written")
+
+        if output_detailed_summary:
+            logger.info("Writing detailed summary to [%s]", output_detailed_summary)
+            with open(output_detailed_summary, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_detailed_summary_results(), fh)
+        else:
+            logger.info("--output-dir or --output-detailed-summary unset. No detailed summary file will be written")
 
         if output_settings:
             logger.info("Writing settings to [%s]", output_settings)
