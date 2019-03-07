@@ -142,18 +142,19 @@ class Search(SubCommand):
 
         return arg_parser
 
-    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, 
+    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, detailed_summary_dataframe,
                                    settings_dataframe):
         writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
         sheetname_dataframe = {}
         sheetname_dataframe['Summary'] = summary_dataframe
+        sheetname_dataframe['Detailed_Summary'] = detailed_summary_dataframe
         sheetname_dataframe['ResFinder'] = resfinder_dataframe
         sheetname_dataframe['PlasmidFinder'] = plasmidfinder_dataframe
         if pointfinder_dataframe is not None:
             sheetname_dataframe['PointFinder'] = pointfinder_dataframe
 
-        for name in ['Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder']:
+        for name in ['Summary', 'Detailed_Summary' , 'ResFinder', 'PointFinder', 'PlasmidFinder']:
             if name in sheetname_dataframe:
                 sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",
                                                    na_rep=self.BLANK)
@@ -466,6 +467,7 @@ class Search(SubCommand):
                                             amr_detection.get_resfinder_results(),
                                             amr_detection.get_pointfinder_results(),
                                             amr_detection.get_plasmidfinder_results(),
+                                            amr_detection.get_detailed_summary_results(),
                                             settings_dataframe)
         else:
             logger.info("--output-dir or --output-excel unset. No excel file will be written")
