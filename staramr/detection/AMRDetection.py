@@ -133,5 +133,5 @@ class AMRDetection:
         :return: A pd.DataFrame for a detailed summary table of the results.
         """
 
-        return self._summary_dataframe
+        return self._detailed_summary_dataframe
         

@@ -2,6 +2,10 @@ from os import path
 
 import pandas as pd
 
+import logging
+
+logger = logging.getLogger("AMRDetectionSummary")
+
 """
 Summarizes both ResFinder and PointFinder database results into a single table.
 """
@@ -79,14 +83,28 @@ class AMRDetectionSummary:
 
     def create_detailed_summary(self, include_negatives=False):
         df = self._resfinder_dataframe
+        df['Data Type']='Resistance'
+
         ds = self._plasmidfinder_dataframe
+        ds['Data Type']='Plasmid'
+        ds['Predicted Phenotype']=''
+
+        column_names = ['Gene', 'Predicted Phenotype','%Identity', '%Overlap', 'HSP Length/Total Length','Contig', 'Start', 'End', 'Accession', 'Data Type']
+
+        ds = ds.reindex(columns=column_names)
 
         if self._has_pointfinder:
-            df = df.append(self._pointfinder_dataframe, sort=True)
-
-        df = self._compile_results(df)
+            dt = self._pointfinder_dataframe
+            dt['Data Type']='Resistance'
+            dt = dt.reindex(columns=column_names)
+            df = df.append(dt, sort=True)
 
         if include_negatives:
             df = self._include_negatives(df)
-        
-        return df.sort_index()
+
+        if ds is not None:
+            df = df.append(ds, sort=True)
+            df = df.reindex(columns=column_names)
+            df = df.sort_values(['Isolate ID', 'Data Type', 'Gene'])
+
+        return df
