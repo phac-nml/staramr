@@ -53,6 +53,35 @@ class AMRDetectionSummary:
         negative_names_set = names_set - result_names_set
         negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
+        
+        return df.append(negative_entries, sort=True)
+
+    def _include_detailed_negatives(self, df, ds):
+        resfinder_names_set = set(df.index.tolist())
+        ds = self._compile_plasmids(ds)
+        plasmidfinder_names_set = set(ds.index.tolist())
+
+        names_set = set(self._names)
+
+        negative_res_names_set = names_set - resfinder_names_set
+        negative_plasmid_names_set = names_set - plasmidfinder_names_set
+        set_used = None
+
+        negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_res_names_set],
+                                        columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index('Isolate ID')
+        negative_resistance_entries['Data Type']='Resistance'
+        negative_entries = negative_resistance_entries
+
+        if ds.empty:
+            set_used = names_set
+        else:
+            set_used = negative_plasmid_names_set
+
+        negative_plasmid_entries = pd.DataFrame([[x, 'None'] for x in set_used],
+                                        columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
+        negative_plasmid_entries['Data Type']='Plasmid'
+        negative_entries = negative_entries.append(negative_plasmid_entries, sort=True)
+
         return df.append(negative_entries, sort=True)
 
     def create_summary(self, include_negatives=False):
@@ -81,13 +110,10 @@ class AMRDetectionSummary:
 
         return df.sort_index()
 
-    def create_detailed_summary(self, include_negatives=False):
+    def create_detailed_summary(self, include_negatives=True):
         df = self._resfinder_dataframe
         df['Data Type']='Resistance'
-
         ds = self._plasmidfinder_dataframe
-        ds['Data Type']='Plasmid'
-        ds['Predicted Phenotype']=''
 
         column_names = ['Gene', 'Predicted Phenotype','%Identity', '%Overlap', 'HSP Length/Total Length','Contig', 'Start', 'End', 'Accession', 'Data Type']
 
@@ -100,9 +126,12 @@ class AMRDetectionSummary:
             df = df.append(dt, sort=True)
 
         if include_negatives:
-            df = self._include_negatives(df)
+            df = self._include_detailed_negatives(df, ds)
+            df = df.fillna(" ")
 
         if ds is not None:
+            ds['Data Type']='Plasmid'
+            ds['Predicted Phenotype']=''
             df = df.append(ds, sort=True)
             df = df.reindex(columns=column_names)
             df = df.sort_values(['Isolate ID', 'Data Type', 'Gene'])
