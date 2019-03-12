@@ -325,7 +325,7 @@ class Search(SubCommand):
             plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', {'bacteria': args.plasmidfinder_bacteria})
         else:
             logger.info("No --plasmidfinder-database-type specified. Will search the entire PlasmidFinder database")
-            plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', None)
+            plasmidfinder_database = database_repos.build_blast_database('plasmidfinder')
 
         hits_output_dir = None
         output_summary = None
