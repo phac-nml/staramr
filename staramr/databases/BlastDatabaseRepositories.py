@@ -157,6 +157,9 @@ class BlastDatabaseRepositories:
         elif database_name == 'pointfinder':
             return PointfinderBlastDatabase(self.get_repo_dir(database_name), options['organism'])
         elif database_name == 'plasmidfinder':
-            return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name))
+            if options:
+                return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name), options['bacteria'])
+            else:
+                return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name))
         else:
             raise Exception("Unknown database name [{}]", database_name)
