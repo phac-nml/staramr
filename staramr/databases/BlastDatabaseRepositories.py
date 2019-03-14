@@ -158,7 +158,7 @@ class BlastDatabaseRepositories:
             return PointfinderBlastDatabase(self.get_repo_dir(database_name), options['organism'])
         elif database_name == 'plasmidfinder':
             if options:
-                return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name), options['bacteria'])
+                return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name), options['database_type'])
             else:
                 return PlasmidfinderBlastDatabase(self.get_repo_dir(database_name))
         else:

@@ -63,9 +63,9 @@ class Search(SubCommand):
                                     PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].',
                                 default=None,
                                 required=False)
-        arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_bacteria', type=str,
+        arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_database_type', type=str,
                                 help='The bacteria type to use for plasmidfinder {' + ', '.join(
-                                    PlasmidfinderBlastDatabase.get_available_bacteria()) + '}. Defaults to using all available bacteria types to search for plasmids. [None].',
+                                    PlasmidfinderBlastDatabase.get_available_databases()) + '}. Defaults to using all available bacteria types to search for plasmids. [None].',
                                 default=None,
                                 required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
@@ -318,11 +318,11 @@ class Search(SubCommand):
             logger.info("No --pointfinder-organism specified. Will not search the PointFinder databases")
             pointfinder_database = None
         
-        if(args.plasmidfinder_bacteria):
-            if args.plasmidfinder_bacteria not in PlasmidfinderBlastDatabase.get_available_bacteria():
+        if (args.plasmidfinder_database_type):
+            if args.plasmidfinder_database_type not in PlasmidfinderBlastDatabase.get_available_databases():
                 raise CommandParseException("The only Plasmidfinder bacteria(s) currently supported are " + str(
-                    PlasmidfinderBlastDatabase.get_available_bacteria()), self._root_arg_parser)
-            plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', {'bacteria': args.plasmidfinder_bacteria})
+                    PlasmidfinderBlastDatabase.get_available_databases()), self._root_arg_parser)
+            plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', {'database_type': args.plasmidfinder_database_type})
         else:
             logger.info("No --plasmidfinder-database-type specified. Will search the entire PlasmidFinder database")
             plasmidfinder_database = database_repos.build_blast_database('plasmidfinder')
