@@ -5,6 +5,7 @@ from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from staramr.blast.results.BlastResultsParser import BlastResultsParser
 
 from typing import List, Dict
 
@@ -65,7 +66,7 @@ class AMRDetection:
                                                            genes_to_exclude=self._genes_to_exclude)
         return pointfinder_parser.parse_results()
 
-    def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map: Dict[str, str], pid_threshold: float, plength_threshold: int, report_all: bool) -> BlastResultsParserPlasmidfinder:
+    def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map: Dict[str, BlastResultsParser], pid_threshold: float, plength_threshold: int, report_all: bool) -> PlasmidfinderBlastDatabase:
         plasmidfinder_parser = BlastResultsParserPlasmidfinder(plasmidfinder_blast_map, self._plasmidfinder_database, pid_threshold,
                                                        plength_threshold, report_all, output_dir=self._output_dir,
                                                        genes_to_exclude=self._genes_to_exclude)
