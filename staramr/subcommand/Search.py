@@ -64,8 +64,8 @@ class Search(SubCommand):
                                 default=None,
                                 required=False)
         arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_database_type', type=str,
-                                help='The bacteria type to use for plasmidfinder {' + ', '.join(
-                                    PlasmidfinderBlastDatabase.get_available_databases()) + '}. Defaults to using all available bacteria types to search for plasmids. [None].',
+                                help='The database type to use for plasmidfinder {' + ', '.join(
+                                    PlasmidfinderBlastDatabase.get_available_databases()) + '}. Defaults to using all available database types to search for plasmids. [None].',
                                 default=None,
                                 required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,

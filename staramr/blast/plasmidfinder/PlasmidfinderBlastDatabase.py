@@ -21,7 +21,6 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
         """
 
         super().__init__(database_dir)
-        self.plasmidfinder_database_dir = path.join(self.database_dir)
         self.database_type = database_type
 
         if database_type is not None:
@@ -36,7 +35,7 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
     def get_name(self) -> str:
         return 'plasmidfinder'
 
-    def get_database_names(self):
+    def get_database_names(self) -> List[str]:
         if self.database_type is not None:
             names = [self.database_type]
         else:
