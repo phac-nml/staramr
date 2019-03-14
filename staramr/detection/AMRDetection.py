@@ -7,7 +7,7 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 """
 A Class to handle scanning files for AMR genes.
@@ -16,8 +16,10 @@ A Class to handle scanning files for AMR genes.
 
 class AMRDetection:
 
-    def __init__(self, resfinder_database: ResfinderBlastDatabase, amr_detection_handler: str, pointfinder_database: PointfinderBlastDatabase=None,
-                 include_negative_results: bool=False, output_dir: str=None, genes_to_exclude: list=[], plasmidfinder_database: PlasmidfinderBlastDatabase=None) -> None:
+    def __init__(self, resfinder_database: ResfinderBlastDatabase, amr_detection_handler,
+                 pointfinder_database: PointfinderBlastDatabase = None,
+                 include_negative_results: bool = False, output_dir: str = None, genes_to_exclude: list = [],
+                 plasmidfinder_database: PlasmidfinderBlastDatabase = None) -> None:
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
@@ -43,36 +45,47 @@ class AMRDetection:
 
         self._genes_to_exclude = genes_to_exclude
 
-    def _create_amr_summary(self, files: List[str], resfinder_dataframe: BlastResultsParserResfinder, pointfinder_dataframe: BlastResultsParserPointfinder, plasmidfinder_dataframe: BlastResultsParserPlasmidfinder) -> AMRDetectionSummary:
+    def _create_amr_summary(self, files: List[str], resfinder_dataframe: BlastResultsParserResfinder,
+                            pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
+                            plasmidfinder_dataframe: BlastResultsParserPlasmidfinder) -> AMRDetectionSummary:
         amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
                                                     pointfinder_dataframe, plasmidfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
-    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: BlastResultsParserResfinder, pointfinder_dataframe: BlastResultsParserPointfinder, plasmidfinder_dataframe: BlastResultsParserPlasmidfinder) -> AMRDetectionSummary:
+    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: BlastResultsParserResfinder,
+                                     pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
+                                     plasmidfinder_dataframe: BlastResultsParserPlasmidfinder) -> AMRDetectionSummary:
         amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
                                                     pointfinder_dataframe, plasmidfinder_dataframe)
         return amr_detection_summary.create_detailed_summary(self._include_negative_results)
 
-    def _create_resfinder_dataframe(self, resfinder_blast_map: Dict, pid_threshold: float, plength_threshold: int, report_all: bool) -> BlastResultsParserResfinder:
+    def _create_resfinder_dataframe(self, resfinder_blast_map: Dict, pid_threshold: float, plength_threshold: int,
+                                    report_all: bool) -> BlastResultsParserResfinder:
         resfinder_parser = BlastResultsParserResfinder(resfinder_blast_map, self._resfinder_database, pid_threshold,
                                                        plength_threshold, report_all, output_dir=self._output_dir,
                                                        genes_to_exclude=self._genes_to_exclude)
         return resfinder_parser.parse_results()
 
-    def _create_pointfinder_dataframe(self, pointfinder_blast_map: Dict, pid_threshold: float, plength_threshold: int, report_all: bool) -> BlastResultsParserPointfinder:
+    def _create_pointfinder_dataframe(self, pointfinder_blast_map: Dict, pid_threshold: float, plength_threshold: int,
+                                      report_all: bool) -> BlastResultsParserPointfinder:
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, self._pointfinder_database,
                                                            pid_threshold, plength_threshold, report_all,
                                                            output_dir=self._output_dir,
                                                            genes_to_exclude=self._genes_to_exclude)
         return pointfinder_parser.parse_results()
 
-    def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map: Dict[str, BlastResultsParser], pid_threshold: float, plength_threshold: int, report_all: bool) -> PlasmidfinderBlastDatabase:
-        plasmidfinder_parser = BlastResultsParserPlasmidfinder(plasmidfinder_blast_map, self._plasmidfinder_database, pid_threshold,
-                                                       plength_threshold, report_all, output_dir=self._output_dir,
-                                                       genes_to_exclude=self._genes_to_exclude)
+    def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map: Dict[str, BlastResultsParser],
+                                        pid_threshold: float, plength_threshold: int,
+                                        report_all: bool) -> BlastResultsParserPlasmidfinder:
+        plasmidfinder_parser = BlastResultsParserPlasmidfinder(plasmidfinder_blast_map, self._plasmidfinder_database,
+                                                               pid_threshold,
+                                                               plength_threshold, report_all,
+                                                               output_dir=self._output_dir,
+                                                               genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
 
-    def run_amr_detection(self, files: List[str], pid_threshold: float, plength_threshold_resfinder: int, plength_threshold_pointfinder: int, plength_threshold_plasmidfinder: int, report_all: bool=False) -> None:
+    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
+                          plength_threshold_plasmidfinder, report_all=False) -> None:
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
@@ -90,20 +103,22 @@ class AMRDetection:
                                                                      plength_threshold_resfinder, report_all)
 
         plasmidfinder_blast_map = self._amr_detection_handler.get_plasmidfinder_outputs()
-        self._plasmidfinder_dataframe = self._create_plasmidfinder_dataframe(plasmidfinder_blast_map, pid_threshold, plength_threshold_plasmidfinder, report_all)
+        self._plasmidfinder_dataframe = self._create_plasmidfinder_dataframe(plasmidfinder_blast_map, pid_threshold,
+                                                                             plength_threshold_plasmidfinder,
+                                                                             report_all)
 
+        self._pointfinder_dataframe = None
         if self._has_pointfinder:
             pointfinder_blast_map = self._amr_detection_handler.get_pointfinder_outputs()
             self._pointfinder_dataframe = self._create_pointfinder_dataframe(pointfinder_blast_map, pid_threshold,
                                                                              plength_threshold_pointfinder, report_all)
-        else:
-            self._pointfinder_dataframe = None
 
-        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe, 
+        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe,
                                                            self._pointfinder_dataframe, self._plasmidfinder_dataframe)
 
-        self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe, 
-                                                        self._pointfinder_dataframe, self._plasmidfinder_dataframe)           
+        self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,
+                                                                             self._pointfinder_dataframe,
+                                                                             self._plasmidfinder_dataframe)
 
     def get_resfinder_results(self):
         """
@@ -140,4 +155,3 @@ class AMRDetection:
         """
 
         return self._detailed_summary_dataframe
-        

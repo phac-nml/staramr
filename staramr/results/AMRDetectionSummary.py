@@ -16,7 +16,7 @@ Summarizes both ResFinder, PointFinder, and PlasmidFinder database results into 
 class AMRDetectionSummary:
     SEPARATOR = ','
 
-    def __init__(self, files, resfinder_dataframe: DataFrame, pointfinder_dataframe: DataFrame=None, plasmidfinder_dataframe: DataFrame=None) -> None:
+    def __init__(self, files, resfinder_dataframe: DataFrame, pointfinder_dataframe=None, plasmidfinder_dataframe=None) -> None:
         """
         Constructs an object for summarizing AMR detection results.
         :param files: The list of genome files we have scanned against.
