@@ -2,7 +2,8 @@
 
 * Add support for enterococcus faecalis from Pointfinder database.
 * Add support for scanning against the PlasmidFinder database.
-* Upgraded the testing package to use [Green test runner](https://github.com/CleanCut/green). 
+* Upgraded the testing package to use [Green test runner](https://github.com/CleanCut/green).
+* Added Detailed_Summary table which combines results from Resfinder, Pointfinder (optional), and Plasmidfinder. 
 
 # Version 0.4.0
 
