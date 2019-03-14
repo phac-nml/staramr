@@ -80,7 +80,7 @@ class BlastHandler:
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 
-    def run_blasts(self, files: List[str]) -> None:
+    def run_blasts(self, files) -> None:
         """
         Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases.
         :param files: The files to scan.
@@ -96,7 +96,7 @@ class BlastHandler:
                 database_object = self._blast_database_objects_map[name]
                 self._schedule_blast(file, database_object)
 
-    def _make_db_from_input_files(self, db_dir: str, files: List[str]) -> List[str]:
+    def _make_db_from_input_files(self, db_dir, files):
         logger.info("Making BLAST databases for input files")
         future_makeblastdbs = []
         db_files = []
@@ -118,7 +118,7 @@ class BlastHandler:
 
         return db_files
 
-    def _schedule_blast(self, file: str, blast_database: AbstractBlastDatabase) -> None:
+    def _schedule_blast(self, file, blast_database):
         database_names = blast_database.get_database_names()
         logger.debug("%s databases: %s", blast_database.get_name(), database_names)
         for database_name in database_names:
@@ -166,7 +166,7 @@ class BlastHandler:
             future_blast.result()
         return self._get_blast_map('resfinder')
 
-    def get_plasmidfinder_outputs(self) -> Dict[str,str]:
+    def get_plasmidfinder_outputs(self) -> Dict:
         """
         Gets the PlasmidFinder output files in the form of a dictionary which looks like:
             { 'input_file_name' => 'blast_results_file.xml' }
@@ -192,7 +192,7 @@ class BlastHandler:
         else:
             raise Exception("Error, pointfinder has not been configured")
 
-    def _launch_blast(self, query: str, db: str, output: str) -> None:
+    def _launch_blast(self, query, db, output) -> None:
         blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
         blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
         logger.debug(blastn_command)

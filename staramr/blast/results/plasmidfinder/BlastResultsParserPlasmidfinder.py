@@ -4,8 +4,7 @@ import pandas as pd
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import PlasmidfinderHitHSP
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
-from typing import Dict
-from typing import List
+from typing import Dict, List, Optional
 
 """
 Class used to parse out BLAST results for Plasmidfinder.
@@ -25,7 +24,7 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
-    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase, pid_threshold: float, plength_threshold: float, report_all: bool =False,
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: Optional[PlasmidfinderBlastDatabase], pid_threshold: float, plength_threshold: float, report_all: bool =False,
                  output_dir: str =None, genes_to_exclude: List[str]=[]) -> None:
         """
         Creates a new BlastResultsParserPlasmidfinder.
