@@ -3,7 +3,7 @@ import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from os import path
-from typing import Dict
+from typing import Dict, List
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -80,7 +80,7 @@ class BlastHandler:
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 
-    def run_blasts(self, files):
+    def run_blasts(self, files: List[str]) -> None:
         """
         Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases.
         :param files: The files to scan.
@@ -96,7 +96,7 @@ class BlastHandler:
                 database_object = self._blast_database_objects_map[name]
                 self._schedule_blast(file, database_object)
 
-    def _make_db_from_input_files(self, db_dir, files):
+    def _make_db_from_input_files(self, db_dir: str, files: List[str]) -> List[str]:
         logger.info("Making BLAST databases for input files")
         future_makeblastdbs = []
         db_files = []
@@ -118,7 +118,7 @@ class BlastHandler:
 
         return db_files
 
-    def _schedule_blast(self, file, blast_database):
+    def _schedule_blast(self, file: str, blast_database: AbstractBlastDatabase) -> None:
         database_names = blast_database.get_database_names()
         logger.debug("%s databases: %s", blast_database.get_name(), database_names)
         for database_name in database_names:
@@ -135,26 +135,26 @@ class BlastHandler:
             future_blast = self._thread_pool_executor.submit(self._launch_blast, database, file, blast_out)
             self._get_future_blasts_from_map(blast_database.get_name()).append(future_blast)
 
-    def _get_blast_map(self, name):
+    def _get_blast_map(self, name: str) -> Dict:
         if name not in self._blast_map:
             self._blast_map[name] = {}
 
         return self._blast_map[name]
 
-    def _get_future_blasts_from_map(self, name):
+    def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
             self._future_blasts_map[name] = []
 
         return self._future_blasts_map[name]
 
-    def is_pointfinder_configured(self):
+    def is_pointfinder_configured(self) -> bool:
         """
         Whether or not PointFinder is being used.
         :return: True if PointFinder is being used, False otherwise.
         """
         return self._pointfinder_configured
 
-    def get_resfinder_outputs(self):
+    def get_resfinder_outputs(self) -> Dict:
         """
         Gets the ResFinder output files in the form of a dictionary which looks like:
             { 'input_file_name' => 'blast_results_file.xml' }
@@ -178,7 +178,7 @@ class BlastHandler:
             future_blast.result()
         return self._get_blast_map('plasmidfinder')
 
-    def get_pointfinder_outputs(self):
+    def get_pointfinder_outputs(self) -> Dict:
         """
         Gets the PointFinder output files in the form of a dictionary which looks like:
             { 'input_file_name' => 'blast_results_file.xml' }
@@ -192,7 +192,7 @@ class BlastHandler:
         else:
             raise Exception("Error, pointfinder has not been configured")
 
-    def _launch_blast(self, query, db, output):
+    def _launch_blast(self, query: str, db: str, output: str) -> None:
         blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
         blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
         logger.debug(blastn_command)
@@ -200,7 +200,7 @@ class BlastHandler:
         if stderr:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
 
-    def _make_blast_db(self, path):
+    def _make_blast_db(self, path: str) -> None:
         command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
         logger.debug(' '.join(command))
         subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
