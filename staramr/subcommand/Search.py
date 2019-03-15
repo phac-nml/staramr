@@ -320,7 +320,7 @@ class Search(SubCommand):
         
         if (args.plasmidfinder_database_type):
             if args.plasmidfinder_database_type not in PlasmidfinderBlastDatabase.get_available_databases():
-                raise CommandParseException("The only Plasmidfinder bacteria(s) currently supported are " + str(
+                raise CommandParseException("The only Plasmidfinder databases that are currently supported are " + str(
                     PlasmidfinderBlastDatabase.get_available_databases()), self._root_arg_parser)
             plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', {'database_type': args.plasmidfinder_database_type})
         else:
