@@ -61,6 +61,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(len(plasmidfinder_results.index), 1, 'Wrong number of rows in result')
 
         result = plasmidfinder_results[plasmidfinder_results['Gene'] == "IncW"]
+
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
@@ -75,6 +76,32 @@ class AMRDetectionPlasmid(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['IncW_1__EF633507'].seq, records['IncW_1__EF633507'].seq,
                          "records don't match")
+
+    def testDetailedSummary_ResPlasmid(self):
+        file = path.join(self.test_data_dir, "test-detailed-summary.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+
+        detailed_summary_results = self.amr_detection.get_detailed_summary_results()
+        self.assertEqual(len(detailed_summary_results.index), 2, 'Wrong number of rows in result')
+
+        plasmid_type = detailed_summary_results[detailed_summary_results['Gene'] == "rep1"]
+        self.assertEqual(len(plasmid_type.index), 1, 'Wrong number of results detected')
+        self.assertEqual(plasmid_type['Predicted Phenotype'].iloc[0], '', msg='Wrong predicted phenotype')
+        self.assertAlmostEqual(plasmid_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(plasmid_type['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(plasmid_type['Accession'].iloc[0], 'X64695', msg='Wrong accession')
+        self.assertEqual(plasmid_type['HSP Length/Total Length'].iloc[0], '1491/1491', msg='Wrong lengths')
+        self.assertEqual(plasmid_type['Data Type'].iloc[0], 'Plasmid', msg='Wrong data type')
+
+        res_type = detailed_summary_results[detailed_summary_results['Gene'] == "tet(47)"]
+        self.assertEqual(len(res_type.index), 1, 'Wrong number of results detected')
+        self.assertEqual(res_type['Predicted Phenotype'].iloc[0], 'tetracycline', msg='Wrong predicted phenotype')
+        self.assertAlmostEqual(res_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(res_type['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(res_type['Accession'].iloc[0], 'KR857681', msg='Wrong accession')
+        self.assertEqual(res_type['HSP Length/Total Length'].iloc[0], '1248/1248', msg='Wrong lengths')
+        self.assertEqual(res_type['Data Type'].iloc[0], 'Resistance', msg='Wrong data type')
 
     def testResistancePlasmidGenesSummary(self):
         file = path.join(self.test_data_dir, "test-resistance-plasmid.fsa")
