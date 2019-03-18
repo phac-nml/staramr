@@ -15,7 +15,9 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.columns_pointfinder = ('Isolate ID', 'Gene', 'Type', 'Position', 'Mutation',
                                     '%Identity', '%Overlap', 'HSP Length/Total Length')
         self.columns_plasmidfinder = ('Isolate ID', 'Gene', '%Identity', '%Overlap',
-                                  'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
+                                      'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
+        self.detailed_summary = ('Isolate ID', 'Gene', 'Predicted Phenotype', '%Identity', '%Overlap',
+                                 'HSP Length/Total Length', 'Contig', 'Start', 'End',	'Accession', 'Data Type')
 
         # Resfinder tables
         self.resfinder_table_empty = pd.DataFrame([],
@@ -131,6 +133,14 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         ],
             columns=self.columns_pointfinder)
         self.pointfinder_table_multiple_gene_files = ['file1']
+
+        self.pointfinder_table_empty = pd.DataFrame([],
+                                                      columns=self.columns_pointfinder)
+
+        # Detailed Summary Tables
+        self.plasmidfinder_table_None = None
+
+        self.detailed_summary_multi_files = ['file1', 'file2', 'file4', 'file5']
 
     def testResfinderSingleGene(self):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1, self.plasmidfinder_table_empty)
@@ -400,3 +410,229 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42, gyrA', summary['Genotype'].iloc[0], 'Genes not equal')
+
+    def testDetailedSummary_noPlasmid_noPoint(self):
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'))
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(2, len(detailed_summary.index), 'Invalid number of rows, expected 2')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('blaIMP-42', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_noPoint(self):
+        plasmid_table = self.plasmidfinder_table1
+        plasmid_table['Isolate ID'] = 'file1'
+        plasmid_table = plasmid_table.set_index('Isolate ID')
+
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), plasmidfinder_dataframe=plasmid_table)
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(2, len(detailed_summary.index), 'Invalid number of rows, expected 2')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('IncFIB(S)', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('blaIMP-42', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_noPlasmid(self):
+        point_table = self.pointfinder_table
+        point_table = point_table.set_index('Isolate ID')
+
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), pointfinder_dataframe=point_table)
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(3, len(detailed_summary.index), 'Invalid number of rows, expected 3')
+
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[2], 'File name not equal')
+
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[2], 'Incorrect Data Type')
+
+        self.assertEqual('blaIMP-42', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('gyrA', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[2], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[2], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_noRes(self):
+        point_table = self.pointfinder_table
+        point_table = point_table.set_index('Isolate ID')
+
+        plasmid_table = self.plasmidfinder_table1
+        plasmid_table['Isolate ID'] = 'file1'
+        plasmid_table = plasmid_table.set_index('Isolate ID')
+
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), pointfinder_dataframe=point_table, plasmidfinder_dataframe=plasmid_table)
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(2, len(detailed_summary.index), 'Invalid number of rows, expected 2')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('IncFIB(S)', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('gyrA', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_noRes_noPoint(self):
+        plasmid_table = self.plasmidfinder_table1
+        plasmid_table['Isolate ID'] = 'file1'
+        plasmid_table = plasmid_table.set_index('Isolate ID')
+
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), plasmidfinder_dataframe=plasmid_table)
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(2, len(detailed_summary.index), 'Invalid number of rows, expected 2')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('IncFIB(S)', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_noRes_noPlasmid(self):
+        point_table = self.pointfinder_table
+        point_table = point_table.set_index('Isolate ID')
+
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), pointfinder_dataframe=point_table)
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(2, len(detailed_summary.index), 'Invalid number of rows, expected 2')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('gyrA', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_allFinders(self):
+        point_table = self.pointfinder_table
+        point_table = point_table.set_index('Isolate ID')
+
+        plasmid_table = self.plasmidfinder_table1
+        plasmid_table['Isolate ID'] = 'file1'
+        plasmid_table = plasmid_table.set_index('Isolate ID')
+
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), pointfinder_dataframe=point_table, plasmidfinder_dataframe=plasmid_table)
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(3, len(detailed_summary.index), 'Invalid number of rows, expected 3')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[2], 'File name not equal')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[2], 'Incorrect Data Type')
+
+        self.assertEqual('IncFIB(S)', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('blaIMP-42', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+        self.assertEqual('gyrA', detailed_summary['Gene'].iloc[2], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[2], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_noFinders(self):
+        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), self.pointfinder_table_empty.set_index('Isolate ID'), self.plasmidfinder_table_empty.set_index('Isolate ID'))
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(2, len(detailed_summary.index), 'Invalid number of rows, expected 2')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('None', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+
+    def testDetailedSummary_multiFiles(self):
+        amr_detection_summary = AMRDetectionSummary(self.detailed_summary_multi_files, self.resfinder_table_mult_file.set_index('Isolate ID'), self.pointfinder_table_multiple_gene.set_index('Isolate ID'), self.plasmidfinder_table_mult_file.set_index('Isolate ID'))
+
+        detailed_summary = amr_detection_summary.create_detailed_summary()
+
+        self.assertEqual(12, len(detailed_summary.index), 'Invalid number of rows, expected 12')
+        self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
+        self.assertEqual('file1', detailed_summary.index[4], 'File name not equal')
+
+        self.assertEqual('file2', detailed_summary.index[5], 'File name not equal')
+        self.assertEqual('file2', detailed_summary.index[6], 'File name not equal')
+
+        self.assertEqual('file4', detailed_summary.index[7], 'File name not equal')
+        self.assertEqual('file4', detailed_summary.index[9], 'File name not equal')
+
+        self.assertEqual('file5', detailed_summary.index[10], 'File name not equal')
+        self.assertEqual('file5', detailed_summary.index[11], 'File name not equal')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[5], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[6], 'Incorrect Data Type')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[8], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[9], 'Incorrect Data Type')
+
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[10], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[11], 'Incorrect Data Type')
+
+        self.assertEqual('None', detailed_summary['Gene'].iloc[0], 'Genes not equal')
+        self.assertEqual('blaIMP-42', detailed_summary['Gene'].iloc[1], 'Genes not equal')
+
+        self.assertEqual('None', detailed_summary['Gene'].iloc[5], 'Genes not equal')
+        self.assertEqual('blaIMP-42', detailed_summary['Gene'].iloc[6], 'Genes not equal')
+
+        self.assertEqual('IncFIB(S)', detailed_summary['Gene'].iloc[7], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[9], 'Genes not equal')
+
+        self.assertEqual('IncFIB(K)', detailed_summary['Gene'].iloc[10], 'Genes not equal')
+        self.assertEqual('None', detailed_summary['Gene'].iloc[11], 'Genes not equal')
+
+        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[9], 'Predicted Phenotype not equal')
+        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[11], 'Predicted Phenotype not equal')
