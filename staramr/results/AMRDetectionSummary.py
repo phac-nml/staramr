@@ -120,17 +120,29 @@ class AMRDetectionSummary:
         return resistance_frame.sort_index()
 
     def create_detailed_summary(self, include_negatives: bool=True) -> DataFrame:
-        resistance_frame = self._resfinder_dataframe
-        resistance_frame['Data Type']='Resistance'
-        plasmid_frame = self._plasmidfinder_dataframe
+        if self._resfinder_dataframe is None:
+            resistance_frame = None
+        else:
+            resistance_frame = self._resfinder_dataframe.copy()
+            resistance_frame['Data Type']='Resistance'
+
+        if self._plasmidfinder_dataframe is None:
+            plasmid_frame = None
+        else:
+            plasmid_frame = self._plasmidfinder_dataframe.copy()
 
         column_names = ['Gene', 'Predicted Phenotype','%Identity', '%Overlap', 'HSP Length/Total Length','Contig', 'Start', 'End', 'Accession', 'Data Type']
 
         if self._has_pointfinder:
-            point_frame = self._pointfinder_dataframe
-            point_frame['Data Type']='Resistance'
-            point_frame = point_frame.reindex(columns=column_names)
-            resistance_frame = resistance_frame.append(point_frame, sort=True)
+            if self._pointfinder_dataframe is None:
+                point_frame = None
+            else:
+                point_frame = self._pointfinder_dataframe.copy()
+                point_frame['Data Type']='Resistance'
+                point_frame = point_frame.reindex(columns=column_names)
+
+            if resistance_frame is not None:
+                resistance_frame = resistance_frame.append(point_frame, sort=True)
 
         if include_negatives:
             if plasmid_frame is not None:
@@ -143,10 +155,13 @@ class AMRDetectionSummary:
         if plasmid_frame is not None:
             plasmid_frame['Data Type']='Plasmid'
             plasmid_frame['Predicted Phenotype']=''
-            resistance_frame = resistance_frame.append(plasmid_frame, sort=True)
-            resistance_frame = resistance_frame.reindex(columns=column_names)
-            resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
 
-        resistance_frame = resistance_frame.fillna("")
+            if resistance_frame is not None:
+                resistance_frame = resistance_frame.append(plasmid_frame, sort=True)
+                resistance_frame = resistance_frame.reindex(columns=column_names)
+                resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
+
+        if resistance_frame is not None:
+            resistance_frame = resistance_frame.fillna("")
 
         return resistance_frame
