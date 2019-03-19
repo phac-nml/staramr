@@ -4,7 +4,7 @@
 
 # `staramr`
 
-`staramr` (*AMR) scans bacterial genome contigs against both the [ResFinder][resfinder-db] and [PointFinder][pointfinder-db] databases (used by the [ResFinder webservice][resfinder-web]) and compiles a summary report of detected antimicrobial resistance genes.
+`staramr` (*AMR) scans bacterial genome contigs against the [ResFinder][resfinder-db], [PointFinder][pointfinder-db], and [PlasmidFinder][plasmidfinder-db] databases (used by the [ResFinder webservice][resfinder-web]) and compiles a summary report of detected antimicrobial resistance genes.
 
 **Note: The predicted phenotypes/drug resistances are for microbiological resistance and *not* clinical resistance. This is provided with support from the NARMS/CIPARS Molecular Working Group and is continually being improved. A small comparison between phenotype/drug resistance predictions produced by `staramr` and those available from NCBI can be found in the [tutorial][tutorial]. We welcome any feedback or suggestions.**
 
@@ -16,10 +16,33 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       |
-|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline |
-| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               |
+| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid Genes                       |
+|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------| ------------------------------------|
+| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 |
+| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 |
+
+**out/detailed_summary.tsv**:
+
+| Isolate ID | Gene        | Predicted Phenotype               | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    | Accession | Data Type  |
+|------------|-------------|-----------------------------------|-----------|----------|-------------------------|-------------|--------|--------|-----------|------------|
+| SRR1952908 | ColpVC      |                                   | 98.96     | 100      | 193/193                 | contig00038 | 1618   | 1426   | JX133088  | Plasmid    |
+| SRR1952908 | IncFIB(S)   |                                   | 98.91     | 100      | 643/643                 | contig00024 | 10302  | 9660   | FN432031  | Plasmid    |
+| SRR1952908 | IncFII(S)   |                                   | 100       | 100      | 262/262                 | contig00024 | 54294  | 54555  | CP000858  | Plasmid    |
+| SRR1952908 | IncI1       |                                   | 100       | 100      | 142/142                 | contig00020 | 3907   | 3766   | AP005147  | Plasmid    |
+| SRR1952908 | aadA1       | streptomycin                      | 100       | 100      | 792/792                 | contig00030 | 5355   | 4564   | JQ414041  | Resistance |
+| SRR1952908 | aadA2       | streptomycin                      | 100       | 100      | 780/780                 | contig00030 | 7748   | 6969   | X68227    | Resistance |
+| SRR1952908 | blaTEM-57   | ampicillin                        | 99.88     | 100      | 861/861                 | contig00032 | 6247   | 5387   | FJ405211  | Resistance |
+| SRR1952908 | cmlA1       | chloramphenicol                   | 99.92     | 100      | 1260/1260               | contig00030 | 6707   | 5448   | M64556    | Resistance |
+| SRR1952908 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | 99.96     | 100      | 2637/2637               | contig00008 | 22801  | 20165  |           | Resistance |
+| SRR1952908 | sul3        | sulfisoxazole                     | 100       | 100      | 792/792                 | contig00030 | 2091   | 2882   | AJ459418  | Resistance |
+| SRR1952908 | tet(A)      | tetracycline                      | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476   | 2722   | AF534183  | Resistance |
+| SRR1952926 | ColpVC      |                                   | 98.96     | 100      | 193/193                 | contig00037 | 657    | 849    | JX133088  | Plasmid    |
+| SRR1952926 | IncFIB(S)   |                                   | 98.91     | 100      | 643/643                 | contig00021 | 10302  | 9660   | FN432031  | Plasmid    |
+| SRR1952926 | IncFII(S)   |                                   | 100       | 100      | 262/262                 | contig00021 | 54294  | 54555  | CP000858  | Plasmid    |
+| SRR1952926 | IncI1       |                                   | 100       | 100      | 142/142                 | contig00017 | 3907   | 3766   | AP005147  | Plasmid    |
+| SRR1952926 | blaTEM-57   | ampicillin                        | 99.88     | 100      | 861/861                 | contig00027 | 6176   | 5316   | FJ405211  | Resistance |
+| SRR1952926 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | 99.96     | 100      | 2637/2637               | contig00011 | 157768 | 160404 |           | Resistance |
+| SRR1952926 | tet(A)      | tetracycline                      | 99.92     | 97.8     | 1247/1275               | contig00027 | 1405   | 2651   | AF534183  | Resistance |
 
 **out/resfinder.tsv**:
 
@@ -40,6 +63,19 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 |-------------|--------------|------------------------------------|--------|-----------|----------------------|------------|-----------|--------------------------|--------------|---------|--------|
 | SRR1952908  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00008  | 22801   | 20165  |
 | SRR1952926  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00011  | 157768  | 160404 |
+
+**out/plasmidfinder.tsv**:
+
+| Isolate ID | Gene      | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End   | Accession |
+|------------|-----------|-----------|----------|-------------------------|-------------|-------|-------|-----------|
+| SRR1952908 | ColpVC    | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426  | JX133088  |
+| SRR1952908 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00024 | 10302 | 9660  | FN432031  |
+| SRR1952908 | IncFII(S) | 100       | 100      | 262/262                 | contig00024 | 54294 | 54555 | CP000858  |
+| SRR1952908 | IncI1     | 100       | 100      | 142/142                 | contig00020 | 3907  | 3766  | AP005147  |
+| SRR1952926 | ColpVC    | 98.96     | 100      | 193/193                 | contig00037 | 657   | 849   | JX133088  |
+| SRR1952926 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00021 | 10302 | 9660  | FN432031  |
+| SRR1952926 | IncFII(S) | 100       | 100      | 262/262                 | contig00021 | 54294 | 54555 | CP000858  |
+| SRR1952926 | IncI1     | 100       | 100      | 142/142                 | contig00017 | 3907  | 3766  | AP005147  |
 
 # Table of Contents
 
@@ -215,11 +251,13 @@ Please make sure to include `#gene_id` in the first line. The default exclusion 
 
 There are 5 different output files produced by `staramr`:
 
-1. `summary.tsv`:  A summary of all detected AMR genes/mutations in each genome, one genome per line.
-2. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
-3. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
-4. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
-5. `results.xlsx`: An Excel spreadsheet containing the previous 4 files as separate worksheets.
+1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids in each genome, one genome per line.
+2. `detailed_summary.tsv`: A detailed summary of all detected AMR genes/mutations/plasmids in each genome, one gene per line.
+3. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
+4. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
+5. `plasmidfinder.tsv`: A tabular file of each AMR plasmid gene and additional BLAST information from the **PlasmidFinder** database, one plasmid gene per line.
+6. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
+7. `results.xlsx`: An Excel spreadsheet containing the previous 4 files as separate worksheets.
 
 In addition, the directory `hits/` stores fasta files of the specific blast hits.
 
@@ -238,13 +276,35 @@ The **summary.tsv** output file generated by `staramr` contains the following co
 | SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline |
 | SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               |
 
+## detailed_summary.tsv
+
+The **detailed_summary.tsv** output file generated by `staramr` contains the following columns:
+
+* __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
+* __Gene__: The particular AMR gene detected from ResFinder, PlasmidFinder, and PointFinder.
+* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) found in ResFinder.
+* __%Identity__: The % identity of the top BLAST HSP to the AMR gene.
+* __%Overlap__: THe % overlap of the top BLAST HSP to the AMR gene (calculated as __hsp length/total length * 100__).
+* __HSP Length/Total Length__ The top BLAST HSP length over the AMR gene total length (nucleotides).
+* __Contig__: The contig id containing this AMR gene.
+* __Start__: The start of the AMR gene (will be greater than __End__ if on minus strand).
+* __End__: The end of the AMR gene.
+* __Accession__: The accession of the AMR gene from either ResFinder, PlasmidFinder,  database.
+* __Data Type__: The type of gene it is either a **Resistance** gene or a **Plasmid** gene
+
+### Example
+| Isolate ID | Gene        | Predicted Phenotype               | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    | Accession | Data Type  |
+|------------|-------------|-----------------------------------|-----------|----------|-------------------------|-------------|--------|--------|-----------|------------|
+| SRR1952926 | IncI1       |                                   | 100       | 100      | 142/142                 | contig00017 | 3907   | 3766   | AP005147  | Plasmid    |
+| SRR1952926 | blaTEM-57   | ampicillin                        | 99.88     | 100      | 861/861                 | contig00027 | 6176   | 5316   | FJ405211  | Resistance |
+
 ## resfinder.tsv
 
 The **resfinder.tsv** output file generated by `staramr` contains the following columns:
 
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
 * __Gene__: The particular AMR gene detected.
-* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for this gene.
+* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for this gene. Plasmid genes will be left blank by default.
 * __%Identity__: The % identity of the top BLAST HSP to the AMR gene.
 * __%Overlap__: THe % overlap of the top BLAST HSP to the AMR gene (calculated as __hsp length/total length * 100__).
 * __HSP Length/Total Length__ The top BLAST HSP length over the AMR gene total length (nucleotides).
@@ -284,6 +344,27 @@ The **pointfinder.tsv** output file generated by `staramr` contains the followin
 | SRR1952908  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00008  | 22801   | 20165  |
 | SRR1952926  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00011  | 157768  | 160404 |
 
+## plasmidfinder.tsv
+
+The **plasmidfinder.tsv** output file generated by `staramr` contains the following columns:
+
+* __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
+* __Gene__: The particular AMR plasmid gene detected.
+* __%Identity__: The % identity of the top BLAST HSP to the AMR plasmid gene.
+* __%Overlap__: THe % overlap of the top BLAST HSP to the AMR plasmid gene (calculated as __hsp length/total length * 100__).
+* __HSP Length/Total Length__ The top BLAST HSP length over the AMR plasmid gene total length (nucleotides).
+* __Contig__: The contig id containing this AMR plasmid gene.
+* __Start__: The start of the AMR plasmid gene (will be greater than __End__ if on minus strand).
+* __End__: The end of the AMR plasmid gene.
+* __Accession__: The accession of the AMR plasmid gene in the PlasmidFinder database.
+
+### Example
+
+| Isolate ID | Gene      | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End   | Accession |
+|------------|-----------|-----------|----------|-------------------------|-------------|-------|-------|-----------|
+| SRR1952908 | ColpVC    | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426  | JX133088  |
+| SRR1952908 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00024 | 10302 | 9660  | FN432031  |
+
 ## settings.txt
 
 The **settings.txt** file contains the particular settings used to run `staramr`.
@@ -300,21 +381,25 @@ The **settings.txt** file contains the particular settings used to run `staramr`
 ### Example
 
 ```
-command_line                  = staramr search -o out --pointfinder-organism salmonella SRR1952908.fasta SRR1952926.fasta
-version                       = 0.2.0
-start_time                    = 2018-06-08 10:28:47
-end_time                      = 2018-06-08 10:28:59
-total_minutes                 = 0.20
-resfinder_db_dir              = staramr/databases/data/dist/resfinder
-resfinder_db_url              = https://bitbucket.org/genomicepidemiology/resfinder_db.git
-resfinder_db_commit           = dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2
-resfinder_db_date             = Tue, 20 Mar 2018 16:49
-pointfinder_db_dir            = staramr/databases/data/dist/pointfinder
-pointfinder_db_url            = https://bitbucket.org/genomicepidemiology/pointfinder_db.git
-pointfinder_db_commit         = ba65c4d175decdc841a0bef9f9be1c1589c0070a
-pointfinder_db_date           = Fri, 06 Apr 2018 09:02
-pointfinder_gene_drug_version = 050218
-resfinder_gene_drug_version   = 050218
+command_line                    = staramr search -o out --pointfinder-organism salmonella SRR1952908.fasta SRR1952926.fasta
+version                         = 1.0.0
+start_time                      = 2019-03-19 14:58:20
+end_time                        = 2019-03-19 14:58:22
+total_minutes                   = 0.03
+resfinder_db_dir                = staramr/databases/data/update/resfinder
+resfinder_db_url                = https://bitbucket.org/genomicepidemiology/resfinder_db.git
+resfinder_db_commit             = e8f1eb2585cd9610c4034a54ce7fc4f93aa95535
+resfinder_db_date               = Mon, 16 Jul 2018 16:58
+pointfinder_db_dir              = staramr/databases/data/update/pointfinder
+pointfinder_db_url              = https://bitbucket.org/genomicepidemiology/pointfinder_db.git
+pointfinder_db_commit           = 8706a6363bb29e47e0e398c53043b037c24b99a7
+pointfinder_db_date             = Wed, 04 Jul 2018 14:27
+plasmidfinder_db_dir            = staramr/databases/data/update/plasmidfinder
+plasmidfinder_db_url            = https://bitbucket.org/genomicepidemiology/plasmidfinder_db.git
+plasmidfinder_db_commit	        = 81919954cbedaff39056610ab584ab4c06011ed8
+plasmidfinder_db_date           = Tue, 20 Nov 2018 08:51
+pointfinder_gene_drug_version   = 050218
+resfinder_gene_drug_version     = 050218.1
 ```
 
 ## hits/
@@ -563,6 +648,7 @@ specific language governing permissions and limitations under the License.
 
 [resfinder-db]: https://bitbucket.org/genomicepidemiology/resfinder_db
 [pointfinder-db]: https://bitbucket.org/genomicepidemiology/pointfinder_db
+[plasmidfinder-db]:https://bitbucket.org/genomicepidemiology/plasmidfinder_db
 [resfinder-web]: https://cge.cbs.dtu.dk/services/ResFinder/
 [resfinder-cite]: https://dx.doi.org/10.1093/jac/dks261
 [pointfinder-cite]: https://doi.org/10.1093/jac/dkx217
