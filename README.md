@@ -387,7 +387,7 @@ The **settings.txt** file contains the particular settings used to run `staramr`
 
 ### Example
 
-![Settings Output Example](images/settings_example.svg)
+![Settings Output Example](images/settings_example.png)
 
 ## hits/
 
