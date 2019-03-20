@@ -372,14 +372,19 @@ The **settings.txt** file contains the particular settings used to run `staramr`
 * __command_line__: The command line used to run `staramr`.
 * __version__: The version of `staramr`.
 * __start_time__,__end_time__,__total_minutes__: The start, end, and duration for running `staramr`.
-* __resfinder_db_dir__, __pointfinder_db_dir__: The directory containing the ResFinder and PointFinder databases.
-* __resfinder_db_url__, __pointfinder_db_url__: The URL to the git repository for the ResFinder and PointFinder databases.
-* __resfinder_db_commit__, __pointfinder_db_commit__: The git commit ids for the ResFinder and PointFinder databases.
-* __resfinder_db_date__, __pointfinder_db_date__: The date of the git commits of the ResFinder and PointFinder databases.
+* __resfinder_db_dir__, __pointfinder_db_dir__, __plasmidfinder_db_dir__ : The directory containing the ResFinder, PointFinder, and PlasmidFinder databases.
+* __resfinder_db_url__, __pointfinder_db_url__, __plasmidfinder_db_url__: The URL to the git repository for the ResFinder, PointFinder, and PlasmidFinder databases.
+* __resfinder_db_commit__, __pointfinder_db_commit__, __plasmidfinder_db_commit__: The git commit ids for the ResFinder, PointFinder, and PlasmidFinder databases.
+* __resfinder_db_date__, __pointfinder_db_date__, __plasmidfinder_db_date__: The date of the git commits of the ResFinder, PointFinder, and PlasmidFinder databases.
 * __pointfinder_gene_drug_version__, __resfinder_gene_drug_version__: A version identifier for the gene/drug mapping table used by `staramr`.
 
 ### Example
 
+<!-- ![Settings Output Example](images/settings_example.svg) -->
+
+<!-- <p align="center">
+  <img width="900" height="450" src="images/settings_example.svg">
+</p> -->
 ```
 command_line                    = staramr search -o out --pointfinder-organism salmonella SRR1952908.fasta SRR1952926.fasta
 version                         = 1.0.0
@@ -427,7 +432,9 @@ A tutorial guiding you though the usage of `staramr`, interpreting the results, 
 
 Main `staramr` command. Can be used to set global options (primarily `--verbose`).
 
-```
+![Main Command](images/main_command.svg)
+
+<!-- ```
 usage: staramr [-h] [--verbose] [-V] {search,db} ...
 
 Do AMR detection for genes and point mutations
@@ -441,13 +448,15 @@ optional arguments:
   -h, --help     show this help message and exit
   --verbose      Turn on verbose logging [False].
   -V, --version  show program's version number and exit
-```
+``` -->
 
 ## Search
 
 Searches input FASTA files for AMR genes.
 
-```
+![Search Command](images/search_command.svg)
+
+<!-- ```
 usage: staramr search [-h] [--pointfinder-organism POINTFINDER_ORGANISM]
                       [-d DATABASE] [-n NPROCS]
                       [--pid-threshold PID_THRESHOLD]
@@ -519,7 +528,7 @@ Example:
 
         staramr search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta
                 Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in results.xlsx.
-```
+``` -->
 
 ## Database Build
 
