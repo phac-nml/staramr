@@ -442,7 +442,7 @@ Do AMR detection for genes and point mutations
 positional arguments:
   {search,db}    Subcommand for AMR detection.
     search       Search for AMR genes
-    db           Download ResFinder/PointFinder databases
+    db           Download ResFinder/PointFinder/PlasmidFinder databases
 
 optional arguments:
   -h, --help     show this help message and exit
@@ -454,14 +454,16 @@ optional arguments:
 
 Searches input FASTA files for AMR genes.
 
-![Search Command](images/search_command.svg)
+![Search Command](images/search_command.png)
 
 <!-- ```
 usage: staramr search [-h] [--pointfinder-organism POINTFINDER_ORGANISM]
+                      [--plasmidfinder-database-type PLASMIDFINDER_DATABASE_TYPE]
                       [-d DATABASE] [-n NPROCS]
                       [--pid-threshold PID_THRESHOLD]
                       [--percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER]
                       [--percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER]
+                      [--percent-length-overlap-plasmidfinder PLENGTH_THRESHOLD_PLASMIDFINDER]
                       [--no-exclude-genes]
                       [--exclude-genes-file EXCLUDE_GENES_FILE]
                       [--exclude-negatives] [--exclude-resistance-phenotypes]
@@ -469,6 +471,7 @@ usage: staramr search [-h] [--pointfinder-organism POINTFINDER_ORGANISM]
                       [--output-summary OUTPUT_SUMMARY]
                       [--output-resfinder OUTPUT_RESFINDER]
                       [--output-pointfinder OUTPUT_POINTFINDER]
+                      [--output-plasmidfinder OUTPUT_PLASMIDFINDER]
                       [--output-settings OUTPUT_SETTINGS]
                       [--output-excel OUTPUT_EXCEL]
                       [--output-hits-dir HITS_OUTPUT_DIR]
@@ -480,11 +483,13 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --pointfinder-organism POINTFINDER_ORGANISM
-                        The organism to use for pointfinder {salmonella, campylobacter}. Defaults to disabling search for point mutations. [None].
+                        The organism to use for pointfinder {salmonella, campylobacter, enterococcus_faecalis}. Defaults to disabling search for point mutations. [None].
+  --plasmidfinder-database-type PLASMIDFINDER_DATABASE_TYPE
+                        The database type to use for plasmidfinder {gram_positive, enterobacteriaceae}. Defaults to using all available database types to search for plasmids. [None].
   -d DATABASE, --database DATABASE
-                        The directory containing the resfinder/pointfinder databases [staramr/databases/data].
+                        The directory containing the resfinder/pointfinder databases [/staramr/databases/data].
   -n NPROCS, --nprocs NPROCS
-                        The number of processing cores to use [MAX CPU CORES].
+                        The number of processing cores to use [4].
 
 BLAST Thresholds:
   --pid-threshold PID_THRESHOLD
@@ -493,12 +498,13 @@ BLAST Thresholds:
                         The percent length overlap for resfinder results [60.0].
   --percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER
                         The percent length overlap for pointfinder results [95.0].
+  --percent-length-overlap-plasmidfinder PLENGTH_THRESHOLD_PLASMIDFINDER
+                        The percent length overlap for resfinder results [60.0].
 
 Reporting options:
   --no-exclude-genes    Disable the default exclusion of some genes from ResFinder/PointFinder [False].
   --exclude-genes-file EXCLUDE_GENES_FILE
-                        A containing a list of ResFinder/PointFinder gene names to exclude from results
-                        [staramr/databases/exclude/data/genes_to_exclude.tsv].
+                        A containing a list of ResFinder/PointFinder gene names to exclude from results [staramr/databases/exclude/data/genes_to_exclude.tsv].
   --exclude-negatives   Exclude negative results (those sensitive to antimicrobials) [False].
   --exclude-resistance-phenotypes
                         Exclude predicted antimicrobial resistances [False].
@@ -515,6 +521,8 @@ Output:
                         The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]
   --output-pointfinder OUTPUT_POINTFINDER
                         The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]
+  --output-plasmidfinder OUTPUT_PLASMIDFINDER
+                        The name of the output file containing the plasmidfinder results. Not be be used with '--output-dir'. [None]
   --output-settings OUTPUT_SETTINGS
                         The name of the output file containing the settings. Not be be used with '--output-dir'. [None]
   --output-excel OUTPUT_EXCEL
@@ -523,11 +531,11 @@ Output:
                         The name of the directory to contain the BLAST hit files. Not be be used with '--output-dir'. [None]
 
 Example:
-        staramr search -o out *.fasta
-                Searches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.
+	staramr search -o out *.fasta
+		Searches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.
 
-        staramr search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta
-                Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in results.xlsx.
+	staramr search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta
+		Searches *.fasta for AMR genes using ResFnder and PointFinder database with the passed organism, storing results in results.xlsx
 ``` -->
 
 ## Database Build
