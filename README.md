@@ -4,7 +4,7 @@
 
 # `staramr`
 
-`staramr` (*AMR) scans bacterial genome contigs against the [ResFinder][resfinder-db], [PointFinder][pointfinder-db], and [PlasmidFinder][plasmidfinder-db] databases (used by the [ResFinder webservice][resfinder-web]) and compiles a summary report of detected antimicrobial resistance genes.
+`staramr` (*AMR) scans bacterial genome contigs against the [ResFinder][resfinder-db], [PointFinder][pointfinder-db], and [PlasmidFinder][plasmidfinder-db] databases (used by the [ResFinder webservice][resfinder-web] and other webservices offered by the Center for Genomic Epidemiology) and compiles a summary report of detected antimicrobial resistance genes.
 
 **Note: The predicted phenotypes/drug resistances are for microbiological resistance and *not* clinical resistance. This is provided with support from the NARMS/CIPARS Molecular Working Group and is continually being improved. A small comparison between phenotype/drug resistance predictions produced by `staramr` and those available from NCBI can be found in the [tutorial][tutorial]. We welcome any feedback or suggestions.**
 
@@ -26,23 +26,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 | Isolate ID | Gene        | Predicted Phenotype               | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    | Accession | Data Type  |
 |------------|-------------|-----------------------------------|-----------|----------|-------------------------|-------------|--------|--------|-----------|------------|
 | SRR1952908 | ColpVC      |                                   | 98.96     | 100      | 193/193                 | contig00038 | 1618   | 1426   | JX133088  | Plasmid    |
-| SRR1952908 | IncFIB(S)   |                                   | 98.91     | 100      | 643/643                 | contig00024 | 10302  | 9660   | FN432031  | Plasmid    |
-| SRR1952908 | IncFII(S)   |                                   | 100       | 100      | 262/262                 | contig00024 | 54294  | 54555  | CP000858  | Plasmid    |
-| SRR1952908 | IncI1       |                                   | 100       | 100      | 142/142                 | contig00020 | 3907   | 3766   | AP005147  | Plasmid    |
-| SRR1952908 | aadA1       | streptomycin                      | 100       | 100      | 792/792                 | contig00030 | 5355   | 4564   | JQ414041  | Resistance |
-| SRR1952908 | aadA2       | streptomycin                      | 100       | 100      | 780/780                 | contig00030 | 7748   | 6969   | X68227    | Resistance |
-| SRR1952908 | blaTEM-57   | ampicillin                        | 99.88     | 100      | 861/861                 | contig00032 | 6247   | 5387   | FJ405211  | Resistance |
-| SRR1952908 | cmlA1       | chloramphenicol                   | 99.92     | 100      | 1260/1260               | contig00030 | 6707   | 5448   | M64556    | Resistance |
-| SRR1952908 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | 99.96     | 100      | 2637/2637               | contig00008 | 22801  | 20165  |           | Resistance |
 | SRR1952908 | sul3        | sulfisoxazole                     | 100       | 100      | 792/792                 | contig00030 | 2091   | 2882   | AJ459418  | Resistance |
-| SRR1952908 | tet(A)      | tetracycline                      | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476   | 2722   | AF534183  | Resistance |
-| SRR1952926 | ColpVC      |                                   | 98.96     | 100      | 193/193                 | contig00037 | 657    | 849    | JX133088  | Plasmid    |
-| SRR1952926 | IncFIB(S)   |                                   | 98.91     | 100      | 643/643                 | contig00021 | 10302  | 9660   | FN432031  | Plasmid    |
-| SRR1952926 | IncFII(S)   |                                   | 100       | 100      | 262/262                 | contig00021 | 54294  | 54555  | CP000858  | Plasmid    |
-| SRR1952926 | IncI1       |                                   | 100       | 100      | 142/142                 | contig00017 | 3907   | 3766   | AP005147  | Plasmid    |
-| SRR1952926 | blaTEM-57   | ampicillin                        | 99.88     | 100      | 861/861                 | contig00027 | 6176   | 5316   | FJ405211  | Resistance |
-| SRR1952926 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | 99.96     | 100      | 2637/2637               | contig00011 | 157768 | 160404 |           | Resistance |
-| SRR1952926 | tet(A)      | tetracycline                      | 99.92     | 97.8     | 1247/1275               | contig00027 | 1405   | 2651   | AF534183  | Resistance |
 
 **out/resfinder.tsv**:
 
@@ -50,12 +34,6 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 |------------|------------|----------------------|------------|-----------|--------------------------|--------------|--------|-------|-----------|
 | SRR1952908 | sul3       | sulfisoxazole        | 100.00     | 100.00    | 792/792                  | contig00030  | 2091   | 2882  | AJ459418  |
 | SRR1952908 | tet(A)     | tetracycline         | 99.92      | 100.00    | 1200/1200                | contig00032  | 1551   | 2750  | AJ517790  |
-| SRR1952908 | cmlA1      | chloramphenicol      | 99.92      | 100.00    | 1260/1260                | contig00030  | 6707   | 5448  | M64556    |
-| SRR1952908 | aadA1      | streptomycin         | 100.00     | 100.00    | 792/792                  | contig00030  | 5355   | 4564  | JQ414041  |
-| SRR1952908 | aadA2      | streptomycin         | 99.75      | 100.00    | 792/792                  | contig00030  | 7760   | 6969  | JQ364967  |
-| SRR1952908 | blaTEM-57  | ampicillin           | 99.88      | 100.00    | 861/861                  | contig00032  | 6247   | 5387  | FJ405211  |
-| SRR1952926 | tet(A)     | tetracycline         | 99.92      | 100.00    | 1200/1200                | contig00027  | 1480   | 2679  | AJ517790  |
-| SRR1952926 | blaTEM-57  | ampicillin           | 99.88      | 100.00    | 861/861                  | contig00027  | 6176   | 5316  | FJ405211  |
 
 **out/pointfinder.tsv**:
 
@@ -70,12 +48,6 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 |------------|-----------|-----------|----------|-------------------------|-------------|-------|-------|-----------|
 | SRR1952908 | ColpVC    | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426  | JX133088  |
 | SRR1952908 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00024 | 10302 | 9660  | FN432031  |
-| SRR1952908 | IncFII(S) | 100       | 100      | 262/262                 | contig00024 | 54294 | 54555 | CP000858  |
-| SRR1952908 | IncI1     | 100       | 100      | 142/142                 | contig00020 | 3907  | 3766  | AP005147  |
-| SRR1952926 | ColpVC    | 98.96     | 100      | 193/193                 | contig00037 | 657   | 849   | JX133088  |
-| SRR1952926 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00021 | 10302 | 9660  | FN432031  |
-| SRR1952926 | IncFII(S) | 100       | 100      | 262/262                 | contig00021 | 54294 | 54555 | CP000858  |
-| SRR1952926 | IncI1     | 100       | 100      | 142/142                 | contig00017 | 3907  | 3766  | AP005147  |
 
 # Table of Contents
 
@@ -102,7 +74,12 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [Database Build](#database-build)
   * [Database Update](#database-update)
   * [Database Info](#database-info-1)
-  * [Database Restore Default](#database-restore-default)
+  * [Database Restore Default](#database-restore-default)| SRR1952908 | IncFII(S) | 100       | 100      | 262/262                 | contig00024 | 54294 | 54555 | CP000858  |
+| SRR1952908 | IncI1     | 100       | 100      | 142/142                 | contig00020 | 3907  | 3766  | AP005147  |
+| SRR1952926 | ColpVC    | 98.96     | 100      | 193/193                 | contig00037 | 657   | 849   | JX133088  |
+| SRR1952926 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00021 | 10302 | 9660  | FN432031  |
+| SRR1952926 | IncFII(S) | 100       | 100      | 262/262                 | contig00021 | 54294 | 54555 | CP000858  |
+| SRR1952926 | IncI1     | 100       | 100      | 142/142                 | contig00017 | 3907  | 3766  | AP005147  |
 - [Caveats](#caveats)
 - [Acknowledgements](#acknowledgements)
 - [Citations](#citations)
@@ -151,7 +128,7 @@ If you wish to update to the latest ResFinder, PointFinder, and PlasmidFinder da
 staramr db update --update-default
 ```
 
-If you wish to switch to specific git commits of either ResFinder, PointFinder, and PlasmidFinder databases you may also pass `--resfinder-commit [COMMIT]`, `--pointfinder-commit [COMMIT]`, and `--plasmidfinder-commit [COMMIT]`.
+If you wish to switch to specific git commits of either ResFinder, PointFinder, or PlasmidFinder databases you may also pass `--resfinder-commit [COMMIT]`, `--pointfinder-commit [COMMIT]`, and `--plasmidfinder-commit [COMMIT]`.
 
 ## Restore Database
 
@@ -228,7 +205,7 @@ pip install -e .
 staramr 
 ```
 
-Due to the way I package the ResFinder/PointFinder/PlasmidFinder databases, the development code will not come with a default database.  You must first build the database before usage. E.g.
+Due to the way we packaged the ResFinder/PointFinder/PlasmidFinder databases, the development code will not come with a default database. You must first build the database before usage. E.g.
 
 ```
 staramr db restore-default
@@ -256,7 +233,7 @@ Please make sure to include `#gene_id` in the first line. The default exclusion 
 
 # Output
 
-There are 5 different output files produced by `staramr`:
+There are 7 different output files produced by `staramr`:
 
 1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids in each genome, one genome per line.
 2. `detailed_summary.tsv`: A detailed summary of all detected AMR genes/mutations/plasmids in each genome, one gene per line.
@@ -264,7 +241,7 @@ There are 5 different output files produced by `staramr`:
 4. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
 5. `plasmidfinder.tsv`: A tabular file of each AMR plasmid gene and additional BLAST information from the **PlasmidFinder** database, one plasmid gene per line.
 6. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
-7. `results.xlsx`: An Excel spreadsheet containing the previous 4 files as separate worksheets.
+7. `results.xlsx`: An Excel spreadsheet containing the previous 6 files as separate worksheets.
 
 In addition, the directory `hits/` stores fasta files of the specific blast hits.
 
@@ -289,14 +266,14 @@ The **detailed_summary.tsv** output file generated by `staramr` contains the fol
 
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
 * __Gene__: The particular AMR gene detected from ResFinder, PlasmidFinder, and PointFinder.
-* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) found in ResFinder.
-* __%Identity__: The % identity of the top BLAST HSP to the AMR gene.
-* __%Overlap__: THe % overlap of the top BLAST HSP to the AMR gene (calculated as __hsp length/total length * 100__).
-* __HSP Length/Total Length__ The top BLAST HSP length over the AMR gene total length (nucleotides).
-* __Contig__: The contig id containing this AMR gene.
-* __Start__: The start of the AMR gene (will be greater than __End__ if on minus strand).
-* __End__: The end of the AMR gene.
-* __Accession__: The accession of the AMR gene from either ResFinder, PlasmidFinder,  database.
+* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) found in ResFinder/PointFinder. Plasmid genes will be left blank by default.
+* __%Identity__: The % identity of the top BLAST HSP to the gene.
+* __%Overlap__: THe % overlap of the top BLAST HSP to the gene (calculated as __hsp length/total length * 100__).
+* __HSP Length/Total Length__ The top BLAST HSP length over the gene total length (nucleotides).
+* __Contig__: The contig id containing this gene.
+* __Start__: The start of the gene (will be greater than __End__ if on minus strand).
+* __End__: The end of the gene.
+* __Accession__: The accession of the gene from either ResFinder or PlasmidFinder  database.
 * __Data Type__: The type of gene it is either a **Resistance** gene or a **Plasmid** gene
 
 ### Example
@@ -311,7 +288,7 @@ The **resfinder.tsv** output file generated by `staramr` contains the following 
 
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
 * __Gene__: The particular AMR gene detected.
-* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for this gene. Plasmid genes will be left blank by default.
+* __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for this gene.
 * __%Identity__: The % identity of the top BLAST HSP to the AMR gene.
 * __%Overlap__: THe % overlap of the top BLAST HSP to the AMR gene (calculated as __hsp length/total length * 100__).
 * __HSP Length/Total Length__ The top BLAST HSP length over the AMR gene total length (nucleotides).
@@ -356,14 +333,14 @@ The **pointfinder.tsv** output file generated by `staramr` contains the followin
 The **plasmidfinder.tsv** output file generated by `staramr` contains the following columns:
 
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
-* __Gene__: The particular AMR plasmid gene detected.
-* __%Identity__: The % identity of the top BLAST HSP to the AMR plasmid gene.
-* __%Overlap__: THe % overlap of the top BLAST HSP to the AMR plasmid gene (calculated as __hsp length/total length * 100__).
-* __HSP Length/Total Length__ The top BLAST HSP length over the AMR plasmid gene total length (nucleotides).
-* __Contig__: The contig id containing this AMR plasmid gene.
-* __Start__: The start of the AMR plasmid gene (will be greater than __End__ if on minus strand).
-* __End__: The end of the AMR plasmid gene.
-* __Accession__: The accession of the AMR plasmid gene in the PlasmidFinder database.
+* __Gene__: The particular plasmid gene detected.
+* __%Identity__: The % identity of the top BLAST HSP to the plasmid gene.
+* __%Overlap__: THe % overlap of the top BLAST HSP to the plasmid gene (calculated as __hsp length/total length * 100__).
+* __HSP Length/Total Length__ The top BLAST HSP length over the plasmid gene total length (nucleotides).
+* __Contig__: The contig id containing this plasmid gene.
+* __Start__: The start of the plasmid gene (will be greater than __End__ if on minus strand).
+* __End__: The end of the plasmid gene.
+* __Accession__: The accession of the plasmid gene in the PlasmidFinder database.
 
 ### Example
 
