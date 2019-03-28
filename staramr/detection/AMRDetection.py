@@ -138,7 +138,6 @@ class AMRDetection:
         for file in files:
             # Will raise an error if the input returns an empty generator on non-FASTA files, returns a boolean
             validInput = any(SeqIO.parse(file, "fasta"))
-            logger.debug("validInput is %s", validInput)
 
             if not validInput:
                 if ignore_invalid_files:
@@ -148,7 +147,7 @@ class AMRDetection:
                 else:
                     raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
 
-        # Check to see if the empty file is not the only file in the directory
+        # Check to see if the invalid file is not the only file in the directory
         if total_files == invalid_files:
             raise Exception('Cannot produce output due to no valid input files')
 
