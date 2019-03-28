@@ -9,7 +9,6 @@ from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from Bio import SeqIO
 import logging
 
-
 import pandas as pd
 from pandas import DataFrame
 from typing import List, Dict, Optional
@@ -105,33 +104,7 @@ class AMRDetection:
         :return: None
         """
 
-        total_files = len(files)
-        invalid_files = 0
-        removeable_files = []
-
-        for file in files:
-            try:
-                # Tries to return a single valid sequence, will raise an error if the input is incorrect or has more than one
-                SeqIO.read(file, "fasta")
-            except ValueError as e:
-                if str(e) != "More than one record found in handle":
-                    if ignore_invalid_files:
-                        logger.info('--ignore-invalid-files is set, skipping file {}'.format(file))
-                        invalid_files +=1
-                        removeable_files.append(file)
-                    else:
-                        raise AssertionError('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
-                else:
-                    raise ValueError(e)
-
-        # Check to see if the empty file is not the only file in the directory
-        if total_files == invalid_files:
-            raise AssertionError('Cannot produce output due to no valid input files')
-
-        # Remove the skipped files
-        if ignore_invalid_files:
-            for file in removeable_files:
-                files.remove(file)
+        files = self._validate_files(files, ignore_invalid_files)
                    
         self._amr_detection_handler.run_blasts(files)
 
@@ -156,6 +129,35 @@ class AMRDetection:
         self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,
                                                                              self._pointfinder_dataframe,
                                                                              self._plasmidfinder_dataframe)
+                                                                             
+    def _validate_files(self, files: List[str], ignore_invalid_files: bool) -> List[str]:
+        total_files = len(files)
+        invalid_files = 0
+        removeable_files = []
+
+        for file in files:
+            # Will raise an error if the input returns an empty generator on non-FASTA files, returns a boolean
+            validInput = any(SeqIO.parse(file, "fasta"))
+            logger.debug("validInput is %s", validInput)
+
+            if not validInput:
+                if ignore_invalid_files:
+                        logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
+                        invalid_files +=1
+                        removeable_files.append(file)
+                else:
+                    raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+
+        # Check to see if the empty file is not the only file in the directory
+        if total_files == invalid_files:
+            raise Exception('Cannot produce output due to no valid input files')
+
+        # Remove the skipped files
+        if ignore_invalid_files:
+            for file in removeable_files:
+                files.remove(file)
+
+        return files
 
     def get_resfinder_results(self):
         """
