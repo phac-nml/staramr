@@ -6,11 +6,15 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
+from Bio import SeqIO
+import logging
 
 
 import pandas as pd
 from pandas import DataFrame
 from typing import List, Dict, Optional
+
+logger = logging.getLogger("AMRDetection")
 
 """
 A Class to handle scanning files for AMR genes.
@@ -88,7 +92,7 @@ class AMRDetection:
         return plasmidfinder_parser.parse_results()
 
     def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
-                          plength_threshold_plasmidfinder, report_all=False) -> None:
+                          plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False) -> None:
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
@@ -97,8 +101,38 @@ class AMRDetection:
         :param plength_threshold_pointfinder: The percent length overlap for BLAST results (pointfinder).
         :param plength_threshold_plasmidfinder: The percent length overlap for BLAST results (plasmidfinder).
         :param report_all: Whether or not to report all blast hits.
+        :param ignore_invalid_files: Skips the invalid input files if set.
         :return: None
         """
+
+        total_files = len(files)
+        invalid_files = 0
+        removeable_files = []
+
+        for file in files:
+            try:
+                # Tries to return a single valid sequence, will raise an error if the input is incorrect or has more than one
+                SeqIO.read(file, "fasta")
+            except ValueError as e:
+                if str(e) != "More than one record found in handle":
+                    if ignore_invalid_files:
+                        logger.info('--ignore-invalid-files is set, skipping file {}'.format(file))
+                        invalid_files +=1
+                        removeable_files.append(file)
+                    else:
+                        raise AssertionError('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+                else:
+                    raise ValueError(e)
+
+        # Check to see if the empty file is not the only file in the directory
+        if total_files == invalid_files:
+            raise AssertionError('Cannot produce output due to no valid input files')
+
+        # Remove the skipped files
+        if ignore_invalid_files:
+            for file in removeable_files:
+                files.remove(file)
+                   
         self._amr_detection_handler.run_blasts(files)
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
