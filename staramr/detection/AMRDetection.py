@@ -7,7 +7,7 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from Bio import SeqIO
-import logging
+import logging, copy
 
 import pandas as pd
 from pandas import DataFrame
@@ -104,7 +104,8 @@ class AMRDetection:
         :return: None
         """
 
-        files = self._validate_files(files, ignore_invalid_files)
+        files_copy = copy.deepcopy(files)
+        files = self._validate_files(files_copy, ignore_invalid_files)
                    
         self._amr_detection_handler.run_blasts(files)
 
@@ -132,7 +133,6 @@ class AMRDetection:
                                                                              
     def _validate_files(self, files: List[str], ignore_invalid_files: bool) -> List[str]:
         total_files = len(files)
-        invalid_files = 0
         removeable_files = []
 
         for file in files:
@@ -142,13 +142,12 @@ class AMRDetection:
             if not validInput:
                 if ignore_invalid_files:
                         logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
-                        invalid_files +=1
                         removeable_files.append(file)
                 else:
                     raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
 
         # Check to see if the invalid file is not the only file in the directory
-        if total_files == invalid_files:
+        if total_files == len(removeable_files):
             raise Exception('Cannot produce output due to no valid input files')
 
         # Remove the skipped files
