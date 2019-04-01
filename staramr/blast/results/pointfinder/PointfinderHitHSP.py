@@ -1,5 +1,4 @@
 import logging
-import collections
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
