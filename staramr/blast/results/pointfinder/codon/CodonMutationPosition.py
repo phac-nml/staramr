@@ -47,21 +47,21 @@ class CodonMutationPosition(MutationPosition):
 
     def get_database_amr_gene_amino_acid(self):
         """
-        Gets the corresponding amino acid from the amr gene. If there is an indel, returns 'X'.
+        Gets the corresponding amino acid from the amr gene. If there is an insertion, returns 'ins'.
         :return: The amino acid from the amr gene.
         """
         if '-' in self.get_database_amr_gene_codon():
-            return 'X'
+            return 'ins'
         else:
             return Bio.Seq.translate(self.get_database_amr_gene_codon(), table='Standard')
 
     def get_input_genome_amino_acid(self):
         """
-        Gets the corresponding amino acid from the genome.  If there is an indel returns 'X'.
+        Gets the corresponding amino acid from the genome.  If there is a deletion returns 'del'.
         :return: The amino acid from the genome.
         """
         if '-' in self.get_input_genome_codon():
-            return 'X'
+            return 'del'
         else:
             return Bio.Seq.translate(self.get_input_genome_codon(), table='Standard')
 
@@ -80,10 +80,16 @@ class CodonMutationPosition(MutationPosition):
                + ' -> ' + self.get_input_genome_amino_acid() + ')'
 
     def get_database_amr_gene_mutation(self):
-        return self.get_database_amr_gene_amino_acid().upper()
+        if '-' in self.get_database_amr_gene_codon():
+            return self.get_database_amr_gene_amino_acid()
+        else:
+            return self.get_database_amr_gene_amino_acid().upper()
 
     def get_input_genome_mutation(self):
-        return self.get_input_genome_amino_acid().upper()
+        if '-' in self.get_input_genome_codon():
+            return self.get_input_genome_amino_acid()
+        else:
+            return self.get_input_genome_amino_acid().upper()
 
     def get_type(self):
         return 'codon'
