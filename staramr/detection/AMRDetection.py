@@ -7,7 +7,7 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from Bio import SeqIO
-import logging, copy
+import logging, copy, os
 
 import pandas as pd
 from pandas import DataFrame
@@ -136,16 +136,24 @@ class AMRDetection:
         removeable_files = []
 
         for file in files:
-            # Will raise an error if the input returns an empty generator on non-FASTA files, returns a boolean
-            validInput = any(SeqIO.parse(file, "fasta"))
-
-            if not validInput:
+            # Check if the file is not a directory
+            if os.path.isdir(file):
                 if ignore_invalid_files:
-                        logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
-                        removeable_files.append(file)
+                    logger.warning('--ignore-invalid-files is set, skipping directory {}'.format(file))
+                    removeable_files.append(file)
                 else:
-                    raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+                    raise Exception('Directory {} is invalid, please use --ignore-invalid-files to skip over this directory'.format(file))
+            else:
+                # Will raise an error if the input returns an empty generator on non-FASTA files, returns a boolean
+                validInput = any(SeqIO.parse(file, "fasta"))
 
+                if not validInput:
+                    if ignore_invalid_files:
+                            logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
+                            removeable_files.append(file)
+                    else:
+                        raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+            
         # Check to see if the invalid file is not the only file in the directory
         if total_files == len(removeable_files):
             raise Exception('Cannot produce output due to no valid input files')
