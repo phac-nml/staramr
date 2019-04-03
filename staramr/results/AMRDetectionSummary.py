@@ -68,7 +68,6 @@ class AMRDetectionSummary:
         negative_entries = None
 
         if len(negative_res_names_set) != len(names_set) or resistance_frame.empty:
-            logger.debug("Went here")
             negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_res_names_set],
                                                        columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index('Isolate ID')
             negative_resistance_entries['Data Type']='Resistance'
@@ -115,7 +114,13 @@ class AMRDetectionSummary:
         if plasmid_frame is not None:
             plasmid_frame = self._compile_plasmids(plasmid_frame)
 
-            resistance_frame = resistance_frame.merge(plasmid_frame, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
+            if resistance_frame.empty:
+                resistance_frame = resistance_frame.append(plasmid_frame)
+                resistance_frame = resistance_frame.fillna(value={'Genotype': 'None', 'Predicted Phenotype': 'Sensitive'})
+            else:
+                resistance_frame = resistance_frame.merge(plasmid_frame, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
+
+            resistance_frame = resistance_frame.reindex(columns=['Genotype', 'Predicted Phenotype', 'Plasmid Genes'])
 
         return resistance_frame.sort_index()
 
