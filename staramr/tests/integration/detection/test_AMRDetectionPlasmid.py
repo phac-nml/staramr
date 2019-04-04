@@ -19,7 +19,6 @@ from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
 logger = logging.getLogger('AMRDetectionPlasmid')
 
-
 class AMRDetectionPlasmid(unittest.TestCase):
 
     def setUp(self):
@@ -117,3 +116,15 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem', msg='Wrong Predicted Phenotype')
         self.assertEqual(result['Plasmid Genes'].iloc[0], 'IncW', msg='Wrong Plasmid Gene')
 
+    def testIndexRangePlasmids(self):
+        file = path.join(self.test_data_dir, "test-index-range-plasmid.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+
+        summary_results = self.amr_detection.get_summary_results()
+
+        self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows')
+
+        self.assertEqual(summary_results['Genotype'].iloc[0], 'None', msg='Wrong Genotype value')
+        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive', msg='Wrong Predicted Phenotype value')
+        self.assertEqual(summary_results['Plasmid Genes'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Gene')
