@@ -32,8 +32,9 @@ class PlasmidfinderHitHSP(AMRHitHSP):
 
         length = len(re_search)
 
+        # Add empty string if gene variant is missing
         if length == 2:
-            re_search.insert(1,'1')
+            re_search.insert(1,'')
             length += 1
 
         if 3 <= length <= 5:
