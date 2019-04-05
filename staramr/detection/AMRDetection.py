@@ -154,6 +154,24 @@ class AMRDetection:
                             removeable_files.append(file)
                     else:
                         raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+                else:
+                    # Check if there are any duplicate sequence id's in the valid files
+                    record = []
+                    # Store all the sequence id's in a list
+                    for sequence in SeqIO.parse(file, "fasta"):
+                        record.append(sequence.id)
+
+                    duplicates = []
+
+                    # Each sequence contains a tuple (sequence id, frequency)
+                    for sequence in (Counter(record)).items():
+                        if sequence[1] > 1:
+                            # We want the sequence id's that are duplicates
+                            duplicates.append(sequence[0])
+
+                    # Raise an error if there's any duplicates in the file
+                    if len(duplicates) > 0:
+                        raise Exception('File {} contains the following duplicate sequence IDs: {}'.format(file, duplicates))
             
         # Check to see if the invalid file is not the only file in the directory
         if total_files == len(removeable_files):
@@ -163,25 +181,6 @@ class AMRDetection:
         if ignore_invalid_files:
             for file in removeable_files:
                 files.remove(file)
-
-        # Check if there are any duplicate sequence id's in the valid files
-        for file in files:
-            record = []
-            # Store all the sequence id's in a list
-            for sequence in SeqIO.parse(file, "fasta"):
-                record.append(sequence.id)
-
-            duplicates = []
-
-            # Each sequence contains a tuple (sequence id, frequency)
-            for sequence in (Counter(record)).items():
-                if sequence[1] > 1:
-                    # We want the sequence id's that are duplicates
-                    duplicates.append(sequence[0])
-
-            # Raise an error if there's a duplicate in the file
-            if len(duplicates) > 0:
-                raise Exception('File {} contains the following duplicate sequence IDs: {}'.format(file, duplicates))
 
         return files
 
