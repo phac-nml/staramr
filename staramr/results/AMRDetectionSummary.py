@@ -68,7 +68,6 @@ class AMRDetectionSummary:
         negative_entries = None
 
         if len(negative_res_names_set) != len(names_set) or resistance_frame.empty:
-            logger.debug("Went here")
             negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_res_names_set],
                                                        columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index('Isolate ID')
             negative_resistance_entries['Data Type']='Resistance'

@@ -195,9 +195,10 @@ class BlastHandler:
 
     def _launch_blast(self, query, db, output) -> None:
         blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
+
         blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
-        logger.debug(blastn_command)
         stdout, stderr = blastn_command()
+
         if stderr:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
 
@@ -209,5 +210,4 @@ class BlastHandler:
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
             err_msg = re.findall('REF\|(.*?)\'', err_msg)[0]
-            raise Exception('Error, file {} contains duplicate sequence ID {}'.format(file, err_msg))
-            
+            raise Exception('Could not run makeblastdb on file {}, error {}'.format(file, err_msg))
