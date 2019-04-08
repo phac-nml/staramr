@@ -4,6 +4,7 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from os import path
 from typing import Dict, List
+import re
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -107,7 +108,7 @@ class BlastHandler:
             os.symlink(path.abspath(file), destination)
             db_files.append(destination)
 
-            future_makeblastdbs.append(self._thread_pool_executor.submit(self._make_blast_db, destination))
+            future_makeblastdbs.append(self._thread_pool_executor.submit(self._make_blast_db, destination, file))
 
         # Blocks until all blast dbs are made. If an exception is raised, will raise same exception
         try:
@@ -190,17 +191,23 @@ class BlastHandler:
                 future_blast.result()
             return self._get_blast_map('pointfinder')
         else:
-            raise Exception("Error, pointfinder has not been configured")
+            raise Exception('Error, pointfinder has not been configured')
 
     def _launch_blast(self, query, db, output) -> None:
         blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
+
         blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
-        logger.debug(blastn_command)
         stdout, stderr = blastn_command()
+
         if stderr:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
 
-    def _make_blast_db(self, path: str) -> None:
+    def _make_blast_db(self, path: str, file: str) -> None:
         command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
         logger.debug(' '.join(command))
-        subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        try:
+            subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+            err_msg = re.findall('REF\|(.*?)\'', err_msg)[0]
+            raise Exception('Could not run makeblastdb on file {}, error {}'.format(file, err_msg))

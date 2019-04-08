@@ -1,6 +1,7 @@
 import logging
 import re
 import pandas as pd
+from typing import List
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 
@@ -25,7 +26,7 @@ class PlasmidfinderHitHSP(AMRHitHSP):
         logger.debug("record=%s", self._blast_record)
 
         splitList = re.split('_', self.get_amr_gene_id())
-        re_search = list(filter(None, splitList))
+        re_search = list(filter(None, splitList)) # type: List[str]
 
         if not re_search:
             raise Exception("Could not split up seq name for [" + self.get_amr_gene_id() + "]")

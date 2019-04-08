@@ -6,11 +6,15 @@ from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastD
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
-
+from Bio import SeqIO
+import logging, copy, os
+from collections import Counter
 
 import pandas as pd
 from pandas import DataFrame
 from typing import List, Dict, Optional
+
+logger = logging.getLogger("AMRDetection")
 
 """
 A Class to handle scanning files for AMR genes.
@@ -88,7 +92,7 @@ class AMRDetection:
         return plasmidfinder_parser.parse_results()
 
     def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
-                          plength_threshold_plasmidfinder, report_all=False) -> None:
+                          plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False) -> None:
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
@@ -97,8 +101,13 @@ class AMRDetection:
         :param plength_threshold_pointfinder: The percent length overlap for BLAST results (pointfinder).
         :param plength_threshold_plasmidfinder: The percent length overlap for BLAST results (plasmidfinder).
         :param report_all: Whether or not to report all blast hits.
+        :param ignore_invalid_files: Skips the invalid input files if set.
         :return: None
         """
+
+        files_copy = copy.deepcopy(files)
+        files = self._validate_files(files_copy, ignore_invalid_files)
+                   
         self._amr_detection_handler.run_blasts(files)
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
@@ -122,6 +131,58 @@ class AMRDetection:
         self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,
                                                                              self._pointfinder_dataframe,
                                                                              self._plasmidfinder_dataframe)
+                                                                             
+    def _validate_files(self, files: List[str], ignore_invalid_files: bool) -> List[str]:
+        total_files = len(files)
+        removeable_files = []
+
+        for file in files:
+            # Check if the file is not a directory
+            if os.path.isdir(file):
+                if ignore_invalid_files:
+                    logger.warning('--ignore-invalid-files is set, skipping directory {}'.format(file))
+                    removeable_files.append(file)
+                else:
+                    raise Exception('Directory {} is invalid, please use --ignore-invalid-files to skip over this directory'.format(file))
+            else:
+                # Will raise an error if the input returns an empty generator on non-FASTA files, returns a boolean
+                validInput = any(SeqIO.parse(file, "fasta"))
+
+                if not validInput:
+                    if ignore_invalid_files:
+                            logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
+                            removeable_files.append(file)
+                    else:
+                        raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+                else:
+                    # Check if there are any duplicate sequence id's in the valid files
+                    record = []
+                    # Store all the sequence id's in a list
+                    for sequence in SeqIO.parse(file, "fasta"):
+                        record.append(sequence.id)
+
+                    duplicates = []
+
+                    # Each sequence contains a tuple (sequence id, frequency)
+                    for sequence in (Counter(record)).items():
+                        if sequence[1] > 1:
+                            # We want the sequence id's that are duplicates
+                            duplicates.append(sequence[0])
+
+                    # Raise an error if there's any duplicates in the file
+                    if len(duplicates) > 0:
+                        raise Exception('File {} contains the following duplicate sequence IDs: {}'.format(file, duplicates))
+            
+        # Check to see if the invalid file is not the only file in the directory
+        if total_files == len(removeable_files):
+            raise Exception('Cannot produce output due to no valid input files')
+
+        # Remove the skipped files
+        if ignore_invalid_files:
+            for file in removeable_files:
+                files.remove(file)
+
+        return files
 
     def get_resfinder_results(self):
         """
