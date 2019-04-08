@@ -67,13 +67,13 @@ class Search(SubCommand):
                                     PlasmidfinderBlastDatabase.get_available_databases()) + '}. Defaults to using all available database types to search for plasmids. [None].',
                                 default=None, required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
-                                help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
+                                help='The directory containing the resfinder/pointfinder/plasmidfinder databases [' + self._default_database_dir + '].',
                                 default=self._default_database_dir, required=False)
         arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
                                 help='The number of processing cores to use [' + str(cpu_count) + '].',
                                 default=cpu_count, required=False)
         arg_parser.add_argument('--ignore-invalid-files', action='store_true', dest='ignore_valid_files',
-                                help='Skip over invalid input files', required=False)
+                                help='Skips over invalid input files', required=False)
 
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
@@ -93,10 +93,10 @@ class Search(SubCommand):
 
         report_group = arg_parser.add_argument_group('Reporting options')
         report_group.add_argument('--no-exclude-genes', action='store_true', dest='no_exclude_genes',
-                                  help='Disable the default exclusion of some genes from ResFinder/PointFinder [False].',
+                                  help='Disable the default exclusion of some genes from ResFinder/PointFinder/PlasmidFinder [False].',
                                   required=False)
         report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
-                                  help='A containing a list of ResFinder/PointFinder gene names to exclude from results [{}].'.format(
+                                  help='A containing a list of ResFinder/PointFinder/PlasmidFinder gene names to exclude from results [{}].'.format(
                                       ExcludeGenesList.get_default_exclude_file()),
                                   default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
