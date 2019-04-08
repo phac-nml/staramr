@@ -6,21 +6,21 @@ from staramr.databases.BlastDatabaseRepositories import BlastDatabaseRepositorie
 logger = logging.getLogger('AMRDatabasesManager')
 
 """
-A Class used to manage interactions with default and updatable ResFinder/PointFinder database installations.
+A Class used to manage interactions with default and updatable ResFinder/PointFinder/PlasmidFinder database installations.
 """
 
 
 class AMRDatabasesManager:
     DEFAULT_COMMITS = {
-        'resfinder': '25ee4cd5bc9a9ff519b2fc7e53384aceb5fa942d',
-        'pointfinder': '7fdb7f4cddfb06932e1ae0c6d3b23a0f297d7922',
+        'resfinder': 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535',
+        'pointfinder': '8706a6363bb29e47e0e398c53043b037c24b99a7',
         'plasmidfinder': '81919954cbedaff39056610ab584ab4c06011ed8'
     }
 
     def __init__(self, database_dir: str, sub_dirs: bool = False) -> None:
         """
         Builds a new AMRDatabasesManager with the passed directory.
-        :param database_dir: The directory containing the ResFinder/PointFinder databases.
+        :param database_dir: The directory containing the ResFinder/PointFinder/PlasmidFinder databases.
         :param sub_dirs: If True, assumes we are using subdirectories to store databases
                             and searching for stripped git directories.
         """
