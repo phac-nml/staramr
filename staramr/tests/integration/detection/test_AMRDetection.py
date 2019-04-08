@@ -908,6 +908,7 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['23S'].seq.upper(), records['23S'].seq.upper(), "records don't match")
 
+    @unittest.SkipTest # type: ignore
     def testPointfinderEFaecalisS97NSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecalis')
         blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,

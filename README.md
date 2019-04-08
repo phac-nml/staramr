@@ -74,12 +74,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [Database Build](#database-build)
   * [Database Update](#database-update)
   * [Database Info](#database-info-1)
-  * [Database Restore Default](#database-restore-default)| SRR1952908 | IncFII(S) | 100       | 100      | 262/262                 | contig00024 | 54294 | 54555 | CP000858  |
-| SRR1952908 | IncI1     | 100       | 100      | 142/142                 | contig00020 | 3907  | 3766  | AP005147  |
-| SRR1952926 | ColpVC    | 98.96     | 100      | 193/193                 | contig00037 | 657   | 849   | JX133088  |
-| SRR1952926 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00021 | 10302 | 9660  | FN432031  |
-| SRR1952926 | IncFII(S) | 100       | 100      | 262/262                 | contig00021 | 54294 | 54555 | CP000858  |
-| SRR1952926 | IncI1     | 100       | 100      | 142/142                 | contig00017 | 3907  | 3766  | AP005147  |
+  * [Database Restore Default](#database-restore-default)
 - [Caveats](#caveats)
 - [Acknowledgements](#acknowledgements)
 - [Citations](#citations)
@@ -103,7 +98,7 @@ To include acquired point-mutation resistances using PointFinder, please run:
 staramr search --pointfinder-organism salmonella -o out *.fasta
 ```
 
-Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella*, *campylobacter* and *enterococcus faecalis* are supported).
+Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella* and *campylobacter* are supported).
 
 To specify which PlasmidFinder database to use, please run:
 
@@ -425,7 +420,7 @@ Restores the default database for `staramr`.
 
 # Caveats
 
-This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella*, *campylobacter* and *enterococcus faecalis* are currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
+This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella* and *campylobacter* are currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
 
 `staramr` only works on assembled genomes and not directly on reads. A quick genome assembler you could use is [Shovill][shovill]. Or, you may also wish to try out the [ResFinder webservice][resfinder-web],  or the command-line tools [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.  You may also wish to check out the [CARD webservice][card-web]. 
 
