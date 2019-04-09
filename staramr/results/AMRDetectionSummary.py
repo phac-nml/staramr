@@ -15,6 +15,7 @@ Summarizes both ResFinder, PointFinder, and PlasmidFinder database results into 
 
 class AMRDetectionSummary:
     SEPARATOR = ','
+    FLOAT_DECIMALS = 2
 
     def __init__(self, files, resfinder_dataframe: DataFrame, pointfinder_dataframe=None, plasmidfinder_dataframe=None) -> None:
         """
@@ -68,8 +69,8 @@ class AMRDetectionSummary:
         negative_entries = None
 
         if len(negative_res_names_set) != len(names_set) or resistance_frame.empty:
-            negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_res_names_set],
-                                                       columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index('Isolate ID')
+            negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive', '', ''] for x in negative_res_names_set],
+                                                       columns=('Isolate ID', 'Gene', 'Predicted Phenotype', 'Start', 'End')).set_index('Isolate ID')
             negative_resistance_entries['Data Type']='Resistance'
             negative_entries = negative_resistance_entries
 
@@ -130,6 +131,7 @@ class AMRDetectionSummary:
         else:
             resistance_frame = self._resfinder_dataframe.copy()
             resistance_frame['Data Type']='Resistance'
+            resistance_frame = resistance_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
 
         if self._plasmidfinder_dataframe is None:
             plasmid_frame = None
@@ -144,6 +146,7 @@ class AMRDetectionSummary:
             else:
                 point_frame = self._pointfinder_dataframe.copy()
                 point_frame['Data Type']='Resistance'
+                point_frame = point_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
                 point_frame = point_frame.reindex(columns=column_names)
 
             if resistance_frame is not None:
@@ -160,6 +163,7 @@ class AMRDetectionSummary:
         if plasmid_frame is not None:
             plasmid_frame['Data Type']='Plasmid'
             plasmid_frame['Predicted Phenotype']=''
+            plasmid_frame = plasmid_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
 
             if resistance_frame is not None:
                 resistance_frame = resistance_frame.append(plasmid_frame, sort=True)
