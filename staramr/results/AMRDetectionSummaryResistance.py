@@ -46,17 +46,17 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
             .aggregate(self._aggregate_gene_phenotype)
         return df_summary[['Gene', 'Predicted Phenotype']]
 
-    def get_detailed_negative_columns(self):
+    def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Predicted Phenotype', 'Start', 'End']
 
-    def get_summary_empty_values(self):
+    def _get_summary_empty_values(self):
         return {'Genotype': 'None', 'Predicted Phenotype': 'Sensitive'}
 
-    def get_summary_resistance_columns(self):
+    def _get_summary_resistance_columns(self):
         return ['Genotype', 'Predicted Phenotype', 'Plasmid Genes']
 
-    def get_detailed_summary_columns(self):
+    def _get_detailed_summary_columns(self):
         return ['Gene', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession', 'Data Type']
 
-    def include_phenotype(self):
+    def _include_phenotype(self):
         return True

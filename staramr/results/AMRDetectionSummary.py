@@ -59,8 +59,11 @@ class AMRDetectionSummary:
 
         return resistance_frame.append(negative_entries, sort=True)
 
-    def get_detailed_negative_columns(self):
+    def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Start', 'End']
+
+    def _include_phenotype(self):
+        return False
 
     def _include_detailed_negatives(self, resistance_frame: DataFrame, plasmid_frame: DataFrame=None) -> DataFrame:
         names_set = set(self._names)
@@ -70,11 +73,17 @@ class AMRDetectionSummary:
         negative_res_names_set = names_set - resfinder_names_set
 
         negative_entries = None
-        negative_columns = self.get_detailed_negative_columns()
+        negative_columns = self._get_detailed_negative_columns()
 
         if len(negative_res_names_set) != len(names_set) or resistance_frame.empty:
-            negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive', '', ''] for x in negative_res_names_set],
-                                                       columns=(negative_columns)).set_index('Isolate ID')
+
+            if self._include_phenotype():
+                negative_resistance_entries = pd.DataFrame([[x, 'None', 'Sensitive', '', ''] for x in negative_res_names_set],
+                                                           columns=negative_columns).set_index('Isolate ID')
+            else:
+                negative_resistance_entries = pd.DataFrame([[x, 'None', '', ''] for x in negative_res_names_set],
+                                                           columns=negative_columns).set_index('Isolate ID')
+
             negative_resistance_entries['Data Type']='Resistance'
             negative_entries = negative_resistance_entries
 
@@ -97,10 +106,10 @@ class AMRDetectionSummary:
 
         return resistance_frame.append(negative_entries, sort=True)
 
-    def get_summary_empty_values(self):
+    def _get_summary_empty_values(self):
         return {'Genotype': 'None'}
 
-    def get_summary_resistance_columns(self):
+    def _get_summary_resistance_columns(self):
         return ['Genotype', 'Plasmid Genes']
 
     def create_summary(self, include_negatives: bool=False) -> DataFrame:
@@ -122,8 +131,8 @@ class AMRDetectionSummary:
 
         resistance_frame.rename(columns={'Gene': 'Genotype'}, inplace=True)
 
-        fill_values = self.get_summary_empty_values()
-        resistance_columns = self.get_summary_resistance_columns()
+        fill_values = self._get_summary_empty_values()
+        resistance_columns = self._get_summary_resistance_columns()
 
         if plasmid_frame is not None:
             plasmid_frame = self._compile_plasmids(plasmid_frame)
@@ -138,11 +147,8 @@ class AMRDetectionSummary:
 
         return resistance_frame.sort_index()
 
-    def get_detailed_summary_columns(self):
+    def _get_detailed_summary_columns(self):
         return ['Gene', '%Identity', '%Overlap', 'HSP Length/Total Length','Contig', 'Start', 'End', 'Accession', 'Data Type']
-
-    def include_phenotype(self):
-        return False
 
     def create_detailed_summary(self, include_negatives: bool=True) -> DataFrame:
         if self._resfinder_dataframe is None:
@@ -157,7 +163,7 @@ class AMRDetectionSummary:
         else:
             plasmid_frame = self._plasmidfinder_dataframe.copy()
 
-        column_names = self.get_detailed_summary_columns()
+        column_names = self._get_detailed_summary_columns()
 
         if self._has_pointfinder:
             if self._pointfinder_dataframe is None:
@@ -182,7 +188,7 @@ class AMRDetectionSummary:
         if plasmid_frame is not None:
             plasmid_frame['Data Type']='Plasmid'
 
-            if self.include_phenotype():
+            if self._include_phenotype():
                 plasmid_frame['Predicted Phenotype']=''
             
             plasmid_frame = plasmid_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
