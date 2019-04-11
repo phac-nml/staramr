@@ -4,6 +4,7 @@ import pandas as pd
 import logging
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
+from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
 
 logger = logging.getLogger('AMRDetectionSummaryTest')
 
@@ -412,7 +413,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('blaIMP-42, gyrA', summary['Genotype'].iloc[0], 'Genes not equal')
 
     def testDetailedSummary_noPlasmid_noPoint(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'))
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'))
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -434,7 +435,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         plasmid_table['Isolate ID'] = 'file1'
         plasmid_table = plasmid_table.set_index('Isolate ID')
 
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), plasmidfinder_dataframe=plasmid_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), plasmidfinder_dataframe=plasmid_table)
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -455,7 +456,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         point_table = self.pointfinder_table
         point_table = point_table.set_index('Isolate ID')
 
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), pointfinder_dataframe=point_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), pointfinder_dataframe=point_table)
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -485,7 +486,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         plasmid_table['Isolate ID'] = 'file1'
         plasmid_table = plasmid_table.set_index('Isolate ID')
 
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), pointfinder_dataframe=point_table, plasmidfinder_dataframe=plasmid_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), pointfinder_dataframe=point_table, plasmidfinder_dataframe=plasmid_table)
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -507,7 +508,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         plasmid_table['Isolate ID'] = 'file1'
         plasmid_table = plasmid_table.set_index('Isolate ID')
 
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), plasmidfinder_dataframe=plasmid_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), plasmidfinder_dataframe=plasmid_table)
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -528,7 +529,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         point_table = self.pointfinder_table
         point_table = point_table.set_index('Isolate ID')
 
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), pointfinder_dataframe=point_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), pointfinder_dataframe=point_table)
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -553,7 +554,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         plasmid_table['Isolate ID'] = 'file1'
         plasmid_table = plasmid_table.set_index('Isolate ID')
 
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), pointfinder_dataframe=point_table, plasmidfinder_dataframe=plasmid_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table1.set_index('Isolate ID'), pointfinder_dataframe=point_table, plasmidfinder_dataframe=plasmid_table)
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -575,7 +576,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[2], 'Predicted Phenotype not equal')
 
     def testDetailedSummary_noFinders(self):
-        amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), self.pointfinder_table_empty.set_index('Isolate ID'), self.plasmidfinder_table_empty.set_index('Isolate ID'))
+        amr_detection_summary = AMRDetectionSummaryResistance(self.resfinder_table1_files, self.resfinder_table_empty.set_index('Isolate ID'), self.pointfinder_table_empty.set_index('Isolate ID'), self.plasmidfinder_table_empty.set_index('Isolate ID'))
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -593,7 +594,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
 
     def testDetailedSummary_multiFiles(self):
-        amr_detection_summary = AMRDetectionSummary(self.detailed_summary_multi_files, self.resfinder_table_mult_file.set_index('Isolate ID'), self.pointfinder_table_multiple_gene.set_index('Isolate ID'), self.plasmidfinder_table_mult_file.set_index('Isolate ID'))
+        amr_detection_summary = AMRDetectionSummaryResistance(self.detailed_summary_multi_files, self.resfinder_table_mult_file.set_index('Isolate ID'), self.pointfinder_table_multiple_gene.set_index('Isolate ID'), self.plasmidfinder_table_mult_file.set_index('Isolate ID'))
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 

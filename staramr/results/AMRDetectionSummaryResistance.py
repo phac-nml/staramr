@@ -1,6 +1,8 @@
 from collections import OrderedDict
 
 import pandas as pd
+from pandas import DataFrame
+from typing import List
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
@@ -44,12 +46,17 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
             .aggregate(self._aggregate_gene_phenotype)
         return df_summary[['Gene', 'Predicted Phenotype']]
 
-    def _include_negatives(self, df):
-        result_names_set = set(df.index.tolist())
-        names_set = set(self._names)
+    def get_detailed_negative_columns(self):
+        return ['Isolate ID', 'Gene', 'Predicted Phenotype', 'Start', 'End']
 
-        negative_names_set = names_set - result_names_set
-        negative_entries = pd.DataFrame([[x, 'None', 'Sensitive'] for x in negative_names_set],
-                                        columns=('Isolate ID', 'Gene', 'Predicted Phenotype')).set_index(
-            'Isolate ID')
-        return df.append(negative_entries, sort=True)
+    def get_summary_empty_values(self):
+        return {'Genotype': 'None', 'Predicted Phenotype': 'Sensitive'}
+
+    def get_summary_resistance_columns(self):
+        return ['Genotype', 'Predicted Phenotype', 'Plasmid Genes']
+
+    def get_detailed_summary_columns(self):
+        return ['Gene', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession', 'Data Type']
+
+    def include_phenotype(self):
+        return True
