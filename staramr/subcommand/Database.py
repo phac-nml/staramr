@@ -106,7 +106,8 @@ class Build(Database):
             database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
         else:
             database_repos = AMRDatabasesManager(args.destination).get_database_repos()
-        database_repos.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
+        database_repos.build({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit,
+                              'plasmidfinder': args.plasmidfinder_commit})
         if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
             logger.warning(
                 "Built non-default ResFinder/PointFinder/PlasmidFinder database version. This may lead to " +
@@ -167,7 +168,8 @@ class Update(Database):
                         force_use_git=True)
 
                     database_repos.update(
-                        {'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
+                        {'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit,
+                         'plasmidfinder': args.plasmidfinder_commit})
 
                     if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
                         logger.warning(
@@ -180,7 +182,8 @@ class Update(Database):
         else:
             for directory in args.directories:
                 database_repos = AMRDatabasesManager(directory).get_database_repos()
-                database_repos.update({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit, 'plasmidfinder': args.plasmidfinder_commit})
+                database_repos.update({'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit,
+                                       'plasmidfinder': args.plasmidfinder_commit})
                 if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
                     logger.warning(
                         "Updated to non-default ResFinder/PointFinder/PlasmidFinder database version [%s]. This may lead to " +

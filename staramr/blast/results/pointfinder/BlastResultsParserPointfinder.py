@@ -70,7 +70,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         gene = hit.get_amr_gene_name()
 
         for x in database_mutations:
-            logger.debug("database_mutations: position=%s, mutation=%s", x.get_mutation_position(), x.get_mutation_string())
+            logger.debug("database_mutations: position=%s, mutation=%s", x.get_mutation_position(),
+                         x.get_mutation_string())
 
         if (database_name == '16S_rrsD') or (database_name == '23S'):
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)

@@ -34,8 +34,10 @@ class AMRDatabasesManagerIT(unittest.TestCase):
 
         # Verify that resfinder/pointfinder paths exist
         self.assertTrue(path.exists(blast_database_repos.get_repo_dir('resfinder')), 'resfinder path does not exist')
-        self.assertTrue(path.exists(blast_database_repos.get_repo_dir('pointfinder')), 'pointfinder path does not exist')
-        self.assertTrue(path.exists(blast_database_repos.get_repo_dir('plasmidfinder')), 'plasmidfinder path does not exist')
+        self.assertTrue(path.exists(blast_database_repos.get_repo_dir('pointfinder')),
+                        'pointfinder path does not exist')
+        self.assertTrue(path.exists(blast_database_repos.get_repo_dir('plasmidfinder')),
+                        'plasmidfinder path does not exist')
 
         self.assertTrue(path.exists(path.join(blast_database_repos.get_database_dir(), 'resfinder-info.ini')),
                         'resfinder info file does not exist')
@@ -74,13 +76,14 @@ class AMRDatabasesManagerIT(unittest.TestCase):
         # Build updated database
         blast_database_repos_git = self.databases_manager.get_database_repos(force_use_git=True)
         blast_database_repos_git.build(
-            {'resfinder': self.RESFINDER_DEFAULT_COMMIT, 'pointfinder': self.POINTFINDER_DEFAULT_COMMIT, 'plasmidfinder': self.PLASMIDFINDER_DEFAULT_COMMIT})
+            {'resfinder': self.RESFINDER_DEFAULT_COMMIT, 'pointfinder': self.POINTFINDER_DEFAULT_COMMIT,
+             'plasmidfinder': self.PLASMIDFINDER_DEFAULT_COMMIT})
 
         # Verify that updated database is the one that gets returned by get_database_handler()
         blast_database_repos = self.databases_manager.get_database_repos()
         self.assertFalse(blast_database_repos.is_dist(), 'Invalid is_dist')
         self.assertEqual(blast_database_repos.get_database_dir(), path.join(self.databases_dir.name, 'update'),
-                        'Invalid database directory')
+                         'Invalid database directory')
         self.assertTrue(path.exists(path.join(blast_database_repos.get_repo_dir('resfinder'), '.git')),
                         'Not using git version (updated version) of resfinder database')
         self.assertTrue(path.exists(path.join(blast_database_repos.get_repo_dir('pointfinder'), '.git')),
@@ -109,11 +112,13 @@ class AMRDatabasesManagerIT(unittest.TestCase):
 
         blast_database_repos = self.databases_manager.get_database_repos()
 
-        self.assertTrue(AMRDatabasesManager.is_database_repos_default_commits(blast_database_repos), "Database is not default")
+        self.assertTrue(AMRDatabasesManager.is_database_repos_default_commits(blast_database_repos),
+                        "Database is not default")
 
     def testIsHandlerDefaultCommitsFalse(self):
         # Setup database
         blast_database_repos = self.databases_manager.get_database_repos(force_use_git=True)
         blast_database_repos.update({'resfinder': 'dc33e2f9ec2c420f99f77c5c33ae3faa79c999f2'})
 
-        self.assertFalse(AMRDatabasesManager.is_database_repos_default_commits(blast_database_repos), "Database is default")
+        self.assertFalse(AMRDatabasesManager.is_database_repos_default_commits(blast_database_repos),
+                         "Database is default")

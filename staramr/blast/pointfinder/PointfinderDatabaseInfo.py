@@ -1,7 +1,7 @@
-import pandas as pd
 import logging
-
 from os import path
+
+import pandas as pd
 
 """
 A Class storing information about the specific PointFinder database.

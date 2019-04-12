@@ -1,7 +1,8 @@
 import logging
 import re
-import pandas as pd
 from typing import List
+
+import pandas as pd
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 
@@ -10,6 +11,7 @@ logger = logging.getLogger('PlasmidfinderHitHSP')
 """
 A Class storing a PlasmidFinder-specific BLAST hit/HSP.
 """
+
 
 class PlasmidfinderHitHSP(AMRHitHSP):
 
@@ -26,7 +28,7 @@ class PlasmidfinderHitHSP(AMRHitHSP):
         logger.debug("record=%s", self._blast_record)
 
         splitList = re.split('_', self.get_amr_gene_id())
-        re_search = list(filter(None, splitList)) # type: List[str]
+        re_search = list(filter(None, splitList))  # type: List[str]
 
         if not re_search:
             raise Exception("Could not split up seq name for [" + self.get_amr_gene_id() + "]")
@@ -35,7 +37,7 @@ class PlasmidfinderHitHSP(AMRHitHSP):
 
         # Add empty string if gene variant is missing
         if length == 2:
-            re_search.insert(1,'')
+            re_search.insert(1, '')
             length += 1
 
         if 3 <= length <= 5:

@@ -1,18 +1,20 @@
-from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
-from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
-from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
-from staramr.results.AMRDetectionSummary import AMRDetectionSummary
+import copy
+import logging
+import os
+from collections import Counter
+from typing import List, Dict, Optional
+
+from Bio import SeqIO
+from pandas import DataFrame
+
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
-from Bio import SeqIO
-import logging, copy, os
-from collections import Counter
-
-import pandas as pd
-from pandas import DataFrame
-from typing import List, Dict, Optional
+from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
+from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
+from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
+from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 
 logger = logging.getLogger("AMRDetection")
 
@@ -107,7 +109,7 @@ class AMRDetection:
 
         files_copy = copy.deepcopy(files)
         files = self._validate_files(files_copy, ignore_invalid_files)
-                   
+
         self._amr_detection_handler.run_blasts(files)
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
@@ -131,7 +133,7 @@ class AMRDetection:
         self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,
                                                                              self._pointfinder_dataframe,
                                                                              self._plasmidfinder_dataframe)
-                                                                             
+
     def _validate_files(self, files: List[str], ignore_invalid_files: bool) -> List[str]:
         total_files = len(files)
         removeable_files = []
@@ -143,17 +145,21 @@ class AMRDetection:
                     logger.warning('--ignore-invalid-files is set, skipping directory {}'.format(file))
                     removeable_files.append(file)
                 else:
-                    raise Exception('Directory {} is invalid, please use --ignore-invalid-files to skip over this directory'.format(file))
+                    raise Exception(
+                        'Directory {} is invalid, please use --ignore-invalid-files to skip over this directory'.format(
+                            file))
             else:
                 # Will raise an error if the input returns an empty generator on non-FASTA files, returns a boolean
                 validInput = any(SeqIO.parse(file, "fasta"))
 
                 if not validInput:
                     if ignore_invalid_files:
-                            logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
-                            removeable_files.append(file)
+                        logger.warning('--ignore-invalid-files is set, skipping file {}'.format(file))
+                        removeable_files.append(file)
                     else:
-                        raise Exception('File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(file))
+                        raise Exception(
+                            'File {} is invalid, please use --ignore-invalid-files to skip over invalid input files'.format(
+                                file))
                 else:
                     # Check if there are any duplicate sequence id's in the valid files
                     record = []
@@ -171,8 +177,9 @@ class AMRDetection:
 
                     # Raise an error if there's any duplicates in the file
                     if len(duplicates) > 0:
-                        raise Exception('File {} contains the following duplicate sequence IDs: {}'.format(file, duplicates))
-            
+                        raise Exception(
+                            'File {} contains the following duplicate sequence IDs: {}'.format(file, duplicates))
+
         # Check to see if the invalid file is not the only file in the directory
         if total_files == len(removeable_files):
             raise Exception('Cannot produce output due to no valid input files')

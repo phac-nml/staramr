@@ -1,7 +1,8 @@
 import logging
-from os import path, listdir
-import pandas as pd
+from os import path
 from typing import List
+
+import pandas as pd
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 
@@ -28,7 +29,9 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
             self.plasmidfinder_database_file += self.fasta_suffix
 
             if (not path.isfile(self.plasmidfinder_database_file)):
-                raise Exception("Error, plasmidfinder database type [{}] is either incorrect or plasmidfinder database not installed properly", database_type)
+                raise Exception(
+                    "Error, plasmidfinder database type [{}] is either incorrect or plasmidfinder database not installed properly",
+                    database_type)
             elif database_type not in PlasmidfinderBlastDatabase.get_database_types(database_dir):
                 raise Exception("Plasmidfinder database type [{}] is not valid", database_type)
 
@@ -59,6 +62,6 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
         :return: A list of databases in Plasmidfinder.
         """
         config = pd.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
-                               names=['db_prefix', 'name', 'description'])
+                             names=['db_prefix', 'name', 'description'])
 
         return config['db_prefix'].tolist()

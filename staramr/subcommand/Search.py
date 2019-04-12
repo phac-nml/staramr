@@ -12,9 +12,8 @@ import pandas as pd
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
 from staramr.blast.BlastHandler import BlastHandler
-from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
-from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
@@ -62,7 +61,8 @@ class Search(SubCommand):
                                 help='The organism to use for pointfinder {' + ', '.join(
                                     PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].',
                                 default=None, required=False)
-        arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_database_type', type=str,
+        arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_database_type',
+                                type=str,
                                 help='The database type to use for plasmidfinder {' + ', '.join(
                                     PlasmidfinderBlastDatabase.get_available_databases()) + '}. Defaults to using all available database types to search for plasmids. [None].',
                                 default=None, required=False)
@@ -87,9 +87,9 @@ class Search(SubCommand):
                                      help='The percent length overlap for pointfinder results [95.0].', default=95.0,
                                      required=False)
         threshold_group.add_argument('--percent-length-overlap-plasmidfinder', action='store',
-                            dest='plength_threshold_plasmidfinder', type=float,
-                            help='The percent length overlap for resfinder results [60.0].', default=60.0,
-                            required=False)
+                                     dest='plength_threshold_plasmidfinder', type=float,
+                                     help='The percent length overlap for resfinder results [60.0].', default=60.0,
+                                     required=False)
 
         report_group = arg_parser.add_argument_group('Reporting options')
         report_group.add_argument('--no-exclude-genes', action='store_true', dest='no_exclude_genes',
@@ -142,7 +142,8 @@ class Search(SubCommand):
 
         return arg_parser
 
-    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, detailed_summary_dataframe,
+    def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
+                                   plasmidfinder_dataframe, detailed_summary_dataframe,
                                    settings_dataframe):
         writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
@@ -154,7 +155,7 @@ class Search(SubCommand):
         if pointfinder_dataframe is not None:
             sheetname_dataframe['PointFinder'] = pointfinder_dataframe
 
-        for name in ['Summary', 'Detailed_Summary' , 'ResFinder', 'PointFinder', 'PlasmidFinder']:
+        for name in ['Summary', 'Detailed_Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder']:
             if name in sheetname_dataframe:
                 sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",
                                                    na_rep=self.BLANK)
@@ -205,9 +206,11 @@ class Search(SubCommand):
         file_handle.write(get_string_with_spacing(settings))
         file_handle.close()
 
-    def _generate_results(self, database_repos, resfinder_database, pointfinder_database, plasmidfinder_database, nprocs, include_negatives,
+    def _generate_results(self, database_repos, resfinder_database, pointfinder_database, plasmidfinder_database,
+                          nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
-                          plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast, genes_to_exclude, files, ignore_invalid_files):
+                          plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast,
+                          genes_to_exclude, files, ignore_invalid_files):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
@@ -233,19 +236,21 @@ class Search(SubCommand):
         with tempfile.TemporaryDirectory() as blast_out:
             start_time = datetime.datetime.now()
 
-            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database, 'plasmidfinder': plasmidfinder_database}, nprocs, blast_out)
+            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database,
+                                          'plasmidfinder': plasmidfinder_database}, nprocs, blast_out)
 
             amr_detection_factory = AMRDetectionFactory()
             amr_detection = amr_detection_factory.build(plasmidfinder_database,
-                                                        resfinder_database, 
-                                                        blast_handler, 
+                                                        resfinder_database,
+                                                        blast_handler,
                                                         pointfinder_database,
                                                         include_negatives=include_negatives,
                                                         include_resistances=include_resistances,
                                                         output_dir=hits_output,
                                                         genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
-                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast, ignore_invalid_files)
+                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder,
+                                            report_all_blast, ignore_invalid_files)
 
             results['results'] = amr_detection
 
@@ -315,16 +320,18 @@ class Search(SubCommand):
             if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
                 raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
                     PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
-            pointfinder_database = database_repos.build_blast_database('pointfinder', {'organism': args.pointfinder_organism})
+            pointfinder_database = database_repos.build_blast_database('pointfinder',
+                                                                       {'organism': args.pointfinder_organism})
         else:
             logger.info("No --pointfinder-organism specified. Will not search the PointFinder databases")
             pointfinder_database = None
-        
+
         if (args.plasmidfinder_database_type):
             if args.plasmidfinder_database_type not in PlasmidfinderBlastDatabase.get_available_databases():
                 raise CommandParseException("The only Plasmidfinder databases that are currently supported are " + str(
                     PlasmidfinderBlastDatabase.get_available_databases()), self._root_arg_parser)
-            plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', {'database_type': args.plasmidfinder_database_type})
+            plasmidfinder_database = database_repos.build_blast_database('plasmidfinder', {
+                'database_type': args.plasmidfinder_database_type})
         else:
             logger.info("No --plasmidfinder-database-type specified. Will search the entire PlasmidFinder database")
             plasmidfinder_database = database_repos.build_blast_database('plasmidfinder')
