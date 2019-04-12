@@ -1,11 +1,6 @@
 from collections import OrderedDict
 
-import pandas as pd
-from pandas import DataFrame
-from typing import List
-
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
-
 
 """
 Summarizes both ResFinder and PointFinder database results into a single table.
@@ -56,7 +51,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         return ['Genotype', 'Predicted Phenotype', 'Plasmid Genes']
 
     def _get_detailed_summary_columns(self):
-        return ['Gene', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession', 'Data Type']
+        return ['Gene', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
+                'End', 'Accession', 'Data Type']
 
     def _include_phenotype(self):
         return True

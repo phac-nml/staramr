@@ -1,10 +1,10 @@
 import logging
+from collections import OrderedDict
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import Any
-from collections import OrderedDict
 
 logger = logging.getLogger('BlastHits')
 

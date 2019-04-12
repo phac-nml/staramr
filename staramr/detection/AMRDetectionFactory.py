@@ -31,7 +31,9 @@ class AMRDetectionFactory:
         if include_resistances:
             return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler,
                                           ARGDrugTablePointfinder(), pointfinder_database, include_negatives,
-                                          output_dir=output_dir, genes_to_exclude=genes_to_exclude, plasmidfinder_database=plasmidfinder_database)
+                                          output_dir=output_dir, genes_to_exclude=genes_to_exclude,
+                                          plasmidfinder_database=plasmidfinder_database)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,
-                                output_dir=output_dir, genes_to_exclude=genes_to_exclude, plasmidfinder_database=plasmidfinder_database)
+                                output_dir=output_dir, genes_to_exclude=genes_to_exclude,
+                                plasmidfinder_database=plasmidfinder_database)

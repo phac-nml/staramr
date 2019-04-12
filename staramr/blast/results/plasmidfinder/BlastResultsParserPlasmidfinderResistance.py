@@ -1,9 +1,10 @@
-from staramr.blast.results.BlastResultsParser import BlastResultsParser
-from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
-from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import PlasmidfinderHitHSP
-from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
 from typing import Dict
 from typing import List
+
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from staramr.blast.results.BlastResultsParser import BlastResultsParser
+from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
+from staramr.blast.results.plasmidfinder.PlasmidfinderHitHSP import PlasmidfinderHitHSP
 
 """
 Class used to parse out BLAST results for PlasmidFinder, including phenotyhpes/resistances.
@@ -23,8 +24,9 @@ class BlastResultsParserPlasmidfinderResistance(BlastResultsParserPlasmidfinder)
     Accession
     '''.strip().split('\n')]
 
-    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase, pid_threshold: float, plength_threshold: float,
-                 report_all: bool =False, output_dir: str =None, genes_to_exclude: List[str] =[]) -> None:
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase,
+                 pid_threshold: float, plength_threshold: float,
+                 report_all: bool = False, output_dir: str = None, genes_to_exclude: List[str] = []) -> None:
         """
         Creates a new BlastResultsParserPlasmidfinderResistance.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -39,7 +41,6 @@ class BlastResultsParserPlasmidfinderResistance(BlastResultsParserPlasmidfinder)
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
     def _get_result_rows(self, hit: PlasmidfinderHitHSP, database_name: str) -> list:
-
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),
                  hit.get_pid(),

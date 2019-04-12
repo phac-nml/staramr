@@ -1,5 +1,4 @@
 import logging
-import os
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 

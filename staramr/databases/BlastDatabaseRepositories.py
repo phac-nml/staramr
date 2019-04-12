@@ -3,11 +3,11 @@ import shutil
 from collections import OrderedDict
 from typing import Dict
 
-from staramr.databases.BlastDatabaseRepository import BlastDatabaseRepository, BlastDatabaseRepositoryStripGitDir
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
-from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
+from staramr.databases.BlastDatabaseRepository import BlastDatabaseRepository, BlastDatabaseRepositoryStripGitDir
 
 logger = logging.getLogger('BlastDatabaseRepositories')
 

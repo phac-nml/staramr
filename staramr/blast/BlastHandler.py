@@ -1,10 +1,10 @@
 import logging
 import os
+import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from os import path
-from typing import Dict, List
-import re
+from typing import Dict
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
