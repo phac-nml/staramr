@@ -3,7 +3,7 @@ from os import path
 import pandas as pd
 from pandas import DataFrame
 
-from typing import List
+from typing import List, Set
 
 import logging
 logger = logging.getLogger("AMRDetectionSummary")
@@ -65,15 +65,12 @@ class AMRDetectionSummary:
     def _include_phenotype(self):
         return False
 
-    def _include_detailed_negatives(self, resistance_frame: DataFrame, plasmid_frame: DataFrame=None) -> DataFrame:
-        names_set = set(self._names)
+    def _get_negative_resistance_entries(self, names_set: Set, resistance_frame: DataFrame) -> DataFrame:
         resfinder_names_set = set(resistance_frame.index.tolist())
-        set_used = names_set
-
         negative_res_names_set = names_set - resfinder_names_set
-
-        negative_entries = None
         negative_columns = self._get_detailed_negative_columns()
+
+        negative_resistance_entries = None
 
         if len(negative_res_names_set) != len(names_set) or resistance_frame.empty:
 
@@ -85,7 +82,14 @@ class AMRDetectionSummary:
                                                            columns=negative_columns).set_index('Isolate ID')
 
             negative_resistance_entries['Data Type']='Resistance'
-            negative_entries = negative_resistance_entries
+
+        return negative_resistance_entries
+
+    def _include_detailed_negatives(self, resistance_frame: DataFrame, plasmid_frame: DataFrame=None) -> DataFrame:
+        names_set = set(self._names)
+        set_used = names_set
+
+        negative_entries = self._get_negative_resistance_entries(names_set, resistance_frame)
 
         if plasmid_frame is not None:
             plasmid_frame = self._compile_plasmids(plasmid_frame)
@@ -139,10 +143,10 @@ class AMRDetectionSummary:
 
             if resistance_frame.empty:
                 resistance_frame = resistance_frame.append(plasmid_frame)
-                resistance_frame = resistance_frame.fillna(value=fill_values)
             else:
                 resistance_frame = resistance_frame.merge(plasmid_frame, on='Isolate ID', how='left').fillna(value={'Plasmid Genes': 'None'})
 
+            resistance_frame = resistance_frame.fillna(value=fill_values)
             resistance_frame = resistance_frame.reindex(columns=resistance_columns)
 
         return resistance_frame.sort_index()
