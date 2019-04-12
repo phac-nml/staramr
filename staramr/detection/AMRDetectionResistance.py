@@ -5,6 +5,10 @@ from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinderResistan
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
 
+from pandas import DataFrame
+from typing import List, Dict, Optional
+from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
+
 """
 A Class to handle scanning files for AMR genes and also include pheneotypes/resistances in results.
 """
@@ -59,3 +63,10 @@ class AMRDetectionResistance(AMRDetection):
     def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe):
         amr_detection_summary = AMRDetectionSummaryResistance(files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
+
+    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,
+                                     pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
+                                     plasmidfinder_dataframe: DataFrame) -> DataFrame:
+        amr_detection_summary = AMRDetectionSummaryResistance(files, resfinder_dataframe,
+                                                    pointfinder_dataframe, plasmidfinder_dataframe)
+        return amr_detection_summary.create_detailed_summary(self._include_negative_results)

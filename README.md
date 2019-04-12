@@ -432,11 +432,13 @@ Phenotype/drug resistance predictions are provided with support from the NARMS/C
 
 # Citations
 
-If you find `staramr` useful, please consider citing this GitHub repository (https://github.com/phac-nml/staramr) as well as the original ResFinder and PointFinder publications.
+If you find `staramr` useful, please consider citing this GitHub repository (https://github.com/phac-nml/staramr) as well as the original ResFinder, PointFinder, and PlasmidFinder publications.
 
 > **Zankari E, Hasman H, Cosentino S, Vestergaard M, Rasmussen S, Lund O, Aarestrup FM, Larsen MV**. 2012. Identification of acquired antimicrobial resistance genes. J. Antimicrob. Chemother. 67:2640–2644. doi: [10.1093/jac/dks261][resfinder-cite]
 
 > **Zankari E, Allesøe R, Joensen KG, Cavaco LM, Lund O, Aarestrup F**. PointFinder: a novel web tool for WGS-based detection of antimicrobial resistance associated with chromosomal point mutations in bacterial pathogens. J Antimicrob Chemother. 2017; 72(10): 2764–8. doi: [10.1093/jac/dkx217][pointfinder-cite]
+
+> **Carattoli A, Zankari E, Garcia-Fernandez A, Voldby Larsen M, Lund O, Villa L, Aarestrup FM, Hasman H**. PlasmidFinder and pMLST: in silico detection and typing of plasmids. Antimicrob. Agents Chemother. 2014. April 28th. doi: [10.1128/AAC.02412-14][plasmidfinder-cite]
 
 # Legal
 
@@ -459,6 +461,7 @@ specific language governing permissions and limitations under the License.
 [resfinder-web]: https://cge.cbs.dtu.dk/services/ResFinder/
 [resfinder-cite]: https://dx.doi.org/10.1093/jac/dks261
 [pointfinder-cite]: https://doi.org/10.1093/jac/dkx217
+[plasmidfinder-cite]: https://doi.org/10.1128/AAC.02412-14
 [Bioconda]: https://bioconda.github.io/
 [requirements.txt]: requirements.txt
 [resfinder-git]: https://bitbucket.org/genomicepidemiology/resfinder
