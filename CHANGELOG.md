@@ -1,9 +1,10 @@
-# Version 1.0.0
+# Version 0.5.0
 
 * Add support for enterococcus faecalis from Pointfinder database.
 * Add support for scanning against the PlasmidFinder database.
 * Upgraded the testing package to use [Green test runner](https://github.com/CleanCut/green).
-* Added Detailed_Summary table which combines results from Resfinder, Pointfinder (optional), and Plasmidfinder. 
+* Added Detailed_Summary table which combines results from Resfinder, Pointfinder (optional), and Plasmidfinder.
+* Added `--ignore-invalid-files` command and check for duplicate sequence ids.
 
 # Version 0.4.0
 

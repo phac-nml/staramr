@@ -61,19 +61,19 @@ class Search(SubCommand):
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                                 help='The organism to use for pointfinder {' + ', '.join(
                                     PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].',
-                                default=None,
-                                required=False)
+                                default=None, required=False)
         arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_database_type', type=str,
                                 help='The database type to use for plasmidfinder {' + ', '.join(
                                     PlasmidfinderBlastDatabase.get_available_databases()) + '}. Defaults to using all available database types to search for plasmids. [None].',
-                                default=None,
-                                required=False)
+                                default=None, required=False)
         arg_parser.add_argument('-d', '--database', action='store', dest='database', type=str,
                                 help='The directory containing the resfinder/pointfinder databases [' + self._default_database_dir + '].',
                                 default=self._default_database_dir, required=False)
         arg_parser.add_argument('-n', '--nprocs', action='store', dest='nprocs', type=int,
                                 help='The number of processing cores to use [' + str(cpu_count) + '].',
                                 default=cpu_count, required=False)
+        arg_parser.add_argument('--ignore-invalid-files', action='store_true', dest='ignore_valid_files',
+                                help='Skip over invalid input files', required=False)
 
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
@@ -207,7 +207,7 @@ class Search(SubCommand):
 
     def _generate_results(self, database_repos, resfinder_database, pointfinder_database, plasmidfinder_database, nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
-                          plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast, genes_to_exclude, files):
+                          plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast, genes_to_exclude, files, ignore_invalid_files):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
@@ -225,6 +225,7 @@ class Search(SubCommand):
         :param report_all_blast: Whether or not to report all BLAST results.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
         :param files: The list of files to scan.
+        :param ignore_invalid_files: Skips over invalid input files
         :return: A dictionary containing the results as dict['results'] and settings as dict['settings'].
         """
         results = {'results': None, 'settings': None}
@@ -244,7 +245,7 @@ class Search(SubCommand):
                                                         output_dir=hits_output,
                                                         genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
-                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast)
+                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast, ignore_invalid_files)
 
             results['results'] = amr_detection
 
@@ -411,7 +412,8 @@ class Search(SubCommand):
                                          plength_threshold_plasmidfinder=args.plength_threshold_plasmidfinder,
                                          report_all_blast=args.report_all_blast,
                                          genes_to_exclude=exclude_genes,
-                                         files=args.files)
+                                         files=args.files,
+                                         ignore_invalid_files=args.ignore_valid_files)
         amr_detection = results['results']
         settings = results['settings']
 
