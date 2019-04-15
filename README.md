@@ -103,7 +103,7 @@ To include acquired point-mutation resistances using PointFinder, please run:
 staramr search --pointfinder-organism salmonella -o out *.fasta
 ```
 
-Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella*, *campylobacter* and *enterococcus faecalis* are supported).
+Where `--pointfinder-organism` is the specific organism you are interested in (currently only *salmonella*, *campylobacter*, *enterococcus faecalis* and *enterococcus faecium* are supported).
 
 To specify which PlasmidFinder database to use, please run:
 
@@ -425,7 +425,7 @@ Restores the default database for `staramr`.
 
 # Caveats
 
-This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella*, *campylobacter* and *enterococcus faecalis* are currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
+This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella*, *campylobacter*, *enterococcus faecalis* and *enterococcus faecium* are currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
 
 `staramr` only works on assembled genomes and not directly on reads. A quick genome assembler you could use is [Shovill][shovill]. Or, you may also wish to try out the [ResFinder webservice][resfinder-web],  or the command-line tools [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.  You may also wish to check out the [CARD webservice][card-web]. 
 
