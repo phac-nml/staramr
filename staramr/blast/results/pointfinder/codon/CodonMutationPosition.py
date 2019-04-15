@@ -86,6 +86,7 @@ class CodonMutationPosition(MutationPosition):
             return self.get_database_amr_gene_amino_acid().upper()
 
     def get_input_genome_mutation(self):
+        # Keep 'ins' or 'del' lowercase 
         if '-' in self.get_input_genome_codon():
             return self.get_input_genome_amino_acid()
         else:
