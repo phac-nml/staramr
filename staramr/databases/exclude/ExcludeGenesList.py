@@ -6,6 +6,7 @@ import pandas as pd
 A Class used to parse out a list of genes to exclude from the results.
 """
 
+
 class ExcludeGenesList:
     DEFAULT_EXCLUDE_FILE = path.join(path.dirname(__file__), 'data', 'genes_to_exclude.tsv')
 

@@ -1,12 +1,12 @@
 from os import path
+from typing import Dict
+from typing import List
 
 import pandas as pd
 
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.resfinder.ResfinderHitHSP import ResfinderHitHSP
-from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from typing import Dict
-from typing import List
 
 """
 Class used to parse out BLAST results for ResFinder.
@@ -27,8 +27,9 @@ class BlastResultsParserResfinder(BlastResultsParser):
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
-    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: ResfinderBlastDatabase, pid_threshold: float, plength_threshold: float, report_all: bool =False,
-                 output_dir: str =None, genes_to_exclude: List[str]=[]) -> None:
+    def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: ResfinderBlastDatabase,
+                 pid_threshold: float, plength_threshold: float, report_all: bool = False,
+                 output_dir: str = None, genes_to_exclude: List[str] = []) -> None:
         """
         Creates a new BlastResultsParserResfinder.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.

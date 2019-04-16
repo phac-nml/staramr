@@ -1,23 +1,20 @@
 import logging
-import os
 import tempfile
 import unittest
 from os import path
 
-import pandas as pd
 from Bio import SeqIO
 
 from staramr.blast.BlastHandler import BlastHandler
-from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
-from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
+from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
-from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
 logger = logging.getLogger('AMRDetectionPlasmid')
+
 
 class AMRDetectionPlasmid(unittest.TestCase):
 
@@ -38,7 +35,8 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
         self.blast_handler = BlastHandler(
-            {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database, 'plasmidfinder': self.plasmidfinder_database}, 2, self.blast_out.name)
+            {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database,
+             'plasmidfinder': self.plasmidfinder_database}, 2, self.blast_out.name)
 
         self.outdir = tempfile.TemporaryDirectory()
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
@@ -113,7 +111,9 @@ class AMRDetectionPlasmid(unittest.TestCase):
 
         result = summary_results[summary_results['Genotype'] == "blaIMP-42"]
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem', msg='Wrong Predicted Phenotype')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         msg='Wrong Predicted Phenotype')
         self.assertEqual(result['Plasmid Genes'].iloc[0], 'IncW', msg='Wrong Plasmid Gene')
 
     def testIndexRangePlasmids(self):
@@ -126,5 +126,6 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows')
 
         self.assertEqual(summary_results['Genotype'].iloc[0], 'None', msg='Wrong Genotype value')
-        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive', msg='Wrong Predicted Phenotype value')
+        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive',
+                         msg='Wrong Predicted Phenotype value')
         self.assertEqual(summary_results['Plasmid Genes'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Gene')

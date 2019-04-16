@@ -9,8 +9,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 0
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "TTCGATCGA"
-        #@formatter:on
+        input_genome_string = "TTCGATCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -29,8 +29,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 1
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "AGCGATCGA"
-        #@formatter:on
+        input_genome_string = "AGCGATCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -49,8 +49,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 2
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "ATGGATCGA"
-        #@formatter:on
+        input_genome_string = "ATGGATCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -69,8 +69,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "ATCAATCGA"
-        #@formatter:on
+        input_genome_string = "ATCAATCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -89,8 +89,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 5
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "ATCGACCGA"
-        #@formatter:on
+        input_genome_string = "ATCGACCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -109,8 +109,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 6
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "ATCGATGGA"
-        #@formatter:on
+        input_genome_string = "ATCGATGGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -129,8 +129,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 0
         # @formatter:off
         database_amr_gene_string = "ATCGATCGA"
-        input_genome_string   = "ATGGATCGA"
-        #@formatter:on
+        input_genome_string = "ATGGATCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -149,8 +149,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 2
         # @formatter:off
         database_amr_gene_string = "TACGATCGA"
-        input_genome_string   = "TAAGATCGA"
-        #@formatter:on
+        input_genome_string = "TAAGATCGA"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -169,8 +169,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 0
         # @formatter:off
         database_amr_gene_string = "ATCG"
-        input_genome_string   = "-TCG"
-        #@formatter:on
+        input_genome_string = "-TCG"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -189,8 +189,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 1
         # @formatter:off
         database_amr_gene_string = "ATCG"
-        input_genome_string   = "A-CG"
-        #@formatter:on
+        input_genome_string = "A-CG"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -209,8 +209,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 2
         # @formatter:off
         database_amr_gene_string = "ATCG"
-        input_genome_string   = "AT-G"
-        #@formatter:on
+        input_genome_string = "AT-G"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -229,8 +229,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 2
         # @formatter:off
         database_amr_gene_string = "ATCGG"
-        input_genome_string   = "AT--G"
-        #@formatter:on
+        input_genome_string = "AT--G"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -249,8 +249,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CCCATCGAC"
-        input_genome_string   = "CCC---GAC"
-        #@formatter:on
+        input_genome_string = "CCC---GAC"
+        # @formatter:on
         # @formatter:on
         amr_gene_start = 1
 
@@ -270,8 +270,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CCCATCGACT"
-        input_genome_string   = "CC----GACT"
-        #@formatter:on
+        input_genome_string = "CC----GACT"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -290,8 +290,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CCCATCGACTT"
-        input_genome_string   = "C-----GACTT"
-        #@formatter:on
+        input_genome_string = "C-----GACTT"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -310,8 +310,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CCCATCGAC"
-        input_genome_string   = "-CCA--GAC"
-        #@formatter:on
+        input_genome_string = "-CCA--GAC"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -330,8 +330,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CCCATCGACT"
-        input_genome_string   = "-CCA--GA-T"
-        #@formatter:on
+        input_genome_string = "-CCA--GA-T"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -350,8 +350,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 0
         # @formatter:off
         database_amr_gene_string = "-TCG"
-        input_genome_string   = "ATCG"
-        #@formatter:on
+        input_genome_string = "ATCG"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -370,8 +370,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 1
         # @formatter:off
         database_amr_gene_string = "A-CG"
-        input_genome_string   = "ATCG"
-        #@formatter:on
+        input_genome_string = "ATCG"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -390,8 +390,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 2
         # @formatter:off
         database_amr_gene_string = "AT-G"
-        input_genome_string   = "ATCG"
-        #@formatter:on
+        input_genome_string = "ATCG"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,

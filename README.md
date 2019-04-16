@@ -74,12 +74,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [Database Build](#database-build)
   * [Database Update](#database-update)
   * [Database Info](#database-info-1)
-  * [Database Restore Default](#database-restore-default)| SRR1952908 | IncFII(S) | 100       | 100      | 262/262                 | contig00024 | 54294 | 54555 | CP000858  |
-| SRR1952908 | IncI1     | 100       | 100      | 142/142                 | contig00020 | 3907  | 3766  | AP005147  |
-| SRR1952926 | ColpVC    | 98.96     | 100      | 193/193                 | contig00037 | 657   | 849   | JX133088  |
-| SRR1952926 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00021 | 10302 | 9660  | FN432031  |
-| SRR1952926 | IncFII(S) | 100       | 100      | 262/262                 | contig00021 | 54294 | 54555 | CP000858  |
-| SRR1952926 | IncI1     | 100       | 100      | 142/142                 | contig00017 | 3907  | 3766  | AP005147  |
+  * [Database Restore Default](#database-restore-default)
 - [Caveats](#caveats)
 - [Acknowledgements](#acknowledgements)
 - [Citations](#citations)
@@ -370,12 +365,12 @@ The **settings.txt** file contains the particular settings used to run `staramr`
 
 The **hits/** directory contains the BLAST HSP nucleotides for the entries listed in the **resfinder.tsv** and **pointfinder.tsv** files. There are up to two files per input genome, one for ResFinder and one for PointFinder.
 
-For example, with an input genome named **SRR1952908.fasta** there would be two files `hits/resfinder_SRR1952908.fasta` and `hits/pointfinder_SRR1952908.fasta`. These files contain mostly the same information as in the **resfinder.tsv**, **pointfinder.tsv**, and **plasmidfinder.tsv** files. Additional information is the **resistance_gene_start** and **resistance_gene_end** listing the start/end of the BLAST HSP on the AMR resistance gene from the ResFinder/PointFinder/PlasmidFinder databases. 
+For example, with an input genome named **SRR1952908.fasta** there would be two files `hits/resfinder_SRR1952908.fasta` and `hits/pointfinder_SRR1952908.fasta`. These files contain mostly the same information as in the **resfinder.tsv**, **pointfinder.tsv**, and **plasmidfinder.tsv** files. Additional information is the **database_gene_start** and **database_gene_end** listing the start/end of the BLAST HSP on the AMR resistance gene from the ResFinder/PointFinder/PlasmidFinder databases. 
 
 ### Example
 
 ```
->aadA1_3_JQ414041 isolate: SRR1952908, contig: contig00030, contig_start: 5355, contig_end: 4564, resistance_gene_start: 1, resistance_gene_end: 792, hsp/length: 792/792, pid: 100.00%, plength: 100.00%
+>aadA1_3_JQ414041 isolate: SRR1952908, contig: contig00030, contig_start: 5355, contig_end: 4564, database_gene_start: 1, database_gene_end: 792, hsp/length: 792/792, pid: 100.00%, plength: 100.00%
 ATGAGGGAAGCGGTGATCGCCGAAGTATCGACTCAACTATCAGAGGTAGTTGGCGTCATC
 GAGCGCCATCTCGAACCGACGTTGCTGGCCGTACATTTGTACGGCTCCGCAGTGGATGGC
 ...
@@ -437,11 +432,13 @@ Phenotype/drug resistance predictions are provided with support from the NARMS/C
 
 # Citations
 
-If you find `staramr` useful, please consider citing this GitHub repository (https://github.com/phac-nml/staramr) as well as the original ResFinder and PointFinder publications.
+If you find `staramr` useful, please consider citing this GitHub repository (https://github.com/phac-nml/staramr) as well as the original ResFinder, PointFinder, and PlasmidFinder publications.
 
 > **Zankari E, Hasman H, Cosentino S, Vestergaard M, Rasmussen S, Lund O, Aarestrup FM, Larsen MV**. 2012. Identification of acquired antimicrobial resistance genes. J. Antimicrob. Chemother. 67:2640–2644. doi: [10.1093/jac/dks261][resfinder-cite]
 
 > **Zankari E, Allesøe R, Joensen KG, Cavaco LM, Lund O, Aarestrup F**. PointFinder: a novel web tool for WGS-based detection of antimicrobial resistance associated with chromosomal point mutations in bacterial pathogens. J Antimicrob Chemother. 2017; 72(10): 2764–8. doi: [10.1093/jac/dkx217][pointfinder-cite]
+
+> **Carattoli A, Zankari E, Garcia-Fernandez A, Voldby Larsen M, Lund O, Villa L, Aarestrup FM, Hasman H**. PlasmidFinder and pMLST: in silico detection and typing of plasmids. Antimicrob. Agents Chemother. 2014. April 28th. doi: [10.1128/AAC.02412-14][plasmidfinder-cite]
 
 # Legal
 
@@ -464,6 +461,7 @@ specific language governing permissions and limitations under the License.
 [resfinder-web]: https://cge.cbs.dtu.dk/services/ResFinder/
 [resfinder-cite]: https://dx.doi.org/10.1093/jac/dks261
 [pointfinder-cite]: https://doi.org/10.1093/jac/dkx217
+[plasmidfinder-cite]: https://doi.org/10.1128/AAC.02412-14
 [Bioconda]: https://bioconda.github.io/
 [requirements.txt]: requirements.txt
 [resfinder-git]: https://bitbucket.org/genomicepidemiology/resfinder

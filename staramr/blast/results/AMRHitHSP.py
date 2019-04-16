@@ -164,8 +164,8 @@ class AMRHitHSP:
         """
         return SeqRecord(Seq(self.get_genome_contig_hsp_seq()), id=self.get_amr_gene_id(),
                          description=(
-                             'isolate: {}, contig: {}, contig_start: {}, contig_end: {}, resistance_gene_start: {},'
-                             ' resistance_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
+                             'isolate: {}, contig: {}, contig_start: {}, contig_end: {}, database_gene_start: {},'
+                             ' database_gene_end: {}, hsp/length: {}/{}, pid: {:0.2f}%, plength: {:0.2f}%').format(
                              self.get_genome_id(),
                              self.get_genome_contig_id(),
                              self.get_genome_contig_start(),

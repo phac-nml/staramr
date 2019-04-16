@@ -8,9 +8,9 @@ import pandas as pd
 from Bio import SeqIO
 
 from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
-from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
@@ -898,7 +898,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.97, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2912/2912', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'erythromycin, azithromycin, telithromycin, clindamycin', 'Wrong phenotype')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'erythromycin, azithromycin, telithromycin, clindamycin', 'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_23S-A2075G.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))

@@ -33,7 +33,8 @@ class BlastDatabaseRepositoriesIT(unittest.TestCase):
 
         # Build database
         self.database_repositories.build(
-            {'resfinder': self.RESFINDER_VALID_COMMIT, 'pointfinder': self.POINTFINDER_VALID_COMMIT, 'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT})
+            {'resfinder': self.RESFINDER_VALID_COMMIT, 'pointfinder': self.POINTFINDER_VALID_COMMIT,
+             'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT})
 
         # Verify database is built properly
         self.assertTrue(path.exists(self.database_repositories.get_repo_dir('resfinder')),
@@ -57,11 +58,13 @@ class BlastDatabaseRepositoriesIT(unittest.TestCase):
     def testUpdate(self):
         # Build database
         self.database_repositories.build(
-            {'resfinder': self.RESFINDER_VALID_COMMIT, 'pointfinder': self.POINTFINDER_VALID_COMMIT, 'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT})
+            {'resfinder': self.RESFINDER_VALID_COMMIT, 'pointfinder': self.POINTFINDER_VALID_COMMIT,
+             'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT})
 
         # Update database
         self.database_repositories.update(
-            {'resfinder': self.RESFINDER_VALID_COMMIT2, 'pointfinder': self.POINTFINDER_VALID_COMMIT2, 'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT2})
+            {'resfinder': self.RESFINDER_VALID_COMMIT2, 'pointfinder': self.POINTFINDER_VALID_COMMIT2,
+             'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT2})
 
         # Verify correct commits
         resfinder_repo_head = git.Repo(self.database_repositories.get_repo_dir('resfinder')).commit('HEAD')
@@ -77,7 +80,8 @@ class BlastDatabaseRepositoriesIT(unittest.TestCase):
     def testInfo(self):
         # Build database
         self.database_repositories.build(
-            {'resfinder': self.RESFINDER_VALID_COMMIT, 'pointfinder': self.POINTFINDER_VALID_COMMIT, 'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT})
+            {'resfinder': self.RESFINDER_VALID_COMMIT, 'pointfinder': self.POINTFINDER_VALID_COMMIT,
+             'plasmidfinder': self.PLASMIDFINDER_VALID_COMMIT})
 
         database_info = self.database_repositories.info()
 
