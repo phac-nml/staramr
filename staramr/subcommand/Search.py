@@ -119,6 +119,9 @@ class Search(SubCommand):
         output_group.add_argument('--output-summary', action='store', dest='output_summary', type=str,
                                   help="The name of the output file containing the summary results. Not be be used with '--output-dir'. [None]",
                                   default=None, required=False)
+        output_group.add_argument('--output-detailed-summary', action='store', dest='output_detailed_summary', type=str,
+                                  help="The name of the output file containing the detailed summary results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
         output_group.add_argument('--output-resfinder', action='store', dest='output_resfinder', type=str,
                                   help="The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]",
                                   default=None, required=False)
@@ -348,7 +351,7 @@ class Search(SubCommand):
             if path.exists(args.output_dir):
                 raise CommandParseException("Output directory [" + args.output_dir + "] already exists",
                                             self._root_arg_parser)
-            elif args.output_summary or args.output_resfinder or args.output_pointfinder or args.output_plasmidfinder or args.output_excel or \
+            elif args.output_summary or args.output_detailed_summary or args.output_resfinder or args.output_pointfinder or args.output_plasmidfinder or args.output_excel or \
                     args.hits_output_dir:
                 raise CommandParseException('You cannot use --output-[type] with --output-dir', self._root_arg_parser)
             else:
@@ -366,7 +369,7 @@ class Search(SubCommand):
                 mkdir(hits_output_dir)
 
                 logger.info("--output-dir set. All files will be output to [%s]", args.output_dir)
-        elif args.output_summary or args.output_excel:
+        elif args.output_summary or args.output_excel or args.output_detailed_summary:
             logger.info('--output-dir not set. Files will be output to the respective --output-[type] setting')
             output_resfinder = args.output_resfinder
             output_pointfinder = args.output_pointfinder
@@ -389,7 +392,7 @@ class Search(SubCommand):
                     logger.debug("Making directory [%s]", hits_output_dir)
                     mkdir(hits_output_dir)
         else:
-            raise CommandParseException('You must set one of --output-dir, --output-summary, or --output-excel',
+            raise CommandParseException('You must set one of --output-dir, --output-summary, --output-detailed-summary, or --output-excel',
                                         self._root_arg_parser)
 
         if args.no_exclude_genes:
