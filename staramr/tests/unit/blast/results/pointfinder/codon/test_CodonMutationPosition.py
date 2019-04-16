@@ -410,8 +410,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CCC---GAC"
-        input_genome_string   = "CCCATCGAC"
-        #@formatter:on
+        input_genome_string = "CCCATCGAC"
+        # @formatter:on
         # @formatter:on
         amr_gene_start = 1
 
@@ -431,8 +431,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "CC----GACT"
-        input_genome_string   = "CCCATCGACT"
-        #@formatter:on
+        input_genome_string = "CCCATCGACT"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -451,8 +451,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "C-----GACTT"
-        input_genome_string   =  "CCCATCGACTT"
-        #@formatter:on
+        input_genome_string = "CCCATCGACTT"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -471,8 +471,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "-CCA--GAC"
-        input_genome_string   = "CCCATCGAC"
-        #@formatter:on
+        input_genome_string = "CCCATCGAC"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -491,8 +491,8 @@ class CodonMutationPositionTest(unittest.TestCase):
         mutation_position = 3
         # @formatter:off
         database_amr_gene_string = "-CCA--GA-T"
-        input_genome_string   = "CCCATCGACT"
-        #@formatter:on
+        input_genome_string = "CCCATCGACT"
+        # @formatter:on
         amr_gene_start = 1
 
         mutation = CodonMutationPosition(mutation_position, database_amr_gene_string, input_genome_string,
@@ -506,4 +506,3 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'ins', 'Incorrect database amino acid')
         self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
         self.assertEqual(mutation.get_mutation_string_short(), 'ins2I', 'Incorrect string')
-

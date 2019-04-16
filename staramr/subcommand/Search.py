@@ -392,8 +392,9 @@ class Search(SubCommand):
                     logger.debug("Making directory [%s]", hits_output_dir)
                     mkdir(hits_output_dir)
         else:
-            raise CommandParseException('You must set one of --output-dir, --output-summary, --output-detailed-summary, or --output-excel',
-                                        self._root_arg_parser)
+            raise CommandParseException(
+                'You must set one of --output-dir, --output-summary, --output-detailed-summary, or --output-excel',
+                self._root_arg_parser)
 
         if args.no_exclude_genes:
             logger.info("--no-exclude-genes enabled. Will not exclude any ResFinder/PointFinder genes.")
