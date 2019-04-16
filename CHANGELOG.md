@@ -1,6 +1,6 @@
 # Version 1.0.0
 
-* Add support for enterococcus faecalis from Pointfinder database.
+* Add support for *Enterococcus faecalis* and *Enterococcus faecium* from Pointfinder database.
 
 # Version 0.5.0
 
