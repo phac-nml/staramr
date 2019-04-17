@@ -1,5 +1,6 @@
 import abc
 import logging
+import coloredlogs
 
 """
 Abstract class for any sub-commands for the command-line application.
@@ -34,7 +35,9 @@ class SubCommand:
         :return: None
         """
         if args.verbose:
+            coloredlogs.install(level='DEBUG')
             logging.basicConfig(level=logging.DEBUG,
                                 format='%(asctime)s %(levelname)s %(module)s.%(funcName)s,%(lineno)s: %(message)s')
         else:
+            coloredlogs.install(level='INFO')
             logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
