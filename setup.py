@@ -30,7 +30,8 @@ setup(name='staramr',
           'GitPython>=2.1.3',
           'xlsxwriter>=1.0.2',
           'numpy>=1.12.1',
-          'green>=2.13.0'
+          'green>=2.13.0',
+          'coloredlogs>=10.0'
       ],
       packages=find_packages(),
       include_package_data=True,
