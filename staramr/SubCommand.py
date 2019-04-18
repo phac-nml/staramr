@@ -35,9 +35,6 @@ class SubCommand:
         :return: None
         """
         if args.verbose:
-            coloredlogs.install(level='DEBUG')
-            logging.basicConfig(level=logging.DEBUG,
-                                format='%(asctime)s %(levelname)s %(module)s.%(funcName)s,%(lineno)s: %(message)s')
+            coloredlogs.install(level='DEBUG', fmt='%(asctime)s %(levelname)s %(name)s.%(funcName)s,%(lineno)s: %(message)s')
         else:
-            coloredlogs.install(level='INFO')
-            logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
+            coloredlogs.install(level='INFO', fmt='%(asctime)s %(levelname)s: %(message)s')
