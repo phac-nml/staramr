@@ -57,7 +57,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         plasmidfinder_results = self.amr_detection.get_plasmidfinder_results()
         self.assertEqual(len(plasmidfinder_results.index), 1, 'Wrong number of rows in result')
 
-        result = plasmidfinder_results[plasmidfinder_results['Gene'] == "IncW"]
+        result = plasmidfinder_results[plasmidfinder_results['Plasmid'] == "IncW"]
 
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
@@ -82,7 +82,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         detailed_summary_results = self.amr_detection.get_detailed_summary_results()
         self.assertEqual(len(detailed_summary_results.index), 2, 'Wrong number of rows in result')
 
-        plasmid_type = detailed_summary_results[detailed_summary_results['Gene'] == "rep1"]
+        plasmid_type = detailed_summary_results[detailed_summary_results['Gene/Plasmid'] == "rep1"]
         self.assertEqual(len(plasmid_type.index), 1, 'Wrong number of results detected')
         self.assertEqual(plasmid_type['Predicted Phenotype'].iloc[0], '', msg='Wrong predicted phenotype')
         self.assertAlmostEqual(plasmid_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
@@ -91,7 +91,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(plasmid_type['HSP Length/Total Length'].iloc[0], '1491/1491', msg='Wrong lengths')
         self.assertEqual(plasmid_type['Data Type'].iloc[0], 'Plasmid', msg='Wrong data type')
 
-        res_type = detailed_summary_results[detailed_summary_results['Gene'] == "tet(47)"]
+        res_type = detailed_summary_results[detailed_summary_results['Gene/Plasmid'] == "tet(47)"]
         self.assertEqual(len(res_type.index), 1, 'Wrong number of results detected')
         self.assertEqual(res_type['Predicted Phenotype'].iloc[0], 'tetracycline', msg='Wrong predicted phenotype')
         self.assertAlmostEqual(res_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')

@@ -210,6 +210,8 @@ class AMRDetection:
         Gets a pd.DataFrame for the PlasmidFinder results.
         :return: A pd.DataFrame for the PlasmidFinder results.
         """
+
+        self._plasmidfinder_dataframe = self._plasmidfinder_dataframe.rename({'Gene':'Plasmid'}, axis=1)
         return self._plasmidfinder_dataframe
 
     def get_summary_results(self):
@@ -225,4 +227,5 @@ class AMRDetection:
         :return: A pd.DataFrame for a detailed summary table of the results.
         """
 
+        self._detailed_summary_dataframe = self._detailed_summary_dataframe.rename({'Gene':'Gene/Plasmid'}, axis=1)
         return self._detailed_summary_dataframe
