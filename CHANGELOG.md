@@ -1,3 +1,10 @@
+# Version 0.5.1
+
+* Renamed the following columns for clarification:
+    - `Plasmid Genes` to `Plasmid` in Summary table.
+    - `Gene` to `Plasmid` in PlasmidFinder table.
+    - `Gene` to `Gene/Plasmid` in Detailed Summary table.
+
 # Version 0.5.0
 
 * Add support for scanning against the PlasmidFinder database.
