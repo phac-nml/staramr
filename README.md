@@ -63,7 +63,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [Dependencies](#dependencies)
 - [Output](#output)
   * [summary.tsv](#summarytsv)
-  * [detailed_summary.tsv](#detailedsummarytsv)
+  * [detailed_summary.tsv](#detailed_summarytsv)
   * [resfinder.tsv](#resfindertsv)
   * [pointfinder.tsv](#pointfindertsv)
   * [plasmidfinder.tsv](#plasmidfindertsv)
