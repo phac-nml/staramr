@@ -45,7 +45,7 @@ class AMRDetectionSummary:
 
         ds_frame = ds_summary[['Gene']]
 
-        plasmid_frame = ds_frame.rename(columns={'Gene': 'Plasmid Genes'})
+        plasmid_frame = ds_frame.rename(columns={'Gene': 'Plasmid'})
 
         return plasmid_frame
 
@@ -115,7 +115,7 @@ class AMRDetectionSummary:
         return {'Genotype': 'None'}
 
     def _get_summary_resistance_columns(self):
-        return ['Genotype', 'Plasmid Genes']
+        return ['Genotype', 'Plasmid']
 
     def create_summary(self, include_negatives: bool = False) -> DataFrame:
         """
@@ -146,7 +146,7 @@ class AMRDetectionSummary:
                 resistance_frame = resistance_frame.append(plasmid_frame)
             else:
                 resistance_frame = resistance_frame.merge(plasmid_frame, on='Isolate ID', how='left').fillna(
-                    value={'Plasmid Genes': 'None'})
+                    value={'Plasmid': 'None'})
 
             resistance_frame = resistance_frame.fillna(value=fill_values)
             resistance_frame = resistance_frame.reindex(columns=resistance_columns)
