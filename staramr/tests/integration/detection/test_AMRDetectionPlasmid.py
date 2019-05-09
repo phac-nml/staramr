@@ -114,7 +114,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          msg='Wrong Predicted Phenotype')
-        self.assertEqual(result['Plasmid'].iloc[0], 'IncW', msg='Wrong Plasmid Gene')
+        self.assertEqual(result['Plasmid'].iloc[0], 'IncW', msg='Wrong Plasmid Type')
 
     def testIndexRangePlasmids(self):
         file = path.join(self.test_data_dir, "test-index-range-plasmid.fsa")
@@ -128,4 +128,4 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(summary_results['Genotype'].iloc[0], 'None', msg='Wrong Genotype value')
         self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive',
                          msg='Wrong Predicted Phenotype value')
-        self.assertEqual(summary_results['Plasmid'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Gene')
+        self.assertEqual(summary_results['Plasmid'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Type')
