@@ -1,6 +1,7 @@
 import copy
 import logging
 import os
+import pandas as pd
 from collections import Counter
 from typing import List, Dict, Optional
 
@@ -93,6 +94,15 @@ class AMRDetection:
                                                                genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
 
+    def _create_mlst_dataframe(self, mlst_data: list) -> DataFrame:
+
+        columns = ['Isolate ID', 'Organism', 'Sequence Type', 'Locus 1', 'Locus 2' , 'Locus 3', 'Locus 4', 'Locus 5', 'Locus 6', 'Locus 7']
+
+        mlst_dataframe = pd.DataFrame(mlst_data,columns=columns)
+        mlst_dataframe = mlst_dataframe.set_index('Isolate ID')
+
+        return mlst_dataframe
+
     def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
                           plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False) -> None:
         """
@@ -120,6 +130,9 @@ class AMRDetection:
         self._plasmidfinder_dataframe = self._create_plasmidfinder_dataframe(plasmidfinder_blast_map, pid_threshold,
                                                                              plength_threshold_plasmidfinder,
                                                                              report_all)
+
+        mlst_map = self._amr_detection_handler.get_mlst_outputs()
+        self._mlst_dataframe = self._create_mlst_dataframe(mlst_map)
 
         self._pointfinder_dataframe = None
         if self._has_pointfinder:
@@ -190,6 +203,14 @@ class AMRDetection:
                 files.remove(file)
 
         return files
+
+    def get_mlst_results(self):
+        """
+        Gets a pd.DataFrame for the MLST results.
+        :return: A pd.DataFrame for the MLST results.
+        """
+
+        return self._mlst_dataframe
 
     def get_resfinder_results(self):
         """
