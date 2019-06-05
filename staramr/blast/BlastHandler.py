@@ -1,8 +1,6 @@
 import logging
 import os
 import re
-import copy
-import sys
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from os import path
@@ -96,7 +94,7 @@ class BlastHandler:
         logger.debug("Done making blast databases for input files")
 
         logger.info("Scheduling MLST for input files")
-        self._schedule_mlst(path, db_files)
+        self._schedule_mlst(db_files)
 
         for file in db_files:
 
@@ -128,14 +126,13 @@ class BlastHandler:
 
         return db_files
 
-    def _schedule_mlst(self, path, file: list) -> None:
+    def _schedule_mlst(self, file: list) -> None:
 
-        curr_files = copy.deepcopy(file);
         num_threads_param = ("{}").format(self._threads);
 
         command = ['mlst', '--threads']
         command.append(num_threads_param);
-        command.extend(curr_files);
+        command.extend(file);
 
         logger.debug(' '.join(command))
         try:
@@ -169,25 +166,11 @@ class BlastHandler:
 
         return self._blast_map[name]
 
-    def _get_mlst_data(self) -> list:
+    def _get_mlst_data(self) -> str:
 
         mlst_output = str(self._mlst_data, 'utf-8')
-        mlst_split = mlst_output.splitlines()
 
-        result = []
-
-        for row in mlst_split:
-            array_format = re.split('\t', row);
-            array_format[0] = path.basename(array_format[0])
-            num_columns = len(array_format)
-
-            if(num_columns < self._max_mlst_columns):
-                for i in range(self._max_mlst_columns-num_columns):
-                    array_format.append('-')
-
-            result.append(array_format)
-
-        return result;
+        return mlst_output;
 
     def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
@@ -226,7 +209,7 @@ class BlastHandler:
             future_blast.result()
         return self._get_blast_map('plasmidfinder')
 
-    def get_mlst_outputs(self) -> list:
+    def get_mlst_outputs(self) -> str:
         """
         Gets the MLST output files from the MLST subprocess
         :return A decoded parsed list that contains all of the found locus in each file

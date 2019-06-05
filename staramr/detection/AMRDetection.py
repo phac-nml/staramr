@@ -2,6 +2,8 @@ import copy
 import logging
 import os
 import pandas as pd
+from os import path
+import re
 from collections import Counter
 from typing import List, Dict, Optional
 
@@ -94,11 +96,42 @@ class AMRDetection:
                                                                genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
 
-    def _create_mlst_dataframe(self, mlst_data: list) -> DataFrame:
+    def _generate_empty_columns(self, row: list, max_cols: int, cur_cols: int) -> list:
+        if(cur_cols < max_cols):
+            for i in range(max_cols-cur_cols):
+                row.append('-')
 
-        columns = ['Isolate ID', 'Organism', 'Sequence Type', 'Locus 1', 'Locus 2' , 'Locus 3', 'Locus 4', 'Locus 5', 'Locus 6', 'Locus 7']
+        return row
 
-        mlst_dataframe = pd.DataFrame(mlst_data,columns=columns)
+    def _create_mlst_dataframe(self, mlst_data: str) -> DataFrame:
+
+        columns = ['Isolate ID', 'Organism', 'Sequence Type']
+        curr_data = []
+        max_columns = 0;
+
+        mlst_split = mlst_data.splitlines()
+
+        # Parse and format the current row
+        for row in mlst_split:
+            array_format = re.split('\t', row);
+            num_columns = len(array_format)
+            array_format[0] = path.basename(array_format[0])
+
+            if max_columns < num_columns:
+                max_columns = num_columns
+
+            curr_data.append(array_format)
+
+        # Go through each row and append additional columns for the dataframes
+        curr_data = list(map(lambda x: self._generate_empty_columns(x, max_columns, len(x)), curr_data))
+
+        # Append Locus Column names if any
+        locus_columns = max_columns - len(columns)
+        if locus_columns > 0:
+            for x in range(0, locus_columns):
+                columns.append(("Locus {}").format(x+1))
+
+        mlst_dataframe = pd.DataFrame(curr_data, columns=columns)
         mlst_dataframe = mlst_dataframe.set_index('Isolate ID')
 
         return mlst_dataframe
@@ -131,8 +164,8 @@ class AMRDetection:
                                                                              plength_threshold_plasmidfinder,
                                                                              report_all)
 
-        mlst_map = self._amr_detection_handler.get_mlst_outputs()
-        self._mlst_dataframe = self._create_mlst_dataframe(mlst_map)
+        mlst_data = self._amr_detection_handler.get_mlst_outputs()
+        self._mlst_dataframe = self._create_mlst_dataframe(mlst_data)
 
         self._pointfinder_dataframe = None
         if self._has_pointfinder:
