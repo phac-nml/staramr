@@ -11,7 +11,7 @@ import pandas as pd
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
-from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.JobHandler import JobHandler
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
@@ -240,7 +240,7 @@ class Search(SubCommand):
         with tempfile.TemporaryDirectory() as blast_out:
             start_time = datetime.datetime.now()
 
-            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database,
+            blast_handler = JobHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database,
                                           'plasmidfinder': plasmidfinder_database}, nprocs, blast_out)
 
             amr_detection_factory = AMRDetectionFactory()

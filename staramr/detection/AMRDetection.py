@@ -35,7 +35,7 @@ class AMRDetection:
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
-        :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
+        :param amr_detection_handler: The staramr.blast.JobHandler to use for scheduling BLAST jobs.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         :param plasmidfinder_database: The staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase for the particular PlasmidFinder database.
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.

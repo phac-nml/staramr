@@ -7,7 +7,7 @@ from os import path
 import pandas as pd
 from Bio import SeqIO
 
-from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.JobHandler import JobHandler
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
@@ -34,7 +34,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir)
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
-        self.blast_handler = BlastHandler(
+        self.blast_handler = JobHandler(
             {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database}, 2, self.blast_out.name)
 
         self.outdir = tempfile.TemporaryDirectory()
@@ -397,7 +397,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -432,7 +432,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PSuccessNoPhenotype(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetection(self.resfinder_database, blast_handler, pointfinder_database,
                                      output_dir=self.outdir.name)
@@ -465,7 +465,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PDelEndSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -500,7 +500,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PDelEndFailPlength(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -517,7 +517,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PFailPID(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -533,7 +533,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67TFail(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -549,7 +549,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonellaA67PReverseComplementSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -584,7 +584,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderSalmonella_16S_rrSD_C1065T_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -620,7 +620,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -686,7 +686,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderPointfinderSalmonellaExcludeGenesListSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -710,7 +710,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderPointfinderSalmonella_16Src_C1065T_gyrArc_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -842,7 +842,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderCampylobacterA70TSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -876,7 +876,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderCampylobacterA2075GSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -911,7 +911,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderEFaecalisS97NSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecalis')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -945,7 +945,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderEFaeciumS83RSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
@@ -979,7 +979,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderEFaeciumIns466Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
-        blast_handler = BlastHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,

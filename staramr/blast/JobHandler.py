@@ -18,7 +18,7 @@ Class for handling scheduling of BLAST jobs.
 """
 
 
-class BlastHandler:
+class JobHandler:
     BLAST_COLUMNS = [x.strip() for x in '''
     qseqid
     sseqid

@@ -5,7 +5,7 @@ from os import path
 
 from Bio import SeqIO
 
-from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.JobHandler import JobHandler
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
@@ -34,7 +34,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
             self.plasmidfinder_dir)
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
-        self.blast_handler = BlastHandler(
+        self.blast_handler = JobHandler(
             {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database,
              'plasmidfinder': self.plasmidfinder_database}, 2, self.blast_out.name)
 
