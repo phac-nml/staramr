@@ -18,7 +18,7 @@ Operating System :: POSIX :: Linux
 
 setup(name='staramr',
       version=__version__,
-      description='Scans genome contigs against ResFinder and PointFinder databases',
+      description='Scans genome contigs against ResFinder, PlasmidFinder, and PointFinder databases',
       author='Aaron Petkau',
       author_email='aaron.petkau@gmail.com',
       url='https://github.com/phac-nml/staramr',
