@@ -4,7 +4,7 @@ import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from os import path
-from typing import Dict
+from typing import Dict, List
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
@@ -18,7 +18,7 @@ Class for handling scheduling of BLAST jobs.
 """
 
 
-class BlastHandler:
+class JobHandler:
     BLAST_COLUMNS = [x.strip() for x in '''
     qseqid
     sseqid
@@ -63,6 +63,7 @@ class BlastHandler:
             self._pointfinder_configured = True  # type: bool
 
         self._thread_pool_executor = None
+        self._max_mlst_columns = 10
         self.reset()
 
     def reset(self):
@@ -75,6 +76,8 @@ class BlastHandler:
         self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
         self._blast_map = {}
         self._future_blasts_map = {}
+        self._mlst_data = ""
+        self._mlst_map = {}
 
         if path.exists(self._input_genomes_tmp_dir):
             logger.debug("Directory [%s] already exists", self._input_genomes_tmp_dir)
@@ -90,7 +93,11 @@ class BlastHandler:
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
+        logger.info("Scheduling MLST for input files")
+        self._schedule_mlst(db_files)
+
         for file in db_files:
+
             logger.info("Scheduling blasts for %s", path.basename(file))
 
             for name in self._blast_database_objects_map:
@@ -119,6 +126,23 @@ class BlastHandler:
 
         return db_files
 
+    def _schedule_mlst(self, file: list) -> None:
+
+        num_threads_param = ("{}").format(self._threads);
+
+        command = ['mlst', '--threads']
+        command.append(num_threads_param);
+        command.extend(file);
+
+        logger.debug(' '.join(command))
+        try:
+            output = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            self._mlst_data = output.stdout
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+
+            raise Exception('Could not run mlst, error {}'.format(err_msg))
+
     def _schedule_blast(self, file, blast_database):
         database_names = blast_database.get_database_names()
         logger.debug("%s databases: %s", blast_database.get_name(), database_names)
@@ -141,6 +165,12 @@ class BlastHandler:
             self._blast_map[name] = {}
 
         return self._blast_map[name]
+
+    def _get_mlst_data(self) -> str:
+
+        mlst_output = str(self._mlst_data, 'utf-8')
+
+        return mlst_output;
 
     def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
@@ -178,6 +208,14 @@ class BlastHandler:
         for future_blast in self._get_future_blasts_from_map('plasmidfinder'):
             future_blast.result()
         return self._get_blast_map('plasmidfinder')
+
+    def get_mlst_outputs(self) -> str:
+        """
+        Gets the MLST output files from the MLST subprocess
+        :return A decoded parsed list that contains all of the found locus in each file
+        """
+
+        return self._get_mlst_data();
 
     def get_pointfinder_outputs(self) -> Dict:
         """

@@ -1,6 +1,9 @@
 import copy
 import logging
 import os
+import pandas as pd
+from os import path
+import re
 from collections import Counter
 from typing import List, Dict, Optional
 
@@ -32,7 +35,7 @@ class AMRDetection:
         """
         Builds a new AMRDetection object.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
-        :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
+        :param amr_detection_handler: The staramr.blast.JobHandler to use for scheduling BLAST jobs.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         :param plasmidfinder_database: The staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase for the particular PlasmidFinder database.
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
@@ -93,6 +96,46 @@ class AMRDetection:
                                                                genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
 
+    def _generate_empty_columns(self, row: list, max_cols: int, cur_cols: int) -> list:
+        if(cur_cols < max_cols):
+            for i in range(max_cols-cur_cols):
+                row.append('-')
+
+        return row
+
+    def _create_mlst_dataframe(self, mlst_data: str) -> DataFrame:
+
+        columns = ['Isolate ID', 'Scheme', 'Sequence Type']
+        curr_data = []
+        max_columns = 0;
+
+        mlst_split = mlst_data.splitlines()
+
+        # Parse and format the current row
+        for row in mlst_split:
+            array_format = re.split('\t', row);
+            num_columns = len(array_format)
+            array_format[0] = path.basename(array_format[0])
+
+            if max_columns < num_columns:
+                max_columns = num_columns
+
+            curr_data.append(array_format)
+
+        # Go through each row and append additional columns for the dataframes
+        curr_data = list(map(lambda x: self._generate_empty_columns(x, max_columns, len(x)), curr_data))
+
+        # Append Locus Column names if any
+        locus_columns = max_columns - len(columns)
+        if locus_columns > 0:
+            for x in range(0, locus_columns):
+                columns.append(("Locus {}").format(x+1))
+
+        mlst_dataframe = pd.DataFrame(curr_data, columns=columns)
+        mlst_dataframe = mlst_dataframe.set_index('Isolate ID')
+
+        return mlst_dataframe
+
     def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
                           plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False) -> None:
         """
@@ -120,6 +163,9 @@ class AMRDetection:
         self._plasmidfinder_dataframe = self._create_plasmidfinder_dataframe(plasmidfinder_blast_map, pid_threshold,
                                                                              plength_threshold_plasmidfinder,
                                                                              report_all)
+
+        mlst_data = self._amr_detection_handler.get_mlst_outputs()
+        self._mlst_dataframe = self._create_mlst_dataframe(mlst_data)
 
         self._pointfinder_dataframe = None
         if self._has_pointfinder:
@@ -190,6 +236,14 @@ class AMRDetection:
                 files.remove(file)
 
         return files
+
+    def get_mlst_results(self):
+        """
+        Gets a pd.DataFrame for the MLST results.
+        :return: A pd.DataFrame for the MLST results.
+        """
+
+        return self._mlst_dataframe
 
     def get_resfinder_results(self):
         """

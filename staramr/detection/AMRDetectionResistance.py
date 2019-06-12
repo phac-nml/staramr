@@ -25,7 +25,7 @@ class AMRDetectionResistance(AMRDetection):
         Builds a new AMRDetectionResistance.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param arg_drug_table_resfinder: The staramr.databases.resistance.ARGDrugTable for searching for resfinder resistances.
-        :param amr_detection_handler: The staramr.blast.BlastHandler to use for scheduling BLAST jobs.
+        :param amr_detection_handler: The staramr.blast.JobHandler to use for scheduling BLAST jobs.
         :param arg_drug_table_pointfinder: The staramr.databases.resistance.ARGDrugTable for searching for pointfinder resistances.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.

@@ -11,7 +11,7 @@ import pandas as pd
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
-from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.JobHandler import JobHandler
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
@@ -146,7 +146,7 @@ class Search(SubCommand):
         return arg_parser
 
     def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
-                                   plasmidfinder_dataframe, detailed_summary_dataframe,
+                                   plasmidfinder_dataframe, detailed_summary_dataframe, mlst_dataframe,
                                    settings_dataframe):
         writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
@@ -155,10 +155,11 @@ class Search(SubCommand):
         sheetname_dataframe['Detailed_Summary'] = detailed_summary_dataframe
         sheetname_dataframe['ResFinder'] = resfinder_dataframe
         sheetname_dataframe['PlasmidFinder'] = plasmidfinder_dataframe
+        sheetname_dataframe['MLST_Summary'] = mlst_dataframe
         if pointfinder_dataframe is not None:
             sheetname_dataframe['PointFinder'] = pointfinder_dataframe
 
-        for name in ['Summary', 'Detailed_Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder']:
+        for name in ['Summary', 'Detailed_Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder', 'MLST_Summary']:
             if name in sheetname_dataframe:
                 sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",
                                                    na_rep=self.BLANK)
@@ -239,7 +240,7 @@ class Search(SubCommand):
         with tempfile.TemporaryDirectory() as blast_out:
             start_time = datetime.datetime.now()
 
-            blast_handler = BlastHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database,
+            blast_handler = JobHandler({'resfinder': resfinder_database, 'pointfinder': pointfinder_database,
                                           'plasmidfinder': plasmidfinder_database}, nprocs, blast_out)
 
             amr_detection_factory = AMRDetectionFactory()
@@ -345,6 +346,7 @@ class Search(SubCommand):
         output_resfinder = None
         output_pointfinder = None
         output_plasmidfinder = None
+        output_mlst = None
         output_excel = None
         output_settings = None
         if args.output_dir:
@@ -363,6 +365,7 @@ class Search(SubCommand):
                 output_plasmidfinder = path.join(args.output_dir, "plasmidfinder.tsv")
                 output_summary = path.join(args.output_dir, "summary.tsv")
                 output_detailed_summary = path.join(args.output_dir, "detailed_summary.tsv")
+                output_mlst = path.join(args.output_dir, "mlst.tsv")
                 output_settings = path.join(args.output_dir, "settings.txt")
                 output_excel = path.join(args.output_dir, 'results.xlsx')
 
@@ -376,6 +379,7 @@ class Search(SubCommand):
             output_plasmidfinder = args.output_plasmidfinder
             output_summary = args.output_summary
             output_detailed_summary = args.output_detailed_summary
+            output_mlst = args.output_mlst
             output_settings = args.output_settings
             output_excel = args.output_excel
             hits_output_dir = args.hits_output_dir
@@ -456,6 +460,13 @@ class Search(SubCommand):
         else:
             logger.info("--output-dir or --output-summary unset. No summary file will be written")
 
+        if output_mlst:
+            logger.info("Writing MLST summary to [%s]", output_mlst)
+            with open(output_mlst, 'w') as fh:
+                self._print_dataframe_to_text_file_handle(amr_detection.get_mlst_results(), fh)
+        else:
+            logger.info("--output-dir or --output-mlst unset. No mlst file will be written")
+
         if output_detailed_summary:
             logger.info("Writing detailed summary to [%s]", output_detailed_summary)
             with open(output_detailed_summary, 'w') as fh:
@@ -481,6 +492,7 @@ class Search(SubCommand):
                                             amr_detection.get_pointfinder_results(),
                                             amr_detection.get_plasmidfinder_results(),
                                             amr_detection.get_detailed_summary_results(),
+                                            amr_detection.get_mlst_results(),
                                             settings_dataframe)
         else:
             logger.info("--output-dir or --output-excel unset. No excel file will be written")
