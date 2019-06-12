@@ -59,7 +59,7 @@ class AMRDetectionMLST(unittest.TestCase):
         self.assertEqual(len(mlst_results.index), 1, 'Wrong number of results detected')
         self.assertEqual(len(mlst_results.columns), 9, 'Wrong number of columns detected')
 
-        self.assertEqual(mlst_results['Organism'].iloc[0], 'senterica', msg='Wrong organism')
+        self.assertEqual(mlst_results['Scheme'].iloc[0], 'senterica', msg='Wrong Scheme')
         self.assertEqual(mlst_results['Sequence Type'].iloc[0], '1', msg='Wrong Sequence Type')
         self.assertEqual(mlst_results['Locus 1'].iloc[0], 'aroC(1)', msg='Wrong Locus 1 Result')
         self.assertEqual(mlst_results['Locus 2'].iloc[0], 'dnaN(1)', msg='Wrong Locus 2 Result')
@@ -79,5 +79,5 @@ class AMRDetectionMLST(unittest.TestCase):
         self.assertEqual(len(mlst_results.index), 1, 'Wrong number of results detected')
         self.assertEqual(len(mlst_results.columns), 2, 'Wrong number of columns detected')
 
-        self.assertEqual(mlst_results['Organism'].iloc[0], '-', msg='Organism is found, expected none')
+        self.assertEqual(mlst_results['Scheme'].iloc[0], '-', msg='Scheme is found, expected none')
         self.assertEqual(mlst_results['Sequence Type'].iloc[0], '-', msg='Sequence Type is found, expected none')

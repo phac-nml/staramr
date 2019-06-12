@@ -105,7 +105,7 @@ class AMRDetection:
 
     def _create_mlst_dataframe(self, mlst_data: str) -> DataFrame:
 
-        columns = ['Isolate ID', 'Organism', 'Sequence Type']
+        columns = ['Isolate ID', 'Scheme', 'Sequence Type']
         curr_data = []
         max_columns = 0;
 
