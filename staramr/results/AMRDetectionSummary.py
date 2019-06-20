@@ -17,7 +17,7 @@ class AMRDetectionSummary:
     FLOAT_DECIMALS = 2
 
     def __init__(self, files, resfinder_dataframe: DataFrame, pointfinder_dataframe=None,
-                 plasmidfinder_dataframe=None) -> None:
+                 plasmidfinder_dataframe=None, mlst_dataframe=None) -> None:
         """
         Constructs an object for summarizing AMR detection results.
         :param files: The list of genome files we have scanned against.
@@ -27,6 +27,7 @@ class AMRDetectionSummary:
         self._names = [path.splitext(path.basename(x))[0] for x in files]
         self._resfinder_dataframe = resfinder_dataframe
         self._plasmidfinder_dataframe = plasmidfinder_dataframe
+        self._mlst_dataframe = mlst_dataframe
 
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
@@ -125,6 +126,7 @@ class AMRDetectionSummary:
         """
         resistance_frame = self._resfinder_dataframe
         plasmid_frame = self._plasmidfinder_dataframe
+        mlst_frame = self._mlst_dataframe
 
         if self._has_pointfinder:
             resistance_frame = resistance_frame.append(self._pointfinder_dataframe, sort=True)
@@ -150,6 +152,10 @@ class AMRDetectionSummary:
 
             resistance_frame = resistance_frame.fillna(value=fill_values)
             resistance_frame = resistance_frame.reindex(columns=resistance_columns)
+
+        if mlst_frame is not None:
+            mlst_merging_frame = mlst_frame[['Scheme', 'Sequence Type']]
+            resistance_frame = resistance_frame.merge(mlst_merging_frame, on='Isolate ID', how='left')
 
         return resistance_frame.sort_index()
 
