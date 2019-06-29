@@ -2,6 +2,7 @@ import logging
 import os
 import re
 import subprocess
+import math
 from concurrent.futures import ThreadPoolExecutor
 from os import path
 from typing import Dict, List
@@ -11,7 +12,7 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.exceptions.BlastProcessError import BlastProcessError
 
-logger = logging.getLogger('BlastHandler')
+logger = logging.getLogger('JobHandler')
 
 """
 Class for handling scheduling of BLAST jobs.
@@ -38,7 +39,7 @@ class JobHandler:
     def __init__(self, blast_database_objects_map: Dict[str, AbstractBlastDatabase], threads: int,
                  output_directory: str) -> None:
         """
-        Creates a new BlastHandler.
+        Creates a new JobHandler.
         :param blast_database_objects_map: A map containing the blast databases.
         :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
         :param output_directory: The output directory to store BLAST results.
@@ -62,13 +63,13 @@ class JobHandler:
         else:
             self._pointfinder_configured = True  # type: bool
 
-        self._thread_pool_executor = None
+        self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
         self._max_mlst_columns = 10
         self.reset()
 
     def reset(self):
         """
-        Resets this BlastHandler.
+        Resets this JobHandler.
         :return: None
         """
         if self._thread_pool_executor is not None:
@@ -93,8 +94,38 @@ class JobHandler:
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
+        future_mlst_db = []
         logger.info("Scheduling MLST for input files")
-        self._schedule_mlst(db_files)
+        max_files_length = len(db_files)
+
+        partition = math.floor(max_files_length/self._threads)
+
+        currStart = 0
+        currEnd = 0
+
+        # Partition the files only if it's greater than the number of threads available
+        if max_files_length > self._threads:
+            # range(start, stop, step) we want an inclusive range
+            for counter in range(1, self._threads+1):
+
+                currEnd = partition * counter
+
+                if counter > 1:
+                    currStart = (currEnd-partition) + 1
+
+                if counter == self._threads:
+                    currEnd = max_files_length
+
+                future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, db_files[currStart:currEnd+1]))
+        else:
+            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, db_files))
+
+        try:
+            for future_mlst in future_mlst_db:
+                future_mlst.result()
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+            raise Exception('Could not run mlst, error {}'.format(err_msg))
 
         for file in db_files:
 
@@ -128,16 +159,20 @@ class JobHandler:
 
     def _schedule_mlst(self, file: list) -> None:
 
-        num_threads_param = ("{}").format(self._threads);
-
-        command = ['mlst', '--threads']
-        command.append(num_threads_param);
+        command = ['mlst']
         command.extend(file);
 
         logger.debug(' '.join(command))
         try:
             output = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-            self._mlst_data = output.stdout
+
+            decoded_output = str(output.stdout, 'utf-8')
+
+            if self._mlst_data is not None:
+                self._mlst_data = self._mlst_data + decoded_output
+            else:
+                self._mlst_data = decoded_output
+
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
 
@@ -168,9 +203,7 @@ class JobHandler:
 
     def _get_mlst_data(self) -> str:
 
-        mlst_output = str(self._mlst_data, 'utf-8')
-
-        return mlst_output;
+        return self._mlst_data;
 
     def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
