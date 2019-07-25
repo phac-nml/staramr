@@ -63,7 +63,7 @@ class JobHandler:
         else:
             self._pointfinder_configured = True  # type: bool
 
-        self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
+        self._thread_pool_executor = None
         self._max_mlst_columns = 10
         self.reset()
 
@@ -94,35 +94,21 @@ class JobHandler:
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
-        future_mlst_db = []
-        logger.info("Scheduling MLST for input files")
-        max_files_length = len(db_files)
+        future_mlst_db = [] # type: list
 
-        partition = math.floor(max_files_length/self._threads)
-
-        currStart = 0
-        currEnd = 0
-
-        # Partition the files only if it's greater than the number of threads available
-        if max_files_length > self._threads:
-            # range(start, stop, step) we want an inclusive range
-            for counter in range(1, self._threads+1):
-
-                currEnd = partition * counter
-
-                if counter > 1:
-                    currStart = (currEnd-partition) + 1
-
-                if counter == self._threads:
-                    currEnd = max_files_length
-
-                future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, db_files[currStart:currEnd+1]))
-        else:
-            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, db_files))
+        if self._thread_pool_executor is not None:
+          logger.info("Scheduling MLST for input files")
+          future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, db_files))
 
         try:
             for future_mlst in future_mlst_db:
-                future_mlst.result()
+                mlst_result = future_mlst.result()
+
+                if mlst_result is not None:
+                    self._mlst_data += mlst_result
+                else:
+                    self._mlst_data = mlst_result
+
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
             raise Exception('Could not run mlst, error {}'.format(err_msg))
@@ -157,7 +143,7 @@ class JobHandler:
 
         return db_files
 
-    def _schedule_mlst(self, file: list) -> None:
+    def _schedule_mlst(self, file: list) -> str:
 
         command = ['mlst']
         command.extend(file);
@@ -168,15 +154,12 @@ class JobHandler:
 
             decoded_output = str(output.stdout, 'utf-8')
 
-            if self._mlst_data is not None:
-                self._mlst_data = self._mlst_data + decoded_output
-            else:
-                self._mlst_data = decoded_output
-
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
 
             raise Exception('Could not run mlst, error {}'.format(err_msg))
+
+        return decoded_output
 
     def _schedule_blast(self, file, blast_database):
         database_names = blast_database.get_database_names()
