@@ -59,16 +59,16 @@ class AMRDetection:
 
     def _create_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,
                             pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
-                            plasmidfinder_dataframe: DataFrame) -> DataFrame:
+                            plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
         amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
-                                                    pointfinder_dataframe, plasmidfinder_dataframe)
+                                                    pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
     def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,
                                      pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
-                                     plasmidfinder_dataframe: DataFrame) -> DataFrame:
+                                     plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
         amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
-                                                    pointfinder_dataframe, plasmidfinder_dataframe)
+                                                    pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_detailed_summary(self._include_negative_results)
 
     def _create_resfinder_dataframe(self, resfinder_blast_map: Dict, pid_threshold: float, plength_threshold: int,
@@ -107,15 +107,18 @@ class AMRDetection:
 
         columns = ['Isolate ID', 'Scheme', 'Sequence Type']
         curr_data = []
-        max_columns = 0;
+        max_columns = 0
+        extension = None
 
         mlst_split = mlst_data.splitlines()
 
         # Parse and format the current row
         for row in mlst_split:
-            array_format = re.split('\t', row);
+            array_format = re.split('\t', row)
             num_columns = len(array_format)
-            array_format[0] = path.basename(array_format[0])
+
+            # We want the file name without the extension
+            array_format[0] = path.basename(path.splitext(array_format[0])[0])
 
             if max_columns < num_columns:
                 max_columns = num_columns
@@ -174,11 +177,12 @@ class AMRDetection:
                                                                              plength_threshold_pointfinder, report_all)
 
         self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe,
-                                                           self._pointfinder_dataframe, self._plasmidfinder_dataframe)
+                                                           self._pointfinder_dataframe, self._plasmidfinder_dataframe, self._mlst_dataframe)
 
         self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,
                                                                              self._pointfinder_dataframe,
-                                                                             self._plasmidfinder_dataframe)
+                                                                             self._plasmidfinder_dataframe,
+                                                                             self._mlst_dataframe)
 
     def _validate_files(self, files: List[str], ignore_invalid_files: bool) -> List[str]:
         total_files = len(files)

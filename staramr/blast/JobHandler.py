@@ -2,6 +2,7 @@ import logging
 import os
 import re
 import subprocess
+import math
 from concurrent.futures import ThreadPoolExecutor
 from os import path
 from typing import Dict, List
@@ -11,7 +12,7 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.exceptions.BlastProcessError import BlastProcessError
 
-logger = logging.getLogger('BlastHandler')
+logger = logging.getLogger('JobHandler')
 
 """
 Class for handling scheduling of BLAST jobs.
@@ -38,7 +39,7 @@ class JobHandler:
     def __init__(self, blast_database_objects_map: Dict[str, AbstractBlastDatabase], threads: int,
                  output_directory: str) -> None:
         """
-        Creates a new BlastHandler.
+        Creates a new JobHandler.
         :param blast_database_objects_map: A map containing the blast databases.
         :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
         :param output_directory: The output directory to store BLAST results.
@@ -62,13 +63,13 @@ class JobHandler:
         else:
             self._pointfinder_configured = True  # type: bool
 
-        self._thread_pool_executor = None
+        self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
         self._max_mlst_columns = 10
         self.reset()
 
     def reset(self):
         """
-        Resets this BlastHandler.
+        Resets this JobHandler.
         :return: None
         """
         if self._thread_pool_executor is not None:
@@ -93,16 +94,26 @@ class JobHandler:
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
-        logger.info("Scheduling MLST for input files")
-        self._schedule_mlst(db_files)
+        future_mlst_db = [] # type: list
 
         for file in db_files:
 
-            logger.info("Scheduling blasts for %s", path.basename(file))
+            logger.info("Scheduling blasts and MLST for %s", path.basename(file))
+            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, file))
 
             for name in self._blast_database_objects_map:
                 database_object = self._blast_database_objects_map[name]
                 self._schedule_blast(file, database_object)
+
+        try:
+            for future_mlst in future_mlst_db:
+                mlst_result = future_mlst.result()
+
+                self._mlst_data += mlst_result
+
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+            raise Exception('Could not run mlst, error {}'.format(err_msg))
 
     def _make_db_from_input_files(self, db_dir, files):
         logger.info("Making BLAST databases for input files")
@@ -126,22 +137,23 @@ class JobHandler:
 
         return db_files
 
-    def _schedule_mlst(self, file: list) -> None:
+    def _schedule_mlst(self, file: str) -> str:
 
-        num_threads_param = ("{}").format(self._threads);
-
-        command = ['mlst', '--threads']
-        command.append(num_threads_param);
-        command.extend(file);
+        command = ['mlst']
+        command.append(file);
 
         logger.debug(' '.join(command))
         try:
             output = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-            self._mlst_data = output.stdout
+
+            decoded_output = str(output.stdout, 'utf-8')
+
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
 
             raise Exception('Could not run mlst, error {}'.format(err_msg))
+
+        return decoded_output
 
     def _schedule_blast(self, file, blast_database):
         database_names = blast_database.get_database_names()
@@ -168,9 +180,7 @@ class JobHandler:
 
     def _get_mlst_data(self) -> str:
 
-        mlst_output = str(self._mlst_data, 'utf-8')
-
-        return mlst_output;
+        return self._mlst_data;
 
     def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
