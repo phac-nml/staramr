@@ -63,7 +63,7 @@ class JobHandler:
         else:
             self._pointfinder_configured = True  # type: bool
 
-        self._thread_pool_executor = None
+        self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
         self._max_mlst_columns = 10
         self.reset()
 
@@ -96,30 +96,24 @@ class JobHandler:
 
         future_mlst_db = [] # type: list
 
-        if self._thread_pool_executor is not None:
-          logger.info("Scheduling MLST for input files")
-          future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, db_files))
+        for file in db_files:
+
+            logger.info("Scheduling blasts and MLST for %s", path.basename(file))
+            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, file))
+
+            for name in self._blast_database_objects_map:
+                database_object = self._blast_database_objects_map[name]
+                self._schedule_blast(file, database_object)
 
         try:
             for future_mlst in future_mlst_db:
                 mlst_result = future_mlst.result()
 
-                if mlst_result is not None:
-                    self._mlst_data += mlst_result
-                else:
-                    self._mlst_data = mlst_result
+                self._mlst_data += mlst_result
 
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
             raise Exception('Could not run mlst, error {}'.format(err_msg))
-
-        for file in db_files:
-
-            logger.info("Scheduling blasts for %s", path.basename(file))
-
-            for name in self._blast_database_objects_map:
-                database_object = self._blast_database_objects_map[name]
-                self._schedule_blast(file, database_object)
 
     def _make_db_from_input_files(self, db_dir, files):
         logger.info("Making BLAST databases for input files")
@@ -143,10 +137,10 @@ class JobHandler:
 
         return db_files
 
-    def _schedule_mlst(self, file: list) -> str:
+    def _schedule_mlst(self, file: str) -> str:
 
         command = ['mlst']
-        command.extend(file);
+        command.append(file);
 
         logger.debug(' '.join(command))
         try:
