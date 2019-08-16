@@ -51,8 +51,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         return ['Genotype', 'Predicted Phenotype', 'Plasmid']
 
     def _get_detailed_summary_columns(self):
-        return ['Gene', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
-                'End', 'Accession', 'Data Type']
+        return ['Gene', 'Data Type', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
+                'End', 'Accession']
 
     def _include_phenotype(self):
         return True

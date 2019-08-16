@@ -285,5 +285,5 @@ class AMRDetection:
         :return: A pd.DataFrame for a detailed summary table of the results.
         """
 
-        self._detailed_summary_dataframe = self._detailed_summary_dataframe.rename({'Gene':'Gene/Plasmid'}, axis=1)
+        self._detailed_summary_dataframe = self._detailed_summary_dataframe.rename({'Gene':'Data'}, axis=1)
         return self._detailed_summary_dataframe
