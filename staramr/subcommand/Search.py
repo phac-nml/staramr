@@ -75,7 +75,7 @@ class Search(SubCommand):
         arg_parser.add_argument('--ignore-invalid-files', action='store_true', dest='ignore_valid_files',
                                 help='Skips over invalid input files', required=False)
         arg_parser.add_argument('--mlst-scheme', action='store', dest='mlst_scheme',
-                              help='Specify scheme name, visit https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab for supported scheme genus available. [senterica] ', required=False)
+                              help='Specify scheme name, visit https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab for supported scheme genus available. [None] ', required=False)
 
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
