@@ -140,7 +140,7 @@ class AMRDetection:
         return mlst_dataframe
 
     def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
-                          plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False) -> None:
+                          plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False, mlst_scheme=None) -> None:
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
@@ -150,13 +150,14 @@ class AMRDetection:
         :param plength_threshold_plasmidfinder: The percent length overlap for BLAST results (plasmidfinder).
         :param report_all: Whether or not to report all blast hits.
         :param ignore_invalid_files: Skips the invalid input files if set.
+        :param mlst_scheme: Specifys scheme name MLST uses if set.
         :return: None
         """
 
         files_copy = copy.deepcopy(files)
         files = self._validate_files(files_copy, ignore_invalid_files)
 
-        self._amr_detection_handler.run_blasts(files)
+        self._amr_detection_handler.run_blasts_mlst(files, mlst_scheme)
 
         resfinder_blast_map = self._amr_detection_handler.get_resfinder_outputs()
         self._resfinder_dataframe = self._create_resfinder_dataframe(resfinder_blast_map, pid_threshold,

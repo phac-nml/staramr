@@ -85,10 +85,11 @@ class JobHandler:
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 
-    def run_blasts(self, files) -> None:
+    def run_blasts_mlst(self, files, mlst_scheme) -> None:
         """
-        Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases.
+        Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases and scans all files with MLST
         :param files: The files to scan.
+        :param mlst_scheme: Specifies scheme name for MLST to use.
         :return: None
         """
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
@@ -99,7 +100,7 @@ class JobHandler:
         for file in db_files:
 
             logger.info("Scheduling blasts and MLST for %s", path.basename(file))
-            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, file))
+            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, file, mlst_scheme))
 
             for name in self._blast_database_objects_map:
                 database_object = self._blast_database_objects_map[name]
@@ -137,9 +138,13 @@ class JobHandler:
 
         return db_files
 
-    def _schedule_mlst(self, file: str) -> str:
+    def _schedule_mlst(self, file: str, mlst_scheme: str) -> str:
 
         command = ['mlst']
+
+        if mlst_scheme is not None:
+            command.extend(['--scheme', mlst_scheme])
+
         command.append(file);
 
         logger.debug(' '.join(command))

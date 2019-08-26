@@ -74,6 +74,8 @@ class Search(SubCommand):
                                 default=cpu_count, required=False)
         arg_parser.add_argument('--ignore-invalid-files', action='store_true', dest='ignore_valid_files',
                                 help='Skips over invalid input files', required=False)
+        arg_parser.add_argument('--mlst-scheme', action='store', dest='mlst_scheme',
+                              help='Specify scheme name, visit https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab for supported scheme genus available. [None] ', required=False)
 
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
@@ -214,7 +216,7 @@ class Search(SubCommand):
                           nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
                           plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast,
-                          genes_to_exclude, files, ignore_invalid_files):
+                          genes_to_exclude, files, ignore_invalid_files, mlst_scheme):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
@@ -232,7 +234,8 @@ class Search(SubCommand):
         :param report_all_blast: Whether or not to report all BLAST results.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
         :param files: The list of files to scan.
-        :param ignore_invalid_files: Skips over invalid input files
+        :param ignore_invalid_files: Skips over invalid input files.
+        :param mlst_scheme: Specifys scheme name MLST uses.
         :return: A dictionary containing the results as dict['results'] and settings as dict['settings'].
         """
         results = {'results': None, 'settings': None}
@@ -254,7 +257,7 @@ class Search(SubCommand):
                                                         genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
                                             plength_threshold_pointfinder, plength_threshold_plasmidfinder,
-                                            report_all_blast, ignore_invalid_files)
+                                            report_all_blast, ignore_invalid_files, mlst_scheme)
 
             results['results'] = amr_detection
 
@@ -428,7 +431,8 @@ class Search(SubCommand):
                                          report_all_blast=args.report_all_blast,
                                          genes_to_exclude=exclude_genes,
                                          files=args.files,
-                                         ignore_invalid_files=args.ignore_valid_files)
+                                         ignore_invalid_files=args.ignore_valid_files,
+                                         mlst_scheme=args.mlst_scheme)
         amr_detection = results['results']
         settings = results['settings']
 
