@@ -1,6 +1,5 @@
-# Version 1.0.0
+# Version 0.6.0
 
-* Add support for *Enterococcus faecalis* and *Enterococcus faecium* from Pointfinder database.
 * Added [coloredlogs](https://pypi.org/project/coloredlogs/) library to format the output
 * Added support for [MLST](https://github.com/tseemann/mlst)
 
