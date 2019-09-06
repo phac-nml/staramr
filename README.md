@@ -16,24 +16,25 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             |
-|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------| ------------------------------------|
-| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 |
-| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 |
+| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type |
+|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|
+| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
+| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
 
 **out/detailed_summary.tsv**:
 
-| Isolate ID | Gene/Plasmid | Predicted Phenotype               | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start  | End    | Accession | Data Type  |
-|------------|--------------|-----------------------------------|-----------|----------|-------------------------|-------------|--------|--------|-----------|------------|
-| SRR1952908 | ColpVC       |                                   | 98.96     | 100      | 193/193                 | contig00038 | 1618   | 1426   | JX133088  | Plasmid    |
-| SRR1952908 | sul3         | sulfisoxazole                     | 100       | 100      | 792/792                 | contig00030 | 2091   | 2882   | AJ459418  | Resistance |
+| Isolate ID | Data             | Data Type  | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
+|------------|------------------|------------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
+| SRR1952908 | ST11 (senterica) | MLST       |                     |           |          |                         |             |       |      |           |
+| SRR1952908 | ColpVC           | Plasmid    |                     | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426 | JX133088  |
+| SRR1952908 | aadA1            | Resistance | streptomycin        | 100       | 100      | 792/792                 | contig00030 | 5355  | 4564 | JQ414041  |
 
 **out/resfinder.tsv**:
 
-| Isolate ID | Gene       | Predicted Phenotype  | %Identity  | %Overlap  | HSP Length/Total Length  | Contig       | Start  | End   | Accession |
-|------------|------------|----------------------|------------|-----------|--------------------------|--------------|--------|-------|-----------|
-| SRR1952908 | sul3       | sulfisoxazole        | 100.00     | 100.00    | 792/792                  | contig00030  | 2091   | 2882  | AJ459418  |
-| SRR1952908 | tet(A)     | tetracycline         | 99.92      | 100.00    | 1200/1200                | contig00032  | 1551   | 2750  | AJ517790  |
+| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
+|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
+| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  |
+| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  |
 
 **out/pointfinder.tsv**:
 
@@ -48,6 +49,13 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 |------------|-----------|-----------|----------|-------------------------|-------------|-------|-------|-----------|
 | SRR1952908 | ColpVC    | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426  | JX133088  |
 | SRR1952908 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00024 | 10302 | 9660  | FN432031  |
+
+**out/mlst.tsv**:
+
+| Isolate ID | Scheme    | Sequence Type | Locus 1 | Locus 2 | Locus 3 | Locus 4 | Locus 5 | Locus 6 | Locus 7  |
+|------------|-----------|---------------|---------|---------|---------|---------|---------|---------|----------|
+| SRR1952908 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952926 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
 
 # Table of Contents
 
@@ -108,6 +116,14 @@ To specify which PlasmidFinder database to use, please run:
 staramr search --plasmidfinder-database-type enterobacteriaceae -o out *.fasta
 ```
 Where `--plasmidfinder-database-type` is the specific database type you are interested in (currently only *gram_positive*, *enterobacteriaceae* are supported). By default, both databases are used.
+
+To specify which MLST scheme to use, please run:
+
+```bash
+staramr search -o out --mlst-scheme senterica *.fasta
+```
+
+Where `--mlst-scheme` is the specific organism you are interested in (please visit the [scheme genus map](https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab) to see which are available). By default, it detects the scheme automatically.
 
 ## Database Info
 
@@ -199,7 +215,7 @@ source .venv/bin/activate
 pip install -e .
 
 # Now run `staramr`
-staramr 
+staramr
 ```
 
 Due to the way we packaged the ResFinder/PointFinder/PlasmidFinder databases, the development code will not come with a default database. You must first build the database before usage. E.g.
@@ -232,13 +248,14 @@ Please make sure to include `#gene_id` in the first line. The default exclusion 
 
 There are 7 different output files produced by `staramr`:
 
-1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids in each genome, one genome per line.
-2. `detailed_summary.tsv`: A detailed summary of all detected AMR genes/mutations/plasmids in each genome, one gene per line.
+1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one genome per line.
+2. `detailed_summary.tsv`: A detailed summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one gene per line.
 3. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
 4. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
 5. `plasmidfinder.tsv`: A tabular file of each AMR plasmid type and additional BLAST information from the **PlasmidFinder** database, one plasmid type per line.
-6. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
-7. `results.xlsx`: An Excel spreadsheet containing the previous 6 files as separate worksheets.
+6. `mlst.tsv`: A tabular file of each AMR sequence type and it's corresponding locus/alleles, one genome per line.
+7. `settings.txt`: The command-line, database versions, and other settings used to run `staramr`.
+8. `results.xlsx`: An Excel spreadsheet containing the previous 6 files as separate worksheets.
 
 In addition, the directory `hits/` stores fasta files of the specific blast hits.
 
@@ -347,6 +364,22 @@ The **plasmidfinder.tsv** output file generated by `staramr` contains the follow
 | SRR1952908 | ColpVC    | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426  | JX133088  |
 | SRR1952908 | IncFIB(S) | 98.91     | 100      | 643/643                 | contig00024 | 10302 | 9660  | FN432031  |
 
+## mlst.tsv
+
+The **mlst.tsv** output file generated by `staramr` contains the following columns:
+
+* __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
+* __Scheme__: The organism that `MLST` has identified.
+* __Sequence Type__: The hashcode that's assigned when combining all allele types
+* __Locus #__: Assigns each unique sequence
+
+### Example
+
+| Isolate ID | Scheme    | Sequence Type | Locus 1 | Locus 2 | Locus 3 | Locus 4 | Locus 5 | Locus 6 | Locus 7  |
+|------------|-----------|---------------|---------|---------|---------|---------|---------|---------|----------|
+| SRR1952908 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952926 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+
 ## settings.txt
 
 The **settings.txt** file contains the particular settings used to run `staramr`.
@@ -358,6 +391,7 @@ The **settings.txt** file contains the particular settings used to run `staramr`
 * __resfinder_db_url__, __pointfinder_db_url__, __plasmidfinder_db_url__: The URL to the git repository for the ResFinder, PointFinder, and PlasmidFinder databases.
 * __resfinder_db_commit__, __pointfinder_db_commit__, __plasmidfinder_db_commit__: The git commit ids for the ResFinder, PointFinder, and PlasmidFinder databases.
 * __resfinder_db_date__, __pointfinder_db_date__, __plasmidfinder_db_date__: The date of the git commits of the ResFinder, PointFinder, and PlasmidFinder databases.
+* __mlst_version__: The version of `MLST`.
 * __pointfinder_gene_drug_version__, __resfinder_gene_drug_version__: A version identifier for the gene/drug mapping table used by `staramr`.
 
 ### Example
@@ -431,7 +465,9 @@ This software is still a work-in-progress.  In particular, not all organisms sto
 
 Some ideas for the software were derived from the [ResFinder][resfinder-git], [PointFinder][pointfinder-git], and [PlasmidFinder][plasmidfinder-git] command-line software, as well as from [ABRicate][abricate].
 
-Phenotype/drug resistance predictions are provided with support from the NARMS/CIPARS Molecular Working Group. 
+Phenotype/drug resistance predictions are provided with support from the NARMS/CIPARS Molecular Working Group.
+
+The Multi-locus sequence typing program is from the [MLST] Github.
 
 # Citations
 
@@ -479,3 +515,4 @@ specific language governing permissions and limitations under the License.
 [card-web]: https://card.mcmaster.ca/
 [tutorial]: doc/tutorial/staramr-tutorial.ipynb
 [genes_to_exclude.tsv]: staramr/databases/exclude/data/genes_to_exclude.tsv
+[MLST]: https://github.com/tseemann/mlst

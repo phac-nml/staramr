@@ -268,6 +268,8 @@ class Search(SubCommand):
             logger.info("Finished. Took %s minutes.", time_difference_minutes)
 
             settings = database_repos.info()
+
+            settings['mlst_version'] = JobHandler.get_mlst_version(JobHandler)
             settings['command_line'] = ' '.join(sys.argv)
             settings['version'] = self._version
             settings['start_time'] = start_time.strftime(self.TIME_FORMAT)

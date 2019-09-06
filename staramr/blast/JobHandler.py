@@ -48,6 +48,7 @@ class JobHandler:
             raise Exception("threads is None")
 
         self._threads = threads
+        self._mlst_version = None
 
         if output_directory is None:
             raise Exception("output_directory is None")
@@ -65,6 +66,7 @@ class JobHandler:
 
         self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
         self._max_mlst_columns = 10
+
         self.reset()
 
     def reset(self):
@@ -185,13 +187,31 @@ class JobHandler:
 
     def _get_mlst_data(self) -> str:
 
-        return self._mlst_data;
+        return self._mlst_data
 
     def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
             self._future_blasts_map[name] = []
 
         return self._future_blasts_map[name]
+
+    def _get_mlst_version(self) -> str:
+      command = ['mlst', '--version']
+
+      try:
+          output = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+          mlst_version = str(output.stdout, 'utf-8')
+
+          # Parses out the mlst when the string is given back ex `mlst 2.x.x` and removes new line
+          mlst_version = (mlst_version[5:]).rstrip()
+
+      except subprocess.CalledProcessError as e:
+          err_msg = str(e.stderr.strip())
+
+          raise Exception('Could not run mlst, error {}'.format(err_msg))
+
+      return mlst_version
 
     def is_pointfinder_configured(self) -> bool:
         """
@@ -231,6 +251,10 @@ class JobHandler:
         """
 
         return self._get_mlst_data();
+
+    def get_mlst_version(self) -> str:
+
+      return self._get_mlst_version(self) # type: ignore
 
     def get_pointfinder_outputs(self) -> Dict:
         """

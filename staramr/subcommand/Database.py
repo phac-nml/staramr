@@ -8,6 +8,7 @@ from os import path, mkdir
 
 from staramr.SubCommand import SubCommand
 from staramr.Utils import get_string_with_spacing
+from staramr.blast.JobHandler import JobHandler
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.exceptions.CommandParseException import CommandParseException
@@ -294,8 +295,11 @@ class Info(Database):
 
             try:
                 database_info = database_repos.info()
+                database_info['mlst_version'] = JobHandler.get_mlst_version(JobHandler)
+
                 database_info.update(arg_drug_table.get_resistance_table_info())
                 sys.stdout.write(get_string_with_spacing(database_info))
+
             except DatabaseNotFoundException as e:
                 logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
         else:
