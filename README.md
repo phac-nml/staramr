@@ -75,6 +75,7 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [resfinder.tsv](#resfindertsv)
   * [pointfinder.tsv](#pointfindertsv)
   * [plasmidfinder.tsv](#plasmidfindertsv)
+  * [mlst.tsv](#mlsttsv)
   * [settings.txt](#settingstxt)
   * [hits/](#hits)
 - [Tutorial](#tutorial)
