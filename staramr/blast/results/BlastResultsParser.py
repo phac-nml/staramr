@@ -7,7 +7,7 @@ import Bio.SeqIO
 import numpy as np
 import pandas as pd
 
-from staramr.blast.BlastHandler import BlastHandler
+from staramr.blast.JobHandler import JobHandler
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
 
 logger = logging.getLogger('BlastResultsParser')
@@ -86,7 +86,7 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
-        blast_table = pd.read_csv(blast_file, sep='\t', header=None, names=BlastHandler.BLAST_COLUMNS,
+        blast_table = pd.read_csv(blast_file, sep='\t', header=None, names=JobHandler.BLAST_COLUMNS,
                                   index_col=False).astype(
             dtype={'qseqid': np.unicode_, 'sseqid': np.unicode_})
         partitions = BlastHitPartitions()

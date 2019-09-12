@@ -2,23 +2,24 @@ import logging
 import os
 import re
 import subprocess
+import math
 from concurrent.futures import ThreadPoolExecutor
 from os import path
-from typing import Dict
+from typing import Dict, List
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.exceptions.BlastProcessError import BlastProcessError
 
-logger = logging.getLogger('BlastHandler')
+logger = logging.getLogger('JobHandler')
 
 """
 Class for handling scheduling of BLAST jobs.
 """
 
 
-class BlastHandler:
+class JobHandler:
     BLAST_COLUMNS = [x.strip() for x in '''
     qseqid
     sseqid
@@ -38,7 +39,7 @@ class BlastHandler:
     def __init__(self, blast_database_objects_map: Dict[str, AbstractBlastDatabase], threads: int,
                  output_directory: str) -> None:
         """
-        Creates a new BlastHandler.
+        Creates a new JobHandler.
         :param blast_database_objects_map: A map containing the blast databases.
         :param threads: The maximum number of threads to use, where one BLAST process gets assigned to one thread.
         :param output_directory: The output directory to store BLAST results.
@@ -47,6 +48,7 @@ class BlastHandler:
             raise Exception("threads is None")
 
         self._threads = threads
+        self._mlst_version = None
 
         if output_directory is None:
             raise Exception("output_directory is None")
@@ -62,12 +64,14 @@ class BlastHandler:
         else:
             self._pointfinder_configured = True  # type: bool
 
-        self._thread_pool_executor = None
+        self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
+        self._max_mlst_columns = 10
+
         self.reset()
 
     def reset(self):
         """
-        Resets this BlastHandler.
+        Resets this JobHandler.
         :return: None
         """
         if self._thread_pool_executor is not None:
@@ -75,27 +79,44 @@ class BlastHandler:
         self._thread_pool_executor = ThreadPoolExecutor(max_workers=self._threads)
         self._blast_map = {}
         self._future_blasts_map = {}
+        self._mlst_data = ""
+        self._mlst_map = {}
 
         if path.exists(self._input_genomes_tmp_dir):
             logger.debug("Directory [%s] already exists", self._input_genomes_tmp_dir)
         else:
             os.mkdir(self._input_genomes_tmp_dir)
 
-    def run_blasts(self, files) -> None:
+    def run_blasts_mlst(self, files, mlst_scheme) -> None:
         """
-        Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases.
+        Scans all files with BLAST against the ResFinder/PointFinder/Plasmid databases and scans all files with MLST
         :param files: The files to scan.
+        :param mlst_scheme: Specifies scheme name for MLST to use.
         :return: None
         """
         db_files = self._make_db_from_input_files(self._input_genomes_tmp_dir, files)
         logger.debug("Done making blast databases for input files")
 
+        future_mlst_db = [] # type: list
+
         for file in db_files:
-            logger.info("Scheduling blasts for %s", path.basename(file))
+
+            logger.info("Scheduling blasts and MLST for %s", path.basename(file))
+            future_mlst_db.append(self._thread_pool_executor.submit(self._schedule_mlst, file, mlst_scheme))
 
             for name in self._blast_database_objects_map:
                 database_object = self._blast_database_objects_map[name]
                 self._schedule_blast(file, database_object)
+
+        try:
+            for future_mlst in future_mlst_db:
+                mlst_result = future_mlst.result()
+
+                self._mlst_data += mlst_result
+
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+            raise Exception('Could not run mlst, error {}'.format(err_msg))
 
     def _make_db_from_input_files(self, db_dir, files):
         logger.info("Making BLAST databases for input files")
@@ -118,6 +139,28 @@ class BlastHandler:
             raise BlastProcessError("Error running makeblastdb", e)
 
         return db_files
+
+    def _schedule_mlst(self, file: str, mlst_scheme: str) -> str:
+
+        command = ['mlst']
+
+        if mlst_scheme is not None:
+            command.extend(['--scheme', mlst_scheme])
+
+        command.append(file);
+
+        logger.debug(' '.join(command))
+        try:
+            output = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+            decoded_output = str(output.stdout, 'utf-8')
+
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+
+            raise Exception('Could not run mlst, error {}'.format(err_msg))
+
+        return decoded_output
 
     def _schedule_blast(self, file, blast_database):
         database_names = blast_database.get_database_names()
@@ -142,11 +185,33 @@ class BlastHandler:
 
         return self._blast_map[name]
 
+    def _get_mlst_data(self) -> str:
+
+        return self._mlst_data
+
     def _get_future_blasts_from_map(self, name: str) -> Dict:
         if name not in self._future_blasts_map:
             self._future_blasts_map[name] = []
 
         return self._future_blasts_map[name]
+
+    def _get_mlst_version(self) -> str:
+      command = ['mlst', '--version']
+
+      try:
+          output = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+          mlst_version = str(output.stdout, 'utf-8')
+
+          # Parses out the mlst when the string is given back ex `mlst 2.x.x` and removes new line
+          mlst_version = (mlst_version[5:]).rstrip()
+
+      except subprocess.CalledProcessError as e:
+          err_msg = str(e.stderr.strip())
+
+          raise Exception('Could not run mlst, error {}'.format(err_msg))
+
+      return mlst_version
 
     def is_pointfinder_configured(self) -> bool:
         """
@@ -178,6 +243,18 @@ class BlastHandler:
         for future_blast in self._get_future_blasts_from_map('plasmidfinder'):
             future_blast.result()
         return self._get_blast_map('plasmidfinder')
+
+    def get_mlst_outputs(self) -> str:
+        """
+        Gets the MLST output files from the MLST subprocess
+        :return A decoded parsed list that contains all of the found locus in each file
+        """
+
+        return self._get_mlst_data();
+
+    def get_mlst_version(self) -> str:
+
+      return self._get_mlst_version(self) # type: ignore
 
     def get_pointfinder_outputs(self) -> Dict:
         """

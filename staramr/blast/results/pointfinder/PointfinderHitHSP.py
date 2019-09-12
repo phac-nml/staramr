@@ -34,11 +34,22 @@ class PointfinderHitHSP(AMRHitHSP):
         return [i for i, (x, y) in enumerate(zip(amr_seq, genome_seq)) if x != y]
 
     def _get_mutation_positions(self, start):
+        mutation_positions_filtered = []
+        codon_starts = []
+
         amr_seq = self.get_amr_gene_seq()
         genome_seq = self.get_genome_contig_hsp_seq()
 
+        # Only return mutation position objects with unique codon start positions
+        mutation_positions = [CodonMutationPosition(i, amr_seq, genome_seq, start) for i in self._get_match_positions()]
+
+        for m in mutation_positions:
+            if m._codon_start not in codon_starts:
+                codon_starts.append(m._codon_start)
+                mutation_positions_filtered.append(m)
+
         # @formatter:off
-        return [CodonMutationPosition(i, amr_seq, genome_seq, start) for i in self._get_match_positions()]
+        return mutation_positions_filtered
         # @formatter:on
 
     def get_mutations(self):

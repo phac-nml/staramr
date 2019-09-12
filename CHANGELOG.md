@@ -1,3 +1,8 @@
+# Version 0.6.0
+
+* Added [coloredlogs](https://pypi.org/project/coloredlogs/) library to format the output
+* Added support for [MLST](https://github.com/tseemann/mlst)
+
 # Version 0.5.1
 
 * Renamed the following columns for clarification:

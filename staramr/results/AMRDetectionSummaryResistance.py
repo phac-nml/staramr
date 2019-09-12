@@ -9,7 +9,7 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 class AMRDetectionSummaryResistance(AMRDetectionSummary):
 
-    def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None, plasmidfinder_dataframe=None):
+    def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None, plasmidfinder_dataframe=None, mlst_dataframe=None):
         """
         Creates a new AMRDetectionSummaryResistance.
         :param files: The list of genome files we have scanned against.
@@ -17,7 +17,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
         :param plasmidfinder_dataframe: The pd.DataFrame containing the PlasmidFinder results.
         """
-        super().__init__(files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe)
+        super().__init__(files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
 
     def _aggregate_gene_phenotype(self, dataframe):
         flattened_phenotype_list = [y.strip() for x in dataframe['Predicted Phenotype'].tolist() for y in
@@ -51,8 +51,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         return ['Genotype', 'Predicted Phenotype', 'Plasmid']
 
     def _get_detailed_summary_columns(self):
-        return ['Gene', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
-                'End', 'Accession', 'Data Type']
+        return ['Gene', 'Data Type', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
+                'End', 'Accession']
 
     def _include_phenotype(self):
         return True

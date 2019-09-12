@@ -17,7 +17,7 @@ class AMRDetectionSummary:
     FLOAT_DECIMALS = 2
 
     def __init__(self, files, resfinder_dataframe: DataFrame, pointfinder_dataframe=None,
-                 plasmidfinder_dataframe=None) -> None:
+                 plasmidfinder_dataframe=None, mlst_dataframe=None) -> None:
         """
         Constructs an object for summarizing AMR detection results.
         :param files: The list of genome files we have scanned against.
@@ -27,6 +27,7 @@ class AMRDetectionSummary:
         self._names = [path.splitext(path.basename(x))[0] for x in files]
         self._resfinder_dataframe = resfinder_dataframe
         self._plasmidfinder_dataframe = plasmidfinder_dataframe
+        self._mlst_dataframe = mlst_dataframe
 
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
@@ -125,6 +126,7 @@ class AMRDetectionSummary:
         """
         resistance_frame = self._resfinder_dataframe
         plasmid_frame = self._plasmidfinder_dataframe
+        mlst_frame = self._mlst_dataframe
 
         if self._has_pointfinder:
             resistance_frame = resistance_frame.append(self._pointfinder_dataframe, sort=True)
@@ -151,13 +153,27 @@ class AMRDetectionSummary:
             resistance_frame = resistance_frame.fillna(value=fill_values)
             resistance_frame = resistance_frame.reindex(columns=resistance_columns)
 
+        if mlst_frame is not None:
+            mlst_merging_frame = mlst_frame[['Scheme', 'Sequence Type']]
+            resistance_frame = resistance_frame.merge(mlst_merging_frame, on='Isolate ID', how='left')
+
         return resistance_frame.sort_index()
 
     def _get_detailed_summary_columns(self):
-        return ['Gene', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession',
-                'Data Type']
+        return ['Gene', 'Data Type', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession']
 
     def create_detailed_summary(self, include_negatives: bool = True) -> DataFrame:
+        mlst_merging_frame = None
+
+        if self._mlst_dataframe is None:
+            mlst_frame = None
+        else:
+            mlst_frame = self._mlst_dataframe.copy()
+            mlst_merging_frame = mlst_frame.loc[:, ('Scheme', 'Sequence Type')]
+            mlst_merging_frame.loc[:, ('Gene')] = 'ST' + mlst_frame['Sequence Type'].map(str) + ' (' + mlst_frame['Scheme'] + ')'
+            mlst_merging_frame.loc[:, ('Data Type')] = 'MLST'
+            mlst_merging_frame = mlst_merging_frame.loc[:, ('Gene', 'Data Type')]
+
         if self._resfinder_dataframe is None:
             resistance_frame = None
         else:
@@ -205,6 +221,11 @@ class AMRDetectionSummary:
                 resistance_frame = resistance_frame.append(plasmid_frame, sort=True)
                 resistance_frame = resistance_frame.reindex(columns=column_names)
                 resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
+
+        if mlst_merging_frame is not None and resistance_frame is not None:
+            resistance_frame = resistance_frame.append(mlst_merging_frame, sort=True)
+            resistance_frame = resistance_frame.reindex(columns=column_names)
+            resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
 
         if resistance_frame is not None:
             resistance_frame = resistance_frame.fillna("")
