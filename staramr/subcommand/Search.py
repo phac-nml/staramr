@@ -142,6 +142,10 @@ class Search(SubCommand):
         output_group.add_argument('--output-hits-dir', action='store', dest='hits_output_dir', type=str,
                                   help="The name of the directory to contain the BLAST hit files. Not be be used with '--output-dir'. [None]",
                                   default=None, required=False)
+        output_group.add_argument('--output-mlst', action='store', dest='output_mlst', type=str,
+                                  help="The name of the output file containing the mlst results. Not be be used with '--output-dir'. [None]",
+                                  default=None, required=False)
+
 
         arg_parser.add_argument('files', nargs='+')
 
