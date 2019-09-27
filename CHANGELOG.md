@@ -1,3 +1,7 @@
+# Version 0.6.1
+
+* Added --output-mlst in Search.py
+
 # Version 0.6.0
 
 * Added [coloredlogs](https://pypi.org/project/coloredlogs/) library to format the output
