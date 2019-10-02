@@ -1,0 +1,4 @@
+Isolate ID	Data	Data Type	Predicted Phenotype	%Identity	%Overlap	HSP Length/Total Length	Contig	Start	End	Accession
+plz	ST- (-)	MLST								
+plz	None	Plasmid								
+plz	blaIMP-42	Resistance	ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem	99.73	100.0	741/741	16S_rrsD	4381	5121	AB753456

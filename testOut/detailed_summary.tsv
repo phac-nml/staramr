@@ -1,0 +1,11 @@
+Isolate ID	Data	Data Type	Predicted Phenotype	%Identity	%Overlap	HSP Length/Total Length	Contig	Start	End	Accession
+staramr	ST32 (senterica)	MLST								
+staramr	None	Plasmid								
+staramr	aac(3)-IVa	Resistance	gentamicin	99.87	100.0	786/786	ref|NZ_CP016411.1|	292669	291885	X01385
+staramr	aph(3')-Ia	Resistance	kanamycin	100.0	100.0	816/816	ref|NZ_CP016411.1|	300747	301562	X62115
+staramr	aph(4)-Ia	Resistance	hygromicin	100.0	100.0	1026/1026	ref|NZ_CP016411.1|	291664	290639	V01499
+staramr	blaCTX-M-65	Resistance	ampicillin, ceftriaxone	100.0	100.0	876/876	ref|NZ_CP016411.1|	276137	277012	GQ456158
+staramr	dfrA14	Resistance	trimethoprim	99.79	100.0	483/483	ref|NZ_CP016411.1|	295753	296235	DQ388123
+staramr	floR	Resistance	chloramphenicol	98.19	99.92	1214/1215	ref|NZ_CP016411.1|	282827	284040	AF118107
+staramr	sul1	Resistance	sulfisoxazole	100.0	100.0	840/840	ref|NZ_CP016411.1|	159156	159995	U12338
+staramr	tet(A)	Resistance	tetracycline	100.0	100.0	1200/1200	ref|NZ_CP016411.1|	172512	173711	AJ517790

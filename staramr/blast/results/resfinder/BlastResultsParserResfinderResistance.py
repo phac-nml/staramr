@@ -17,6 +17,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
     Start
     End
     Accession
+    Sequence
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
@@ -52,5 +53,6 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
                  hit.get_genome_contig_id(),
                  hit.get_genome_contig_start(),
                  hit.get_genome_contig_end(),
-                 hit.get_amr_gene_accession()
+                 hit.get_amr_gene_accession(),
+                 hit.get_amr_gene_seq()
                  ]]
