@@ -9,7 +9,7 @@ from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 class AMRDatabasesManagerIT(unittest.TestCase):
     RESFINDER_DEFAULT_COMMIT = 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535'
     POINTFINDER_DEFAULT_COMMIT = '8706a6363bb29e47e0e398c53043b037c24b99a7'
-    PLASMIDFINDER_DEFAULT_COMMIT = '81919954cbedaff39056610ab584ab4c06011ed8'
+    PLASMIDFINDER_DEFAULT_COMMIT = '1307168b1ce7418b9f7aa9a017ab3c8eb55bc595'
 
     def setUp(self):
         self.databases_dir = tempfile.TemporaryDirectory()
