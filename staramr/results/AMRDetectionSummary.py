@@ -146,7 +146,7 @@ class AMRDetectionSummary:
             file_index = file_index +1
         return file_N50
 
-    def _get_N50_feedback(self,N50_values:[]):
+    def _get_N50_feedback(self,N50_values):
         #Takes as input an array where each element is the N50 value of a corresponding file. 
         #Returns an array where each elements is the feedback of whether or not the N50 length for the corresponding file is over 10 000
         N50_feedback = []
