@@ -28,16 +28,30 @@ class AMRDetectionSummary:
         self._resfinder_dataframe = resfinder_dataframe
         self._plasmidfinder_dataframe = plasmidfinder_dataframe
         self._mlst_dataframe = mlst_dataframe
-        self.files=files
-        self.num_files = len(self.files)
-
+        self.files=self.remove_nonexistent_files(files)
+        self.num_files=len(self.files)
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
             self._pointfinder_dataframe = pointfinder_dataframe
         else:
             self._has_pointfinder = False
+
+    def remove_nonexistent_files(self,files):
+        #Takes as input all the names of files provided
+        #Returns a list of all files that exist and can actually be read from
+        existent_files=[]
+        for file in files:
+            try:
+                with open(file,'r') as h:
+                    pass
+                existent_files.append(file)
+            except:
+                logger.info("No such file: %s",file)
+        return existent_files
+
+
     def parse_fasta(self,filepath):
-        #This solution was taken directly from https://github.com/phac-nml/sistr_cmd and was in no way desogned specifically designed for starAMR
+        #This solution was taken directly from https://github.com/phac-nml/sistr_cmd and was in no way specifically designed for starAMR
         '''
         Parse a fasta file returning a generator yielding tuples of fasta headers to sequences.
         Note:
