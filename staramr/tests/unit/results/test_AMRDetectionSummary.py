@@ -2,6 +2,7 @@ import logging
 import unittest
 
 import pandas as pd
+from os import path
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
@@ -12,6 +13,7 @@ logger = logging.getLogger('AMRDetectionSummaryTest')
 class AMRDetectionSummaryTest(unittest.TestCase):
 
     def setUp(self):
+        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
         self.columns_resfinder = ('Isolate ID', 'Gene', '%Identity', '%Overlap',
                                   'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
         self.columns_pointfinder = ('Isolate ID', 'Gene', 'Type', 'Position', 'Mutation',
@@ -143,6 +145,139 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.plasmidfinder_table_None = None
 
         self.detailed_summary_multi_files = ['file1', 'file2', 'file4', 'file5']
+
+    def testN50ExactlyMinimumValue(self):
+        file = path.join(self.test_data_dir, "test-N50-Exactly-Minimum-Value.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-N50-Exactly-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testN50OneBPLargerThanMinimumValue(self):
+        file = path.join(self.test_data_dir, "test-N50-One-BP-Larger-Than-Minimum-Value.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-N50-One-BP-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testN50SmallerThanMinimumValue(self):
+        file = path.join(self.test_data_dir, "test-N50-Smaller-Than-Minimum-Value.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-N50-Smaller-Than-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value.  Number of Contigs with a length less than the minimum length exceeds the acceptable number. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testN50MuchLargerThanMinimumValue(self):
+        file = path.join(self.test_data_dir, "test-N50-Much-Larger-Than-Minimum-Value.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-N50-Much-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testN50Calculation(self):
+        #tests to make sure N50 contig length +all contig lengths greater than it >= half of genome length, here we are testing the = part
+        file = path.join(self.test_data_dir, "test-N50-Calculation.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-N50-Calculation', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testN50UnaffectedByEmptyContigs(self):
+        file = path.join(self.test_data_dir, "test-N50-Unaffected-By-Empty-Contigs.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-N50-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testGenomeSizeExactlyMinimum(self):
+        file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Minimum.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-Genome-Size-Exactly-Minimum', summary.index[0], 'File name not equal')
+        self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testGenomeSizeExactlyMaximum(self):
+        file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Maximum.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-Genome-Size-Exactly-Maximum', summary.index[0], 'File name not equal')
+        self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testGenomeSizeWithinAcceptedRange(self):
+        file = path.join(self.test_data_dir, "test-Genome-Size-Within-Accepted-Range.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-Genome-Size-Within-Accepted-Range', summary.index[0], 'File name not equal')
+        self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testGenomeSizeSmallerThanMinimum(self):
+        file = path.join(self.test_data_dir, "test-Genome-Size-Smaller-Than-Minimum.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-Genome-Size-Smaller-Than-Minimum', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testGenomeSizeLargerThanMaximum(self):
+        file = path.join(self.test_data_dir, "test-Genome-Size-Larger-Than-Maximum.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-Genome-Size-Larger-Than-Maximum', summary.index[0], 'File name not equal')
+        self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testGenomeSizeUnaffectedByEmptyContigs(self):
+        file = path.join(self.test_data_dir, "test-Genome-Size-Unaffected-By-Empty-Contigs.fasta")
+        files = [file]
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty,
+                                                    self.plasmidfinder_table_empty)
+        summary = amr_detection_summary.create_summary(True)
+        self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
+        self.assertEqual('test-Genome-Size-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
+        self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
     def testResfinderSingleGene(self):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1,
