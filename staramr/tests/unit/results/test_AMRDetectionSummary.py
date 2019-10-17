@@ -154,6 +154,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Exactly-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual(10000, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -165,6 +166,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-One-BP-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual(10001, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -176,6 +178,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual(100, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value.  Number of Contigs with a length less than the minimum length exceeds the acceptable number. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -187,6 +190,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Much-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
+        self.assertEqual(100000, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -199,6 +203,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Calculation', summary.index[0], 'File name not equal')
+        self.assertEqual(10002, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -210,6 +215,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
+        self.assertEqual(10001, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -221,6 +227,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Minimum', summary.index[0], 'File name not equal')
+        self.assertEqual(4000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -232,6 +239,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Maximum', summary.index[0], 'File name not equal')
+        self.assertEqual(6000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -243,6 +251,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Within-Accepted-Range', summary.index[0], 'File name not equal')
+        self.assertEqual(5000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -254,6 +263,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Smaller-Than-Minimum', summary.index[0], 'File name not equal')
+        self.assertEqual(2000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -265,6 +275,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Larger-Than-Maximum', summary.index[0], 'File name not equal')
+        self.assertEqual(7000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -276,6 +287,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         summary = amr_detection_summary.create_summary(True)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
+        self.assertEqual(6000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Passed', summary['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -284,9 +296,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                                                     self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
-
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
-
         self.assertEqual('file1', summary.index[0], 'File name not equal')
         self.assertEqual('blaIMP-42', summary['Genotype'].iloc[0], 'Genes not equal')
 
