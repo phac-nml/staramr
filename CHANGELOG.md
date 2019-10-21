@@ -1,3 +1,8 @@
+# Version X.X.X
+
+- Updated the ResFinder default database from `2018-07-22` to `2019-10-01`
+- Updated the PlasmidFinder default database from `2018-11-20` to `2019-10-18`
+
 # Version 0.7.0
 
 # Version 0.6.1
