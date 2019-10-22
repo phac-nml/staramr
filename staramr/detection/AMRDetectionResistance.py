@@ -64,14 +64,14 @@ class AMRDetectionResistance(AMRDetection):
                                                                          genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
 
-    def _create_amr_summary(self, files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe):
-        amr_detection_summary = AMRDetectionSummaryResistance(files, resfinder_dataframe, pointfinder_dataframe,
+    def _create_amr_summary(self, files, resfinder_dataframe, quality_module_dataframe,pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe):
+        amr_detection_summary = AMRDetectionSummaryResistance(files, resfinder_dataframe,quality_module_dataframe,pointfinder_dataframe,
                                                               plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
-    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,
+    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame, quality_module_dataframe: DataFrame,
                                      pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                                      plasmidfinder_dataframe: DataFrame, mlst_dataframe) -> DataFrame:
-        amr_detection_summary = AMRDetectionSummaryResistance(files, resfinder_dataframe,
+        amr_detection_summary = AMRDetectionSummaryResistance(files, resfinder_dataframe,quality_module_dataframe,
                                                               pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_detailed_summary(self._include_negative_results)
