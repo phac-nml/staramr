@@ -50,6 +50,12 @@ class AMRDetectionIT(unittest.TestCase):
                                                          'drug_key_resfinder_invalid.tsv')
         self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
                                                            'drug_key_pointfinder_invalid.tsv')
+                                                
+        self.genome_size_lower_bound = 4000000
+        self.genome_size_upper_bound = 6000000
+        self.minimum_N50_value = 10000
+        self.minimum_contig_length = 1000
+        self.unacceptable_number_of_contigs_under_minimum_bp = 3
 
     def tearDown(self):
         self.blast_out.cleanup()
@@ -58,7 +64,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderAminoglycosideNameSuccess(self):
         file = path.join(self.test_data_dir, "test-aminoglycoside.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -77,7 +83,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "test-aminoglycoside.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
@@ -85,7 +91,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testNumericalSequenceID(self):
         file = path.join(self.test_data_dir, "test-seq-id.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -96,7 +102,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactam2MutationsSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -125,7 +131,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -154,7 +160,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -165,7 +171,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderBetaLactam2MutationsFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")]
-        self.amr_detection.run_amr_detection(files, 99.8, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99.8, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
@@ -175,7 +181,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamDelStartSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -197,7 +203,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderBetaLactamDelStartFail(self):
         files = [path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-start.fsa")]
-        self.amr_detection.run_amr_detection(files, 99, 92, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 92, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
@@ -207,7 +213,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamInsStartSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-start.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -233,7 +239,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamDelMiddleSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-middle.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -259,7 +265,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamDelMiddleReverseComplementSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-del-middle-rc.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -288,7 +294,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamInsMiddleSuccess(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-middle.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 97, 99, 99, 90)
+        self.amr_detection.run_amr_detection(files, 97, 99, 99, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -314,7 +320,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamTwoCopies(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 2, 'Wrong number of rows in result')
@@ -357,7 +363,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactamTwoCopiesOneReverseComplement(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2-two-copies-one-rev-complement.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 2, 'Wrong number of rows in result')
@@ -408,7 +414,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -442,7 +448,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -476,7 +482,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P-del-end.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 98, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 98, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -511,7 +517,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P-del-end.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 99, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 99, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
@@ -527,7 +533,7 @@ class AMRDetectionIT(unittest.TestCase):
                                                output_dir=self.outdir.name)
 
         files = [path.join(self.test_data_dir, "gyrA-A67P.fsa")]
-        amr_detection.run_amr_detection(files, 99.97, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99.97, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
@@ -543,7 +549,7 @@ class AMRDetectionIT(unittest.TestCase):
                                                output_dir=self.outdir.name)
 
         files = [path.join(self.test_data_dir, "gyrA-A67T.fsa")]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 0, 'Wrong number of rows in result')
@@ -560,7 +566,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A67P-rc.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -595,7 +601,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_rrsD-1T1065.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -631,7 +637,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -697,7 +703,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_gyrA_beta-lactam.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -721,7 +727,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S-rc_gyrA-rc_beta-lactam.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         resfinder_results = amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
@@ -784,7 +790,7 @@ class AMRDetectionIT(unittest.TestCase):
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
         files = [file_beta_lactam, file_non_match]
-        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
@@ -805,7 +811,7 @@ class AMRDetectionIT(unittest.TestCase):
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         file_non_match = path.join(self.test_data_dir, "non-match.fsa")
         files = [file_beta_lactam, file_non_match]
-        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 2, 'Wrong number of rows in result')
@@ -832,7 +838,7 @@ class AMRDetectionIT(unittest.TestCase):
                                                self.pointfinder_drug_table, self.pointfinder_database,
                                                include_negative_results=True, output_dir=self.outdir.name)
         files = [path.join(self.test_data_dir, "non-match.fsa")]
-        amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         summary_results = amr_detection.get_summary_results()
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows in result')
@@ -853,7 +859,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "gyrA-A70T.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -887,7 +893,7 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "23S-A2075G.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
@@ -915,7 +921,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50ExactlyMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Exactly-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Exactly-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(10000, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -925,7 +931,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50OneBPLargerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-One-BP-Larger-Than-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-One-BP-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(10001, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -935,7 +941,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50SmallerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Smaller-Than-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(100, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -945,7 +951,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50MuchLargerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Much-Larger-Than-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Much-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(100000, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -956,7 +962,7 @@ class AMRDetectionIT(unittest.TestCase):
         #tests to make sure N50 contig length +all contig lengths greater than it >= half of genome length, here we are testing the = part
         file = path.join(self.test_data_dir, "test-N50-Calculation.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Calculation', summary.index[0], 'File name not equal')
         self.assertEqual(10002, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -966,7 +972,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50UnaffectedByEmptyContigs(self):
         file = path.join(self.test_data_dir, "test-N50-Unaffected-By-Empty-Contigs.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
         self.assertEqual(10001, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -976,7 +982,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeExactlyMinimum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Minimum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Minimum', summary.index[0], 'File name not equal')
         self.assertEqual(4000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -986,7 +992,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeExactlyMaximum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Maximum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Maximum', summary.index[0], 'File name not equal')
         self.assertEqual(6000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -996,7 +1002,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeWithinAcceptedRange(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Within-Accepted-Range.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Within-Accepted-Range', summary.index[0], 'File name not equal')
         self.assertEqual(5000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1006,7 +1012,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeSmallerThanMinimum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Smaller-Than-Minimum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Smaller-Than-Minimum', summary.index[0], 'File name not equal')
         self.assertEqual(2000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1016,7 +1022,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeLargerThanMaximum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Larger-Than-Maximum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Larger-Than-Maximum', summary.index[0], 'File name not equal')
         self.assertEqual(7000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1026,7 +1032,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeUnaffectedByEmptyContigs(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Unaffected-By-Empty-Contigs.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
         self.assertEqual(6000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
