@@ -77,6 +77,22 @@ class Search(SubCommand):
         arg_parser.add_argument('--mlst-scheme', action='store', dest='mlst_scheme',
                               help='Specify scheme name, visit https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab for supported scheme genus available. [None] ', required=False)
 
+        arg_parser.add_argument('--genome-size-lower-bound', action='store', dest='genome_size_lower_bound', type=int,
+                                help='The lower bound for our genome size for the quality metrics. Defaults to 4 Mbp. [None].',
+                                default=4000000, required=False)
+        arg_parser.add_argument('--genome-size-upper-bound', action='store', dest='genome_size_upper_bound', type=int,
+                                help='The upper bound for our genome size for the quality metrics. Defaults to 6 Mbp. [None].',
+                                default=6000000, required=False)
+        arg_parser.add_argument('--minimum-N50-value', action='store', dest='minimum_N50_value', type=int,
+                                help='The minimum N50 value for the quality metrics. Defaults to 10000. [None].',
+                                default=10000, required=False)
+        arg_parser.add_argument('--minimum-contig-length', action='store', dest='minimum_contig_length', type=int,
+                                help='The minimum contig length for the quality metrics. Defaults to 1000 bp. [None].',
+                                default=1000, required=False)
+        arg_parser.add_argument('--unacceptable-number-of-contigs-under-minimum-bp', action='store', dest='unacceptable_number_of_contigs_under_minimum_bp', type=int,
+                                help='The number of contigs, under the minimum contig length which is unacceptable for the quality metrics. Defaults to 3 Mbp. [None].',
+                                default=3, required=False)
+
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,
                                      help='The percent identity threshold [98.0].', default=98.0, required=False)
@@ -220,7 +236,8 @@ class Search(SubCommand):
                           nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
                           plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast,
-                          genes_to_exclude, files, ignore_invalid_files, mlst_scheme):
+                          genes_to_exclude, files, ignore_invalid_files, mlst_scheme,genome_size_lower_bound,
+                          genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
@@ -242,6 +259,7 @@ class Search(SubCommand):
         :param mlst_scheme: Specifys scheme name MLST uses.
         :return: A dictionary containing the results as dict['results'] and settings as dict['settings'].
         """
+        
         results = {'results': None, 'settings': None}
 
         with tempfile.TemporaryDirectory() as blast_out:
@@ -259,8 +277,9 @@ class Search(SubCommand):
                                                         include_resistances=include_resistances,
                                                         output_dir=hits_output,
                                                         genes_to_exclude=genes_to_exclude)
-            amr_detection.run_amr_detection(files, pid_threshold, plength_threshold_resfinder,
-                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder,
+            amr_detection.run_amr_detection(files,pid_threshold, plength_threshold_resfinder,
+                                            plength_threshold_pointfinder, plength_threshold_plasmidfinder,genome_size_lower_bound,
+                                            genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp,
                                             report_all_blast, ignore_invalid_files, mlst_scheme)
 
             results['results'] = amr_detection
@@ -438,7 +457,12 @@ class Search(SubCommand):
                                          genes_to_exclude=exclude_genes,
                                          files=args.files,
                                          ignore_invalid_files=args.ignore_valid_files,
-                                         mlst_scheme=args.mlst_scheme)
+                                         mlst_scheme=args.mlst_scheme,
+                                         genome_size_lower_bound= args.genome_size_lower_bound,
+                                         genome_size_upper_bound= args.genome_size_upper_bound,
+                                         minimum_N50_value = args.minimum_N50_value,
+                                         minimum_contig_length = args.minimum_contig_length,
+                                         unacceptable_number_of_contigs_under_minimum_bp= args.unacceptable_number_of_contigs_under_minimum_bp)
         amr_detection = results['results']
         settings = results['settings']
 
