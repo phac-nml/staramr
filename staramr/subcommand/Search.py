@@ -78,19 +78,19 @@ class Search(SubCommand):
                               help='Specify scheme name, visit https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab for supported scheme genus available. [None] ', required=False)
 
         arg_parser.add_argument('--genome-size-lower-bound', action='store', dest='genome_size_lower_bound', type=int,
-                                help='The lower bound for our genome size for the quality metrics. Defaults to 4 Mbp. [None].',
+                                help='The lower bound for our genome size for the quality metrics. Defaults to 4 Mbp. [4000000].',
                                 default=4000000, required=False)
         arg_parser.add_argument('--genome-size-upper-bound', action='store', dest='genome_size_upper_bound', type=int,
-                                help='The upper bound for our genome size for the quality metrics. Defaults to 6 Mbp. [None].',
+                                help='The upper bound for our genome size for the quality metrics. Defaults to 6 Mbp. [6000000].',
                                 default=6000000, required=False)
         arg_parser.add_argument('--minimum-N50-value', action='store', dest='minimum_N50_value', type=int,
-                                help='The minimum N50 value for the quality metrics. Defaults to 10000. [None].',
+                                help='The minimum N50 value for the quality metrics. Defaults to 10000. [10000].',
                                 default=10000, required=False)
         arg_parser.add_argument('--minimum-contig-length', action='store', dest='minimum_contig_length', type=int,
-                                help='The minimum contig length for the quality metrics. Defaults to 1000 bp. [None].',
+                                help='The minimum contig length for the quality metrics. Defaults to 1000 bp. [1000].',
                                 default=1000, required=False)
-        arg_parser.add_argument('--unacceptable-number-of-contigs-under-minimum-bp', action='store', dest='unacceptable_number_of_contigs_under_minimum_bp', type=int,
-                                help='The number of contigs, under the minimum contig length which is unacceptable for the quality metrics. Defaults to 3 Mbp. [None].',
+        arg_parser.add_argument('--unacceptable-number-contigs', action='store', dest='unacceptable_num_contigs', type=int,
+                                help='The number of contigs, under the minimum contig length which is unacceptable for the quality metrics. Defaults to 3. [3].',
                                 default=3, required=False)
 
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
@@ -237,7 +237,7 @@ class Search(SubCommand):
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
                           plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast,
                           genes_to_exclude, files, ignore_invalid_files, mlst_scheme,genome_size_lower_bound,
-                          genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp):
+                          genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
@@ -279,7 +279,7 @@ class Search(SubCommand):
                                                         genes_to_exclude=genes_to_exclude)
             amr_detection.run_amr_detection(files,pid_threshold, plength_threshold_resfinder,
                                             plength_threshold_pointfinder, plength_threshold_plasmidfinder,genome_size_lower_bound,
-                                            genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp,
+                                            genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs,
                                             report_all_blast, ignore_invalid_files, mlst_scheme)
 
             results['results'] = amr_detection
@@ -462,7 +462,7 @@ class Search(SubCommand):
                                          genome_size_upper_bound= args.genome_size_upper_bound,
                                          minimum_N50_value = args.minimum_N50_value,
                                          minimum_contig_length = args.minimum_contig_length,
-                                         unacceptable_number_of_contigs_under_minimum_bp= args.unacceptable_number_of_contigs_under_minimum_bp)
+                                         unacceptable_num_contigs= args.unacceptable_num_contigs)
         amr_detection = results['results']
         settings = results['settings']
 

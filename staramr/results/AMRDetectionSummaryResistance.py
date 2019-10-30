@@ -14,6 +14,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         Creates a new AMRDetectionSummaryResistance.
         :param files: The list of genome files we have scanned against.
         :param resfinder_dataframe: The pd.DataFrame containing the ResFinder results.
+        :param quality_module_dataframe: The pd.DataFrame containing the genome size, N50 value, number of contigs under our user defined minimum length
+        as well as the results of our quality metrics (pass or fail) and the corresponding feedback
         :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
         :param plasmidfinder_dataframe: The pd.DataFrame containing the PlasmidFinder results.
         """

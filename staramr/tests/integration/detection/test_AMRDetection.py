@@ -55,7 +55,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.genome_size_upper_bound = 6000000
         self.minimum_N50_value = 10000
         self.minimum_contig_length = 1000
-        self.unacceptable_number_of_contigs_under_minimum_bp = 3
+        self.unacceptable_num_contigs = 3
 
     def tearDown(self):
         self.blast_out.cleanup()
@@ -921,7 +921,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50ExactlyMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Exactly-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Exactly-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(10000, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -931,7 +931,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50OneBPLargerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-One-BP-Larger-Than-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-One-BP-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(10001, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -941,7 +941,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50SmallerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Smaller-Than-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(100, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -951,7 +951,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50MuchLargerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Much-Larger-Than-Minimum-Value.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Much-Larger-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(100000, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -962,7 +962,7 @@ class AMRDetectionIT(unittest.TestCase):
         #tests to make sure N50 contig length +all contig lengths greater than it >= half of genome length, here we are testing the = part
         file = path.join(self.test_data_dir, "test-N50-Calculation.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Calculation', summary.index[0], 'File name not equal')
         self.assertEqual(10002, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -972,7 +972,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testN50UnaffectedByEmptyContigs(self):
         file = path.join(self.test_data_dir, "test-N50-Unaffected-By-Empty-Contigs.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
         self.assertEqual(10001, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -982,7 +982,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeExactlyMinimum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Minimum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Minimum', summary.index[0], 'File name not equal')
         self.assertEqual(4000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -992,7 +992,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeExactlyMaximum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Maximum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Maximum', summary.index[0], 'File name not equal')
         self.assertEqual(6000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1002,7 +1002,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeWithinAcceptedRange(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Within-Accepted-Range.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Within-Accepted-Range', summary.index[0], 'File name not equal')
         self.assertEqual(5000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1012,7 +1012,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeSmallerThanMinimum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Smaller-Than-Minimum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Smaller-Than-Minimum', summary.index[0], 'File name not equal')
         self.assertEqual(2000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1022,7 +1022,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeLargerThanMaximum(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Larger-Than-Maximum.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Larger-Than-Maximum', summary.index[0], 'File name not equal')
         self.assertEqual(7000000, summary['Genome Length'].iloc[0], 'Genome length not equal')
@@ -1032,7 +1032,7 @@ class AMRDetectionIT(unittest.TestCase):
     def testGenomeSizeUnaffectedByEmptyContigs(self):
         file = path.join(self.test_data_dir, "test-Genome-Size-Unaffected-By-Empty-Contigs.fasta")
         files = [file]
-        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_number_of_contigs_under_minimum_bp)
+        summary = self.amr_detection._create_quality_module_dataframe(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Unaffected-By-Empty-Contigs', summary.index[0], 'File name not equal')
         self.assertEqual(6000000, summary['Genome Length'].iloc[0], 'Genome length not equal')

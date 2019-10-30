@@ -141,7 +141,7 @@ class AMRDetection:
 
     def run_amr_detection(self,files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
                           plength_threshold_plasmidfinder, genome_size_lower_bound,genome_size_upper_bound,
-                          minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp,
+                          minimum_N50_value,minimum_contig_length,unacceptable_num_contigs,
                           report_all=False, ignore_invalid_files=False, mlst_scheme=None) -> None:
         """
         Scans the passed files for AMR genes.
@@ -150,6 +150,11 @@ class AMRDetection:
         :param plength_threshold_resfinder: The percent length overlap for BLAST results (resfinder).
         :param plength_threshold_pointfinder: The percent length overlap for BLAST results (pointfinder).
         :param plength_threshold_plasmidfinder: The percent length overlap for BLAST results (plasmidfinder).
+        :param genome_size_lower_bound: The lower bound for the genome size as defined by the user for quality metrics
+        :param genome_size_upper_bound: The upper bound for the genome size as defined by the user for quality metrics
+        :param minimum_N50_value: The minimum N50 value as defined by the user for quality metrics
+        :param minimum_contig_length: The minimum contig length as defined by the user for quality metrics
+        :param unacceptable_num_contigs: The number of contigs under our minimum length for which to raise a flag as defined by the user for quality metrics
         :param report_all: Whether or not to report all blast hits.
         :param ignore_invalid_files: Skips the invalid input files if set.
         :param mlst_scheme: Specifys scheme name MLST uses if set.
@@ -159,7 +164,7 @@ class AMRDetection:
         files_copy = copy.deepcopy(files)
         files = self._validate_files(files_copy, ignore_invalid_files)
 
-        self._quality_module_dataframe=self._create_quality_module_dataframe(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp)
+        self._quality_module_dataframe=self._create_quality_module_dataframe(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs)
 
         self._amr_detection_handler.run_blasts_mlst(files, mlst_scheme)
 
@@ -189,9 +194,18 @@ class AMRDetection:
                                                                              self._plasmidfinder_dataframe,
                                                                              self._mlst_dataframe)
 
-    def _create_quality_module_dataframe(self,files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp):
-        #Goes through the files and creates a dataframe consisting of the file's genome length, N50 value and the number of contigs less than the minimum length as
-        #specified by the quality metrics. It also consists of the feedback for wether or not the file passed the quality metrics andf if it didnt feedback on why it failed
+    def _create_quality_module_dataframe(self,files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs):
+        """
+        Goes through the files and creates a dataframe consisting of the file's genome length, N50 value and the number of contigs less than the minimum length as
+        specified by the quality metrics. It also consists of the feedback for wether or not the file passed the quality metrics andf if it didnt feedback on why it failed
+        :param genome_size_lower_bound: The lower bound for the genome size as defined by the user for quality metrics
+        :param genome_size_upper_bound: The upper bound for the genome size as defined by the user for quality metrics
+        :param minimum_N50_value: The minimum N50 value as defined by the user for quality metrics
+        :param minimum_contig_length: The minimum contig length as defined by the user for quality metrics
+        :param unacceptable_num_contigs: The number of contigs under our minimum length for which to raise a flag as defined by the user for quality metrics
+        return: A pd.dataframe containing the genome size, N50 value, number of contigs under our user defined minimum length
+        as well as the results of our quality metrics (pass or fail) and the corresponding feedback
+        """
         name_set=[]
         for myFile in files:
             name_set.append(path.splitext(path.basename(myFile))[0])
@@ -199,7 +213,7 @@ class AMRDetection:
         files_contigs_lengths=self._get_files_contigs_lengths(files)
         files_N50_value_feedback=self._get_N50_feedback(files_contigs_lengths,files_genome_length_feedback[0],minimum_N50_value)
 
-        file_num_contigs_under_minimum_bp_feedback= self._get_num_contigs_under_minimum_bp_feedback(files_contigs_lengths,minimum_contig_length,unacceptable_number_of_contigs_under_minimum_bp)
+        file_num_contigs_under_minimum_bp_feedback= self._get_num_contigs_under_minimum_bp_feedback(files_contigs_lengths,minimum_contig_length,unacceptable_num_contigs)
 
         quality_module = self._get_quality_module(files_genome_length_feedback[1],files_N50_value_feedback[1],file_num_contigs_under_minimum_bp_feedback[1],files)
         quality_module_feedback = quality_module[0]

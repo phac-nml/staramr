@@ -1,0 +1,4 @@
+Isolate ID	Data	Data Type	Predicted Phenotype	%Identity	%Overlap	HSP Length/Total Length	Contig	Start	End	Accession
+test_1	ST- (-)	MLST								
+test_1	None	Plasmid								
+test_1	None	Resistance	Sensitive							
