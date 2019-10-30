@@ -1,2 +1,0 @@
-Isolate ID	Genotype	Predicted Phenotype	Plasmid	Scheme	Sequence Type	Genome Length	N50 value	Number of Contigs Under 1000 bp	Quality Module	Quality Module Feedback
-test_1	None	Sensitive	None	-	-	30000	10000	0	Failed	Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. 
