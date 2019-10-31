@@ -946,7 +946,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', summary.index[0], 'File name not equal')
         self.assertEqual(100, summary['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', summary['Quality Module'].iloc[0], 'Quality result not equal')
-        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value.  Number of Contigs with a length less than the minimum length exceeds the acceptable number. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. Number of Contigs with a length less than the minimum length exceeds the acceptable number. ', summary['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
     def testN50MuchLargerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Much-Larger-Than-Minimum-Value.fasta")
