@@ -203,72 +203,32 @@ class AMRDetection:
         :param minimum_N50_value: The minimum N50 value as defined by the user for quality metrics
         :param minimum_contig_length: The minimum contig length as defined by the user for quality metrics
         :param unacceptable_num_contigs: The number of contigs under our minimum length for which to raise a flag as defined by the user for quality metrics
-        return: A pd.dataframe containing the genome size, N50 value, number of contigs under our user defined minimum length
+        :return: A pd.dataframe containing the genome size, N50 value, number of contigs under our user defined minimum length
         as well as the results of our quality metrics (pass or fail) and the corresponding feedback
         """
         name_set=[]
         for myFile in files:
             name_set.append(path.splitext(path.basename(myFile))[0])
-        files_genome_length_feedback = self._get_genome_length_feedback(files,genome_size_lower_bound,genome_size_upper_bound) #array where first element is the genome lengths and second is their corresponding feedback
-        files_contigs_lengths=self._get_files_contigs_lengths(files)
-        files_N50_value_feedback=self._get_N50_feedback(files_contigs_lengths,files_genome_length_feedback[0],minimum_N50_value)
-
-        file_num_contigs_under_minimum_bp_feedback= self._get_num_contigs_under_minimum_bp_feedback(files_contigs_lengths,minimum_contig_length,unacceptable_num_contigs)
-
+        files_contigs_and_genomes_lengths=self._get_files_contigs_and_genomes_lengths(files)
+        files_genome_length_feedback = self._get_genome_length_feedback(files,files_contigs_and_genomes_lengths[1],genome_size_lower_bound,genome_size_upper_bound) #array where first element is the genome lengths and second is their corresponding feedback
+        files_N50_value_feedback=self._get_N50_feedback(files_contigs_and_genomes_lengths[0],files_genome_length_feedback[0],minimum_N50_value)
+        file_num_contigs_under_minimum_bp_feedback= self._get_num_contigs_under_minimum_bp_feedback(files_contigs_and_genomes_lengths[0],minimum_contig_length,unacceptable_num_contigs)
         quality_module = self._get_quality_module(files_genome_length_feedback[1],files_N50_value_feedback[1],file_num_contigs_under_minimum_bp_feedback[1],files)
         quality_module_feedback = quality_module[0]
         quality_module_result = quality_module[1]
-        quality_module_frame=pd.DataFrame([[t,u,v,w,x,y] for t,u,v,w,x,y in zip(name_set,files_genome_length_feedback[0],files_N50_value_feedback[0],file_num_contigs_under_minimum_bp_feedback[0],quality_module_result,quality_module_feedback)],
+        quality_module_frame=pd.DataFrame([[t,u,v,w,x,y] for t,u,v,w,x,y in zip(name_set,files_contigs_and_genomes_lengths[1],files_N50_value_feedback[0],file_num_contigs_under_minimum_bp_feedback[0],quality_module_result,quality_module_feedback)],
             columns=('Isolate ID', 'Genome Length','N50 value','Number of Contigs Under '+str(minimum_contig_length)+' bp','Quality Module','Quality Module Feedback')).set_index('Isolate ID')
         return quality_module_frame
-    
-    def parse_fasta(self,filepath):
-        #This solution was taken directly from https://github.com/phac-nml/sistr_cmd and was in no way specifically designed for starAMR
-        '''
-        Parse a fasta file returning a generator yielding tuples of fasta headers to sequences.
-        Note:
-            This function should give equivalent results to SeqIO from BioPython
-            .. code-block:: python
-                from Bio import SeqIO
-            # biopython to dict of header-seq
-            hseqs_bio = {r.description:str(r.seq) for r in SeqIO.parse(fasta_path, 'fasta')}
-            # this func to dict of header-seq
-            hseqs = {header:seq for header, seq in parse_fasta(fasta_path)}
-            # both methods should return the same dict
-            assert hseqs == hseqs_bio
-        Args:
-            filepath (str): Fasta file path
-        Returns:
-            generator: yields tuples of (<fasta header>, <fasta sequence>)
-        '''
 
-        with open(filepath, 'r') as f:
-            seqs = []
-            header = ''
-            for line in f:
-                line = line.strip()
-                if line == '':
-                    continue
-                if line[0] == '>':
-                    if header == '':
-                        header = line.replace('>','')
-                    else:
-                        yield header, ''.join(seqs)
-                        seqs = []
-                        header = line.replace('>','')
-                else:
-                    seqs.append(line)
-            yield header, ''.join(seqs)
-
-
-
-
-    
-    def _get_files_contigs_lengths(self,files):
+    def _get_files_contigs_and_genomes_lengths(self,files):
+        #This solution was taken almost directly from https://github.com/phac-nml/sistr_cmd and was in no way specifically designed for starAMR
         #Goes through each file in files and for each file determines the length of each contig. 
         #Returns an array where each element represents a file and is itself an array of the contig lengths 
         files_contigs_lengths =[]
+        files_genomes_lengths =[]
+        feedback = []
         for filepath in files:
+            genome_length = 0
             with open(filepath,'r') as g:
                 contig_lengths = []
                 length = 0
@@ -280,25 +240,24 @@ class AMRDetection:
                         if length == 0:
                             continue
                         else:
+                            genome_length = genome_length + length
                             contig_lengths.append(length)
                             length = 0        
                     else:
                         length = length + len(line)
             contig_lengths.append(length)
             files_contigs_lengths.append(contig_lengths)
-        return files_contigs_lengths
+            files_genomes_lengths.append(genome_length+length)
+        feedback.append(files_contigs_lengths)
+        feedback.append(files_genomes_lengths)
+        return feedback
 
-    def _get_genome_length_feedback(self,files,lb_gsize,ub_gsize):
+    def _get_genome_length_feedback(self,files,files_genome_lengths,lb_gsize,ub_gsize):
         #Takes as input the files as well as the upper and lower bounds for our genome size as specified by the quality metrics
         #Returns an array where the first element is itself an array where each element is the genome length for the corresponding file
         #The second element is an array where each elements is the feedback(represented by either true of false) of whether or not the genome length for 
         #the corresponding file is between the lower and upper bounds of the accepted genome size
         feedback=[]
-        files_genome_lengths=[]
-        for myFile in files:
-            parsedFile=self.parse_fasta(myFile)
-            genome_size = sum([len(s) for h, s in parsedFile])
-            files_genome_lengths.append(genome_size)
         files_genome_feedback=[]
         for genome_length in files_genome_lengths:
             if genome_length >= lb_gsize and genome_length <= ub_gsize:
