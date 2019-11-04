@@ -162,7 +162,7 @@ class AMRDetection:
         :param genome_size_upper_bound: The upper bound for the genome size as defined by the user for quality metrics
         :param minimum_N50_value: The minimum N50 value as defined by the user for quality metrics
         :param minimum_contig_length: The minimum contig length as defined by the user for quality metrics
-        :param unacceptable_num_contigs: The number of contigs under our minimum length for which to raise a flag as defined by the user for quality metrics
+        :param unacceptable_num_contigs: The number of contigs in a file, equal to or above our minimum contig length, for which to raise a flag as defined by the user for quality metrics
         :param report_all: Whether or not to report all blast hits.
         :param ignore_invalid_files: Skips the invalid input files if set.
         :param mlst_scheme: Specifys scheme name MLST uses if set.

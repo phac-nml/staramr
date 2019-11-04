@@ -15,8 +15,8 @@ class QualityModuleTest(unittest.TestCase):
         self.genome_size_lower_bound = 4000000
         self.genome_size_upper_bound = 6000000
         self.minimum_N50_value = 10000
-        self.minimum_contig_length = 1000
-        self.unacceptable_num_contigs = 3
+        self.minimum_contig_length = 300
+        self.unacceptable_num_contigs = 1000
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
 
     def testN50ExactlyMinimumValue(self):
@@ -50,7 +50,7 @@ class QualityModuleTest(unittest.TestCase):
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
         self.assertEqual(100, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
-        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. Number of Contigs with a length less than the minimum length exceeds the acceptable number. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
     def testN50MuchLargerThanMinimumValue(self):
         file = path.join(self.test_data_dir, "test-N50-Much-Larger-Than-Minimum-Value.fasta")

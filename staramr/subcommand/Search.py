@@ -87,11 +87,11 @@ class Search(SubCommand):
                                 help='The minimum N50 value for the quality metrics. Defaults to 10000. [10000].',
                                 default=10000, required=False)
         arg_parser.add_argument('--minimum-contig-length', action='store', dest='minimum_contig_length', type=int,
-                                help='The minimum contig length for the quality metrics. Defaults to 1000 bp. [1000].',
-                                default=1000, required=False)
+                                help='The minimum contig length for the quality metrics. Defaults to 300 bp. [300].',
+                                default=300, required=False)
         arg_parser.add_argument('--unacceptable-number-contigs', action='store', dest='unacceptable_num_contigs', type=int,
-                                help='The number of contigs, under the minimum contig length which is unacceptable for the quality metrics. Defaults to 3. [3].',
-                                default=3, required=False)
+                                help='The minimum, unacceptable number of contigs which are equal to or above the minimum contig length for our quality metrics. Defaults to 1000. [1000].',
+                                default=1000, required=False)
 
         threshold_group = arg_parser.add_argument_group('BLAST Thresholds')
         threshold_group.add_argument('--pid-threshold', action='store', dest='pid_threshold', type=float,

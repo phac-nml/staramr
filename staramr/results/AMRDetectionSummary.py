@@ -160,7 +160,9 @@ class AMRDetectionSummary:
 
 
         resistance_frame = resistance_frame.merge(self._quality_module_dataframe, on='Isolate ID', how='left')
+        
         return resistance_frame.sort_index()
+
     def _get_detailed_summary_columns(self):
         return ['Gene', 'Data Type', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession']
 
