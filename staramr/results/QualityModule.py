@@ -261,9 +261,7 @@ class QualityModule:
                     quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "Genome length is not within the acceptable length range "
 
                 if file_N50_feedback == False:
-                    logger.info("okay")
                     if quality_parameter_feedback_for_file == "":
-                        logger.info("WTF")
                         quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "N50 value is not greater than the specified minimum value "
 
                     else :
