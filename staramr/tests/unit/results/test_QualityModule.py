@@ -151,3 +151,91 @@ class QualityModuleTest(unittest.TestCase):
         self.assertEqual(6000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Passed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testNCExactlyUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NC-Exactly-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NC-Exactly-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(1000, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testNCUExactlyUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NCU-Exactly-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NCU-Exactly-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(0, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testNCOneUnderUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NC-One-Under-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NC-One-Under-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(999, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testNCOOneUnderUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NCO-One-Under-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NCO-One-Under-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(999, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testNCUnacceptableByEmptyContigs(self):
+        file = path.join(self.test_data_dir, "test-NC-Unacceptable-By-Empty-Contigs.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NC-Unacceptable-By-Empty-Contigs', quality_module.index[0], 'File name not equal')
+        self.assertEqual(999, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+    def testNCOMuchLowerThanUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NCO-Much-Lower-Than-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NCO-Much-Lower-Than-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(1, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Passed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+def testNCUMuchHigherThanUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NCU-Much-Higher-Than-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NCU-Much-Higher-Than-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(11000, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
+
+def testNCOMuchHigherThanUnacceptable(self):
+        file = path.join(self.test_data_dir, "test-NCO-Much-Higher-Than-Unacceptable.fasta")
+        files = [file]
+        quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
+        quality_module=quality_module._create_quality_module_dataframe()
+        self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
+        self.assertEqual('test-NCO-Much-Higher-Than-Unacceptable', quality_module.index[0], 'File name not equal')
+        self.assertEqual(11000, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
+        self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
+        self.assertEqual('Genome length is not within the acceptable length range. N50 value is not greater than the specified minimum value. Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number. ', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')

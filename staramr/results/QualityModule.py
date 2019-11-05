@@ -70,7 +70,7 @@ class QualityModule:
         The second element is itself an array where each element is the genome length for the corresponding file
         """
         #This array will contain the contig lengths for all the files to be used for our quality metrics, in particular to determine if the files pass our N50
-        #metric, and to determine if the files pass the number of contigs over the minimum length metric
+        #metric, and to determine if the files pass the number of contigs equal to or above the minimum contig length metric
         files_contigs_lengths =[]
         #This array will contain the genome lengths for all the files to be used for our quality metrics, in particualr to determine if the files pass our genome 
         #length metric, and to calculate our N50 value 
@@ -264,7 +264,7 @@ class QualityModule:
                     quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "N50 value is not greater than the specified minimum value. "
 
                 if file_contigs_over_minimum_bp_feedback == False:
-                    quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "Number of Contigs with a length greater than or equal to the minimum contig length exceeds the acceptable number. "
+                    quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number. "
 
             quality_parameter_feedback.append(quality_parameter_feedback_for_file)
 
