@@ -250,29 +250,25 @@ class QualityModule:
         #fails on and it will be returned as the second element of feedback
         quality_parameter_feedback = []
         for file_genome_length_feedback,file_N50_feedback,file_contigs_over_minimum_bp_feedback in zip(genome_length_feedback,N50_feedback,contigs_over_minimum_bp_feedback):
-            if file_genome_length_feedback == True & file_N50_feedback == True & file_contigs_over_minimum_bp_feedback == True:
+            if all([file_genome_length_feedback,file_N50_feedback,file_contigs_over_minimum_bp_feedback]):
                 quality_parameter_feedback_for_file=""
                 quality_parameter.append("Passed")
 
             else:
-                quality_parameter_feedback_for_file=""
+                failed_feedback=[]
+                #quality_parameter_feedback_for_file=""
                 quality_parameter.append("Failed")
                 if file_genome_length_feedback == False:
-                    quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "Genome length is not within the acceptable length range "
+                    failed_feedback.append("Genome length is not within the acceptable length range")
 
                 if file_N50_feedback == False:
-                    if quality_parameter_feedback_for_file == "":
-                        quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "N50 value is not greater than the specified minimum value "
+                    failed_feedback.append("N50 value is not greater than the specified minimum value")
 
-                    else :
-                        quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "; N50 value is not greater than the specified minimum value "
 
                 if file_contigs_over_minimum_bp_feedback == False:
-                    if quality_parameter_feedback_for_file == "":
-                        quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number "
+                    failed_feedback.append("Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number")
 
-                    else:
-                        quality_parameter_feedback_for_file = quality_parameter_feedback_for_file + "; Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number "
+                quality_parameter_feedback_for_file = ' ; '.join(failed_feedback)
 
             quality_parameter_feedback.append(quality_parameter_feedback_for_file)
 
