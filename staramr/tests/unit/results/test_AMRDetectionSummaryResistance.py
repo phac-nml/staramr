@@ -12,6 +12,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                                   'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
         self.columns_pointfinder = ('Isolate ID', 'Gene', 'Predicted Phenotype', 'Type', 'Position', 'Mutation',
                                     '%Identity', '%Overlap', 'HSP Length/Total Length')
+        self.columns_quality_module = ('Isolate ID','Genome Length','N50 value','Number of Contigs Under 1000 bp','Quality Module','Quality Module Feedback')
 
         # Resfinder tables
         self.resfinder_table_empty = pd.DataFrame([],
@@ -44,10 +45,13 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         ],
             columns=self.columns_pointfinder)
 
+        self.quality_module_table = pd.DataFrame([['file1','6000000','11000','0','Pass',''],],
+                                    columns=self.columns_quality_module).set_index('Isolate ID')
+
         self.files = ['file1']
 
     def testResfinder(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table,self.quality_module_table)
 
         summary = amr_detection_summary.create_summary()
 
@@ -59,7 +63,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testResfinderDuplicateResistances(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances,self.quality_module_table)
 
         summary = amr_detection_summary.create_summary()
 
@@ -71,7 +75,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testPointfinder(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_empty,
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_empty,self.quality_module_table,
                                                               self.pointfinder_table)
 
         summary = amr_detection_summary.create_summary()
@@ -84,7 +88,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testPointfinderResfinder(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table, self.pointfinder_table)
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table, self.quality_module_table,self.pointfinder_table)
 
         summary = amr_detection_summary.create_summary()
 
@@ -96,7 +100,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
 
     def testPointfinderResfinderDuplicate(self):
-        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances,
+        amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances,self.quality_module_table,
                                                               self.pointfinder_table_duplicate)
 
         summary = amr_detection_summary.create_summary()

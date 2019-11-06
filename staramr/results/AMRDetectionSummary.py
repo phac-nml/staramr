@@ -16,7 +16,7 @@ class AMRDetectionSummary:
     SEPARATOR = ','
     FLOAT_DECIMALS = 2
 
-    def __init__(self, files, resfinder_dataframe: DataFrame, pointfinder_dataframe=None,
+    def __init__(self, files, resfinder_dataframe: DataFrame, quality_module_dataframe: DataFrame,pointfinder_dataframe=None,
                  plasmidfinder_dataframe=None, mlst_dataframe=None) -> None:
         """
         Constructs an object for summarizing AMR detection results.
@@ -28,12 +28,12 @@ class AMRDetectionSummary:
         self._resfinder_dataframe = resfinder_dataframe
         self._plasmidfinder_dataframe = plasmidfinder_dataframe
         self._mlst_dataframe = mlst_dataframe
-
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
             self._pointfinder_dataframe = pointfinder_dataframe
         else:
             self._has_pointfinder = False
+        self._quality_module_dataframe=quality_module_dataframe
 
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:
         df_summary = resistance_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
@@ -157,6 +157,10 @@ class AMRDetectionSummary:
             mlst_merging_frame = mlst_frame[['Scheme', 'Sequence Type']]
             resistance_frame = resistance_frame.merge(mlst_merging_frame, on='Isolate ID', how='left')
 
+
+
+        resistance_frame = resistance_frame.merge(self._quality_module_dataframe, on='Isolate ID', how='left')
+        
         return resistance_frame.sort_index()
 
     def _get_detailed_summary_columns(self):
