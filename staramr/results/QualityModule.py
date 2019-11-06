@@ -54,9 +54,18 @@ class QualityModule:
         quality_module = self._get_quality_module(files_genome_length_feedback,files_N50_value_feedback[1],file_num_contigs_over_minimum_bp_feedback[1])      
         quality_module_feedback = quality_module[0]
         quality_module_result = quality_module[1]
+
+        #Module to represent our quality metric values, the index which is used to merge this module and the feedback module is the file names
+        quality_metrics_module = pd.DataFrame([[file_name,genome_length,N50_value,num_contigs_over_minimum_bp] for file_name,genome_length,N50_value,num_contigs_over_minimum_bp in 
+            zip(name_set,files_contigs_and_genomes_lengths[1],files_N50_value_feedback[0],file_num_contigs_over_minimum_bp_feedback[0])],
+            columns=('Isolate ID','Genome Length','N50 value','Number of Contigs Greater Than Or Equal To '+str(self._minimum_contig_length)+' bp')).set_index('Isolate ID')
+
+        #Module to represent the feedback for our quality metrics, the index which is used to merge this module and the quality metric value module is the file names 
+        feedback_module = pd.DataFrame([[file_name,feedback,detailed_feedback] for file_name,feedback,detailed_feedback in zip(name_set,quality_module_result,quality_module_feedback)],
+            columns=('Isolate ID','Quality Module','Quality Module Feedback')).set_index('Isolate ID')
         
-        quality_module_frame=pd.DataFrame([[t,u,v,w,x,y] for t,u,v,w,x,y in zip(name_set,files_contigs_and_genomes_lengths[1],files_N50_value_feedback[0],file_num_contigs_over_minimum_bp_feedback[0],quality_module_result,quality_module_feedback)],
-            columns=('Isolate ID', 'Genome Length','N50 value','Number of Contigs Greater Than Or Equal To '+str(self._minimum_contig_length)+' bp','Quality Module','Quality Module Feedback')).set_index('Isolate ID')
+        #Module to represent out quality metric values and their corresponding feedback
+        quality_module_frame=quality_metrics_module.merge(feedback_module, on='Isolate ID', how='left')
         
         return quality_module_frame
 
