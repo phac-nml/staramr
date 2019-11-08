@@ -16,10 +16,10 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type |
-|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|
-| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
-| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
+| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module | Quality Module Feedback |
+|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|---------------|-----------|---------------------------------------------------|----------------|-------------------------|
+| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                | Passed         |                         |
+| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                | Passed         |                         |
 
 **out/detailed_summary.tsv**:
 
