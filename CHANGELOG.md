@@ -1,5 +1,14 @@
 # Version 0.7.0
 
+* Added quality module that adds PASS/Fail column and detail information in Summary.tsv
+* Added following new optional arguments for Search.py
+  - --genome-size-lower-bound
+  - --genome-size-upper-bound
+  - --minimum-N50-value
+  - --minimum-contig-length
+  - --unacceptable-number-contigs
+* Add DNA column in Resfinder report
+
 # Version 0.6.1
 
 * Added --output-mlst in Search.py
