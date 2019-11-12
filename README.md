@@ -250,7 +250,7 @@ Please make sure to include `#gene_id` in the first line. The default exclusion 
 
 There are 8 different output files produced by `staramr`:
 
-1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one genome per line.
+1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one genome per line. A series of descriptive statistics is also provided for each genome as well as feedback for whether or not the genome passes several quality metrics and if not, feedback on why the genome fails.
 2. `detailed_summary.tsv`: A detailed summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one gene per line.
 3. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
 4. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
