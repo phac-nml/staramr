@@ -50,12 +50,6 @@ class AMRDetectionIT(unittest.TestCase):
                                                          'drug_key_resfinder_invalid.tsv')
         self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
                                                            'drug_key_pointfinder_invalid.tsv')
-                                                
-        self.genome_size_lower_bound = 4000000
-        self.genome_size_upper_bound = 6000000
-        self.minimum_N50_value = 10000
-        self.minimum_contig_length = 1000
-        self.unacceptable_num_contigs = 3
 
     def tearDown(self):
         self.blast_out.cleanup()
