@@ -474,7 +474,7 @@ This software is still a work-in-progress.  In particular, not all organisms sto
 
 # Acknowledgements
 
-Some ideas for the software were derived from the [ResFinder][resfinder-git], [PointFinder][pointfinder-git], and [PlasmidFinder][plasmidfinder-git] command-line software, as well as from [ABRicate][abricate].
+Some ideas for the software were derived from the [ResFinder][resfinder-git], [PointFinder][pointfinder-git], and [PlasmidFinder][plasmidfinder-git] command-line software, as well as from [ABRicate][abricate] and from [SISTR (Salmonella In Silico Typing Resource) command-line tool ][sistr_cmd].
 
 Phenotype/drug resistance predictions are provided with support from the NARMS/CIPARS Molecular Working Group.
 
@@ -523,6 +523,7 @@ specific language governing permissions and limitations under the License.
 [pointfinder-git]: https://bitbucket.org/genomicepidemiology/pointfinder-3.0
 [plasmidfinder-git]: https://bitbucket.org/genomicepidemiology/plasmidfinder
 [abricate]: https://github.com/tseemann/abricate
+[sistr_cmd]: https://github.com/phac-nml/sistr_cmd
 [shovill]: https://github.com/tseemann/shovill
 [ariba]: https://github.com/sanger-pathogens/ariba
 [rgi]: https://github.com/arpcard/rgi

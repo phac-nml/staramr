@@ -23,7 +23,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-N50-Exactly-Minimum-Value.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Exactly-Minimum-Value', quality_module.index[0], 'File name not equal')
         self.assertEqual(10000, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -34,7 +34,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-N50-One-BP-Larger-Than-Minimum-Value.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-One-BP-Larger-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
         self.assertEqual(10001, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -45,7 +45,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-N50-Smaller-Than-Minimum-Value.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
         self.assertEqual(100, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -56,7 +56,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-N50-Much-Larger-Than-Minimum-Value.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Much-Larger-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
         self.assertEqual(100000, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -68,7 +68,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-N50-Calculation.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Calculation', quality_module.index[0], 'File name not equal')
         self.assertEqual(10002, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -79,7 +79,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-N50-Unaffected-By-Empty-Contigs.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Unaffected-By-Empty-Contigs', quality_module.index[0], 'File name not equal')
         self.assertEqual(10001, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
@@ -90,7 +90,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Minimum.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Minimum', quality_module.index[0], 'File name not equal')
         self.assertEqual(4000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
@@ -101,7 +101,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-Genome-Size-Exactly-Maximum.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Exactly-Maximum', quality_module.index[0], 'File name not equal')
         self.assertEqual(6000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
@@ -112,7 +112,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-Genome-Size-Within-Accepted-Range.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Within-Accepted-Range', quality_module.index[0], 'File name not equal')
         self.assertEqual(5000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
@@ -123,7 +123,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-Genome-Size-Smaller-Than-Minimum.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Smaller-Than-Minimum', quality_module.index[0], 'File name not equal')
         self.assertEqual(2000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
@@ -134,7 +134,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-Genome-Size-Larger-Than-Maximum.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Larger-Than-Maximum', quality_module.index[0], 'File name not equal')
         self.assertEqual(7000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
@@ -145,7 +145,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-Genome-Size-Unaffected-By-Empty-Contigs.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-Genome-Size-Unaffected-By-Empty-Contigs', quality_module.index[0], 'File name not equal')
         self.assertEqual(6000000, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
@@ -156,7 +156,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-NC-Exactly-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NC-Exactly-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(1000, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -167,7 +167,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-NCU-Exactly-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NCU-Exactly-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(0, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -178,7 +178,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-NC-One-Under-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NC-One-Under-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(999, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -189,7 +189,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-NCO-One-Under-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NCO-One-Under-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(999, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -200,7 +200,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-NC-Unacceptable-By-Empty-Contigs.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NC-Unacceptable-By-Empty-Contigs', quality_module.index[0], 'File name not equal')
         self.assertEqual(999, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -211,7 +211,7 @@ class QualityModuleTest(unittest.TestCase):
         file = path.join(self.test_data_dir, "test-NCO-Much-Lower-Than-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NCO-Much-Lower-Than-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(1, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -222,7 +222,7 @@ def testNCUMuchHigherThanUnacceptable(self):
         file = path.join(self.test_data_dir, "test-NCU-Much-Higher-Than-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NCU-Much-Higher-Than-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(11000, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
@@ -233,7 +233,7 @@ def testNCOMuchHigherThanUnacceptable(self):
         file = path.join(self.test_data_dir, "test-NCO-Much-Higher-Than-Unacceptable.fasta")
         files = [file]
         quality_module = QualityModule(files,self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value,self.minimum_contig_length,self.unacceptable_num_contigs)
-        quality_module=quality_module._create_quality_module_dataframe()
+        quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-NCO-Much-Higher-Than-Unacceptable', quality_module.index[0], 'File name not equal')
         self.assertEqual(11000, quality_module['Number of Contigs Greater Than Or Equal To '+ str(self.minimum_contig_length) +' bp'].iloc[0], 'Number of Contigs Greater Than Or Equal To Our Minimum Contig Length Not Equal')
