@@ -37,6 +37,10 @@ def format_drug_name(value):
     elif(" " in value):
         value = value.replace(" ", ",")
 
+    # Check if ciprofloxacinI/R is in there
+    if("ciprofloxacini/r" in value):
+        value = value.replace("i/r", " I/R")
+
     # Check if the word acid is in there
     index = value.find('acid')
     

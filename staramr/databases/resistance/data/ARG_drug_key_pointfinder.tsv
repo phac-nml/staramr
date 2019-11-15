@@ -47,35 +47,35 @@ salmonella	parE	514	ciprofloxacin,i/r,nalidixic acid
 salmonella	parE	521	ciprofloxacin,i/r,nalidixic acid
 salmonella	16S_rrsD	1065	spectinomycin
 salmonella	16S_rrsD	1192	spectinomycin
-shigella e. coli	gyrA	51	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	67	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	81	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	82	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	83	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	84	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	87	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	106	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrA	196	ciprofloxacini/r,nalidixic acid
+shigella e. coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	82	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	83	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	84	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	87	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	106	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrA	196	ciprofloxacin I/R,nalidixic acid
 shigella e. coli	gyrB	136	aminocoumarin
-shigella e. coli	gyrB	426	ciprofloxacini/r,nalidixic acid
-shigella e. coli	gyrB	447	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parC	56	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parC	60	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parC	78	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parC	80	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parC	84	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parC	108	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	416	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	423	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	439	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	444	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	458	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	460	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	464	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	470	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	475	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	476	ciprofloxacini/r,nalidixic acid
-shigella e. coli	parE	529	ciprofloxacini/r,nalidixic acid
+shigella e. coli	gyrB	426	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	gyrB	447	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parC	56	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parC	60	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parC	78	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parC	80	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parC	84	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parC	108	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	416	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	423	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	439	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	444	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	458	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	460	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	464	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	470	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	475	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	476	ciprofloxacin I/R,nalidixic acid
+shigella e. coli	parE	529	ciprofloxacin I/R,nalidixic acid
 shigella e. coli	pmrA	39	colistin
 shigella e. coli	pmrA	81	colistin
 shigella e. coli	pmrB	161	colistin
