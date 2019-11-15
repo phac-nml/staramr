@@ -2646,127 +2646,127 @@ phenicol	cfr(C)_2	CANB01000378	chloramphenicol
 phenicol	cmlB1_1	AM296481	chloramphenicol
 phenicol	fexB_1	JN201336	chloramphenicol
 phenicol	EstDL136_1	JN242251	chloramphenicol
-quinolone	qnrA1_1	AY070235	ciprofloxacin,i/r
-quinolone	qnrA2_1	AY675584	ciprofloxacin,i/r
-quinolone	qnrA3_1	DQ058661	ciprofloxacin,i/r
-quinolone	qnrA4_1	DQ058662	ciprofloxacin,i/r
-quinolone	qnrA5_1	DQ058663	ciprofloxacin,i/r
-quinolone	qnrA6_1	DQ151889	ciprofloxacin,i/r
-quinolone	qnrA7_1	GQ463707	ciprofloxacin,i/r
-quinolone	qnrA8_1	KY554783	ciprofloxacin,i/r
-quinolone	qnrB1_1	DQ351241	ciprofloxacin,i/r
-quinolone	qnrB2_1	DQ351242	ciprofloxacin,i/r
-quinolone	qnrB3_1	DQ303920	ciprofloxacin,i/r
-quinolone	qnrB4_1	DQ303921	ciprofloxacin,i/r
-quinolone	qnrB5_1	DQ303919	ciprofloxacin,i/r
-quinolone	qnrB6_1	EF520349	ciprofloxacin,i/r
-quinolone	qnrB6_2	EF523819	ciprofloxacin,i/r
-quinolone	qnrB7_1	EU043311	ciprofloxacin,i/r
-quinolone	qnrB8_1	EU043312	ciprofloxacin,i/r
-quinolone	qnrB9_1	EF653270	ciprofloxacin,i/r
-quinolone	qnrB10_1	DQ631414	ciprofloxacin,i/r
-quinolone	qnrB10_2	HM439644	ciprofloxacin,i/r
-quinolone	qnrB11_1	EU136183	ciprofloxacin,i/r
-quinolone	qnrB12_2	AM774474	ciprofloxacin,i/r
-quinolone	qnrB13_1	EU273755	ciprofloxacin,i/r
-quinolone	qnrB14_1	EU273757	ciprofloxacin,i/r
-quinolone	qnrB15_1	EU302865	ciprofloxacin,i/r
-quinolone	qnrB16_1	EU136183	ciprofloxacin,i/r
-quinolone	qnrB17_1	JN173051	ciprofloxacin,i/r
-quinolone	qnrB17_2	AM919398	ciprofloxacin,i/r
-quinolone	qnrB18_1	AM919399	ciprofloxacin,i/r
-quinolone	qnrB19_1	EU432277	ciprofloxacin,i/r
-quinolone	qnrB20_1	AB379831	ciprofloxacin,i/r
-quinolone	qnrB21_1	FJ611948	ciprofloxacin,i/r
-quinolone	qnrB22_1	FJ981621	ciprofloxacin,i/r
-quinolone	qnrB23_1	FJ981622	ciprofloxacin,i/r
-quinolone	qnrB24_1	HM192542	ciprofloxacin,i/r
-quinolone	qnrB25_1	HQ172108	ciprofloxacin,i/r
-quinolone	qnrB26_1	HQ386846	ciprofloxacin,i/r
-quinolone	qnrB27_1	HM439641	ciprofloxacin,i/r
-quinolone	qnrB28_1	HM439643	ciprofloxacin,i/r
-quinolone	qnrB29_1	HM439649	ciprofloxacin,i/r
-quinolone	qnrB29_2	JN173053	ciprofloxacin,i/r
-quinolone	qnrB30_1	HM439650	ciprofloxacin,i/r
-quinolone	qnrB31_1	HQ418999	ciprofloxacin,i/r
-quinolone	qnrB32_1	JN173054	ciprofloxacin,i/r
-quinolone	qnrB33_1	JN173055	ciprofloxacin,i/r
-quinolone	qnrB34_1	JN173056	ciprofloxacin,i/r
-quinolone	qnrB35_1	JN173057	ciprofloxacin,i/r
-quinolone	qnrB36_1	JN173058	ciprofloxacin,i/r
-quinolone	qnrB37_1	JN173059	ciprofloxacin,i/r
-quinolone	qnrB38_1	JN173060	ciprofloxacin,i/r
-quinolone	qnrB39_1	ABWL02000005	ciprofloxacin,i/r
-quinolone	qnrB40_1	JN166689	ciprofloxacin,i/r
-quinolone	qnrB41_1	JN166690	ciprofloxacin,i/r
-quinolone	qnrB42_1	JN680743	ciprofloxacin,i/r
-quinolone	qnrB43_1	AFA52643	ciprofloxacin,i/r
-quinolone	qnrB44_1	JQ349153	ciprofloxacin,i/r
-quinolone	qnrB45_1	JQ349152	ciprofloxacin,i/r
-quinolone	qnrB46_1	JQ349154	ciprofloxacin,i/r
-quinolone	qnrB47_1	JQ349155	ciprofloxacin,i/r
-quinolone	qnrB48_1	JQ762640	ciprofloxacin,i/r
-quinolone	qnrB49_1	JQ582718	ciprofloxacin,i/r
-quinolone	qnrB50_1	JX440357	ciprofloxacin,i/r
-quinolone	qnrB51_1	JX440358	ciprofloxacin,i/r
-quinolone	qnrB52_1	EF488762	ciprofloxacin,i/r
-quinolone	qnrB53_1	HQ704413	ciprofloxacin,i/r
-quinolone	qnrB54_1	HE820727	ciprofloxacin,i/r
-quinolone	qnrB56_1	JX259317	ciprofloxacin,i/r
-quinolone	qnrB57_1	JX259318	ciprofloxacin,i/r
-quinolone	qnrB58_1	JX259319	ciprofloxacin,i/r
-quinolone	qnrB59_1	JX259320	ciprofloxacin,i/r
-quinolone	qnrB60_1	AB734055	ciprofloxacin,i/r
-quinolone	qnrB61_1	AB734053	ciprofloxacin,i/r
-quinolone	qnrB62_1	JX987101	ciprofloxacin,i/r
-quinolone	qnrB64_1	KC580653	ciprofloxacin,i/r
-quinolone	qnrB65_1	KC580654	ciprofloxacin,i/r
-quinolone	qnrB66_1	KC580655	ciprofloxacin,i/r
-quinolone	qnrB67_1	KC580656	ciprofloxacin,i/r
-quinolone	qnrB68_1	KC580657	ciprofloxacin,i/r
-quinolone	qnrB69_1	KC580658	ciprofloxacin,i/r
-quinolone	qnrB70_1	KC580659	ciprofloxacin,i/r
-quinolone	qnrB71_1	KC580660	ciprofloxacin,i/r
-quinolone	qnrB72_1	KC741443	ciprofloxacin,i/r
-quinolone	qnrB73_1	KF443075	ciprofloxacin,i/r
-quinolone	qnrB74_1	KJ415247	ciprofloxacin,i/r
-quinolone	qnrB75_1	KP207591	ciprofloxacin,i/r
-quinolone	qnrB76_1	KM985469	ciprofloxacin,i/r
-quinolone	qnrB77_1	KM985470	ciprofloxacin,i/r
-quinolone	qnrB78_1	KM985471	ciprofloxacin,i/r
-quinolone	qnrB80_1	KM985473	ciprofloxacin,i/r
-quinolone	qnrB81_1	KX372671	ciprofloxacin,i/r
-quinolone	qnrB82_1	KX372672	ciprofloxacin,i/r
-quinolone	qnrVC1_1	EU436855	ciprofloxacin,i/r
-quinolone	qnrVC3_1	HM015626	ciprofloxacin,i/r
-quinolone	qnrVC4_1	GQ891757	ciprofloxacin,i/r
-quinolone	qnrVC5_1	JN408080	ciprofloxacin,i/r
-quinolone	qnrVC6_1	KC202804	ciprofloxacin,i/r
-quinolone	qnrVC7_1	KM555152	ciprofloxacin,i/r
-quinolone	qnrC_1	EU917444	ciprofloxacin,i/r
-quinolone	qnrD_1	FJ228229	ciprofloxacin,i/r
-quinolone	qnrD2_KF055448	KF055448	ciprofloxacin,i/r
-quinolone	qnrD3_1	KX130945	ciprofloxacin,i/r
-quinolone	qnrS1_1	AB187515	ciprofloxacin,i/r
-quinolone	qnrS2_1	DQ485530	ciprofloxacin,i/r
-quinolone	qnrS3_1	EU077611	ciprofloxacin,i/r
-quinolone	qnrS4_1	FJ418153	ciprofloxacin,i/r
-quinolone	qnrS5_1	HQ631377	ciprofloxacin,i/r
-quinolone	qnrS6_1	HQ631376	ciprofloxacin,i/r
-quinolone	qnrS7_1	KF730651	ciprofloxacin,i/r
-quinolone	qnrS8_1	KF730652	ciprofloxacin,i/r
-quinolone	qnrS9_1	KF732714	ciprofloxacin,i/r
-quinolone	qepA_1	FJ167861	ciprofloxacin,i/r
-quinolone	qepA1_1	AB263754	ciprofloxacin,i/r
-quinolone	qepA2_1	EU847537	ciprofloxacin,i/r
-quinolone	qepA3_1	JQ064560	ciprofloxacin,i/r
-quinolone	qepA4_1	KX580704	ciprofloxacin,i/r
-quinolone	aac(6')Ib-cr_1	DQ303918	ciprofloxacin,i/r
-quinolone	aac(6')Ib-cr_2	EF636461	ciprofloxacin,i/r
+quinolone	qnrA1_1	AY070235	ciprofloxacin I/R
+quinolone	qnrA2_1	AY675584	ciprofloxacin I/R
+quinolone	qnrA3_1	DQ058661	ciprofloxacin I/R
+quinolone	qnrA4_1	DQ058662	ciprofloxacin I/R
+quinolone	qnrA5_1	DQ058663	ciprofloxacin I/R
+quinolone	qnrA6_1	DQ151889	ciprofloxacin I/R
+quinolone	qnrA7_1	GQ463707	ciprofloxacin I/R
+quinolone	qnrA8_1	KY554783	ciprofloxacin I/R
+quinolone	qnrB1_1	DQ351241	ciprofloxacin I/R
+quinolone	qnrB2_1	DQ351242	ciprofloxacin I/R
+quinolone	qnrB3_1	DQ303920	ciprofloxacin I/R
+quinolone	qnrB4_1	DQ303921	ciprofloxacin I/R
+quinolone	qnrB5_1	DQ303919	ciprofloxacin I/R
+quinolone	qnrB6_1	EF520349	ciprofloxacin I/R
+quinolone	qnrB6_2	EF523819	ciprofloxacin I/R
+quinolone	qnrB7_1	EU043311	ciprofloxacin I/R
+quinolone	qnrB8_1	EU043312	ciprofloxacin I/R
+quinolone	qnrB9_1	EF653270	ciprofloxacin I/R
+quinolone	qnrB10_1	DQ631414	ciprofloxacin I/R
+quinolone	qnrB10_2	HM439644	ciprofloxacin I/R
+quinolone	qnrB11_1	EU136183	ciprofloxacin I/R
+quinolone	qnrB12_2	AM774474	ciprofloxacin I/R
+quinolone	qnrB13_1	EU273755	ciprofloxacin I/R
+quinolone	qnrB14_1	EU273757	ciprofloxacin I/R
+quinolone	qnrB15_1	EU302865	ciprofloxacin I/R
+quinolone	qnrB16_1	EU136183	ciprofloxacin I/R
+quinolone	qnrB17_1	JN173051	ciprofloxacin I/R
+quinolone	qnrB17_2	AM919398	ciprofloxacin I/R
+quinolone	qnrB18_1	AM919399	ciprofloxacin I/R
+quinolone	qnrB19_1	EU432277	ciprofloxacin I/R
+quinolone	qnrB20_1	AB379831	ciprofloxacin I/R
+quinolone	qnrB21_1	FJ611948	ciprofloxacin I/R
+quinolone	qnrB22_1	FJ981621	ciprofloxacin I/R
+quinolone	qnrB23_1	FJ981622	ciprofloxacin I/R
+quinolone	qnrB24_1	HM192542	ciprofloxacin I/R
+quinolone	qnrB25_1	HQ172108	ciprofloxacin I/R
+quinolone	qnrB26_1	HQ386846	ciprofloxacin I/R
+quinolone	qnrB27_1	HM439641	ciprofloxacin I/R
+quinolone	qnrB28_1	HM439643	ciprofloxacin I/R
+quinolone	qnrB29_1	HM439649	ciprofloxacin I/R
+quinolone	qnrB29_2	JN173053	ciprofloxacin I/R
+quinolone	qnrB30_1	HM439650	ciprofloxacin I/R
+quinolone	qnrB31_1	HQ418999	ciprofloxacin I/R
+quinolone	qnrB32_1	JN173054	ciprofloxacin I/R
+quinolone	qnrB33_1	JN173055	ciprofloxacin I/R
+quinolone	qnrB34_1	JN173056	ciprofloxacin I/R
+quinolone	qnrB35_1	JN173057	ciprofloxacin I/R
+quinolone	qnrB36_1	JN173058	ciprofloxacin I/R
+quinolone	qnrB37_1	JN173059	ciprofloxacin I/R
+quinolone	qnrB38_1	JN173060	ciprofloxacin I/R
+quinolone	qnrB39_1	ABWL02000005	ciprofloxacin I/R
+quinolone	qnrB40_1	JN166689	ciprofloxacin I/R
+quinolone	qnrB41_1	JN166690	ciprofloxacin I/R
+quinolone	qnrB42_1	JN680743	ciprofloxacin I/R
+quinolone	qnrB43_1	AFA52643	ciprofloxacin I/R
+quinolone	qnrB44_1	JQ349153	ciprofloxacin I/R
+quinolone	qnrB45_1	JQ349152	ciprofloxacin I/R
+quinolone	qnrB46_1	JQ349154	ciprofloxacin I/R
+quinolone	qnrB47_1	JQ349155	ciprofloxacin I/R
+quinolone	qnrB48_1	JQ762640	ciprofloxacin I/R
+quinolone	qnrB49_1	JQ582718	ciprofloxacin I/R
+quinolone	qnrB50_1	JX440357	ciprofloxacin I/R
+quinolone	qnrB51_1	JX440358	ciprofloxacin I/R
+quinolone	qnrB52_1	EF488762	ciprofloxacin I/R
+quinolone	qnrB53_1	HQ704413	ciprofloxacin I/R
+quinolone	qnrB54_1	HE820727	ciprofloxacin I/R
+quinolone	qnrB56_1	JX259317	ciprofloxacin I/R
+quinolone	qnrB57_1	JX259318	ciprofloxacin I/R
+quinolone	qnrB58_1	JX259319	ciprofloxacin I/R
+quinolone	qnrB59_1	JX259320	ciprofloxacin I/R
+quinolone	qnrB60_1	AB734055	ciprofloxacin I/R
+quinolone	qnrB61_1	AB734053	ciprofloxacin I/R
+quinolone	qnrB62_1	JX987101	ciprofloxacin I/R
+quinolone	qnrB64_1	KC580653	ciprofloxacin I/R
+quinolone	qnrB65_1	KC580654	ciprofloxacin I/R
+quinolone	qnrB66_1	KC580655	ciprofloxacin I/R
+quinolone	qnrB67_1	KC580656	ciprofloxacin I/R
+quinolone	qnrB68_1	KC580657	ciprofloxacin I/R
+quinolone	qnrB69_1	KC580658	ciprofloxacin I/R
+quinolone	qnrB70_1	KC580659	ciprofloxacin I/R
+quinolone	qnrB71_1	KC580660	ciprofloxacin I/R
+quinolone	qnrB72_1	KC741443	ciprofloxacin I/R
+quinolone	qnrB73_1	KF443075	ciprofloxacin I/R
+quinolone	qnrB74_1	KJ415247	ciprofloxacin I/R
+quinolone	qnrB75_1	KP207591	ciprofloxacin I/R
+quinolone	qnrB76_1	KM985469	ciprofloxacin I/R
+quinolone	qnrB77_1	KM985470	ciprofloxacin I/R
+quinolone	qnrB78_1	KM985471	ciprofloxacin I/R
+quinolone	qnrB80_1	KM985473	ciprofloxacin I/R
+quinolone	qnrB81_1	KX372671	ciprofloxacin I/R
+quinolone	qnrB82_1	KX372672	ciprofloxacin I/R
+quinolone	qnrVC1_1	EU436855	ciprofloxacin I/R
+quinolone	qnrVC3_1	HM015626	ciprofloxacin I/R
+quinolone	qnrVC4_1	GQ891757	ciprofloxacin I/R
+quinolone	qnrVC5_1	JN408080	ciprofloxacin I/R
+quinolone	qnrVC6_1	KC202804	ciprofloxacin I/R
+quinolone	qnrVC7_1	KM555152	ciprofloxacin I/R
+quinolone	qnrC_1	EU917444	ciprofloxacin I/R
+quinolone	qnrD_1	FJ228229	ciprofloxacin I/R
+quinolone	qnrD2_KF055448	KF055448	ciprofloxacin I/R
+quinolone	qnrD3_1	KX130945	ciprofloxacin I/R
+quinolone	qnrS1_1	AB187515	ciprofloxacin I/R
+quinolone	qnrS2_1	DQ485530	ciprofloxacin I/R
+quinolone	qnrS3_1	EU077611	ciprofloxacin I/R
+quinolone	qnrS4_1	FJ418153	ciprofloxacin I/R
+quinolone	qnrS5_1	HQ631377	ciprofloxacin I/R
+quinolone	qnrS6_1	HQ631376	ciprofloxacin I/R
+quinolone	qnrS7_1	KF730651	ciprofloxacin I/R
+quinolone	qnrS8_1	KF730652	ciprofloxacin I/R
+quinolone	qnrS9_1	KF732714	ciprofloxacin I/R
+quinolone	qepA_1	FJ167861	ciprofloxacin I/R
+quinolone	qepA1_1	AB263754	ciprofloxacin I/R
+quinolone	qepA2_1	EU847537	ciprofloxacin I/R
+quinolone	qepA3_1	JQ064560	ciprofloxacin I/R
+quinolone	qepA4_1	KX580704	ciprofloxacin I/R
+quinolone	aac(6')Ib-cr_1	DQ303918	ciprofloxacin I/R
+quinolone	aac(6')Ib-cr_2	EF636461	ciprofloxacin I/R
 quinolone	oqxA_1	EU370913	chloramphenicol
 quinolone	oqxB_1	EU370913	chloramphenicol
-quinolone	qnrE_1	KY073238	ciprofloxacin,i/r
-quinolone	crpP_1	HM560971	ciprofloxacin,i/r
+quinolone	qnrE_1	KY073238	ciprofloxacin I/R
+quinolone	crpP_1	HM560971	ciprofloxacin I/R
 rifampicin	ARR-2_1	HQ141279	rifampicin
 rifampicin	ARR-3_1	JF806499	rifampicin
 rifampicin	ARR-3_4	FM207631	rifampicin

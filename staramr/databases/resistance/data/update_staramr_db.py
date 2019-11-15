@@ -36,11 +36,7 @@ def format_drug_name(value):
         value = value.replace(" ", "")
     elif(" " in value):
         value = value.replace(" ", ",")
-
-    # Check if ciprofloxacinI/R is in there
-    if("ciprofloxacini/r" in value):
-        value = value.replace("i/r", " I/R")
-
+    
     # Check if the word acid is in there
     index = value.find('acid')
     
@@ -56,6 +52,12 @@ def format_drug_name(value):
     else:
         drug_value = value
         
+    # Check if ciprofloxacinI/R is in there and format it to ciprofloxacin I/R
+    if("ciprofloxacini/r" in value):
+        drug_value = value.replace("i/r", " I/R")
+    elif("ciprofloxacin,i/r" in value):
+        drug_value = value.replace(",i/r", " I/R")
+
     return drug_value
 
 def get_point_gene_name(value):
