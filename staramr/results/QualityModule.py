@@ -229,14 +229,12 @@ class QualityModule:
                 failed_feedback=[]
                 quality_parameter.append("Failed")
                 if file_genome_length_feedback == False:
-                    failed_feedback.append("Genome length is not within the acceptable length range")
-
+                    failed_feedback.append("Genome length is not within the acceptable length range [{},{}]".format(self._genome_size_lower_bound,self._genome_size_upper_bound))
                 if file_N50_feedback == False:
-                    failed_feedback.append("N50 value is not greater than the specified minimum value")
-
+                    failed_feedback.append("N50 value is not greater than the specified minimum value [{}]".format(self._minimum_N50_value))
 
                 if file_contigs_over_minimum_bp_feedback == False:
-                    failed_feedback.append("Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number")
+                    failed_feedback.append("Number of Contigs with a length greater than or equal to the minimum Contig length [{}] exceeds the acceptable number [{}]".format(self._minimum_contig_length,self._unacceptable_num_contigs))
 
                 quality_parameter_feedback_for_file = ' ; '.join(failed_feedback)
 

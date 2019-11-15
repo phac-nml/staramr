@@ -169,7 +169,7 @@ class Search(SubCommand):
 
     def _print_dataframes_to_excel(self, outfile_path, summary_dataframe, resfinder_dataframe, pointfinder_dataframe,
                                    plasmidfinder_dataframe, detailed_summary_dataframe, mlst_dataframe,
-                                   settings_dataframe):
+                                   settings_dataframe,minimum_contig_length):
         writer = pd.ExcelWriter(outfile_path, engine='xlsxwriter')
 
         sheetname_dataframe = {}
@@ -183,8 +183,11 @@ class Search(SubCommand):
 
         for name in ['Summary', 'Detailed_Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder', 'MLST_Summary']:
             if name in sheetname_dataframe:
-                sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",
-                                                   na_rep=self.BLANK)
+                if name == 'Summary':
+                    sheetname_dataframe[name].to_excel(writer, name, columns=['Quality Module','Genotype','Predicted Phenotype','Plasmid','Scheme','Sequence Type','Genome Length','N50 value','Number of Contigs Greater Than Or Equal To '+str(minimum_contig_length)+ ' bp','Quality Module Feedback'],freeze_panes=[1,2], float_format="%0.2f",na_rep=self.BLANK)
+                else:
+                    sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",na_rep=self.BLANK)
+                
         self._resize_columns(sheetname_dataframe, writer, max_width=50)
 
         settings_dataframe.to_excel(writer, 'Settings')
@@ -527,7 +530,8 @@ class Search(SubCommand):
                                             amr_detection.get_plasmidfinder_results(),
                                             amr_detection.get_detailed_summary_results(),
                                             amr_detection.get_mlst_results(),
-                                            settings_dataframe)
+                                            settings_dataframe,
+                                            args.minimum_contig_length)
         else:
             logger.info("--output-dir or --output-excel unset. No excel file will be written")
 
