@@ -184,7 +184,7 @@ class Search(SubCommand):
         for name in ['Summary', 'Detailed_Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder', 'MLST_Summary']:
             if name in sheetname_dataframe:
                 if name == 'Summary':
-                    sheetname_dataframe[name].to_excel(writer, name, columns=['Quality Module','Genotype','Predicted Phenotype','Plasmid','Scheme','Sequence Type','Genome Length','N50 value','Number of Contigs Greater Than Or Equal To '+str(minimum_contig_length)+ ' bp','Quality Module Feedback'],freeze_panes=[1,2], float_format="%0.2f",na_rep=self.BLANK)
+                    sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 2], float_format="%0.2f",na_rep=self.BLANK)
                 else:
                     sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",na_rep=self.BLANK)
                 

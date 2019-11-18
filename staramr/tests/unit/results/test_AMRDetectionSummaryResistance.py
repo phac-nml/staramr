@@ -45,8 +45,8 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         ],
             columns=self.columns_pointfinder)
 
-        self.quality_module_table = pd.DataFrame([['file1','6000000','11000','0','Pass',''],],
-                                    columns=self.columns_quality_module).set_index('Isolate ID')
+        self.quality_module_table = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],],
+            columns=self.columns_quality_module).set_index('Isolate ID')
 
         self.files = ['file1']
 

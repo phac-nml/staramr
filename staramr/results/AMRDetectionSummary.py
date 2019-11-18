@@ -160,7 +160,10 @@ class AMRDetectionSummary:
 
 
         resistance_frame = resistance_frame.merge(self._quality_module_dataframe, on='Isolate ID', how='left')
-        
+
+        #Rearranges the resistance frame so that the Quality Module column comes directly after Isolate ID
+        resistance_frame = resistance_frame[['Quality Module'] + [col for col in resistance_frame if col not in ['Quality Module']]] 
+
         return resistance_frame.sort_index()
 
     def _get_detailed_summary_columns(self):
