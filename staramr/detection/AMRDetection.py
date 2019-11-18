@@ -68,7 +68,7 @@ class AMRDetection:
     def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
                                      pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                                      plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
-        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,quality_module_dataframe,
                                                     pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_detailed_summary(self._include_negative_results)
 
