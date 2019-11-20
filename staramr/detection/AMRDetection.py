@@ -68,7 +68,7 @@ class AMRDetection:
     def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
                                      pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                                      plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
-        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,quality_module_dataframe,
                                                     pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_detailed_summary(self._include_negative_results)
 
@@ -97,12 +97,12 @@ class AMRDetection:
                                                                genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
 
-    def _create_quality_module_dataframe(self,files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,
+    def create_quality_module_dataframe(self,files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,
                                         minimum_contig_length,unacceptable_num_contigs) ->DataFrame:
         quality_module = QualityModule(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,
                                         minimum_contig_length,unacceptable_num_contigs)
 
-        return quality_module._create_quality_module_dataframe()
+        return quality_module.create_quality_module_dataframe()
 
     def _generate_empty_columns(self, row: list, max_cols: int, cur_cols: int) -> list:
         if(cur_cols < max_cols):
@@ -172,7 +172,7 @@ class AMRDetection:
         files_copy = copy.deepcopy(files)
         files = self._validate_files(files_copy, ignore_invalid_files)
 
-        self._quality_module_dataframe=self._create_quality_module_dataframe(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs)
+        self._quality_module_dataframe=self.create_quality_module_dataframe(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs)
 
         self._amr_detection_handler.run_blasts_mlst(files, mlst_scheme)
 

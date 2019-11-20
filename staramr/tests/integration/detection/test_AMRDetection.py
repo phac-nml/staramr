@@ -50,12 +50,6 @@ class AMRDetectionIT(unittest.TestCase):
                                                          'drug_key_resfinder_invalid.tsv')
         self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
                                                            'drug_key_pointfinder_invalid.tsv')
-                                                
-        self.genome_size_lower_bound = 4000000
-        self.genome_size_upper_bound = 6000000
-        self.minimum_N50_value = 10000
-        self.minimum_contig_length = 1000
-        self.unacceptable_num_contigs = 3
 
     def tearDown(self):
         self.blast_out.cleanup()
@@ -571,6 +565,10 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
+        #Make sure that the quality module fails when we pass 0,0,0,0,0 for the quality checking parameters
+        summary_results = amr_detection.get_summary_results()
+        self.assertEqual('Failed', summary_results['Quality Module'].iloc[0], 'Quality result not equal')
+
         result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], 'gyrA-A67P-rc', msg='Wrong file')
@@ -601,10 +599,14 @@ class AMRDetectionIT(unittest.TestCase):
 
         file = path.join(self.test_data_dir, "16S_rrsD-1T1065.fsa")
         files = [file]
-        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,1000,1000000,1000,300,1000)
 
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        #Make sure that the quality module passes when we pass 1000,1000000,1000,300,1000 for the quality checking parameters
+        summary_results = amr_detection.get_summary_results()
+        self.assertEqual('Passed', summary_results['Quality Module'].iloc[0], 'Quality result not equal')
 
         result = pointfinder_results[pointfinder_results['Gene'] == '16S_rrsD (C1065T)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')

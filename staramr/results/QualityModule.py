@@ -4,6 +4,7 @@ from typing import Set
 
 import pandas as pd
 from pandas import DataFrame
+from Bio import SeqIO
 
 logger = logging.getLogger("QualityModule")
 
@@ -32,7 +33,7 @@ class QualityModule:
         self._unacceptable_num_contigs = unacceptable_num_contigs
         
     
-    def _create_quality_module_dataframe(self):
+    def create_quality_module_dataframe(self):
         """
         Goes through the files and creates a dataframe consisting of the file's genome length, N50 value and the number of contigs greater or equal to the minimum contig length as
         specified by the quality metrics. It also consists of the feedback for whether or not the file passed the quality metrics and if it didn't feedback on why it failed
@@ -80,47 +81,16 @@ class QualityModule:
         """
         #This array will contain the contig lengths for all the files to be used for our quality metrics, in particular to determine if the files pass our N50
         #metric, and to determine if the files pass the number of contigs equal to or above the minimum contig length metric
-        files_contigs_lengths =[]
+        files_contig_lengths=[]
         #This array will contain the genome lengths for all the files to be used for our quality metrics, in particualr to determine if the files pass our genome 
         #length metric, and to calculate our N50 value 
-        files_genomes_lengths =[]
-        #This array is what we will return and will contain our files genome lengths and their contig lengths
-        feedback = []
-        for filepath in files:
-            genome_length = 0
+        files_genome_lengths =[]
+        for file in files:
+            contig_lengths = [len(record.seq) for record in SeqIO.parse(file, 'fasta')]
+            files_contig_lengths.append(contig_lengths)
+            files_genome_lengths.append(sum(contig_lengths))
 
-            with open(filepath,'r') as g:
-                #This array will hold the contig lengths for all contigs in this file to be used for our quality metrics
-                contig_lengths = []
-                #This variable will hold the genome length for this file to be used for our quality metrics
-                length = 0  
-
-                for line in g:
-                    line = line.strip()
-
-                    if line == '':
-                        continue
-
-                    if line[0] == '>':
-                        if length == 0:
-                            continue
-
-                        else:
-                            genome_length = genome_length + length
-                            contig_lengths.append(length)
-                            length = 0    
-
-                    else:
-                        length = length + len(line)
-
-            contig_lengths.append(length)
-            files_contigs_lengths.append(contig_lengths)
-            files_genomes_lengths.append(genome_length+length)
-
-
-        feedback.append(files_contigs_lengths)
-        feedback.append(files_genomes_lengths)
-        return feedback
+        return [files_contig_lengths, files_genome_lengths]
 
     def _get_genome_length_feedback(self,files_genome_lengths,lb_gsize,ub_gsize):
         """
@@ -131,17 +101,9 @@ class QualityModule:
         :return: An array where each element corresponds to the feedback (true or false) for the corresponding file in regards to the
         genome size quality metric
         """
-        #The array will contain the feedback of either True or false for whether or not the corresponding files pass the genome length quality metric, and
+        #The array contains the feedback of either True or false for whether or not the corresponding files pass the genome length quality metric, and
         #this feedback will be used to construc our quality module dataframe
-        files_genome_feedback=[]
-        for genome_length in files_genome_lengths:
-            if genome_length >= lb_gsize and genome_length <= ub_gsize:
-                files_genome_feedback.append(True)
-
-            else:
-                files_genome_feedback.append(False)
-
-
+        files_genome_feedback=[genome_length >= lb_gsize and genome_length <= ub_gsize for genome_length in files_genome_lengths]
         return files_genome_feedback
 
     def _get_N50_feedback(self,files_contigs_lengths,files_genome_lengths,minimum_N50):
@@ -265,17 +227,14 @@ class QualityModule:
 
             else:
                 failed_feedback=[]
-                #quality_parameter_feedback_for_file=""
                 quality_parameter.append("Failed")
                 if file_genome_length_feedback == False:
-                    failed_feedback.append("Genome length is not within the acceptable length range")
-
+                    failed_feedback.append("Genome length is not within the acceptable length range [{},{}]".format(self._genome_size_lower_bound,self._genome_size_upper_bound))
                 if file_N50_feedback == False:
-                    failed_feedback.append("N50 value is not greater than the specified minimum value")
-
+                    failed_feedback.append("N50 value is not greater than the specified minimum value [{}]".format(self._minimum_N50_value))
 
                 if file_contigs_over_minimum_bp_feedback == False:
-                    failed_feedback.append("Number of Contigs with a length greater than or equal to the minimum Contig length exceeds the acceptable number")
+                    failed_feedback.append("Number of Contigs with a length greater than or equal to the minimum Contig length [{}] exceeds the acceptable number [{}]".format(self._minimum_contig_length,self._unacceptable_num_contigs))
 
                 quality_parameter_feedback_for_file = ' ; '.join(failed_feedback)
 

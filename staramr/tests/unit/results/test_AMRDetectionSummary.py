@@ -142,43 +142,43 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.pointfinder_table_empty = pd.DataFrame([],
                                                     columns=self.columns_pointfinder)
 
-        self.quality_module_table_single_file = pd.DataFrame([['file1','6000000','11000','0','Pass',''],],
+        self.quality_module_table_single_file = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
                 
-        self.quality_module_table_two_files = pd.DataFrame([['file1','6000000','11000','0','Pass',''],
+        self.quality_module_table_two_files = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],
                                     ['file2','6000000','11000','0','Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
 
-        self.quality_module_table_three_files = pd.DataFrame([['file1','6000000','11000','0','Pass',''],
+        self.quality_module_table_three_files = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],
                                     ['file2','6000000','11000','0','Pass',''],
                                     ['file3','6000000','11000','0','Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
 
         self.quality_module_table_file_4 = pd.DataFrame([
-                                    ['file4','6000000','11000','0','Pass',''],],
+                                    ['file4',6000000,11000,0,'Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
 
         self.quality_module_table_file_4_and_5 = pd.DataFrame([['file4','6000000','11000','0','Pass',''],
-                                    ['file5','6000000','11000','0','Pass',''],],
+                                    ['file5',6000000,11000,0,'Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
 
         self.quality_module_table_file_4_and_5_and_6 = pd.DataFrame([['file4','6000000','11000','0','Pass',''],
-                                    ['file5','6000000','11000','0','Pass',''],
-                                    ['file6','6000000','11000','0','Pass',''],],
+                                    ['file5',6000000,11000,0,'Pass',''],
+                                    ['file6',6000000,11000,0,'Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
 
 
 
         # Detailed Summary Tables
 
-        self.quality_module_table_file_1 = pd.DataFrame([['file1','6000000','11000','0','Pass',''],
+        self.quality_module_table_file_1 = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],
                                     ['file1','6000000','11000','0','Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')    
 
-        self.quality_module_table_file_1_and_2_and_4_and_5= pd.DataFrame([['file1','6000000','11000','0','Pass',''],
-                                    ['file2','6000000','11000','0','Pass',''],
-                                    ['file4','6000000','11000','0','Pass',''],
-                                    ['file5','6000000','11000','0','Pass',''],],
+        self.quality_module_table_file_1_and_2_and_4_and_5= pd.DataFrame([['file1',6000000,11000,0,'Pass',''],
+                                    ['file2',6000000,11000,0,'Pass',''],
+                                    ['file4',6000000,11000,0,'Pass',''],
+                                    ['file5',6000000,11000,0,'Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')      
 
         self.plasmidfinder_table_None = None
