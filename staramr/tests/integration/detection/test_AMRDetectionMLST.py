@@ -52,7 +52,7 @@ class AMRDetectionMLST(unittest.TestCase):
     def testMLSTResults(self):
         file = path.join(self.test_data_dir, "test-mlst-summary.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         mlst_results = self.amr_detection.get_mlst_results()
 
@@ -72,7 +72,7 @@ class AMRDetectionMLST(unittest.TestCase):
     def testNoMLSTResults(self):
         file = path.join(self.test_data_dir, "gyrA-S97N.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         mlst_results = self.amr_detection.get_mlst_results()
 

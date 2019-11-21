@@ -16,10 +16,10 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type |
-|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|
-| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
-| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
+| Isolate ID | Quality Module | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
+|------------|----------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|---------------|-----------|---------------------------------------------------|-------------------------|
+| SRR1952908 | Passed         | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                |                         |
+| SRR1952926 | Passed         | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4794071       | 225380    | 50                                                |                         |
 
 **out/detailed_summary.tsv**:
 
@@ -31,10 +31,10 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/resfinder.tsv**:
 
-| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
-|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
-| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  |
-| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  |
+| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession | Sequence|
+|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|---------|
+| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  | ATGA    |
+| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  | ATGT    |
 
 **out/pointfinder.tsv**:
 
@@ -250,7 +250,7 @@ Please make sure to include `#gene_id` in the first line. The default exclusion 
 
 There are 8 different output files produced by `staramr`:
 
-1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one genome per line.
+1. `summary.tsv`:  A summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one genome per line. A series of descriptive statistics is also provided for each genome as well as feedback for whether or not the genome passes several quality metrics and if not, feedback on why the genome fails.
 2. `detailed_summary.tsv`: A detailed summary of all detected AMR genes/mutations/plasmids/sequence type in each genome, one gene per line.
 3. `resfinder.tsv`: A tabular file of each AMR gene and additional BLAST information from the **ResFinder** database, one gene per line.
 4. `pointfinder.tsv`: A tabular file of each AMR point mutation and additional BLAST information from the **PointFinder** database, one gene per line.
@@ -266,18 +266,24 @@ In addition, the directory `hits/` stores fasta files of the specific blast hits
 The **summary.tsv** output file generated by `staramr` contains the following columns:
 
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
+* __Quality Module__: The isolate/genome file(s) pass/fail result(s) for the quality metrics
 * __Genotype__: The AMR genotype of the isolate.
 * __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for the isolate.
 * __Plasmid__: Plasmid types that were found for the isolate.
 * __Scheme__: The MLST scheme used
 * __Sequence Type__: The sequence type that's assigned when combining all allele types
+* __Genome Length__: The isolate/genome file(s) genome length(s)
+* __N50 value__: The isolate/genome file(s) N50 value(s) 
+* __Number of Contigs Greater Than Or Equal To 300 bp__: The number of contigs greater or equal to 300 base pair in the isolate/genome file(s)
+* __Quality Module Feedback__: The isolate/genome file(s) detailed feedback for the quality metrics
 
 ### Example
 
-| Isolate ID | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type |
-|------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|
-| SRR1952908 | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
-| SRR1952926 | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            |
+| Isolate ID | Quality Module | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
+|------------|----------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|---------------|-----------|---------------------------------------------------|-------------------------|
+| SRR1952908 | Passed         | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                |                         |
+| SRR1952926 | Passed         | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4794071       | 225380    | 50                                                |                         |
+
 
 ## detailed_summary.tsv
 
@@ -316,13 +322,14 @@ The **resfinder.tsv** output file generated by `staramr` contains the following 
 * __Start__: The start of the AMR gene (will be greater than __End__ if on minus strand).
 * __End__: The end of the AMR gene.
 * __Accession__: The accession of the AMR gene in the ResFinder database.
+* __Sequence__: The AMR Gene sequence
 
 ### Example
 
-| Isolate ID | Gene       | Predicted Phenotype  | %Identity  | %Overlap  | HSP Length/Total Length  | Contig       | Start  | End   | Accession |
-|------------|------------|----------------------|------------|-----------|--------------------------|--------------|--------|-------|-----------|
-| SRR1952908 | sul3       | sulfisoxazole        | 100.00     | 100.00    | 792/792                  | contig00030  | 2091   | 2882  | AJ459418  |
-| SRR1952908 | tet(A)     | tetracycline         | 99.92      | 100.00    | 1200/1200                | contig00032  | 1551   | 2750  | AJ517790  |
+| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession | Sequence|
+|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|---------|
+| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  | ATGA    |
+| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  | ATGT    |
 
 ## pointfinder.tsv
 
@@ -468,7 +475,7 @@ This software is still a work-in-progress.  In particular, not all organisms sto
 
 # Acknowledgements
 
-Some ideas for the software were derived from the [ResFinder][resfinder-git], [PointFinder][pointfinder-git], and [PlasmidFinder][plasmidfinder-git] command-line software, as well as from [ABRicate][abricate].
+Some ideas for the software were derived from the [ResFinder][resfinder-git], [PointFinder][pointfinder-git], and [PlasmidFinder][plasmidfinder-git] command-line software, as well as from [ABRicate][abricate] and from [SISTR (Salmonella In Silico Typing Resource) command-line tool ][sistr_cmd].
 
 Phenotype/drug resistance predictions are provided with support from the NARMS/CIPARS Molecular Working Group.
 
@@ -517,6 +524,7 @@ specific language governing permissions and limitations under the License.
 [pointfinder-git]: https://bitbucket.org/genomicepidemiology/pointfinder-3.0
 [plasmidfinder-git]: https://bitbucket.org/genomicepidemiology/plasmidfinder
 [abricate]: https://github.com/tseemann/abricate
+[sistr_cmd]: https://github.com/phac-nml/sistr_cmd
 [shovill]: https://github.com/tseemann/shovill
 [ariba]: https://github.com/sanger-pathogens/ariba
 [rgi]: https://github.com/arpcard/rgi
