@@ -54,5 +54,5 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
                  hit.get_genome_contig_start(),
                  hit.get_genome_contig_end(),
                  hit.get_amr_gene_accession(),
-                 hit.get_amr_gene_seq()
+                 hit.get_genome_contig_hsp_seq()
                  ]]
