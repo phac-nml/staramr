@@ -82,6 +82,19 @@ class AMRDetectionIT(unittest.TestCase):
         resfinder_results = self.amr_detection.get_resfinder_results()
         self.assertEqual(len(resfinder_results.index), 0, 'Wrong number of rows in result')
 
+    def testResFinderCorrectSeq(self):
+        self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                                    self.blast_handler, self.pointfinder_drug_table,
+                                                    self.pointfinder_database, output_dir=self.outdir.name,)
+
+        file = path.join(self.test_data_dir, "test-resfinder-correct-seq.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+        self.assertEqual(result['Sequence'].iloc[0], "ATGAGCAAGTTATCTGCATTCTTTATATTTTTGTTTTGCAGCATTGATACCGCAGCAGAGTCTTTGCCAGATTTAAAAATTGAAAAGCTTGATGAAGGCGTTTATGTTCATACTTCGTTTGAAGAAGTTAACAGGTGGGGCGTTGTTCCTAAACATGGTTTGGTGGTTCTTGTAAATGCTGAGGCTTACCTAATTGACACTCCATTTACGGCTAAAGATACTGAAAAGTTAGTCACTTGGTTTGTGGAGCGTGGCTATAAAATAAAAGGCAGCATTTCCTCTCATTTTCATAGCGACAGCACGGGCGGAATAGAGTGGCTTAATTCTCGATCTATCCCCACGTATGCATCTGAATTAACAAATGAACTGCTTAAAAAAGACGGTAAGGTTCAAGCCACAAATTCATTTAGCGGAGTTAACTATTGGCTAGTTAAAAATAAAATTGAAGTTTTTTATCCAGGCCCGGGACACACTCCAGATAACGTAGTGGTTTGGTTGCCTGAAAGGAAAATATTATTCGGTGGTTGTTTTATTAAACCGTACGGTTTAGGCAATTTGGGTGACGCAAATATAGAAGCTTGGCCAAAGTCCGCCAAATTATTAAAGTCCAAATATGGTAAGGCAAAACTGGTTGTTCCAAGTCACAGTGAAGTTGGAGACGCATCACTCTTGAAACTTACATTAGAGCAGGCGGTTAAAGGGTTAAACGAAAGTAAAAAACCATCAAAACCAAGCAACTAA", "Incorrect sequence")
+
     def testNumericalSequenceID(self):
         file = path.join(self.test_data_dir, "test-seq-id.fsa")
         files = [file]
