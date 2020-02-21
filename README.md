@@ -162,7 +162,7 @@ The easiest way to install `staramr` is through [Bioconda][bioconda].
 conda install -c bioconda staramr==0.7.1 pandas==0.25.3
 ```
 
-This will install the `staramr` Python package at version `0.7.1` (replace with whichever version you wish to install). Bioconda will also install all necessary dependencies and databases (we use `pandas==0.24.0` since `staramr` is currently not compatible with newer versions of `pandas`).  You can now run:
+This will install the `staramr` Python package at version `0.7.1` (replace with whichever version you wish to install). Bioconda will also install all necessary dependencies and databases (we use `pandas==0.25.3` since `staramr` is currently not compatible with newer versions of `pandas`).  You can now run:
 
 ```bash
 staramr --help
