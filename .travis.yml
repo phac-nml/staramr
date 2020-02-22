@@ -21,6 +21,5 @@ install:
   - python setup.py install
   - staramr db build --dir staramr/databases/data $DATABASE_COMMITS
   - pip install mypy==0.600
-  - pip install pandas==0.25.3
 
 script: ./scripts/mypy && python setup.py test
