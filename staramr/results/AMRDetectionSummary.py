@@ -37,12 +37,12 @@ class AMRDetectionSummary:
 
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:
         df_summary = resistance_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
-            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x['Gene'])})
+            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x.get('Gene'))})
         return df_summary[['Gene']]
 
     def _compile_plasmids(self, plasmid_frame: DataFrame) -> DataFrame:
         ds_summary = plasmid_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
-            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x['Gene'])})
+            lambda x: {'Gene': (self.SEPARATOR + ' ').join(x.get('Gene'))})
 
         ds_frame = ds_summary[['Gene']]
 

@@ -1,3 +1,7 @@
+# Version 0.7.2
+
+* Fixed `KeyError` issue with later versions of pandas (#115, thanks @javiertognarelli).
+
 # Version 0.7.1
 
 * Fix a bug so that the Sequence column in resfinder.tsv uses the isolate sequence instead of the reference sequence

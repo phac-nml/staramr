@@ -22,7 +22,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         super().__init__(files, resfinder_dataframe,quality_module_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
 
     def _aggregate_gene_phenotype(self, dataframe):
-        flattened_phenotype_list = [y.strip() for x in dataframe['Predicted Phenotype'].tolist() for y in
+        flattened_phenotype_list = [y.strip() for x in dataframe.get('Predicted Phenotype').tolist() for y in
                                     x.split(self.SEPARATOR)]
         uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 
