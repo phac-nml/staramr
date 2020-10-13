@@ -232,6 +232,8 @@ staramr db restore-default
 * Git
 * MLST
 
+**Note: if you wish to use Python 3.5 you will have to install BioPython <= 1.76 as later versions no longer support Python 3.5.**
+
 # Input
 
 ## List of genes to exclude
