@@ -159,10 +159,10 @@ staramr db restore-default
 The easiest way to install `staramr` is through [Bioconda][bioconda].
 
 ```bash
-conda install -c bioconda staramr==0.7.1
+conda install -c bioconda staramr==0.7.2
 ```
 
-This will install the `staramr` Python package at version `0.7.1` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
+This will install the `staramr` Python package at version `0.7.2` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
 
 ```bash
 staramr --help
@@ -171,7 +171,7 @@ staramr --help
 If you wish to use `staramr` in an isolated environment (in case dependencies conflict) you may alternatively install with:
 
 ```bash
-conda create -c bioconda --name staramr staramr==0.7.1
+conda create -c bioconda --name staramr staramr==0.7.2
 ```
 
 To run `staramr` in this case, you must first activate the environment.  That is:
