@@ -1,0 +1,61 @@
+name: Integration Tests
+
+on:
+  pull_request: # Run on all pull requests
+  push:
+    branches:   # Run on any push to master and development
+      - master
+      - development
+  schedule:     # Run weekly on master and development
+    - cron: 0 2 * * 0
+      branches: master
+    - cron: 0 2 * * 0
+      branches: development
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_COMMITS: '--resfinder-commit e8f1eb2585cd9610c4034a54ce7fc4f93aa95535 --pointfinder-commit 8706a6363bb29e47e0e398c53043b037c24b99a7 --plasmidfinder-commit 81919954cbedaff39056610ab584ab4c06011ed8'
+    
+    strategy:
+      fail-fast: False
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Conda with Python ${{ matrix.python-version }}
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniconda-version: "latest"
+          activate-environment: foo
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install conda packages
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+          conda config --add channels defaults
+          conda config --add channels conda-forge
+          conda config --add channels bioconda
+          conda install blast=2.7.1 git mlst -y
+
+      - name: Setup python packages
+        shell: bash -l {0}
+        run: |
+          python --version
+          python setup.py -q install
+          pip install pandas=0.25.3 mypy=0.600
+
+      - name: Build database
+        shell: bash -l {0}
+        run: staramr db build --dir staramr/databases/data ${{ env.DATABASE_COMMITS }}
+
+      - name: Run Tests
+        shell: bash -l {0}
+        run: ./scripts/mypy && python setup.py test
