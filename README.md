@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/phac-nml/staramr.svg?branch=development)](https://travis-ci.org/phac-nml/staramr)
+[![Build Status](https://github.com/phac-nml/staramr/workflows/Integration%20Tests/badge.svg?branch=master&event=schedule)](https://github.com/phac-nml/staramr/actions?query=branch%master)
 [![pypi](https://badge.fury.io/py/staramr.svg)](https://pypi.python.org/pypi/staramr/)
 [![conda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg)](https://anaconda.org/bioconda/staramr)
 
