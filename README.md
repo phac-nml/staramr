@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/phac-nml/staramr.svg?branch=development)](https://travis-ci.org/phac-nml/staramr)
+[![Build Status](https://github.com/phac-nml/staramr/workflows/Integration%20Tests/badge.svg?branch=master&event=schedule)](https://github.com/phac-nml/staramr/actions?query=branch%master)
 [![pypi](https://badge.fury.io/py/staramr.svg)](https://pypi.python.org/pypi/staramr/)
 [![conda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg)](https://anaconda.org/bioconda/staramr)
 
@@ -159,10 +159,10 @@ staramr db restore-default
 The easiest way to install `staramr` is through [Bioconda][bioconda].
 
 ```bash
-conda install -c bioconda staramr==0.7.1
+conda install -c bioconda staramr==0.7.2
 ```
 
-This will install the `staramr` Python package at version `0.7.1` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
+This will install the `staramr` Python package at version `0.7.2` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
 
 ```bash
 staramr --help
@@ -171,7 +171,7 @@ staramr --help
 If you wish to use `staramr` in an isolated environment (in case dependencies conflict) you may alternatively install with:
 
 ```bash
-conda create -c bioconda --name staramr staramr==0.7.1
+conda create -c bioconda --name staramr staramr==0.7.2
 ```
 
 To run `staramr` in this case, you must first activate the environment.  That is:
