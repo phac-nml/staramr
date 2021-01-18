@@ -1,7 +1,8 @@
 # Version 0.8.0
 
-* Updated the ResFinder default database from `2018-07-22` to `2019-10-01`
-* Updated the PlasmidFinder default database from `2018-11-20` to `2019-10-18`
+* Updated the ResFinder default database from `2018-07-22` to `2020-10-28`
+* Updated the PointFinder default database from `2018-07-04` to `2020-10-21`
+* Updated the PlasmidFinder default database from `2018-11-20` to `2021-01-13`
 
 # Version 0.7.2
 
