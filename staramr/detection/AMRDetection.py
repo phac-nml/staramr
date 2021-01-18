@@ -18,6 +18,7 @@ from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import 
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
+from staramr.results.QualityModule import QualityModule
 
 logger = logging.getLogger("AMRDetection")
 
@@ -57,17 +58,17 @@ class AMRDetection:
 
         self._genes_to_exclude = genes_to_exclude
 
-    def _create_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,
+    def _create_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
                             pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                             plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
-        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,quality_module_dataframe,
                                                     pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
-    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,
+    def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
                                      pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                                      plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
-        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,
+        amr_detection_summary = AMRDetectionSummary(files, resfinder_dataframe,quality_module_dataframe,
                                                     pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_detailed_summary(self._include_negative_results)
 
@@ -95,6 +96,13 @@ class AMRDetection:
                                                                output_dir=self._output_dir,
                                                                genes_to_exclude=self._genes_to_exclude)
         return plasmidfinder_parser.parse_results()
+
+    def create_quality_module_dataframe(self,files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,
+                                        minimum_contig_length,unacceptable_num_contigs) ->DataFrame:
+        quality_module = QualityModule(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,
+                                        minimum_contig_length,unacceptable_num_contigs)
+
+        return quality_module.create_quality_module_dataframe()
 
     def _generate_empty_columns(self, row: list, max_cols: int, cur_cols: int) -> list:
         if(cur_cols < max_cols):
@@ -139,8 +147,10 @@ class AMRDetection:
 
         return mlst_dataframe
 
-    def run_amr_detection(self, files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
-                          plength_threshold_plasmidfinder, report_all=False, ignore_invalid_files=False, mlst_scheme=None) -> None:
+    def run_amr_detection(self,files, pid_threshold, plength_threshold_resfinder, plength_threshold_pointfinder,
+                          plength_threshold_plasmidfinder, genome_size_lower_bound,genome_size_upper_bound,
+                          minimum_N50_value,minimum_contig_length,unacceptable_num_contigs,
+                          report_all=False, ignore_invalid_files=False, mlst_scheme=None) -> None:
         """
         Scans the passed files for AMR genes.
         :param files: The files to scan.
@@ -148,6 +158,11 @@ class AMRDetection:
         :param plength_threshold_resfinder: The percent length overlap for BLAST results (resfinder).
         :param plength_threshold_pointfinder: The percent length overlap for BLAST results (pointfinder).
         :param plength_threshold_plasmidfinder: The percent length overlap for BLAST results (plasmidfinder).
+        :param genome_size_lower_bound: The lower bound for the genome size as defined by the user for quality metrics
+        :param genome_size_upper_bound: The upper bound for the genome size as defined by the user for quality metrics
+        :param minimum_N50_value: The minimum N50 value as defined by the user for quality metrics
+        :param minimum_contig_length: The minimum contig length as defined by the user for quality metrics
+        :param unacceptable_num_contigs: The number of contigs in a file, equal to or above our minimum contig length, for which to raise a flag as defined by the user for quality metrics
         :param report_all: Whether or not to report all blast hits.
         :param ignore_invalid_files: Skips the invalid input files if set.
         :param mlst_scheme: Specifys scheme name MLST uses if set.
@@ -156,6 +171,8 @@ class AMRDetection:
 
         files_copy = copy.deepcopy(files)
         files = self._validate_files(files_copy, ignore_invalid_files)
+
+        self._quality_module_dataframe=self.create_quality_module_dataframe(files,genome_size_lower_bound,genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs)
 
         self._amr_detection_handler.run_blasts_mlst(files, mlst_scheme)
 
@@ -177,10 +194,10 @@ class AMRDetection:
             self._pointfinder_dataframe = self._create_pointfinder_dataframe(pointfinder_blast_map, pid_threshold,
                                                                              plength_threshold_pointfinder, report_all)
 
-        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe,
+        self._summary_dataframe = self._create_amr_summary(files, self._resfinder_dataframe,self._quality_module_dataframe,
                                                            self._pointfinder_dataframe, self._plasmidfinder_dataframe, self._mlst_dataframe)
 
-        self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,
+        self._detailed_summary_dataframe = self._create_detailed_amr_summary(files, self._resfinder_dataframe,self._quality_module_dataframe,
                                                                              self._pointfinder_dataframe,
                                                                              self._plasmidfinder_dataframe,
                                                                              self._mlst_dataframe)
@@ -269,7 +286,6 @@ class AMRDetection:
         Gets a pd.DataFrame for the PlasmidFinder results.
         :return: A pd.DataFrame for the PlasmidFinder results.
         """
-
         self._plasmidfinder_dataframe = self._plasmidfinder_dataframe.rename({'Gene':'Plasmid'}, axis=1)
         return self._plasmidfinder_dataframe
 

@@ -9,18 +9,20 @@ Summarizes both ResFinder and PointFinder database results into a single table.
 
 class AMRDetectionSummaryResistance(AMRDetectionSummary):
 
-    def __init__(self, files, resfinder_dataframe, pointfinder_dataframe=None, plasmidfinder_dataframe=None, mlst_dataframe=None):
+    def __init__(self, files, resfinder_dataframe, quality_module_dataframe,pointfinder_dataframe=None, plasmidfinder_dataframe=None, mlst_dataframe=None):
         """
         Creates a new AMRDetectionSummaryResistance.
         :param files: The list of genome files we have scanned against.
         :param resfinder_dataframe: The pd.DataFrame containing the ResFinder results.
+        :param quality_module_dataframe: The pd.DataFrame containing the genome size, N50 value, number of contigs under our user defined minimum length
+        as well as the results of our quality metrics (pass or fail) and the corresponding feedback
         :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
         :param plasmidfinder_dataframe: The pd.DataFrame containing the PlasmidFinder results.
         """
-        super().__init__(files, resfinder_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
+        super().__init__(files, resfinder_dataframe,quality_module_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
 
     def _aggregate_gene_phenotype(self, dataframe):
-        flattened_phenotype_list = [y.strip() for x in dataframe['Predicted Phenotype'].tolist() for y in
+        flattened_phenotype_list = [y.strip() for x in dataframe.get('Predicted Phenotype').tolist() for y in
                                     x.split(self.SEPARATOR)]
         uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 

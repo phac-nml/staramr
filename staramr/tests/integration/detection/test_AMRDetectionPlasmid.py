@@ -52,7 +52,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
     def testPlasmidfinderNameSuccess(self):
         file = path.join(self.test_data_dir, "test-plasmids-seq.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         plasmidfinder_results = self.amr_detection.get_plasmidfinder_results()
         self.assertEqual(len(plasmidfinder_results.index), 1, 'Wrong number of rows in result')
@@ -77,7 +77,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
     def testDetailedSummary_ResPlasmid(self):
         file = path.join(self.test_data_dir, "test-detailed-summary.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         detailed_summary_results = self.amr_detection.get_detailed_summary_results()
         self.assertEqual(len(detailed_summary_results.index), 3, 'Wrong number of rows in result')
@@ -103,7 +103,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
     def testResistancePlasmidGenesSummary(self):
         file = path.join(self.test_data_dir, "test-resistance-plasmid.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         summary_results = self.amr_detection.get_summary_results()
 
@@ -119,7 +119,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
     def testIndexRangePlasmids(self):
         file = path.join(self.test_data_dir, "test-index-range-plasmid.fsa")
         files = [file]
-        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90)
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
 
         summary_results = self.amr_detection.get_summary_results()
 

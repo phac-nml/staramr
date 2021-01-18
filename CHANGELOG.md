@@ -1,9 +1,26 @@
-# Version X.X.X
+# Version 0.8.0
 
-- Updated the ResFinder default database from `2018-07-22` to `2019-10-01`
-- Updated the PlasmidFinder default database from `2018-11-20` to `2019-10-18`
+* Updated the ResFinder default database from `2018-07-22` to `2019-10-01`
+* Updated the PlasmidFinder default database from `2018-11-20` to `2019-10-18`
+
+# Version 0.7.2
+
+* Fixed `KeyError` issue with later versions of pandas (#115, thanks @javiertognarelli).
+
+# Version 0.7.1
+
+* Fix a bug so that the Sequence column in resfinder.tsv uses the isolate sequence instead of the reference sequence
 
 # Version 0.7.0
+
+* Added quality module that adds PASS/Fail column and detail information in Summary.tsv
+* Added following new optional arguments for Search.py
+  - --genome-size-lower-bound
+  - --genome-size-upper-bound
+  - --minimum-N50-value
+  - --minimum-contig-length
+  - --unacceptable-number-contigs
+* Add DNA column in Resfinder report
 
 # Version 0.6.1
 
