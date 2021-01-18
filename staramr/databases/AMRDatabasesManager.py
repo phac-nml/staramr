@@ -12,9 +12,9 @@ A Class used to manage interactions with default and updatable ResFinder/PointFi
 
 class AMRDatabasesManager:
     DEFAULT_COMMITS = {
-        'resfinder': '149209df6444c539512111335e575baa1ff1ed24',
-        'pointfinder': '8706a6363bb29e47e0e398c53043b037c24b99a7',
-        'plasmidfinder': '4baff38db48f4994ba833345f699c0e7781e6c42'
+        'resfinder': 'ae7fe59c64fb64b8c3f2bbf461c9d2e12abf0b7d',
+        'pointfinder': '6402dadcc4ccf576c7113755310b6be0c9728a98',
+        'plasmidfinder': 'cde5be2d933076e71cb65c9814f52a6d4c971f50'
     }
 
     def __init__(self, database_dir: str, sub_dirs: bool = False) -> None:

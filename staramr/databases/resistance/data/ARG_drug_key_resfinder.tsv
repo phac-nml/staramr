@@ -45,7 +45,7 @@ aminoglycoside	aph(3'')-Ia_2	AP009493	streptomycin
 aminoglycoside	aph(3'')-Ia_3	M37378	streptomycin
 aminoglycoside	aph(3'')-Ib_3	AF321550	streptomycin
 aminoglycoside	aph(3'')-Ib_4	AF313472	streptomycin
-aminoglycoside	aadE-Cc_1	CP013733	gentamicin,kanamycin
+aminoglycoside	aadE-Cc_1	CP013733	streptomycin
 aminoglycoside	ant(2'')-Ia_2	JF826500	gentamicin
 aminoglycoside	ant(2'')-Ia_3	X74412	gentamicin
 aminoglycoside	ant(2'')-Ia_4	AF458082	gentamicin
@@ -125,7 +125,7 @@ aminoglycoside	aac(3)-Xa_1	AB028210	amikacin
 aminoglycoside	aac(6')-Ia_1	M18967	amikacin,tobramycin
 aminoglycoside	aac(6')-Ib_1	M21682	amikacin,gentamicin,kanamycin
 aminoglycoside	aac(6')-Ic_1	M94066	amikacin,tobramycin
-aminoglycoside	aac(6')-If_1	X55353	amikacin,kanamycin,gentamicin
+aminoglycoside	aac(6')-If_1	X55353	amikacin,kanamycin
 aminoglycoside	aac(6')-Ig_1	L09246	amikacin,tobramycin
 aminoglycoside	aac(6')-Ih_1	L29044	amikacin,tobramycin
 aminoglycoside	aac(6')-Ij_1	L29045	amikacin,tobramycin
@@ -406,25 +406,25 @@ beta-lactam	blaCTX-M-5_1	U95364	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-55_1	DQ810789	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-7_1	AJ005045	ampicillin,ceftriaxone
 beta-lactam	blaCTX-M-73_1	DQ343292	ampicillin,ceftriaxone
-beta-lactam	blaDHA-10_1	KP050490	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-12_1	HG798963	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-13_1	KM087855	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-14_1	DQ478687	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-15_1	KM087853	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-16_1	KM087852	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-17_1	KM087850	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-18_1	KM087841	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-19_1	KM087849	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-20_1	KM087848	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-21_1	KM087847	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-22_1	KM087856	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-23_1	KX068223	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-24_1	KU759569	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-25_1	KY563770	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-26_1	MH067966	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-27_1	MH067965	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-4_1	CP026046	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
-beta-lactam	blaDHA-9_1	KJ207201	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
+beta-lactam	blaDHA-10_1	KP050490	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-12_1	HG798963	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-13_1	KM087855	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-14_1	DQ478687	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-15_1	KM087853	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-16_1	KM087852	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-17_1	KM087850	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-18_1	KM087841	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-19_1	KM087849	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-20_1	KM087848	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-21_1	KM087847	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-22_1	KM087856	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-23_1	KX068223	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-24_1	KU759569	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-25_1	KY563770	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-26_1	MH067966	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-27_1	MH067965	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-4_1	CP026046	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+beta-lactam	blaDHA-9_1	KJ207201	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 beta-lactam	blaIMP-17_1	AJ512502	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaIMP-21_1	AB204557	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaIMP-23_1	DQ417222	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
@@ -741,7 +741,7 @@ beta-lactam	blaSHV-203_1	MG028656	ampicillin
 beta-lactam	blaSHV-204_1	MH243356	ampicillin
 beta-lactam	blaSHV-3_1	KX092356	ampicillin
 beta-lactam	blaSHV-32_1	AY037778	ampicillin
-beta-lactam	blaSHV-9_1	S82452	ampicillin
+beta-lactam	blaSHV-9_1	S82452	ampicillin,ceftriaxone
 beta-lactam	blaTEM-116_1	AY425988	ampicillin
 beta-lactam	blaTEM-181_1	KM977568	ampicillin
 beta-lactam	blaTEM-19_1	JX042489	ampicillin
@@ -1931,7 +1931,7 @@ beta-lactam	blaOXA-240_1	JX089628	ampicillin
 beta-lactam	blaOXA-241_1	JX025021	ampicillin
 beta-lactam	blaOXA-242_1	JX025022	ampicillin
 beta-lactam	blaOXA-243_1	AFRQ01000031	ampicillin
-beta-lactam	blaOXA-244_1	KP659189	ampicillin
+beta-lactam	blaOXA-244_1	KP659189	ampicillin,amoxicillin/clavulanic acid,ds-meropenem
 beta-lactam	blaOXA-245_1	JX438001	ampicillin
 beta-lactam	blaOXA-247_1	JX893517	ampicillin
 beta-lactam	blaOXA-248_1	HE963769	ampicillin
@@ -2182,7 +2182,7 @@ beta-lactam	blaTEM-166_1	FJ197316	ampicillin
 beta-lactam	blaTEM-167_1	FJ360884	ampicillin
 beta-lactam	blaTEM-168_1	FJ919776	ampicillin
 beta-lactam	blaTEM-171_1	GQ149347	ampicillin
-beta-lactam	blaTEM-176_1	GU550123	ampicillin
+beta-lactam	blaTEM-176_1	GU550123	ampicillin,amoxicillin/clavulanic acid
 beta-lactam	blaTEM-183_1	HQ529916	ampicillin
 beta-lactam	blaTEM-186_1	JN227084	ampicillin
 beta-lactam	blaTEM-189_1	JN254627	ampicillin
@@ -2251,6 +2251,8 @@ beta-lactam	blaSPU-1_1	GQ919044	ampicilin,ceftriaxone
 beta-lactam	blaSRT-1_1	AB008454	ampicilin,ceftriaxone
 beta-lactam	blaSRT-2_1	AY524276	ampicilin,ceftriaxone
 beta-lactam	blaSST-1_1	AB008455	ampicilin,ceftriaxone
+beta-lactam	blaLAP-1_1	EF026092	ampicillin
+beta-lactam	blaLAP-2_1	EU159120	ampicillin
 colistin	mcr-1.1_1	KP347127	colistin
 colistin	mcr-1.2_1	KX236309	colistin
 colistin	mcr-1.3_1	KU934208	colistin
@@ -2388,7 +2390,7 @@ glycopeptide	VanHOX_1	KF478993	vancomycin
 glycopeptide	vanXmurFvanWI_1	CP001336	vancomycin
 glycopeptide	vanXmurFvanKWI_1	NZAGAF01000127	vancomycin
 glycopeptide	vanXmurFvanKWI_2	AP008230	vancomycin
-macrolide	ere(A)_6	DQ157752	erythromycin,azithromycin
+macrolide	ere(A)_6	DQ157752	erythromycin
 macrolide	ere(D)_1	KP265721	erythromycin,azithromycin
 macrolide	vga(A)LC_3	FN806791	virginiamycin
 macrolide	erm(37)_1	AL123456	erythromycin,azithromycin
@@ -2477,10 +2479,10 @@ macrolide	vga(A)_1	M90056	virginiamycin
 macrolide	vga(A)_2	FN546261	virginiamycin
 macrolide	vga(A)LC_1	GQ891882	virginiamycin
 macrolide	vga(B)_1	U82085	virginiamycin
-macrolide	ere(A)_2	AF099140	erythromycin,azithromycin
-macrolide	ere(A)_3	AF326209	erythromycin,azithromycin
-macrolide	ere(A)_4	AF512546	erythromycin,azithromycin
-macrolide	ere(A)_1	AY183453	erythromycin,azithromycin
+macrolide	ere(A)_2	AF099140	erythromycin
+macrolide	ere(A)_3	AF326209	erythromycin
+macrolide	ere(A)_4	AF512546	erythromycin
+macrolide	ere(A)_1	AY183453	erythromycin
 macrolide	ere(B)_2	X03988	erythromycin,azithromycin
 macrolide	vgb(A)_1	M20129	erythromycin,azithromycin
 macrolide	vgb(B)_1	AF015628	erythromycin,azithromycin
@@ -2544,7 +2546,7 @@ macrolide	erm(44)_1	HG796218	erythromycin,azithromycin
 macrolide	sal(A)_1	KC693025	lincomycin
 macrolide	erm(45)_1	LN680996	erythromycin,azithromycin
 macrolide	erm(33)_1	AJ579365	erythromycin,azithromycin
-macrolide	ere(A)_5	FN396877	erythromycin,azithromycin
+macrolide	ere(A)_5	FN396877	erythromycin
 macrolide	lnu(B)_2	JQ861959	lincomycin
 macrolide	erm(R)_1	M11276	erythromycin,azithromycin
 macrolide	erm(B)_23	X72021	erythromycin,azithromycin
@@ -2756,6 +2758,10 @@ quinolone	qnrS6_1	HQ631376	ciprofloxacin I/R
 quinolone	qnrS7_1	KF730651	ciprofloxacin I/R
 quinolone	qnrS8_1	KF730652	ciprofloxacin I/R
 quinolone	qnrS9_1	KF732714	ciprofloxacin I/R
+quinolone	qnrS10_1	JN836269	ciprofloxacin I/R
+quinolone	qnrS11_1	JQ269335	ciprofloxacin I/R
+quinolone	qnrS12_1	MKQI01000097	ciprofloxacin I/R
+quinolone	qnrS13_1	LUYD01000008	ciprofloxacin I/R
 quinolone	qepA_1	FJ167861	ciprofloxacin I/R
 quinolone	qepA1_1	AB263754	ciprofloxacin I/R
 quinolone	qepA2_1	EU847537	ciprofloxacin I/R
@@ -2939,9 +2945,9 @@ tetracycline	tetA(P)_3	AB001076	tetracycline
 tetracycline	tet(Z)_1	AF121000	tetracycline
 tetracycline	tet(Y)_1	EF495198	tetracycline
 tetracycline	tet(Y)_2	AB089606	tetracycline
-tetracycline	tet(X)_1	GU014535	tetracycline
-tetracycline	tet(X)_2	M37699	tetracycline
-tetracycline	tet(X)_3	AB097942	tetracycline
+tetracycline	tet(X)_1	GU014535	doxycycline,tetracycline,minocycline,tigecycline
+tetracycline	tet(X)_2	M37699	doxycycline,tetracycline,minocycline,tigecycline
+tetracycline	tet(X)_3	AB097942	doxycycline,tetracycline,minocycline,tigecycline
 tetracycline	tet(W)_1	DQ060146	tetracycline
 tetracycline	tet(W)_2	AY049983	tetracycline
 tetracycline	tet(W)_3	AJ427421	tetracycline
@@ -2973,6 +2979,9 @@ tetracycline	tet(W/32/O)_1	AM710601	tetracycline
 tetracycline	tet(W/32/O)_2	AM710602	tetracycline
 tetracycline	tet(W/32/O)_3	AM710603	tetracycline
 tetracycline	tet(W/32/O)_4	AM71605	tetracycline
+tetracycline	tet(X3)_1	MK134375	doxycycline,tetracycline,minocycline,tigecycline
+tetracycline	tet(X4)_1	MK134376	doxycycline,tetracycline,minocycline,tigecycline
+tetracycline	tet(X5)_1	CP040912	doxycycline,tetracycline,minocycline,tigecycline
 trimethoprim	dfrA27_1	FJ459817	trimethoprim
 trimethoprim	dfrA31_1	AB200915	trimethoprim
 trimethoprim	dfrA30_1	AM997279	trimethoprim
@@ -3080,3 +3089,15 @@ trimethoprim	dfrA17_7	AB196349	trimethoprim
 trimethoprim	dfrA17_8	AM932673	trimethoprim
 trimethoprim	dfrA17_9	FJ807902	trimethoprim
 trimethoprim	dfrA17_10	AM937244	trimethoprim
+non-functional	name		type
+non-functional	blaEC  		gene
+non-functional	mdtM		gene
+non-functional	emrD		gene
+non-functional	mdsAB		gene
+non-functional	acrF		gene
+non-functional	parC(57)		point
+non-functional	aac(6')-Iaa		gene
+non-functional	sat2		gene
+non-functional	qacE/qacEdelta1		gene
+non-functional	vat		gene
+non-functional	mdfA		gene
