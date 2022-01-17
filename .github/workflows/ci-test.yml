@@ -58,4 +58,4 @@ jobs:
 
       - name: Run Tests
         shell: bash -l {0}
-        run: ./scripts/mypy && python setup.py test
+        run: python setup.py test
