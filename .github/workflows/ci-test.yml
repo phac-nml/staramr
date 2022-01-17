@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: False
       matrix:
-        python-version: [3.7]
+        python-version: [3.8]
 
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
           conda config --add channels defaults
           conda config --add channels conda-forge
           conda config --add channels bioconda
-          conda install blast=2.7.1 git mlst Cython -y
+          conda install blast=2.7.1 git perl==5.22.0.1 mlst  -y
 
       - name: Setup python packages
         shell: bash -l {0}
