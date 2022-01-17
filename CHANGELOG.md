@@ -1,3 +1,8 @@
+# Version 0.7.3
+
+* Fixed issue `AttributeError: 'list' object has no attribute 'tolist'` for more recent versions of pandas.
+
+
 # Version 0.7.2
 
 * Fixed `KeyError` issue with later versions of pandas (#115, thanks @javiertognarelli).
