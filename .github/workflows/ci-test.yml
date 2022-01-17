@@ -43,7 +43,7 @@ jobs:
           conda config --add channels defaults
           conda config --add channels conda-forge
           conda config --add channels bioconda
-          conda install blast=2.7.1 git perl==5.22.0.1 mlst  -y
+          conda install blast git perl==5.22.0.1 mlst  -y
 
       - name: Setup python packages
         shell: bash -l {0}
