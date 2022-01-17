@@ -1,3 +1,9 @@
+# Version 0.7.2.zenodo0
+
+* Identical code to version `0.7.2` but made mainly to upload this version into Zenodo.
+* Migrated integration tests from TravisCI to GitHub Actions
+* A few small fixes to `README.md`.
+
 # Version 0.7.2
 
 * Fixed `KeyError` issue with later versions of pandas (#115, thanks @javiertognarelli).
