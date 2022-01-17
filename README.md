@@ -4,7 +4,7 @@
 
 # `staramr`
 
-`staramr` (*AMR) scans bacterial genome contigs against the [ResFinder][resfinder-db], [PointFinder][pointfinder-db], and [PlasmidFinder][plasmidfinder-db] databases (used by the [ResFinder webservice][resfinder-web] and other webservices offered by the Center for Genomic Epidemiology) and compiles a summary report of detected antimicrobial resistance genes.
+`staramr` (*AMR) scans bacterial genome contigs against the [ResFinder][resfinder-db], [PointFinder][pointfinder-db], and [PlasmidFinder][plasmidfinder-db] databases (used by the [ResFinder webservice][resfinder-web] and other webservices offered by the Center for Genomic Epidemiology) and compiles a summary report of detected antimicrobial resistance genes. The `star|*` in `staramr` indicates that it can handle all of the ResFinder, PointFinder, and PlasmidFinder databases.
 
 **Note: The predicted phenotypes/drug resistances are for microbiological resistance and *not* clinical resistance. This is provided with support from the NARMS/CIPARS Molecular Working Group and is continually being improved. A small comparison between phenotype/drug resistance predictions produced by `staramr` and those available from NCBI can be found in the [tutorial][tutorial]. We welcome any feedback or suggestions.**
 
@@ -156,13 +156,14 @@ staramr db restore-default
 
 ## Bioconda
 
-The easiest way to install `staramr` is through [Bioconda][bioconda].
+The easiest way to install `staramr` is through [Bioconda][bioconda] (we recommend using [mamba](https://mamba.readthedocs.io/) as an alternative to `conda`).
 
 ```bash
-conda install -c bioconda staramr==0.7.2
+conda install mamba # Install mamba to make it easier to install later dependencies
+mamba install -c bioconda -c conda-forge -c defaults staramr==0.7.2 pandas==1.1.5 mlst==2.19.0
 ```
 
-This will install the `staramr` Python package at version `0.7.2` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
+This will install the `staramr` Python package at version `0.7.2` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases (use `pandas==1.1.5` and `mlst==2.19.0` to solve issues installing the correct dependency versions). Once this is complete you can run:
 
 ```bash
 staramr --help
@@ -171,7 +172,8 @@ staramr --help
 If you wish to use `staramr` in an isolated environment (in case dependencies conflict) you may alternatively install with:
 
 ```bash
-conda create -c bioconda --name staramr staramr==0.7.2
+conda install mamba # Install mamba to make it easier to install later dependencies
+mamba create -c bioconda -c conda-forge -c defaults --name staramr staramr==0.7.2 pandas==1.1.5 mlst==2.19.0
 ```
 
 To run `staramr` in this case, you must first activate the environment.  That is:
