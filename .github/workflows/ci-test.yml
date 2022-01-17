@@ -43,14 +43,14 @@ jobs:
           conda config --add channels defaults
           conda config --add channels conda-forge
           conda config --add channels bioconda
-          conda install blast=2.7.1 git mlst -y
+          conda install mamba
+          mamba install blast git pandas==1.1.5 mlst==2.19.0 -y
 
       - name: Setup python packages
         shell: bash -l {0}
         run: |
           python --version
           python setup.py -q install
-          pip install pandas==0.25.3 mypy==0.600
 
       - name: Build database
         shell: bash -l {0}
@@ -58,4 +58,4 @@ jobs:
 
       - name: Run Tests
         shell: bash -l {0}
-        run: ./scripts/mypy && python setup.py test
+        run: python setup.py test
