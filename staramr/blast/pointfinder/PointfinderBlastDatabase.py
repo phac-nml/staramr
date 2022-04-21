@@ -80,7 +80,9 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         A Class Method to get a list of organisms that are currently supported by staramr.
         :return: The list of organisms currently supported by staramr.
         """
-        return ['salmonella', 'campylobacter']
+        return ['campylobacter', 'enterococcus_faecalis', 'enterococcus_faecium','escherichia_coli',
+                'helicobacter_pylori', 'klebsiella','mycobacterium_tuberculosis','neisseria_gonorrhoeae',
+                'plasmodium_falciparum','staphylococcus_aureus', 'salmonella']
 
     @classmethod
     def get_organisms(cls, database_dir):
