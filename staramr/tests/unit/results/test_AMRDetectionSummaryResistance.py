@@ -15,7 +15,7 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         self.columns_quality_module = ('Isolate ID','Genome Length','N50 value','Number of Contigs Under 1000 bp','Quality Module','Quality Module Feedback')
 
         # Resfinder tables
-        self.resfinder_table_empty = pd.DataFrame([],
+        self.resfinder_table_empty = pd.DataFrame([], dtype='object',
                                                   columns=self.columns_resfinder)
 
         self.resfinder_table = pd.DataFrame([

@@ -74,7 +74,7 @@ class BlastResultsParser:
             else:
                 logger.debug("No output directory defined for blast hits, skipping writing file")
 
-        return pd.DataFrame(results, columns=self.COLUMNS).sort_values(by=self.SORT_COLUMNS).set_index(self.INDEX)
+        return pd.DataFrame(results, columns=self.COLUMNS, dtype='object').sort_values(by=self.SORT_COLUMNS).set_index(self.INDEX)
 
     @abc.abstractmethod
     def _get_out_file_name(self, in_file):

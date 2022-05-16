@@ -25,7 +25,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                                  'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession', 'Data Type')
 
         # Resfinder tables
-        self.resfinder_table_empty = pd.DataFrame([],
+        self.resfinder_table_empty = pd.DataFrame([], dtype='object',
                                                   columns=self.columns_resfinder)
 
         self.resfinder_table1 = pd.DataFrame([
@@ -74,7 +74,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.resfinder_table_mult_file_files = ['file1', 'file2']
 
         # Plasmidfinder tables
-        self.plasmidfinder_table_empty = pd.DataFrame([],
+        self.plasmidfinder_table_empty = pd.DataFrame([], dtype='object',
                                                       columns=self.columns_plasmidfinder)
 
         self.plasmidfinder_table1 = pd.DataFrame([
@@ -139,7 +139,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             columns=self.columns_pointfinder)
         self.pointfinder_table_multiple_gene_files = ['file1']
 
-        self.pointfinder_table_empty = pd.DataFrame([],
+        self.pointfinder_table_empty = pd.DataFrame([], dtype='object',
                                                     columns=self.columns_pointfinder)
 
         self.quality_module_table_single_file = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],],
