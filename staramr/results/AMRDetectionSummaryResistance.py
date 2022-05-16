@@ -38,17 +38,11 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         df_summary['Gene.Lower'] = df['Gene'].str.lower()
 
         # Compiles the gene/phenotype results into a single entry per isolate (groupby)
-        print("**** BEFORE CALL ****")
-        print(df_summary)
-        print("**** END BEFORE CALL ****")
         df_summary = df_summary \
             .sort_values(by=['Gene.Lower']) \
             .groupby(['Isolate ID'], sort=True) \
             .aggregate({'Gene': self._aggregate_gene,
                 'Predicted Phenotype': self._aggregate_phenotype})
-        print("**** AFTER CALL ****")
-        print(df_summary)
-        print("**** END AFTER CALL ****")
         return df_summary[['Gene', 'Predicted Phenotype']]
 
     def _get_detailed_negative_columns(self):
