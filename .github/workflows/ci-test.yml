@@ -24,6 +24,7 @@ jobs:
       fail-fast: False
       matrix:
         python-version: [3.7]
+        python-version: [3.10]
 
     steps:
       - uses: actions/checkout@v2
@@ -44,7 +45,7 @@ jobs:
           conda config --add channels conda-forge
           conda config --add channels bioconda
           conda install mamba
-          mamba install blast git pandas==1.1.5 mlst==2.19.0 -y
+          mamba install blast git pandas mlst -y
 
       - name: Setup python packages
         shell: bash -l {0}
