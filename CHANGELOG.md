@@ -3,7 +3,6 @@
 * Fixed issue when using older version of pandas (#136) (0.8.0.dev0).
 * Fixed up some Python warnings related to pandas (0.8.0.dev0).
 * Adjusted `mlst` tests to account for differences in results for newer versions (0.8.0.dev0).
-* Switch to requiring `pandas>=1.0.0` (0.8.0.dev0).
 
 # Version 0.7.2.zenodo0
 
