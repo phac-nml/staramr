@@ -1,3 +1,7 @@
+# Version 0.8.0
+
+* Fixed issue when using older version of pandas (#136).
+
 # Version 0.7.2.zenodo0
 
 * Identical code to version `0.7.2` but made mainly to upload this version into Zenodo.
