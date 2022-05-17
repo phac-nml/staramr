@@ -48,7 +48,7 @@ jobs:
           conda config --add channels conda-forge
           conda config --add channels bioconda
           conda install mamba
-          mamba install blast git pandas==${{ matrix.pandas-version }} -y
+          mamba install blast git mlst pandas==${{ matrix.pandas-version }} -y
 
       - name: Setup python packages
         shell: bash -l {0}
