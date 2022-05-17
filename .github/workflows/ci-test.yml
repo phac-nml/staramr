@@ -26,8 +26,10 @@ jobs:
         include:
           - python-version: "3.6"
             pandas-version: "0.23.0"
+            other-packages: "GitPython"
           - python-version: "3.10"
             pandas-version: "1.4.2"
+            other-packages: ""
 
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +50,7 @@ jobs:
           conda config --add channels conda-forge
           conda config --add channels bioconda
           conda install mamba
-          mamba install blast git mlst pandas==${{ matrix.pandas-version }} -y
+          mamba install blast git mlst pandas==${{ matrix.pandas-version }} ${{ matrix.other-packages }} -y
 
       - name: Setup python packages
         shell: bash -l {0}
