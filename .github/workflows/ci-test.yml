@@ -23,12 +23,13 @@ jobs:
     strategy:
       fail-fast: False
       matrix:
-        mlst-version: ["2.19"]
         include:
           - python-version: "3.6"
             pandas-version: "0.23.0"
+            mlst-version: "2.22"
           - python-version: "3.10"
             pandas-version: "1.4.2"
+            mlst-version: "2.22"
 
     steps:
       - uses: actions/checkout@v2
@@ -49,7 +50,7 @@ jobs:
           conda config --add channels conda-forge
           conda config --add channels bioconda
           conda install mamba
-          mamba install blast git pandas==${{ matrix.pandas-version }} mlst==${{ matrix.mlst-version }} "perl-bioperl>=1.7.2" -y
+          mamba install blast git pandas==${{ matrix.pandas-version }} mlst==${{ matrix.mlst-version }} -y
 
       - name: Setup python packages
         shell: bash -l {0}
