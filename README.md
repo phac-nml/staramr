@@ -229,12 +229,10 @@ staramr db restore-default
 
 ## Dependencies
 
-* Python 3.5+
+* Python 3.6+
 * BLAST+
 * Git
 * MLST
-
-**Note: if you wish to use Python 3.5 you will have to install BioPython <= 1.76 as later versions no longer support Python 3.5.**
 
 # Input
 

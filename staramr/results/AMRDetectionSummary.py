@@ -38,13 +38,13 @@ class AMRDetectionSummary:
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:
         df_summary = resistance_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
             lambda x: {'Gene': (self.SEPARATOR + ' ').join(x.get('Gene'))})
-        return df_summary[['Gene']]
+        return df_summary[['Gene']].copy()
 
     def _compile_plasmids(self, plasmid_frame: DataFrame) -> DataFrame:
         ds_summary = plasmid_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
             lambda x: {'Gene': (self.SEPARATOR + ' ').join(x.get('Gene'))})
 
-        ds_frame = ds_summary[['Gene']]
+        ds_frame = ds_summary[['Gene']].copy()
 
         plasmid_frame = ds_frame.rename(columns={'Gene': 'Plasmid'})
 
@@ -58,7 +58,7 @@ class AMRDetectionSummary:
         negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
 
-        return resistance_frame.append(negative_entries, sort=True)
+        return pd.concat([resistance_frame, negative_entries], sort=True)
 
     def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Start', 'End']
@@ -108,9 +108,9 @@ class AMRDetectionSummary:
         if negative_entries is None:
             negative_entries = negative_plasmid_entries
         else:
-            negative_entries = negative_entries.append(negative_plasmid_entries, sort=True)
+            negative_entries = pd.concat([negative_entries, negative_plasmid_entries], sort=True)
 
-        return resistance_frame.append(negative_entries, sort=True)
+        return pd.concat([resistance_frame, negative_entries], sort=True)
 
     def _get_summary_empty_values(self):
         return {'Genotype': 'None'}
@@ -129,7 +129,7 @@ class AMRDetectionSummary:
         mlst_frame = self._mlst_dataframe
 
         if self._has_pointfinder:
-            resistance_frame = resistance_frame.append(self._pointfinder_dataframe, sort=True)
+            resistance_frame = pd.concat([resistance_frame, self._pointfinder_dataframe], sort=True)
 
         resistance_frame = self._compile_results(resistance_frame)
 
@@ -145,7 +145,7 @@ class AMRDetectionSummary:
             plasmid_frame = self._compile_plasmids(plasmid_frame)
 
             if resistance_frame.empty:
-                resistance_frame = resistance_frame.append(plasmid_frame)
+                resistance_frame = pd.concat([resistance_frame, plasmid_frame])
             else:
                 resistance_frame = resistance_frame.merge(plasmid_frame, on='Isolate ID', how='left').fillna(
                     value={'Plasmid': 'None'})
@@ -206,7 +206,7 @@ class AMRDetectionSummary:
                 point_frame = point_frame.reindex(columns=column_names)
 
             if resistance_frame is not None:
-                resistance_frame = resistance_frame.append(point_frame, sort=True)
+                resistance_frame = pd.concat([resistance_frame, point_frame], sort=True)
 
         if include_negatives:
             if plasmid_frame is not None:
@@ -225,12 +225,12 @@ class AMRDetectionSummary:
             plasmid_frame = plasmid_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
 
             if resistance_frame is not None:
-                resistance_frame = resistance_frame.append(plasmid_frame, sort=True)
+                resistance_frame = pd.concat([resistance_frame, plasmid_frame], sort=True)
                 resistance_frame = resistance_frame.reindex(columns=column_names)
                 resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
 
         if mlst_merging_frame is not None and resistance_frame is not None:
-            resistance_frame = resistance_frame.append(mlst_merging_frame, sort=True)
+            resistance_frame = pd.concat([resistance_frame, mlst_merging_frame], sort=True)
             resistance_frame = resistance_frame.reindex(columns=column_names)
             resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
 
