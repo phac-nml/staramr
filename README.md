@@ -485,7 +485,11 @@ The Multi-locus sequence typing program is from the [MLST] Github.
 
 # Citations
 
-If you find `staramr` useful, please consider citing this GitHub repository (https://github.com/phac-nml/staramr) as well as the original ResFinder, PointFinder, and PlasmidFinder publications.
+If you find `staramr` useful, please cite the following paper:
+
+> Bharat A, Petkau A, Avery BP, Chen JC, Folster JP, Carson CA, Kearney A, Nadon C, Mabon P, Thiessen J, Alexander DC, Allen V, El Bailey S, Bekal S, German GJ, Haldane D, Hoang L, Chui L, Minion J, Zahariadis G, Domselaar GV, Reid-Smith RJ, Mulvey MR. **Correlation between Phenotypic and In Silico Detection of Antimicrobial Resistance in Salmonella enterica in Canada Using Staramr**. Microorganisms. 2022; 10(2):292. https://doi.org/10.3390/microorganisms10020292
+
+You may also consider citing the following (databases or other resources used by `staramr`):
 
 > **Zankari E, Hasman H, Cosentino S, Vestergaard M, Rasmussen S, Lund O, Aarestrup FM, Larsen MV**. 2012. Identification of acquired antimicrobial resistance genes. J. Antimicrob. Chemother. 67:2640–2644. doi: [10.1093/jac/dks261][resfinder-cite]
 
