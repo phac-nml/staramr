@@ -87,7 +87,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(plasmid_type['Predicted Phenotype'].iloc[0], '', msg='Wrong predicted phenotype')
         self.assertAlmostEqual(plasmid_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
         self.assertAlmostEqual(plasmid_type['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
-        self.assertEqual(plasmid_type['Accession'].iloc[0], 'X64695', msg='Wrong accession')
+        self.assertEqual(plasmid_type['Accession'].iloc[0], 'AY357120', msg='Wrong accession')
         self.assertEqual(plasmid_type['HSP Length/Total Length'].iloc[0], '1491/1491', msg='Wrong lengths')
         self.assertEqual(plasmid_type['Data Type'].iloc[0], 'Plasmid', msg='Wrong data type')
 

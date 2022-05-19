@@ -888,7 +888,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2592/2592', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R', 'Wrong phenotype')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin, nalidixic acid', 'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A70T.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))

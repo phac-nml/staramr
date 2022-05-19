@@ -12,6 +12,7 @@ A Class used to load up and search a file containing gene/drug mappings for ResF
 
 class ARGDrugTableResfinder(ARGDrugTable):
     DEFAULT_FILE = path.join(ARGDrugTable.DEFAULT_DATA_DIR, 'ARG_drug_key_resfinder.tsv')
+    DTYPES = {'Class': str, 'Gene': str, 'Accession': str, 'Drug': str}
 
     def __init__(self, file=DEFAULT_FILE):
         """

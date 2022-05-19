@@ -12,6 +12,7 @@ Class which provides access to gene/drug mappings stored in tabular files.
 class ARGDrugTable:
     DEFAULT_DATA_DIR = path.join(path.dirname(__file__), 'data')
     DEFAULT_INFO_FILE = path.join(DEFAULT_DATA_DIR, 'info.ini')
+    DTYPES = {}
 
     def __init__(self, file=None, info_file=DEFAULT_INFO_FILE):
         """
@@ -23,7 +24,7 @@ class ARGDrugTable:
         self._file = file
 
         if file is not None:
-            self._data = pd.read_csv(file, sep='\t')
+            self._data = pd.read_csv(file, sep='\t', dtype=self.DTYPES)
 
     def get_resistance_table_info(self):
         """
