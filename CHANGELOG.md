@@ -4,6 +4,7 @@
 * Fixed up some Python warnings related to pandas (0.8.0.dev0).
 * Adjusted `mlst` tests to account for differences in results for newer versions (0.8.0.dev0).
 * Drop support for Python 3.5 as it leads to issues with managing dependency versions (0.8.0.dev0).
+* Switched from disallowing to generating a warning when the PointFinder organism is not one of the validated organisms (0.8.0.dev1).
 * Updated ResFinder and PointFinder gene drug key to `072621` (0.8.0.dev1).
 * Updated default database commits to those corresponding to dates used by ResFinder (2022-02-04), PointFinder (2021-02-01), and PlasmidFinder (2021-11-29) (0.8.0.dev1).
 
