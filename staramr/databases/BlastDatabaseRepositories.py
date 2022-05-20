@@ -88,8 +88,8 @@ class BlastDatabaseRepositories:
         for name, repo in self._database_repositories.items():
             info.update(repo.info())
             if name == 'pointfinder':
-                info['pointfinder_organisms_all'] = ', '.join(self.get_pointfinder_organisms())
-                info['pointfinder_organisms_valid'] = ', '.join(self.get_valid_pointfinder_organisms())
+                info['pointfinder_organisms_all'] = ', '.join(sorted(self.get_pointfinder_organisms()))
+                info['pointfinder_organisms_valid'] = ', '.join(sorted(self.get_valid_pointfinder_organisms()))
 
         return info
 
