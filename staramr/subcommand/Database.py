@@ -286,6 +286,13 @@ class Info(Database):
 
         arg_drug_table = ARGDrugTable()
 
+        def write_database_info(database_repos):
+                database_info = database_repos.info()
+                database_info['mlst_version'] = JobHandler.get_mlst_version(JobHandler)
+
+                database_info.update(arg_drug_table.get_resistance_table_info())
+                sys.stdout.write(get_string_with_spacing(database_info))
+
         if len(args.directories) == 0:
             database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
             if not AMRDatabasesManager.is_database_repos_default_commits(database_repos):
@@ -294,12 +301,7 @@ class Info(Database):
                     "AMR genes depending on how the database files are structured.")
 
             try:
-                database_info = database_repos.info()
-                database_info['mlst_version'] = JobHandler.get_mlst_version(JobHandler)
-
-                database_info.update(arg_drug_table.get_resistance_table_info())
-                sys.stdout.write(get_string_with_spacing(database_info))
-
+                write_database_info(database_repos)
             except DatabaseNotFoundException as e:
                 logger.error("No database found. Perhaps try restoring the default with 'staramr db restore-default'")
         else:
@@ -312,9 +314,7 @@ class Info(Database):
                             "differences in the detected AMR genes depending on how the database files are structured.",
                             directory)
 
-                    database_info = database_repos.info()
-                    database_info.update(arg_drug_table.get_resistance_table_info())
-                    sys.stdout.write(get_string_with_spacing(database_info))
+                    write_database_info(database_repos)
                 except DatabaseNotFoundException as e:
                     logger.error("Database not found in [%s]. Perhaps try building with 'staramr db build --dir %s'",
                                  directory, directory)

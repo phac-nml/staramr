@@ -90,5 +90,9 @@ class BlastDatabaseRepositoriesIT(unittest.TestCase):
                          'Resfinder commits invalid')
         self.assertEqual(database_info['pointfinder_db_commit'], self.POINTFINDER_VALID_COMMIT,
                          'Pointfinder commits invalid')
+        self.assertEqual(database_info['pointfinder_organisms_all'], 'campylobacter, e.coli, gonorrhoeae, salmonella, tuberculosis',
+                         'Pointfinder organisms are invalid')
+        self.assertEqual(database_info['pointfinder_organisms_valid'], 'campylobacter, salmonella',
+                         'Pointfinder organisms are invalid')
         self.assertEqual(database_info['plasmidfinder_db_commit'], self.PLASMIDFINDER_VALID_COMMIT,
                          'Plasmidfinder commits invalid')
