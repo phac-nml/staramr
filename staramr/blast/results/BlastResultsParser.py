@@ -9,6 +9,7 @@ import pandas as pd
 
 from staramr.blast.JobHandler import JobHandler
 from staramr.blast.results.BlastHitPartitions import BlastHitPartitions
+from staramr.exceptions.GenotypePhenotypeMatchException import GenotypePhenotypeMatchException
 
 logger = logging.getLogger('BlastResultsParser')
 
@@ -62,7 +63,11 @@ class BlastResultsParser:
                 logger.debug(str(blast_out))
                 if (not os.path.exists(blast_out)):
                     raise Exception("Blast output [" + blast_out + "] does not exist")
-                self._handle_blast_hit(file, database_name, blast_out, results, hit_seq_records)
+                try:
+                    self._handle_blast_hit(file, database_name, blast_out, results, hit_seq_records)
+                except GenotypePhenotypeMatchException as e:
+                    logger.error(f"Error with results from file [{file}]", e)
+                    raise e
 
             if self._output_dir:
                 out_file = self._get_out_file_name(file)
