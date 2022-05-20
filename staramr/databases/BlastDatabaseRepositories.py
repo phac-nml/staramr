@@ -1,7 +1,7 @@
 import logging
 import shutil
 from collections import OrderedDict
-from typing import Dict
+from typing import Dict, List
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
@@ -141,6 +141,13 @@ class BlastDatabaseRepositories:
                                            'https://bitbucket.org/genomicepidemiology/plasmidfinder_db.git')
 
         return repos
+
+    def get_pointfinder_organisms(self) -> List[str]:
+        """
+        Gets a list of all pointfinder organisms from this database.
+        :return: A list of PointFinder organisms from this database.
+        """
+        return PointfinderBlastDatabase.get_organisms(self.get_repo_dir('pointfinder'))
 
     def build_blast_database(self, database_name: str, options: Dict[str, str] = {}) -> AbstractBlastDatabase:
         """

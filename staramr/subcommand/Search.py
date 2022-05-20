@@ -58,7 +58,7 @@ class Search(SubCommand):
         cpu_count = multiprocessing.cpu_count()
 
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
-                                help='The organism to use for pointfinder {' + ', '.join(
+                                help='The organism to use for pointfinder. Validated: {' + ', '.join(
                                     PointfinderBlastDatabase.get_available_organisms()) + '}. Defaults to disabling search for point mutations. [None].',
                                 default=None, required=False)
         arg_parser.add_argument('--plasmidfinder-database-type', action='store', dest='plasmidfinder_database_type',
@@ -352,9 +352,15 @@ class Search(SubCommand):
 
         resfinder_database = database_repos.build_blast_database('resfinder')
         if (args.pointfinder_organism):
-            if args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
-                raise CommandParseException("The only Pointfinder organism(s) currently supported are " + str(
-                    PointfinderBlastDatabase.get_available_organisms()), self._root_arg_parser)
+            if args.pointfinder_organism not in database_repos.get_pointfinder_organisms():
+                raise CommandParseException(f"The organism \"{args.pointfinder_organism}\" is not found in the selected PointFinder database. The "
+                                            f"only organisms available are: {set(database_repos.get_pointfinder_organisms())}. "
+                                            f"Of these, only {set(PointfinderBlastDatabase.get_available_organisms())} have been validated.",
+                                            self._root_arg_parser)
+            elif args.pointfinder_organism not in PointfinderBlastDatabase.get_available_organisms():
+                logger.warning("The only validated Pointfinder organism(s) are " + str(
+                    set(PointfinderBlastDatabase.get_available_organisms())) + f'. By selecting "{args.pointfinder_organism}" you are not guaranteed ' \
+                    + 'that all point mutations in this PointFinder database will be properly detected.')
             pointfinder_database = database_repos.build_blast_database('pointfinder',
                                                                        {'organism': args.pointfinder_organism})
         else:
