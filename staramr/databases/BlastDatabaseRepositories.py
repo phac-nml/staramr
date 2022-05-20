@@ -150,7 +150,12 @@ class BlastDatabaseRepositories:
         Gets a list of all pointfinder organisms from this database.
         :return: A list of PointFinder organisms from this database.
         """
-        return PointfinderBlastDatabase.get_organisms(self.get_repo_dir('pointfinder'))
+        try:
+            return PointfinderBlastDatabase.get_organisms(self.get_repo_dir('pointfinder'))
+        except FileNotFoundError as e:
+            logger.debug(e)
+            return []
+
 
     def get_valid_pointfinder_organisms(self) -> List[str]:
         """
