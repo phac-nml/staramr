@@ -37,6 +37,13 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
     def get_path(self, database_name):
         return path.join(self.pointfinder_database_dir, database_name + self.fasta_suffix)
 
+    def is_validated(self):
+        """
+        Whether or not this particular PointFinder organism is part of the validated set.
+        :return: True if this PointFinder organism/database is validated, False otherwise.
+        """
+        return self.organism in self.get_available_organisms()
+
     def get_resistance_codons(self, gene, codon_mutations):
         """
         Gets a list of resistance codons from the given gene and codon mutations.

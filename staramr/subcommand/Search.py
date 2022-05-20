@@ -293,10 +293,20 @@ class Search(SubCommand):
 
             logger.info("Finished. Took %s minutes.", time_difference_minutes)
 
+            included_pointfinder = pointfinder_database is not None
+
             settings = database_repos.info()
 
             settings['mlst_version'] = JobHandler.get_mlst_version(JobHandler)
             settings['command_line'] = ' '.join(sys.argv)
+            settings['pointfinder_organism'] = pointfinder_database.organism if included_pointfinder else 'None'
+
+            if included_pointfinder and not pointfinder_database.is_validated():
+                settings['messages'] = (f'Warning: Selected organism [{pointfinder_database.organism}] is '
+                                        f'not part of the validated set of organisms for PointFinder:'
+                                        f' {set(pointfinder_database.get_available_organisms())}. Cannot guarantee that all '
+                                        f'point mutations were detected properly.')
+
             settings['version'] = self._version
             settings['start_time'] = start_time.strftime(self.TIME_FORMAT)
             settings['end_time'] = end_time.strftime(self.TIME_FORMAT)
