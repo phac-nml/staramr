@@ -251,16 +251,16 @@ aminoglycoside	aac(3)-IIa_4	L22613	gentamicin,tobramycin
 aminoglycoside	aac(3)-IIa_5	FJ012882	gentamicin,tobramycin
 aminoglycoside	aac(3)-IV_1	DQ241380	gentamicin,tobramycin
 aminoglycoside	aac(3)-VIa_2	NC_009838	gentamicin
-aminoglycoside	aph(3')-Ib_2	AJ744860	
-aminoglycoside	ant(9)-Ia_2	M69221	
+aminoglycoside	aph(3')-Ib_2	AJ744860	None
+aminoglycoside	ant(9)-Ia_2	M69221	None
 aminoglycoside	aadA24_1	DQ677333	streptomycin
 aminoglycoside	aadA8b_1	AY139603	streptomycin
 aminoglycoside	aadA2b_1	D43625	streptomycin
 aminoglycoside	aac(6')-Ii_1	L12710	amikacin,tobramycin
-aminoglycoside	aac(3)-XI_1	CTEG01000046	
-aminoglycoside	aac(3)-VIII_1	AB211959	
-aminoglycoside	aac(3)-VIII_2	AJ843080	
-aminoglycoside	aac(3)-VIII_3	AJ748131	
+aminoglycoside	aac(3)-XI_1	CTEG01000046	None
+aminoglycoside	aac(3)-VIII_1	AB211959	None
+aminoglycoside	aac(3)-VIII_2	AJ843080	None
+aminoglycoside	aac(3)-VIII_3	AJ748131	None
 aminoglycoside	kmr_1_ENA	ACB88605	amikacin,gentamicin,tobramycin
 aminoglycoside	aadD_2	M19465	amikacin,tobramycin
 beta-lactam	blaACC-1_1	AJ133121	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone
@@ -2311,7 +2311,7 @@ colistin	mcr-3.23_1	NG060583	colistin
 colistin	mcr-3.25_1	NG060585	colistin
 colistin	mcr-4.5_1	MG822664	colistin
 colistin	mcr-8_1	MG736312	colistin
-colistin	mcr-9_1	NZ_NAAN01000063.1	
+colistin	mcr-9_1	NZ_NAAN01000063.1	None
 fosfomycin	fosB1_1	CP001903	fosfomycin
 fosfomycin	fosX_1	AP010904	fosfomycin
 fosfomycin	fos_1	ACCV01000052	fosfomycin
