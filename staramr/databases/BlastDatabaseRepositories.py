@@ -87,6 +87,9 @@ class BlastDatabaseRepositories:
 
         for name, repo in self._database_repositories.items():
             info.update(repo.info())
+            if name == 'pointfinder':
+                info['pointfinder_organisms_all'] = ', '.join(self.get_pointfinder_organisms())
+                info['pointfinder_organisms_valid'] = ', '.join(self.get_valid_pointfinder_organisms())
 
         return info
 
@@ -148,6 +151,13 @@ class BlastDatabaseRepositories:
         :return: A list of PointFinder organisms from this database.
         """
         return PointfinderBlastDatabase.get_organisms(self.get_repo_dir('pointfinder'))
+
+    def get_valid_pointfinder_organisms(self) -> List[str]:
+        """
+        Gets a list of all valid pointfinder organisms.
+        :return: A list of all valid pointfinder organisms.
+        """
+        return PointfinderBlastDatabase.get_available_organisms()
 
     def build_blast_database(self, database_name: str, options: Dict[str, str] = {}) -> AbstractBlastDatabase:
         """
