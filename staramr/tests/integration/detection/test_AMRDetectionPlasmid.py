@@ -74,6 +74,75 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(expected_records['IncW_1__EF633507'].seq, records['IncW_1__EF633507'].seq,
                          "records don't match")
 
+    def testPlasmidfinderGramPositiveSuccess(self):
+        plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir, database_type='gram_positive')
+        blast_handler = JobHandler(
+            {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database,
+             'plasmidfinder': plasmidfinder_database}, 2, self.blast_out.name)
+        self.outdir = tempfile.TemporaryDirectory()
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               blast_handler, self.pointfinder_drug_table,
+                                               self.pointfinder_database, output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "test-plasmids-seq.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files=files,
+                                        pid_threshold=99,
+                                        plength_threshold_resfinder=90,
+                                        plength_threshold_pointfinder=90,
+                                        plength_threshold_plasmidfinder=90,
+                                        genome_size_lower_bound=0,
+                                        genome_size_upper_bound=0,
+                                        minimum_N50_value=0,
+                                        minimum_contig_length=0,
+                                        unacceptable_num_contigs=0)
+
+        plasmidfinder_results = amr_detection.get_plasmidfinder_results()
+        self.assertEqual(len(plasmidfinder_results.index), 0, 'Wrong number of rows in result')
+
+    def testPlasmidfinderEnterobacterialesSuccess(self):
+        plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir, database_type='enterobacteriales')
+        blast_handler = JobHandler(
+            {'resfinder': self.resfinder_database, 'pointfinder': self.pointfinder_database,
+             'plasmidfinder': plasmidfinder_database}, 2, self.blast_out.name)
+        self.outdir = tempfile.TemporaryDirectory()
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               blast_handler, self.pointfinder_drug_table,
+                                               self.pointfinder_database, output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "test-plasmids-seq.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files=files,
+                                        pid_threshold=99,
+                                        plength_threshold_resfinder=90,
+                                        plength_threshold_pointfinder=90,
+                                        plength_threshold_plasmidfinder=90,
+                                        genome_size_lower_bound=0,
+                                        genome_size_upper_bound=0,
+                                        minimum_N50_value=0,
+                                        minimum_contig_length=0,
+                                        unacceptable_num_contigs=0)
+
+        plasmidfinder_results = amr_detection.get_plasmidfinder_results()
+        self.assertEqual(len(plasmidfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = plasmidfinder_results[plasmidfinder_results['Plasmid'] == "IncW"]
+
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['Accession'].iloc[0], 'EF633507', msg='Wrong accession')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '243/243', msg='Wrong lengths')
+
+        hit_file = path.join(self.outdir.name, 'plasmidfinder_test-plasmids-seq.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['IncW_1__EF633507'].seq, records['IncW_1__EF633507'].seq,
+                         "records don't match")
+
     def testDetailedSummary_ResPlasmid(self):
         file = path.join(self.test_data_dir, "test-detailed-summary.fsa")
         files = [file]
@@ -129,3 +198,6 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive',
                          msg='Wrong Predicted Phenotype value')
         self.assertEqual(summary_results['Plasmid'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Type')
+
+if __name__ == '__main__':
+    unittest.main()
