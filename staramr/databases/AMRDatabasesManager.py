@@ -11,10 +11,12 @@ A Class used to manage interactions with default and updatable ResFinder/PointFi
 
 
 class AMRDatabasesManager:
+    # Update to commits corresponding to dates listed on <https://cge.cbs.dtu.dk/services/ResFinder/> (and PlasmidFinder)
+    # As of May 26, 2022
     DEFAULT_COMMITS = {
-        'resfinder': 'e8f1eb2585cd9610c4034a54ce7fc4f93aa95535',
-        'pointfinder': '8706a6363bb29e47e0e398c53043b037c24b99a7',
-        'plasmidfinder': '81919954cbedaff39056610ab584ab4c06011ed8'
+        'resfinder': 'fa32d9a3cf0c12ec70ca4e90c45c0d590ee810bd', # 2022-05-24
+        'pointfinder': '8c694b9f336153e6d618b897b3b4930961521eb8', # 2021-02-01
+        'plasmidfinder': '1a443a19a1142aa1018ef62f0bdbfd871b79eab6', # 2021-11-29
     }
 
     def __init__(self, database_dir: str, sub_dirs: bool = False) -> None:

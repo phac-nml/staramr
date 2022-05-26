@@ -12,3 +12,5 @@ __pycache__
 /.venv
 /.mypy_cache
 /.vscode
+.ipynb_checkpoints/
+/drug-key-update

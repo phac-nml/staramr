@@ -3,6 +3,8 @@ from os import path
 
 import pandas as pd
 
+from staramr.exceptions.GenotypePhenotypeMatchException import GenotypePhenotypeMatchException
+
 """
 A Class storing information about the specific PointFinder database.
 """
@@ -64,7 +66,14 @@ class PointfinderDatabaseInfo:
                         & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
 
         if len(matches.index) > 1:
-            raise Exception("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
+            # If more then one match, try to match Res_codon exactly to subselect
+            matches_subset = matches[matches['Res_codon'] == codon_mutation.get_input_genome_mutation()]
+
+            if len(matches_subset.index) >= 1:
+                matches = matches_subset
+
+        if len(matches.index) > 1:
+                raise GenotypePhenotypeMatchException("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
         else:
             return matches
 
@@ -83,7 +92,7 @@ class PointfinderDatabaseInfo:
         if len(match.index) > 0:
             return match['Resistance'].iloc[0]
         else:
-            raise Exception("Error, no match for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
+            raise GenotypePhenotypeMatchException("Error, no match for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
 
     def get_resistance_codons(self, gene, codon_mutations):
         """

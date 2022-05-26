@@ -24,6 +24,11 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
     def _aggregate_phenotype(self, phenotype_series):
         flattened_phenotype_list = [y.strip() for x in list(phenotype_series) for y in
                                     x.split(self.SEPARATOR)]
+
+        # Only remove None if there is more than one entry in this list
+        if len(flattened_phenotype_list) > 1 and 'None' in flattened_phenotype_list:
+            flattened_phenotype_list.remove('None')
+
         uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 
         return (self.SEPARATOR + ' ').join(list(uniq_phenotype))
