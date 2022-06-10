@@ -8,6 +8,7 @@ from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import Plasmidfinder
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabase
 from staramr.databases.BlastDatabaseRepository import BlastDatabaseRepository, BlastDatabaseRepositoryStripGitDir
+from staramr.databases.PointfinderRefactor import PointfinderMutationsRefactor
 
 logger = logging.getLogger('BlastDatabaseRepositories')
 
@@ -26,7 +27,7 @@ class BlastDatabaseRepositories:
             (that is, should we strip out the .git directories).
         """
         self._database_dir = database_dir
-        self._database_repositories = {}  # type: Dict[str,BlastDatabaseRepository]
+        glob.glob(self._database_repositories["pointfinder"].get_git_dir())= {}  # type: Dict[str,BlastDatabaseRepository]
         self._is_dist = is_dist
 
     def register_database_repository(self, database_name: str, git_repository_url: str) -> None:
@@ -67,6 +68,11 @@ class BlastDatabaseRepositories:
         for database_name in self._database_repositories:
             commit = commits.get(database_name) if commits else None
             self._database_repositories[database_name].update(commit)
+
+        if "pointfinder" in self._database_repositories:
+            PointfinderMutationsRefactor(self._database_repositories["pointfinder"].get_database_dir(), "pointfinder").refactor()
+
+
 
     def remove(self):
         """

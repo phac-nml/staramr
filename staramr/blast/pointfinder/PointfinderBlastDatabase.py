@@ -27,7 +27,10 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         elif organism not in PointfinderBlastDatabase.get_organisms(database_dir):
             raise Exception("Pointfinder organism [" + organism + "] is not valid")
 
-        self._pointfinder_info = PointfinderDatabaseInfo.from_file(
+        self._pointfinder_info = PointfinderDatabaseInfo.\
+
+
+            from_file(
             path.join(self.pointfinder_database_dir, "resistens-overview.txt"))
 
     def get_database_names(self):

@@ -18,7 +18,11 @@ class PointfinderDatabaseInfo:
         :param database_info_dataframe: A pd.DataFrame containing the information in PointFinder.
         :param file: The file where the pointfinder database info originates from.
         """
-        self._pointfinder_info = database_info_dataframe
+
+
+
+
+        self._pointfinder_info = database_info_dataframeœ
         self._file = file
 
         self._resistance_table_hacks(self._pointfinder_info)
@@ -57,11 +61,26 @@ class PointfinderDatabaseInfo:
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
         table = self._pointfinder_info
-
-        matches = table[(table['#Gene_ID'] == gene)
-                        & (table['Codon_pos'] == codon_mutation.get_mutation_position())
-                        & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
-                        & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
+        if table['#Gene_ID'] == gene and table['Codon_pos'] == codon_mutation.get_mutation_position() and\
+                table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation():
+            # test if codon alternatif is described
+            if table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False):
+                matches = table[(table['#Gene_ID']) == gene
+                                & (table['Codon_pos'] == codon_mutation.get_mutation_position())
+                                & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
+                                & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
+            else:
+                matches = table[
+                    (
+                            (table['#Gene_ID'] == gene)
+                                & (table['Codon_pos'] == codon_mutation.get_mutation_position())
+                                & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
+                    )
+                ]
+                new_matches = matches.copy()
+                new_matches.loc[new_matches['Codon_pos'] == 28, 'Res_codon'] = f'[{codon_mutation.get_input_genome_mutation()}]'
+        else:
+            matches = pd.DataFrame()
 
         if len(matches.index) > 1:
             raise Exception("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
@@ -88,7 +107,7 @@ class PointfinderDatabaseInfo:
     def get_resistance_codons(self, gene, codon_mutations):
         """
         Gets a list of resistance codons from the given gene and codon mutations.
-        :param gene: The gene.
+        :param gene: The gene.O
         :param codon_mutations: The codon mutations.
         :return: The resistance codons.
         """

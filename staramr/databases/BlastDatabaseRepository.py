@@ -66,7 +66,6 @@ class BlastDatabaseRepository:
                 self.LOGGER.info("Updating %s", self._git_dir)
                 repo.heads.master.checkout()
                 repo.remotes.origin.pull()
-
                 if commit is not None:
                     self.LOGGER.info("Checking out %s commit %s", self._database_name, commit)
                     repo.git.checkout(commit)

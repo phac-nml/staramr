@@ -40,7 +40,6 @@ class Search(SubCommand):
         """
         super().__init__(subparser, script_name)
         self._version = version
-
     def _setup_args(self, arg_parser):
         name = self._script_name
         epilog = ("Example:\n"
@@ -56,9 +55,7 @@ class Search(SubCommand):
 
         self._default_database_dir = AMRDatabasesManager.get_default_database_directory()
         default_database_repos = AMRDatabasesManager.create_default_manager().get_database_repos()
-
         cpu_count = multiprocessing.cpu_count()
-
         arg_parser.add_argument('--pointfinder-organism', action='store', dest='pointfinder_organism', type=str,
                                 help=(f'The organism to use for pointfinder. '
                                       f"Validated: {set(default_database_repos.get_valid_pointfinder_organisms())}. "

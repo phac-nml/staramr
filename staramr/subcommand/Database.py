@@ -167,7 +167,6 @@ class Update(Database):
                 try:
                     database_repos = AMRDatabasesManager.create_default_manager().get_database_repos(
                         force_use_git=True)
-
                     database_repos.update(
                         {'resfinder': args.resfinder_commit, 'pointfinder': args.pointfinder_commit,
                          'plasmidfinder': args.plasmidfinder_commit})
