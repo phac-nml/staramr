@@ -115,11 +115,17 @@ class PointfinderOverviewCheck:
         return compare_overview_df
 
     def fasta_overview_differences(self):
-        file_ambiguity = self._pandas_set_diff()[~(self._pandas_set_diff()["fasta_file_difference"] == '')]
+        """
+        Return the missing genes file related to the species folder in the logger warnings
+        :return: log message with missing gene and species
+        """
+        file_ambiguity = self.pandas_set_diff()[~(self.pandas_set_diff()["fasta_file_difference"] == '')]
         missing_species = str(file_ambiguity['overview_dirname'].values)
         missing_genes = list(file_ambiguity['fasta_file_difference'].values)
         if len(missing_genes) > 0:
             logger.warning("Error for " + missing_species + " species. No correspondance between fasta and overview list for " + str(missing_genes))
+
+
 
 """
 Class to control each described mutation in resistens_overview files comparing to fasta sequences
@@ -151,14 +157,19 @@ class PointFinderMutationRefactor1(PointfinderOverviewCheck):
 
 
 
+with pd.ExcelWriter('all_mut_overview.xlsx') as writer:
+    toto.to_excel(writer, sheet_name='Sheet_name_1')
 
 
+class PointFinderENCOURS(PointfinderOverviewCheck):
 
-class encours(PointfinderOverviewCheck):
-
-    super()__init__(self, poinfinder_dir):
+    super()__init__(self, poinfinder_dir)
 
     def overview_mutation_df(self):
+        """
+        Build a pandas dataframe with all the mutations list from all the species in the Pointfinder database
+        :return:
+        """
         all_pointfinder_mutation_df = pd.DataFrame()
         overview_file_list = self._resistance_overview_list()
         for overview_index in overview_file_list.index:
@@ -217,7 +228,7 @@ class encours(PointfinderOverviewCheck):
 
 
 
-data = PointfinderOverviewCheck(overview)
+self = PointfinderOverviewCheck(overview)
 
 file="/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/mycobacterium_tuberculosis/ahpC_promoter_size_180bp.fsa"
 file="/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/enterococcus_faecium/resistens-overview.txt"
