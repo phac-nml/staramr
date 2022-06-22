@@ -71,6 +71,27 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_mutations)
 
+    def get_resistance_promoter(self, gene, nucleotide_mutations):
+        """
+        Gets a list of resistance nucleotides located within the primer from the list of nucleotide mutations.
+        :param gene: The name of the gene.
+        :param nucleotide_mutations: The nucleotide mutations.
+        :return: The resistance nucleotides.
+        """
+        print("get_resistance_promoter")
+        print(gene)
+        print(nucleotide_mutations)
+
+        nucleotide_part = list(filter(lambda x: (x._nucleotide_position_amr_gene < 0), nucleotide_mutations))
+        print("nucleotide part = " + str((nucleotide_part)))
+        resistance_nucleotides = self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_part)  #: TODO: list or no?
+
+        codon_part = list(filter(lambda x: (x._nucleotide_position_amr_gene >= 0), nucleotide_mutations))
+        print("codon part = " + str((codon_part)))
+        resistance_codons = self._pointfinder_info.get_resistance_codons(gene, codon_part)  #: TODO: list or no?
+
+        return resistance_nucleotides + resistance_codons
+
     def get_organism(self):
         """
         Gets the particular organism of this database.

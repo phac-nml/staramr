@@ -11,7 +11,7 @@ A Class defining a codon-based mutation for PointFinder.
 
 class CodonMutationPosition(MutationPosition):
 
-    def __init__(self, match_position, database_amr_gene_string, input_genome_blast_string, database_amr_gene_start):
+    def __init__(self, match_position, database_amr_gene_string, input_genome_blast_string, database_amr_gene_start, offset=0):
         """
         Creates a new CodonMutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
@@ -19,10 +19,12 @@ class CodonMutationPosition(MutationPosition):
         :param input_genome_blast_string: The genome BLAST string from the input genome.
         :param database_amr_gene_start: The start coordinates of the BLAST amr gene hit.
         """
-        super().__init__(match_position, database_amr_gene_start)
+        super().__init__(match_position - offset, database_amr_gene_start)
 
         self._codon_start = math.ceil(self._nucleotide_position_amr_gene / 3)
+        print("self._codon_start = " + str(self._codon_start))
         frame_shift = (self._nucleotide_position_amr_gene - 1) % 3
+        print("frame_shift = " + str(frame_shift))
 
         self._database_amr_gene_codon = self._find_codon(database_amr_gene_string, match_position, frame_shift)
         self._input_genome_codon = self._find_codon(input_genome_blast_string, match_position, frame_shift)
