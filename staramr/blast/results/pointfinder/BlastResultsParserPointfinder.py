@@ -4,7 +4,6 @@ from os import path
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 from staramr.blast.results.pointfinder.nucleotide.PointfinderHitHSPRNA import PointfinderHitHSPRNA
-from staramr.blast.results.pointfinder.nucleotide.PointfinderHitHSPPromoter import PointfinderHitHSPPromoter
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
 
@@ -45,16 +44,10 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
     def _create_hit(self, file, database_name, blast_record):
-        print(blast_record)
         logger.debug("database_name=%s", database_name)
         if (database_name == '16S_rrsD') or (database_name == '23S'):
-            print("making a PointfinderHitHSPRNA-type hit")
             return PointfinderHitHSPRNA(file, blast_record)
-        elif ('promoter' in database_name):
-            print("making a PointfinderHitHSPPromoter-type hit")
-            return PointfinderHitHSPPromoter(file, blast_record, database_name)            
         else:
-            print("making a PointfinderHitHSP-type hit")
             return PointfinderHitHSP(file, blast_record)
 
     def _get_result(self, hit, db_mutation):
@@ -73,8 +66,6 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _get_result_rows(self, hit, database_name):
         database_mutations = hit.get_mutations()
-        print("database_mutations")
-        print(database_mutations)
 
         gene = hit.get_amr_gene_name()
 
@@ -84,15 +75,9 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
         if (database_name == '16S_rrsD') or (database_name == '23S'):
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
-        elif ('promoter' in database_name):
-            database_resistance_mutations = self._blast_database.get_resistance_promoter(gene, database_mutations)
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
-        print("database mutations list")
-        print(database_resistance_mutations)
-        print("database mutations length")
-        print(len(database_resistance_mutations))
 
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
