@@ -58,32 +58,12 @@ class PointfinderDatabaseInfo:
             table[['#Gene_ID']] = table[['#Gene_ID']].replace('16S', '16S_rrsD')
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
-        #print("_get_resistance_codon_match")
-        #print("codon_mutation = " + str(codon_mutation))
         table = self._pointfinder_info
-        #print(table)
-        #print("gene = " + str(gene))
-        #print(table['#Gene_ID'] == gene)
-        #print("codon_mutation.get_mutation_position() = " + str(codon_mutation.get_mutation_position()))
-        #print(table['Codon_pos'] == codon_mutation.get_mutation_position())
-        #print("codon_mutation.get_database_amr_gene_mutation() = " + str(codon_mutation.get_database_amr_gene_mutation()))
-        #print(table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
-        #print("codon_mutation.get_input_genome_mutation() = " + str(codon_mutation.get_input_genome_mutation()))
-        #print(table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))
-
-        #print("checking positions")
-        #print("table['Codon_pos'] = " + str(table['Codon_pos']))
-        #print("codon_mutation.get_mutation_position() = " + str(codon_mutation.get_mutation_position()))
-        #print("TYPE OF codon_mutation.get_mutation_position() = " + str(type(codon_mutation.get_mutation_position())))
-        #print("TYPE OF table['Codon_pos'] = ")
-        #print(table['Codon_pos'])
 
         matches = table[(table['#Gene_ID'] == gene)
-                        & (table['Codon_pos'] == str(codon_mutation.get_mutation_position()))  # TODO: The codon position needs to be converted to a string, otherwise Pandas can't match it
+                        & (table['Codon_pos'] == codon_mutation.get_mutation_position())
                         & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
                         & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
-
-        print("matches = " + str(matches))
 
         if len(matches.index) > 1:
             # If more then one match, try to match Res_codon exactly to subselect
@@ -122,9 +102,6 @@ class PointfinderDatabaseInfo:
         :return: The resistance codons.
         """
         resistance_mutations = []
-        print("get_resistance_codons")
-        print("codon_mutations")
-        print(codon_mutations)
 
         for codon_mutation in codon_mutations:
             match = self._get_resistance_codon_match(gene, codon_mutation)
@@ -143,9 +120,7 @@ class PointfinderDatabaseInfo:
         resistance_mutations = []
 
         for nucleotide_mutation in nucleotide_mutations:
-            print("nucleotide_mutation = " + str(nucleotide_mutation))
             match = self._get_resistance_nucleotide_match(gene, nucleotide_mutation)
-            print("match = " + str(match))
             if len(match.index) > 0:
                 resistance_mutations.append(nucleotide_mutation)
 

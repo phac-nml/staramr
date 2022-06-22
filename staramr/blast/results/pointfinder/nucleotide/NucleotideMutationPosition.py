@@ -7,16 +7,15 @@ A Class defining a nucleotide-based mutation for PointFinder.
 
 class NucleotideMutationPosition(MutationPosition):
 
-    def __init__(self, match_position, database_amr_gene_string, input_genome_string, database_amr_gene_start, offset=0):
+    def __init__(self, match_position, database_amr_gene_string, input_genome_string, database_amr_gene_start):
         """
         Creates a new NucleotideMutationPosition.
         :param match_position: The particular position (0-based index) of the BLAST match string for this mutation.
         :param database_amr_gene_string: The amr gene string.
         :param input_genome_string: The input genome string.
         :param database_amr_gene_start: The start coordinates of the BLAST database hit.
-        :param offset: The amount to offset the mutation by (particularly for negative coordinate promoter mutations).
         """
-        super().__init__(match_position - offset, database_amr_gene_start)  # TODO: double check no bad consequences of offset
+        super().__init__(match_position, database_amr_gene_start)
 
         self._database_amr_gene_mutation = database_amr_gene_string[match_position].upper()
         self._input_genome_mutation = input_genome_string[match_position].upper()
