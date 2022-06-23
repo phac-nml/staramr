@@ -33,7 +33,15 @@ class PointfinderDatabaseInfo:
         :param file: The file containing drug resistance mutations.
         :return: A new PointfinderDatabaseInfo.
         """
-        pointfinder_info = pd.read_csv(file, sep='\t', index_col=False)
+
+        with open(file) as f:
+            line = f.readline()
+        
+        line = line.lstrip("#")
+        column_names = line.split()
+
+        pointfinder_info = pd.read_csv(file, sep='\t', index_col=False, comment='#', header=None, names=column_names)
+
         return cls(pointfinder_info, file)
 
     @classmethod
@@ -55,13 +63,12 @@ class PointfinderDatabaseInfo:
         if self._file and 'salmonella' in str(self._file) and path.exists(
                 path.join(path.dirname(self._file), '16S_rrsD.fsa')):
             logger.debug("Replacing [16S] with [16S_rrsD] for pointfinder organism [salmonella]")
-            table[['#Gene_ID']] = table[['#Gene_ID']].replace('16S', '16S_rrsD')
+            table[['Gene_ID']] = table[['Gene_ID']].replace('16S', '16S_rrsD')
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
         table = self._pointfinder_info
-
-        matches = table[(table['#Gene_ID'] == gene)
-                        & (table['Codon_pos'] == str(codon_mutation.get_mutation_position()))  # Needs to be converted to a string for the comparison
+        matches = table[(table['Gene_ID'] == gene)
+                        & (table['Codon_pos'] == codon_mutation.get_mutation_position())
                         & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
                         & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
 
