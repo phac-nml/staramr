@@ -1,12 +1,10 @@
 import os
-import timeit
+from Bio import SeqIO
 from pathlib import Path
 import numpy as np
 import pandas as pd
 import glob
 import logging
-import re
-from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio import AlignIO
@@ -127,48 +125,30 @@ class PointfinderOverviewCheck:
 
 
 
-"""
-Class to control each described mutation in resistens_overview files comparing to fasta sequences
-"""
+class PointFinderRefactor(PointfinderOverviewCheck):
+    """
+    Class to control each described mutation in resistens_overview files comparing to fasta sequences
+    It will compare position both in nucleic and amino translated sequence to raise position mismatch before to try to assign good value
+    """
+    def __init__(self,poinfinder_dir):
+        super().__init__(poinfinder_dir)
 
-class PointFinderMutationRefactor1(PointfinderOverviewCheck):
-    super()__init__(self, poinfinder_dir):
+    def get_all_pointfinder_mutations(self):
+        """
+        :return: a pandas dataframe with complete information on fasta file from pointfinder database
+        """
+        return self.extract_fasta_seq()
 
-    @classmethod
-    def fasta_reader(cls,file):
-        fasta_df = pd.read_csv(file, sep='>', lineterminator='>', header=None)
-        fasta_df[['Accession', 'Sequence']] = fasta_df[0].str.split(r'\r|\n', 1, expand=True)
-        fasta_df.drop(0, axis=1, inplace=True)
-        fasta_df['Sequence'] = fasta_df['Sequence'].replace('\n', '', regex=True)
-        return(fasta_df)
-
-    @classmethod
-    def fasta_to_pandas_df(cls,dataframe_of_fasta_path):
-        whole_fasta_df = pd.DataFrame()
-        whole_fasta_df = whole_fasta_df.append([PointFinderMutationRefactor.partial_fasta_to_pandas_df(fasta_paths) for fasta_paths in dataframe_of_fasta_path["overview_fasta_path_list"]])
-        return whole_fasta_df
-
-    @classmethod
-    def partial_fasta_to_pandas_df(cls,partial_dataframe_of_fasta_path):
-        tmp_df_each_species = pd.DataFrame()
-        tmp_df_each_species = tmp_df_each_species.append([PointFinderMutationRefactor.fasta_reader(one_fasta_path) for one_fasta_path in partial_dataframe_of_fasta_path])
-        return tmp_df_each_species
-
-
-
-
-with pd.ExcelWriter('all_mut_overview.xlsx') as writer:
-    toto.to_excel(writer, sheet_name='Sheet_name_1')
-
-
-class PointFinderENCOURS(PointfinderOverviewCheck):
-
-    super()__init__(self, poinfinder_dir)
+    def get_all_fasta_sequences(self):
+        """
+        :return: the pandas dataframe with overview contents for all pointfinder species from overview_mutation_df()
+        """
+        return self.overview_mutation_df()
 
     def overview_mutation_df(self):
         """
-        Build a pandas dataframe with all the mutations list from all the species in the Pointfinder database
-        :return:
+        Build a dataframe with all the mutations list from all the species in the Pointfinder database
+        :return: a pandas dataframe with overview contents for all pointfinder species
         """
         all_pointfinder_mutation_df = pd.DataFrame()
         overview_file_list = self._resistance_overview_list()
@@ -178,81 +158,74 @@ class PointFinderENCOURS(PointfinderOverviewCheck):
             overview_file_df = overview_file_df[overview_file_df["#Gene_ID"].str.contains("#") == False]
             overview_file_df["Species"] = overview_file_list.iloc[overview_index]["overview_dirname"]
             all_pointfinder_mutation_df = all_pointfinder_mutation_df.append(overview_file_df)
+
         all_pointfinder_mutation_df["group"] = all_pointfinder_mutation_df["Species"] + "_" + all_pointfinder_mutation_df["#Gene_ID"].str.lower()
+        all_pointfinder_mutation_df['Codon_pos'] = all_pointfinder_mutation_df['Codon_pos'].astype('int')
         return all_pointfinder_mutation_df
 
-    def get_all_pointfinder_mutations(self):
-        return self.all_fasta_df()
-
-    def get_all_pointfinder_mutations(self):
-        return self.overview_mutation_df()
-
-
-    def all_fasta_df(self):
+    def extract_fasta_seq(self):
+        """
+        extract information from fasta files, translate nucleic to amino sequence
+        :return: a pandas dataframe to get_all_pointfinder_mutations()
+        """
         all_pointfinder_fasta_df = pd.DataFrame()
         fasta_file_list = self._resistance_overview_list()
         for overview_index in fasta_file_list.index:
             overview_files = fasta_file_list.iloc[overview_index]["overview_fasta_path_list"]
-            allfasta_df = pd.DataFrame()
+            all_fasta_df = pd.DataFrame()
             for fasta_file in overview_files:
-                final_liste = []
+                final_fasta_list = []
                 for fasta_seq in SeqIO.parse(fasta_file, "fasta"):
-                    listeo = [fasta_seq.id, str(fasta_seq.translate(table="11", id=True).seq), str(fasta_seq.seq)]
-                    final_liste.append(listeo)
+                    fasta_seq_information = [fasta_seq.id, str(fasta_seq.translate(table="11", id=True).seq.upper()), str(fasta_seq.seq.upper())]
+                    final_fasta_list.append(fasta_seq_information)
 
-                fasta_pandas = pd.DataFrame(final_liste, columns=['Name', 'amino_sequence', 'nucleotide_sequence'])
-                allfasta_df = allfasta_df.append(fasta_pandas)
-            allfasta_df["Species"] = fasta_file_list.iloc[overview_index]["overview_dirname"]
-            all_pointfinder_fasta_df = all_pointfinder_fasta_df.append(allfasta_df)
-
+                fasta_to_pandas = pd.DataFrame(final_fasta_list, columns=['Name', 'amino_sequence', 'nucleotide_sequence'])
+                all_fasta_df = all_fasta_df.append(fasta_to_pandas)
+            all_fasta_df["Species"] = fasta_file_list.iloc[overview_index]["overview_dirname"]
+            all_pointfinder_fasta_df = all_pointfinder_fasta_df.append(all_fasta_df)
         all_pointfinder_fasta_df["group"] = all_pointfinder_fasta_df["Species"] + "_" + all_pointfinder_fasta_df["Name"].str.lower()
         return all_pointfinder_fasta_df
 
-    def encore_unpeu(self):
-        all_pointfinder_fasta_df
-        all_pointfinder_mutation_df
+    def merge_fasta_and_overview(self):
+        """
+        Merge to one dataframe pointfinder mutations and sequences
+        :return: a dataframe with all pointfinder information (mutations and fasta sequences)
+        """
+        mutation_list = self.get_all_pointfinder_mutations()
+        fasta_list = self.get_all_fasta_sequences()
+        merged_results = mutation_list.merge(fasta_list)
+        return(merged_results)
 
+    def check_fasta_and_overview(self):
+        """
+        Check each mutation position related to the fasta sequences for each species
+        :return:
+        """
+        test = self.merge_fasta_and_overview()
+        test["amino_sequence"] =  test["amino_sequence"].apply(Seq)
+        test["nucleotide_sequence"] =  test["nucleotide_sequence"].apply(Seq)
+        test["new_position"] = None
+        for m in test.index:
+        # amino sequence
+            fasta_amino_seq = str(test["amino_sequence"][m])
+        # position of the expected codon in amino value
+            ref_codon_position = int(test["Codon_pos"][m] - 1)
+        # position of the expected nucleic acid start related to the amino position
+            ref_nucleic_position = ref_codon_position * 3
+            ref_nucleic_position_end = ref_nucleic_position + len(test["Ref_nuc"][m])
+        # expected codon letter
+            ref_codon_mutation = str(test["Ref_codon"][m])
+        # nucleic mutation in the fasta file
+            fasta_nucleic_mutation = str(test["nucleotide_sequence"][m][ref_nucleic_position:ref_nucleic_position_end])
+        # nucleic mutation in the reference
+            ref_nucleic_mutation = str(test["Ref_nuc"][m])
+            if len(fasta_amino_seq) > abs(ref_codon_position):
+                if fasta_amino_seq[ref_codon_position] == ref_codon_mutation and fasta_nucleic_mutation == ref_nucleic_mutation:
+                    test["new_position"][m] = ref_codon_position +1
+            else:
+                if fasta_nucleic_mutation == ref_nucleic_mutation and fasta_nucleic_mutation == ref_codon_mutation:
+                    if ref_codon_position < 0:
+                        test["new_position"][m] = len(test["nucleotide_sequence"][m]) - abs(ref_codon_position) +1
+        return test
 
-
-
-
-    def read_fasta(fasta_file):
-        final_liste = []
-        for fasta_seq in SeqIO.parse(fasta_file,"fasta"):
-            listeo = [fasta_seq.id,str(fasta_seq.translate(table="11",id=True).seq),str(fasta_seq.seq)]
-            final_liste.append(listeo)
-
-        fasta_pandas = pd.DataFrame(final_liste,columns=['Name','amino_sequence','nucleotide_sequence'])
-        return fasta_pandas
-
-
-
-
-self = PointfinderOverviewCheck(overview)
-
-file="/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/mycobacterium_tuberculosis/ahpC_promoter_size_180bp.fsa"
-file="/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/enterococcus_faecium/resistens-overview.txt"
-overview = "/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/"
-file="/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/mycobacterium_tuberculosis/resistens-overview.txt"
-file = "/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/mycobacterium_tuberculosis/gyrA.fsa"
-
-
-
-    def refactor(self):
-        print(self.pointfinder_database_path,"___", self.pointfinder_database_name)
-        chemin = os.path.join(self.pointfinder_database_path, self.pointfinder_database_name)
-        for file in os.listdir(chemin):
-            print("\nespèce :", file)
-            path = os.path.join(chemin, file)
-            if os.path.isdir(path):
-                print("fzef")
-                for file2 in os.listdir(path):
-                    print("espèce")
-                    print(file2)
-
-                    for line in reader:
-                        gene = line[gene]
-
-
-                # traitement
-folp = Seq("ATGAAACTCTTTGCCCAGGGTACTTCACTGGACCTTAGCCATCCTCACGTAATGGGGATCCTCAACGTCACGCCTGATTCCTTTTCGGATGGTGGCACGCATAACTCGCTGATAGATGCGGTGAAACATGCGAATCTGATGATCAACGCTGGCGCGACGATCATTGACGTTGGTGGCGAGTCCACGCGCCCAGGGGCGGCGGAAGTTAGCGTTGAAGAAGAGTTGCAACGTGTTATTCCTGTGGTTGAGGCAATTGCTCAACGCTTCGAAGTCTGGATCTCAGTCGATACATCCAAACCAGAAGTCATCCGTGAGTCAGCGAAAGTTGGCGCTCACATTATTAATGATATCCGCTCCCTTTCCGAACCTGGCGCTCTGGAGGCGGCTGCAGAAACCGGTTTACCGGTTTGTCTGATGCATATGCAGGGAAATCCAAAAACCATGCAGGAAGCTCCGAAGTATGACGATGTCTTTGCAGAAGTGAATCGCTACTTTATTGAGCAAATAGCACGTTGCGAGCAGGCGGGTATCGCAAAAGAGAAATTGTTGCTCGACCCCGGATTCGGTTTCGGTAAAAATCTCTCCCATAACTATTCATTACTGGCGCGCCTGGCTGAATTTCACCATTTCAACCTGCCGCTGTTGGTGGGTATGTCACGAAAATCGATGATTGGGCAGCTGCTGAACGTGGGGCCGTCCGAGCGCCTGAGCGGTAGTCTGGCCTGTGCGGTCATTGCCGCAATGCAAGGCGCGCACATCATTCGTGTTCATGACGTCAAAGAAACCGTAGAAGCGATGCGGGTGGTGGAAGCCACTCTGTCTGCAAAGGAAAACAAACGCTATGAGTAA")
+#overview = "/home/pierre/PycharmProjects/pythonProject/staramr_update/staramr/staramr/databases/data/update/pointfinder/"
