@@ -18,13 +18,12 @@ class CodonMutationPosition(MutationPosition):
         :param database_amr_gene_string: The database amr gene string from BLAST.
         :param input_genome_blast_string: The genome BLAST string from the input genome.
         :param database_amr_gene_start: The start coordinates of the BLAST amr gene hit.
+        :param offset: The amount to offset the mutation by (important for promoter mutations).
         """
         super().__init__(match_position - offset, database_amr_gene_start)
 
         self._codon_start = math.ceil(self._nucleotide_position_amr_gene / 3)
-        print("self._codon_start = " + str(self._codon_start))
         frame_shift = (self._nucleotide_position_amr_gene - 1) % 3
-        print("frame_shift = " + str(frame_shift))
 
         self._database_amr_gene_codon = self._find_codon(database_amr_gene_string, match_position, frame_shift)
         self._input_genome_codon = self._find_codon(input_genome_blast_string, match_position, frame_shift)

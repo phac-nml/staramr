@@ -73,23 +73,24 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_resistance_promoter(self, gene, nucleotide_mutations):
         """
-        Gets a list of resistance nucleotides located within the primer from the list of nucleotide mutations.
+        Gets a list of resistance nucleotides and codons located within the promoter, derived from the list
+        of nucleotide mutations.
         :param gene: The name of the gene.
-        :param nucleotide_mutations: The nucleotide mutations.
-        :return: The resistance nucleotides.
+        :param nucleotide_mutations: The positions of the nucleotide mutations.
+        :return: The resistance positions (both nucleotide and codon positions).
         """
-        print("get_resistance_promoter")
-        print(gene)
-        print(nucleotide_mutations)
 
+        # Get the mutations in the nucleotide (non-gene) part:
+        # Filter the list for negative coordinate positions.
         nucleotide_part = list(filter(lambda x: (x._nucleotide_position_amr_gene < 0), nucleotide_mutations))
-        print("nucleotide part = " + str((nucleotide_part)))
-        resistance_nucleotides = self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_part)  #: TODO: list or no?
+        resistance_nucleotides = self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_part)
 
+        # Get the mutations in the coding part:
+        # Filter the list for non-negative coordinate positions.
         codon_part = list(filter(lambda x: (x._nucleotide_position_amr_gene >= 0), nucleotide_mutations))
-        print("codon part = " + str((codon_part)))
-        resistance_codons = self._pointfinder_info.get_resistance_codons(gene, codon_part)  #: TODO: list or no?
+        resistance_codons = self._pointfinder_info.get_resistance_codons(gene, codon_part)
 
+        # Combine and return the results:
         return resistance_nucleotides + resistance_codons
 
     def get_organism(self):

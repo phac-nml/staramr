@@ -48,9 +48,6 @@ class PointfinderHitHSP(AMRHitHSP):
                 codon_starts.append(m._codon_start)
                 mutation_positions_filtered.append(m)
 
-        print("_get_mutation_positions")
-        print(mutation_positions_filtered)
-
         # @formatter:off
         return mutation_positions_filtered
         # @formatter:on

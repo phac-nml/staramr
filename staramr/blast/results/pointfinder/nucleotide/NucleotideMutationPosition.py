@@ -14,9 +14,9 @@ class NucleotideMutationPosition(MutationPosition):
         :param database_amr_gene_string: The amr gene string.
         :param input_genome_string: The input genome string.
         :param database_amr_gene_start: The start coordinates of the BLAST database hit.
-        :param offset: The amount to offset the mutation by (particularly for negative coordinate promoter mutations).
+        :param offset: The amount to offset the mutation by (particularly for negative-coordinate promoter mutations).
         """
-        super().__init__(match_position - offset, database_amr_gene_start)  # TODO: double check no bad consequences of offset
+        super().__init__(match_position - offset, database_amr_gene_start)
 
         self._database_amr_gene_mutation = database_amr_gene_string[match_position].upper()
         self._input_genome_mutation = input_genome_string[match_position].upper()
