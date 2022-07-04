@@ -66,6 +66,7 @@ class PointfinderDatabaseInfo:
             table[['Gene_ID']] = table[['Gene_ID']].replace('16S', '16S_rrsD')
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
+        print(codon_mutation)
         table = self._pointfinder_info
         matches = table[(table['Gene_ID'] == gene)
                         & (table['Codon_pos'] == codon_mutation.get_mutation_position())

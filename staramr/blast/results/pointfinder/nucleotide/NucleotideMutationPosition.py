@@ -28,10 +28,16 @@ class NucleotideMutationPosition(MutationPosition):
         return self.get_nucleotide_position()
 
     def get_database_amr_gene_mutation(self):
-        return self._database_amr_gene_mutation
+        if '-' in self._database_amr_gene_mutation:
+            return 'ins'
+        else:
+            return self._database_amr_gene_mutation
 
     def get_input_genome_mutation(self):
-        return self._input_genome_mutation
+        if '-' in self._input_genome_mutation:
+            return 'del'
+        else:
+            return self._input_genome_mutation
 
     def get_mutation_string(self):
         return self.get_database_amr_gene_mutation() + ' -> ' + self.get_input_genome_mutation()
