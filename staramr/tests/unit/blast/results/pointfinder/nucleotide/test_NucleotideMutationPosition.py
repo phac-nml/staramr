@@ -66,8 +66,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'A', 'Incorrect database mutation')
-        self.assertEqual(mutation.get_input_genome_mutation(), '-', 'Incorrect query mutation')
-        self.assertEqual(mutation.get_mutation_string_short(), 'A1-', 'Incorrect string')
+        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query mutation')
+        self.assertEqual(mutation.get_mutation_string_short(), 'A1del', 'Incorrect string')
 
     def testMutationPositionGapEnd(self):
         mutation_position = 3
@@ -82,8 +82,8 @@ class NucleotideMutationPositionTest(unittest.TestCase):
 
         self.assertEqual(mutation.get_mutation_position(), 4, 'Incorrect nucleotide position')
         self.assertEqual(mutation.get_database_amr_gene_mutation(), 'G', 'Incorrect database mutation')
-        self.assertEqual(mutation.get_input_genome_mutation(), '-', 'Incorrect query mutation')
-        self.assertEqual(mutation.get_mutation_string_short(), 'G4-', 'Incorrect string')
+        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query mutation')
+        self.assertEqual(mutation.get_mutation_string_short(), 'G4del', 'Incorrect string')
 
     def testMutationPositionGapReference(self):
         mutation_position = 0
@@ -97,6 +97,6 @@ class NucleotideMutationPositionTest(unittest.TestCase):
                                               amr_gene_start)
 
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect nucleotide position')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), '-', 'Incorrect database mutation')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'ins', 'Incorrect database mutation')
         self.assertEqual(mutation.get_input_genome_mutation(), 'A', 'Incorrect query mutation')
-        self.assertEqual(mutation.get_mutation_string_short(), '-1A', 'Incorrect string')
+        self.assertEqual(mutation.get_mutation_string_short(), 'ins1A', 'Incorrect string')

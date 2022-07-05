@@ -27,22 +27,35 @@ class PointfinderHitHSP(AMRHitHSP):
         """
         return self._blast_record['qseqid']
 
-    def _get_match_positions(self):
-        amr_seq = self.get_amr_gene_seq()
-        genome_seq = self.get_genome_contig_hsp_seq()
-
-        return [i for i, (x, y) in enumerate(zip(amr_seq, genome_seq)) if x != y]
-
     def _get_mutation_positions(self, start):
+        mutation_positions = []
         mutation_positions_filtered = []
         codon_starts = []
 
         amr_seq = self.get_amr_gene_seq()
         genome_seq = self.get_genome_contig_hsp_seq()
 
-        # Only return mutation position objects with unique codon start positions
-        mutation_positions = [CodonMutationPosition(i, amr_seq, genome_seq, start) for i in self._get_match_positions()]
+        amr_pos = 0
 
+        for i in range(len(amr_seq)):
+
+            # Insertion: "-" in the reference:
+            if amr_seq[i] == "-":
+                # left side
+                offset = i - amr_pos  # accounting for string index and reference index possibly being different
+                mutation = CodonMutationPosition(amr_pos - 1, amr_seq, genome_seq, start, offset=offset)
+                mutation_positions.append(mutation)
+            # Mismatch or Deletion:
+            elif (amr_seq[i] != genome_seq[i]):
+                offset = i - amr_pos
+                mutation = CodonMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset)
+                mutation_positions.append(mutation)
+                amr_pos += 1
+            # Match:
+            else:
+                amr_pos += 1
+
+        # Only return mutation position objects with unique codon start positions
         for m in mutation_positions:
             if m._codon_start not in codon_starts:
                 codon_starts.append(m._codon_start)

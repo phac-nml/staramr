@@ -21,34 +21,65 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
         super().__init__(file, blast_record)
 
     def _get_mutation_positions(self, start):
+        nucleotide_mutations = []
+        codon_mutations = []
+
         amr_seq = self.get_amr_gene_seq()
         genome_seq = self.get_genome_contig_hsp_seq()
 
-        match_positions = self._get_match_positions()
+        amr_pos = 0
 
         # Get all the nucleotide match positions up to the offset:
-        nucleotide_match_positions = list(filter(lambda x: x < self.offset, match_positions))
+        for i in range(self.offset):
 
-        # @formatter:off
-        nucleotide_mutations = [NucleotideMutationPosition(i, amr_seq, genome_seq, start, self.offset + 1) for i in nucleotide_match_positions]
-        # @formatter:on
+            # Insertion: "-" in the reference:
+            if amr_seq[i] == "-":
+                # left side
+                offset = i - amr_pos + self.offset + 1  # accounting for string index and reference index possibly being different
+                mutation = NucleotideMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset + 1)
+                nucleotide_mutations.append(mutation)
+            # Mismatch or Deletion:
+            elif (amr_seq[i] != genome_seq[i]):
+                offset = i - amr_pos + self.offset
+                mutation = NucleotideMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset + 1)
+                nucleotide_mutations.append(mutation)
+                amr_pos += 1
+            # Match:
+            else:
+                amr_pos += 1
 
         # Get all the codon match positions after the offset:
-        codon_match_positions = list(filter(lambda x: x >= self.offset, match_positions))
+        for i in range(self.offset, len(amr_seq)):
 
-        mutation_positions_filtered = []
+            # Insertion: "-" in the reference:
+            if amr_seq[i] == "-":
+                # left side
+                offset = i - amr_pos + self.offset # accounting for string index and reference index possibly being different
+                mutation = CodonMutationPosition(amr_pos - 1, amr_seq, genome_seq, start, offset=offset)
+                codon_mutations.append(mutation)
+            # Mismatch or Deletion:
+            elif (amr_seq[i] != genome_seq[i]):
+                offset = i - amr_pos + self.offset
+                mutation = CodonMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset)
+                codon_mutations.append(mutation)
+                amr_pos += 1
+            # Match:
+            else:
+                amr_pos += 1
+
+        codon_mutations_filtered = []
         codon_starts = []
 
         # Only return codon mutation position objects with unique codon start positions
-        mutation_positions = [CodonMutationPosition(i, amr_seq, genome_seq, start, self.offset) for i in codon_match_positions]
-
-        for m in mutation_positions:
+        for m in codon_mutations:
             if m._codon_start not in codon_starts:
                 codon_starts.append(m._codon_start)
-                mutation_positions_filtered.append(m)
+                codon_mutations_filtered.append(m)
 
         # Combine lists and return all positions:
-        return nucleotide_mutations + mutation_positions_filtered
+        combined_mutations = nucleotide_mutations + codon_mutations_filtered
+
+        return combined_mutations
 
     def _parse_database_name(self, database_name):
         """
