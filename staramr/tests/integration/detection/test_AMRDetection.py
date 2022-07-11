@@ -1149,7 +1149,7 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['ahpC_promoter_size_180bp'].seq.upper(), records['ahpC_promoter_size_180bp'].seq.upper(), "records don't match")
 
-    def testPointfinderEscherichiaColiCn13insGSuccess(self):
+    def testPointfinderEscherichiaColin13insGSuccess(self):
         # Insert a G at -13 in the promoter.
         # (ampC_promoter_size_53bp / ampC promoter / -13 / - / ins / G)
         # This tests the ability to find a single insertion in the nucleotide part of a promoter.
@@ -1187,6 +1187,46 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC_promoter_size_53bp'].seq.upper(), "records don't match")
+
+    def testPointfinderEscherichiaColin16insGTSuccess(self):
+        # Insert a GT at -16 in the promoter.
+        # (ampC_promoter_size_53bp / ampC promoter / -16 / - / ins / GT)
+        # This tests the ability to find a double insertion in the nucleotide part of a promoter.
+        # Verified CGE identifies the ampC-promoter (g.-16_-15insGT) mutation.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'escherichia_coli')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "ampC_promoter_size_53bp-n16insGT.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 90, 90, 90, 90,0,0,0,0,0)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'ampC_promoter_size_53bp (ins-16GT)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'ampC_promoter_size_53bp-n16insGT', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], -16, msg='Wrong nucleotide position')
+        self.assertEqual(result['Mutation'].iloc[0], 'ins -> GT', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.639, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 101.38, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '147/145', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ampC_promoter_size_53bp (ins-16GT)]',
+                         'Wrong phenotype')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_ampC_promoter_size_53bp-n16insGT.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC_promoter_size_53bp'].seq.upper(), "records don't match")
+
 
 if __name__ == '__main__':
     unittest.main()

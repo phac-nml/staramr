@@ -36,17 +36,35 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
             if amr_seq[i] == "-":
                 # left side
                 offset = i - amr_pos + self.offset + 1  # accounting for string index and reference index possibly being different
-                mutation = NucleotideMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset + 1)
+                mutation = NucleotideMutationPosition(i, amr_seq, genome_seq, start, offset=offset + 1)
                 nucleotide_mutations.append(mutation)
             # Mismatch or Deletion:
             elif (amr_seq[i] != genome_seq[i]):
                 offset = i - amr_pos + self.offset
-                mutation = NucleotideMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset + 1)
+                mutation = NucleotideMutationPosition(i, amr_seq, genome_seq, start, offset=offset + 1)
                 nucleotide_mutations.append(mutation)
                 amr_pos += 1
             # Match:
             else:
                 amr_pos += 1
+
+        # Merge adjacent nucleotide insertions:
+        nucleotide_mutations_merged = []
+        while(len(nucleotide_mutations) > 0):
+            current = nucleotide_mutations.pop(0)
+
+            # If the merged list has something in it
+            # and the last item in the merged list is an insertion
+            # and the last item in the merged list has the same position:
+            if(len(nucleotide_mutations_merged) > 0
+            and nucleotide_mutations_merged[-1].get_database_amr_gene_mutation() == 'ins'
+            and nucleotide_mutations_merged[-1].get_mutation_position() == current.get_mutation_position()):
+                # Add the nucleotide to the existing:
+                nucleotide_mutations_merged[-1]._database_amr_gene_mutation += current._database_amr_gene_mutation
+                nucleotide_mutations_merged[-1]._input_genome_mutation += current._input_genome_mutation
+
+            else:
+                nucleotide_mutations_merged.append(current)
 
         # Get all the codon match positions after the offset:
         for i in range(self.offset, len(amr_seq)):
@@ -77,7 +95,7 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
                 codon_mutations_filtered.append(m)
 
         # Combine lists and return all positions:
-        combined_mutations = nucleotide_mutations + codon_mutations_filtered
+        combined_mutations = nucleotide_mutations_merged + codon_mutations_filtered
 
         return combined_mutations
 
