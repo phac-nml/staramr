@@ -48,6 +48,7 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
             else:
                 amr_pos += 1
 
+        # TODO: Might need to factor out this code and include it for all indel hit types
         # Merge adjacent nucleotide insertions:
         nucleotide_mutations_merged = []
         while(len(nucleotide_mutations) > 0):
@@ -76,11 +77,13 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
                 # left side
                 offset = i - amr_pos + self.offset # accounting for string index and reference index possibly being different
                 mutation = CodonMutationPosition(amr_pos - 1, amr_seq, genome_seq, start, offset=offset)
+                # TODO: Change above to PointfinderHitHSPPromoter._get_mutation_positions()'s solution (i.e. i instead of amr_pos)?
                 codon_mutations.append(mutation)
             # Mismatch or Deletion:
             elif (amr_seq[i] != genome_seq[i]):
                 offset = i - amr_pos + self.offset
                 mutation = CodonMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset)
+                # TODO: Change above to PointfinderHitHSPPromoter._get_mutation_positions()'s solution (i.e. i instead of amr_pos)?
                 codon_mutations.append(mutation)
                 amr_pos += 1
             # Match:

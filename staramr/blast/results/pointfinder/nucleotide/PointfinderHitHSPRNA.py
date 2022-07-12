@@ -27,11 +27,13 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
                 # left side
                 offset = i - amr_pos  # accounting for string index and reference index possibly being different
                 mutation = NucleotideMutationPosition(amr_pos - 1, amr_seq, genome_seq, start, offset=offset)
+                # TODO: Change above to PointfinderHitHSPPromoter._get_mutation_positions()'s solution (i.e. i instead of amr_pos)?
                 mutation_positions.append(mutation)
             # Mismatch or Deletion:
             elif (amr_seq[i] != genome_seq[i]):
                 offset = i - amr_pos
                 mutation = NucleotideMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset)
+                # TODO: Change above to PointfinderHitHSPPromoter._get_mutation_positions()'s solution (i.e. i instead of amr_pos)?
                 mutation_positions.append(mutation)
                 amr_pos += 1
             # Match:
