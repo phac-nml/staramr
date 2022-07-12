@@ -54,9 +54,11 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
             current = nucleotide_mutations.pop(0)
 
             # If the merged list has something in it
+            # and the current mutation is an insertion
             # and the last item in the merged list is an insertion
             # and the last item in the merged list has the same position:
             if(len(nucleotide_mutations_merged) > 0
+            and current.get_database_amr_gene_mutation() == 'ins'
             and nucleotide_mutations_merged[-1].get_database_amr_gene_mutation() == 'ins'
             and nucleotide_mutations_merged[-1].get_mutation_position() == current.get_mutation_position()):
                 # Add the nucleotide to the existing:

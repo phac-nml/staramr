@@ -1227,6 +1227,45 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC_promoter_size_53bp'].seq.upper(), "records don't match")
 
+    def testPointfinderNeisseriaGonorrhoeaen57delSuccess(self):
+        # Delete the A nucleotide at -57 in the promoter.
+        # (mtrR_promoter_size_66bp / mtrR promoter / -57 / del / A)
+        # This tests the ability to find a single deletion in the nucleotide part of a promoter.
+        # Verified CGE identifies the mtrR-promoter (g.-57_-57del) mutation.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'neisseria_gonorrhoeae')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "mtrR_promoter_size_66bp-n57del.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 90, 90, 90, 90,0,0,0,0,0)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'mtrR_promoter_size_66bp (del-57A)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'mtrR_promoter_size_66bp-n57del', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], -57, msg='Wrong nucleotide position')
+        self.assertEqual(result['Mutation'].iloc[0], 'del -> A', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.86, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.0, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '699/699', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[mtrR_promoter_size_66bp (del-57A)]',
+                         'Wrong phenotype')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_mtrR_promoter_size_66bp-n57del.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['mtrR_promoter_size_66bp'].seq.upper(), records['mtrR_promoter_size_66bp'].seq.upper(), "records don't match")
+        # TODO: The above left doesn't have a "-", whereas the right does
 
 if __name__ == '__main__':
     unittest.main()

@@ -28,14 +28,25 @@ class NucleotideMutationPosition(MutationPosition):
         return self.get_nucleotide_position()
 
     def get_database_amr_gene_mutation(self):
+        # If there's an insertion ('-'), then return 'ins' instead of '-':
         if '-' in self._database_amr_gene_mutation:
             return 'ins'
+        # If there's a deletion in the INPUT sequence, then we need to return 'del'
+        # instead of the actual AMR reference sequence
+        # (which would normally be some sequence)
+        if '-' in self._input_genome_mutation:
+            return 'del'
+        # If neither an insertion or deletion, return the actual AMR gene sequence:
         else:
             return self._database_amr_gene_mutation
 
     def get_input_genome_mutation(self):
+        # If there's a deletion in the input genome, the database format actually
+        # requires us to return the reference sequence that was deleted,
+        # not the '-' in the sequence that you would expect:
         if '-' in self._input_genome_mutation:
-            return 'del'
+            return self._database_amr_gene_mutation
+        # If not a deletion, return the actual input genome sequence:
         else:
             return self._input_genome_mutation
 
