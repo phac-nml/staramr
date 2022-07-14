@@ -76,14 +76,12 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
             if amr_seq[i] == "-":
                 # left side
                 offset = i - amr_pos + self.offset # accounting for string index and reference index possibly being different
-                mutation = CodonMutationPosition(amr_pos - 1, amr_seq, genome_seq, start, offset=offset)
-                # TODO: Change above to PointfinderHitHSPPromoter._get_mutation_positions()'s solution (i.e. i instead of amr_pos)?
+                mutation = CodonMutationPosition(i - 1, amr_seq, genome_seq, start, offset=offset)
                 codon_mutations.append(mutation)
             # Mismatch or Deletion:
             elif (amr_seq[i] != genome_seq[i]):
                 offset = i - amr_pos + self.offset
-                mutation = CodonMutationPosition(amr_pos, amr_seq, genome_seq, start, offset=offset)
-                # TODO: Change above to PointfinderHitHSPPromoter._get_mutation_positions()'s solution (i.e. i instead of amr_pos)?
+                mutation = CodonMutationPosition(i, amr_seq, genome_seq, start, offset=offset)
                 codon_mutations.append(mutation)
                 amr_pos += 1
             # Match:

@@ -1265,7 +1265,6 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['mtrR_promoter_size_66bp'].seq.upper(), records['mtrR_promoter_size_66bp'].seq.upper().replace('-', ''), "records don't match")
-        # TODO: Makes sense to remove '-' here when comparing strings?
 
 if __name__ == '__main__':
     unittest.main()
