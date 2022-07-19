@@ -81,17 +81,27 @@ class CodonMutationPosition(MutationPosition):
                + ' -> ' + self.get_input_genome_amino_acid() + ')'
 
     def get_database_amr_gene_mutation(self):
-        if '-' in self.get_database_amr_gene_codon():
-            return self.get_database_amr_gene_amino_acid()
+        # If there's an insertion ('-'), then return 'ins' instead of '-':
+        if '-' in self._database_amr_gene_codon:
+            return 'ins'
+        # If there's a deletion in the INPUT sequence, then we need to return 'del'
+        # instead of the actual reference sequence
+        # (which would normally be some sequence)
+        if '-' in self._input_genome_codon:
+            return 'del'
+        # If neither an insertion or deletion, return the actual gene sequence:
         else:
-            return self.get_database_amr_gene_amino_acid().upper()
+            return Bio.Seq.translate(self.get_database_amr_gene_codon(), table='Standard').upper()
 
     def get_input_genome_mutation(self):
-        # Keep 'ins' or 'del' lowercase 
-        if '-' in self.get_input_genome_codon():
-            return self.get_input_genome_amino_acid()
+        # If there's a deletion in the input genome, the database format actually
+        # requires us to return the reference sequence that was deleted,
+        # not the '-' in the sequence that you would expect:
+        if '-' in self._input_genome_codon:
+            return Bio.Seq.translate(self.get_database_amr_gene_codon(), table='Standard').upper()
+        # If not a deletion, return the actual input genome sequence:
         else:
-            return self.get_input_genome_amino_acid().upper()
+            return Bio.Seq.translate(self.get_input_genome_codon(), table='Standard').upper()
 
     def get_type(self):
         return 'codon'

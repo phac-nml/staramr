@@ -2,6 +2,8 @@ import logging
 from os import path
 
 import pandas as pd
+import Bio.Seq
+from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 
 from staramr.exceptions.GenotypePhenotypeMatchException import GenotypePhenotypeMatchException
 
@@ -52,6 +54,19 @@ class PointfinderDatabaseInfo:
         :return: A new PointfinderDatabaseInfo.
         """
         return cls(database_info_dataframe)
+    
+    @staticmethod
+    def to_codons(regex_match):
+        # Sometimes, the regex will match a string with a comma and return multiple matches.
+        # Ex: TTCATGGAC,TTC
+        # We need to make sure we handle these commas and multiple matches.
+        entries = regex_match.string.split(",")
+        print(entries)
+
+        for i in range(0, len(entries)):
+            entries[i] = Bio.Seq.translate(entries[i], table='Standard').upper()
+
+        return ",".join(entries)
 
     def _resistance_table_hacks(self, table):
         """
@@ -65,12 +80,60 @@ class PointfinderDatabaseInfo:
             logger.debug("Replacing [16S] with [16S_rrsD] for pointfinder organism [salmonella]")
             table[['Gene_ID']] = table[['Gene_ID']].replace('16S', '16S_rrsD')
 
+        # We need to fix table entries where codon deletions are listed,
+        # but no reference nucleotides are listed in the corresponding entry.
+        # This will mean that this specific entry (for some reason)
+        # is using 0-based nucleotide coordinates and nucleotides for the Res_codon
+        # instead of 1-based codon coordinates and codons for the Res_codon.
+        # However, we need make an exception for entries where "promoter", "16S", or "23S"
+        # are found in the 'Gene_ID'.
+
+        table.loc[(table['Ref_nuc'] == '-') & (table['Ref_codon'] == 'del')
+        & (table['Gene_ID'].str.contains('promoter') == False)
+        & (table['Gene_ID'].str.contains('16S') == False)
+        & (table['Gene_ID'].str.contains('23S') == False), "Codon_pos"] += 3
+        # We increment by 3 because the table is using base-0 coordinates
+        # and we have base-1 coordindates for everything codon-related.
+        # However, what's listed is nucleotide coordinates for the codon
+        # mutation, so we actually need to bump it by 3 nucleotides.
+
+        # Furthermore, we need to convert 'Res_codon' entries related to the above problem
+        # (codon deletions) from nucleotides into codons. We choose to convert nucleotides into
+        # codons instead of the other way around so that can more accurately compare observed mutations
+        # to the table entries.
+        table.loc[(table['Ref_nuc'] == '-') & (table['Ref_codon'] == 'del')
+        & (table['Gene_ID'].str.contains('promoter') == False)
+        & (table['Gene_ID'].str.contains('16S') == False)
+        & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"] = table.loc[(table['Ref_nuc'] == '-') & (table['Ref_codon'] == 'del')
+        & (table['Gene_ID'].str.contains('promoter') == False)
+        & (table['Gene_ID'].str.contains('16S') == False)
+        & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"].str.replace('[A-Z,]+', self.to_codons, regex=True)
+
+        print(table.loc[(table['Ref_nuc'] == '-') & (table['Ref_codon'] == 'del')
+        & (table['Gene_ID'].str.contains('promoter') == False)
+        & (table['Gene_ID'].str.contains('16S') == False)
+        & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"])
+
     def _get_resistance_codon_match(self, gene, codon_mutation):
         table = self._pointfinder_info
-        matches = table[(table['Gene_ID'] == gene)
-                        & (table['Codon_pos'] == codon_mutation.get_mutation_position())
-                        & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
-                        & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
+
+        # We need to handle codon deletions as a special case:
+        if(type(codon_mutation) is CodonMutationPosition
+        and codon_mutation.get_input_genome_amino_acid() == 'del'):
+            matches = table[(table['Gene_ID'] == gene)
+                    # Codon deletions are listed using nucleotide coordinates
+                    & (table['Codon_pos'] == codon_mutation.get_mutation_position() * 3)
+                        # Such coords are denoted in nucleotide coordinates in the reference table for some reason,
+                        # so we need to convert to nucleotide coordinates before making the comparison.
+                    & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
+                    & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
+
+        # Normal cases:
+        else:
+            matches = table[(table['Gene_ID'] == gene)
+                            & (table['Codon_pos'] == codon_mutation.get_mutation_position())
+                            & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
+                            & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
 
         if len(matches.index) > 1:
             # If more then one match, try to match Res_codon exactly to subselect
