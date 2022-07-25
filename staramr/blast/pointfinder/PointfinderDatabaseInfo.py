@@ -61,7 +61,6 @@ class PointfinderDatabaseInfo:
         # Ex: TTCATGGAC,TTC
         # We need to make sure we handle these commas and multiple matches.
         entries = regex_match.string.split(",")
-        print(entries)
 
         for i in range(0, len(entries)):
             entries[i] = Bio.Seq.translate(entries[i], table='Standard').upper()
@@ -108,11 +107,6 @@ class PointfinderDatabaseInfo:
         & (table['Gene_ID'].str.contains('promoter') == False)
         & (table['Gene_ID'].str.contains('16S') == False)
         & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"].str.replace('[A-Z,]+', self.to_codons, regex=True)
-
-        print(table.loc[(table['Ref_nuc'] == '-') & (table['Ref_codon'] == 'del')
-        & (table['Gene_ID'].str.contains('promoter') == False)
-        & (table['Gene_ID'].str.contains('16S') == False)
-        & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"])
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
         table = self._pointfinder_info

@@ -1292,20 +1292,20 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result.index[0], 'rpsE-del78gtt', msg='Wrong file')
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
         self.assertEqual(result['Position'].iloc[0], 27, msg='Wrong codon position')
-        self.assertEqual(result['Mutation'].iloc[0], 'del -> V', msg='Wrong mutation')
+        self.assertEqual(result['Mutation'].iloc[0], 'GTT -> --- (V -> del)', msg='Wrong mutation')
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.42, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.0, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '519/519', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[rpsE (del27V)]',
                          'Wrong phenotype')
 
-        hit_file = path.join(self.outdir.name, 'rpsE-del78gtt.fsa')
+        hit_file = path.join(self.outdir.name, 'pointfinder_rpsE-del78gtt.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
 
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['rspE'].seq.upper(), records['rspE'].seq.upper().replace('-', ''), "records don't match")
+        self.assertEqual(expected_records['rpsE'].seq.upper(), records['rpsE'].seq.upper().replace('-', ''), "records don't match")
 
 
 if __name__ == '__main__':
