@@ -43,7 +43,7 @@ class PointfinderHitHSP(AMRHitHSP):
             if amr_seq[i] == "-":
                 # left side
                 offset = i - amr_pos  # accounting for string index and reference index possibly being different
-                mutation = CodonMutationPosition(i - 1, amr_seq, genome_seq, start, offset=offset)
+                mutation = CodonMutationPosition(i, amr_seq, genome_seq, start, offset=offset)
                 mutation_positions.append(mutation)
             # Mismatch or Deletion:
             elif (amr_seq[i] != genome_seq[i]):
