@@ -2,6 +2,9 @@ import logging
 
 from staramr.blast.results.AMRHitHSP import AMRHitHSP
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
+from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
+
+import pandas as pd
 
 logger = logging.getLogger('PointfinderHitHSP')
 
@@ -19,6 +22,12 @@ class PointfinderHitHSP(AMRHitHSP):
         :param blast_record: The Bio.Blast.Record this hit came from.
         """
         super().__init__(file, blast_record)
+
+        #print(file)
+        #print(blast_record)
+        #blast_record.to_csv("/home/eric/projects/staramr/staramr/tests/unit/data/pmrA-multi-indel.csv")
+        #read_csv = pd.read_csv("/home/eric/projects/staramr/staramr/tests/unit/data/pmrA-multi-indel.csv", header=None, index_col=0)
+        #print(read_csv)
 
     def get_amr_gene_name(self):
         """
@@ -43,7 +52,7 @@ class PointfinderHitHSP(AMRHitHSP):
             if amr_seq[i] == "-":
                 # left side
                 offset = i - amr_pos  # accounting for string index and reference index possibly being different
-                mutation = CodonMutationPosition(i, amr_seq, genome_seq, start, offset=offset)
+                mutation = CodonInsertionPosition(i, amr_seq, genome_seq, start, offset=offset)
                 mutation_positions.append(mutation)
             # Mismatch or Deletion:
             elif (amr_seq[i] != genome_seq[i]):
@@ -60,7 +69,7 @@ class PointfinderHitHSP(AMRHitHSP):
             if m._codon_start not in codon_starts:
                 codon_starts.append(m._codon_start)
                 mutation_positions_filtered.append(m)
-
+        print(mutation_positions_filtered)
         # @formatter:off
         return mutation_positions_filtered
         # @formatter:on
