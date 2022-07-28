@@ -4,6 +4,7 @@ from os import path
 import pandas as pd
 import Bio.Seq
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
+from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
 
 from staramr.exceptions.GenotypePhenotypeMatchException import GenotypePhenotypeMatchException
 
@@ -109,6 +110,7 @@ class PointfinderDatabaseInfo:
         & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"].str.replace('[A-Z,]+', self.to_codons, regex=True)
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
+        print(codon_mutation)
         table = self._pointfinder_info
 
         # We need to handle codon deletions as a special case:
@@ -119,6 +121,21 @@ class PointfinderDatabaseInfo:
                     & (table['Codon_pos'] == codon_mutation.get_mutation_position() * 3)
                         # Such coords are denoted in nucleotide coordinates in the reference table for some reason,
                         # so we need to convert to nucleotide coordinates before making the comparison.
+                    & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
+                    & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
+        
+        # We need to handle codon insertions as a special case:
+        # Pointfinder mis-reports the position of codon insertions. For example:
+        # ref:     ACG --- ACG
+        # query:   ACG GGG ACG
+        # ref_pos: 1       2
+        # Pointfinder is incorrectly reporting the insertion as 2_3insG instead of the correct 1_2insG,
+        # which is to say, the insertion happens between reference codon coordinates 1 and 2.
+        # We need to shift by 1 in our interpretation.
+        elif type(codon_mutation) is CodonInsertionPosition:
+            matches = table[(table['Gene_ID'] == gene)
+                    # Codon inerstions need to be shifted by 1:
+                    & (table['Codon_pos'] == codon_mutation.get_mutation_position() + 1)
                     & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
                     & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
 
