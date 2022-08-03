@@ -110,7 +110,6 @@ class PointfinderDatabaseInfo:
         & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"].str.replace('[A-Z,]+', self.to_codons, regex=True)
 
     def _get_resistance_codon_match(self, gene, codon_mutation):
-        print(codon_mutation)
         table = self._pointfinder_info
 
         # We need to handle codon deletions as a special case:
@@ -153,10 +152,7 @@ class PointfinderDatabaseInfo:
             if len(matches_subset.index) >= 1:
                 matches = matches_subset
 
-        if len(matches.index) > 1:
-                raise GenotypePhenotypeMatchException("Error, multiple matches for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
-        else:
-            return matches
+        return matches
 
     def _get_resistance_nucleotide_match(self, gene, nucleotide_mutations):
         return self._get_resistance_codon_match(gene, nucleotide_mutations)

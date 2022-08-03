@@ -69,7 +69,7 @@ class PointfinderHitHSP(AMRHitHSP):
             if m._codon_start not in codon_starts:
                 codon_starts.append(m._codon_start)
                 mutation_positions_filtered.append(m)
-        print(mutation_positions_filtered)
+
         # @formatter:off
         return mutation_positions_filtered
         # @formatter:on

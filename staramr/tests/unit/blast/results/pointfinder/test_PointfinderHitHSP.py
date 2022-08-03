@@ -46,8 +46,6 @@ class PointfinderHitHSPTest(unittest.TestCase):
         hit = PointfinderHitHSP("staramr/tests/unit/data/pmrA-multi-indel.fsa", blast_record)
         mutations = hit.get_mutations()
 
-        print(mutations)
-
         self.assertEqual(mutations[0]._codon_start, 9, msg='Wrong codon position.')
         self.assertEqual(mutations[0]._database_amr_gene_codon, "---", msg='Wrong AMR codon.')
         self.assertEqual(mutations[0]._input_genome_codon, "CCC", msg='Wrong input codon.')
