@@ -32,3 +32,9 @@ class CodonInsertionPosition(CodonMutationPosition):
             '_codon_start={_codon_start}, _database_amr_gene_codon={_database_amr_gene_codon}, _input_genome_codon={_input_genome_codon})').format(
             **self.__dict__)
 
+    def get_pointfinder_mutation_string(self):
+        # Since the position codon insertions in the Pointfinder database is off by one, we need
+        # to adjust the position in the report to show what Pointfinder shows.
+        return self.get_database_amr_gene_mutation() + str(
+            self.get_mutation_position() + 1) + self.get_input_genome_mutation()
+

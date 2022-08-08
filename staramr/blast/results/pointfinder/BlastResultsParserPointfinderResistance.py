@@ -23,6 +23,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     Contig
     Start
     End
+    Pointfinder Position
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
@@ -50,7 +51,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         if drug is None:
             drug = 'unknown[' + gene_name + ']'
 
-        return [hit.get_genome_id(),
+        result = [hit.get_genome_id(),
                 gene_name,
                 drug,
                 db_mutation.get_type(),
@@ -61,5 +62,8 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
                 hit.get_genome_contig_id(),
                 hit.get_genome_contig_start(),
-                hit.get_genome_contig_end()
+                hit.get_genome_contig_end(),
+                db_mutation.get_pointfinder_mutation_string()
                 ]
+
+        return result

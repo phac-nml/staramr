@@ -26,6 +26,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Contig
     Start
     End
+    Pointfinder Position
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
@@ -54,7 +55,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             return PointfinderHitHSP(file, blast_record)
 
     def _get_result(self, hit, db_mutation):
-        return [hit.get_genome_id(),
+        result = [hit.get_genome_id(),
                 hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")",
                 db_mutation.get_type(),
                 db_mutation.get_mutation_position(),
@@ -64,8 +65,11 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                 str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
                 hit.get_genome_contig_id(),
                 hit.get_genome_contig_start(),
-                hit.get_genome_contig_end()
+                hit.get_genome_contig_end(),
+                db_mutation.get_pointfinder_mutation_string()
                 ]
+
+        return result
 
     def _get_result_rows(self, hit, database_name):
         database_mutations = hit.get_mutations()
