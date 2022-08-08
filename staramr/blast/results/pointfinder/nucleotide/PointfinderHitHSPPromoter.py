@@ -48,7 +48,6 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
             else:
                 amr_pos += 1
 
-        # TODO: Might need to factor out this code and include it for all indel hit types
         # Merge adjacent nucleotide insertions:
         nucleotide_mutations_merged = []
         while(len(nucleotide_mutations) > 0):

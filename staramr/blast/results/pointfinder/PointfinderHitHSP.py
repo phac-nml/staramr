@@ -23,12 +23,6 @@ class PointfinderHitHSP(AMRHitHSP):
         """
         super().__init__(file, blast_record)
 
-        #print(file)
-        #print(blast_record)
-        #blast_record.to_csv("/home/eric/projects/staramr/staramr/tests/unit/data/pmrA-multi-indel.csv")
-        #read_csv = pd.read_csv("/home/eric/projects/staramr/staramr/tests/unit/data/pmrA-multi-indel.csv", header=None, index_col=0)
-        #print(read_csv)
-
     def get_amr_gene_name(self):
         """
         Gets the particular gene name for the PointFinder hit.
