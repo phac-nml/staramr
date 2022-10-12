@@ -1,3 +1,5 @@
+# Version 0.9.0
+
 # Version 0.8.0
 
 * Fixed issue when using older version of pandas (#136) (0.8.0.dev0).
