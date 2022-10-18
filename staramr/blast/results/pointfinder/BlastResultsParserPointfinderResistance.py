@@ -1,6 +1,7 @@
 import logging
 
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
+from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
 
 """
 Class used to parse out BLAST results for PointFinder, including phenotyhpes/resistances.
@@ -23,6 +24,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     Contig
     Start
     End
+    Pointfinder Position
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
@@ -43,14 +45,21 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         self._arg_drug_table = arg_drug_table
 
     def _get_result(self, hit, db_mutation):
+
+        # We need to correct for Pointfinder codon insertions being off by 1.
+        if type(db_mutation) is CodonInsertionPosition:
+            mutation_position = db_mutation.get_mutation_position() + 1
+        else:
+            mutation_position = db_mutation.get_mutation_position()
+
         drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_amr_gene_id(),
-                                             db_mutation.get_mutation_position())
+                                             mutation_position)
         gene_name = hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")"
 
         if drug is None:
             drug = 'unknown[' + gene_name + ']'
 
-        return [hit.get_genome_id(),
+        result = [hit.get_genome_id(),
                 gene_name,
                 drug,
                 db_mutation.get_type(),
@@ -61,5 +70,8 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
                 hit.get_genome_contig_id(),
                 hit.get_genome_contig_start(),
-                hit.get_genome_contig_end()
+                hit.get_genome_contig_end(),
+                db_mutation.get_pointfinder_mutation_string()
                 ]
+
+        return result

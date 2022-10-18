@@ -71,6 +71,28 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_mutations)
 
+    def get_resistance_promoter(self, gene, nucleotide_mutations):
+        """
+        Gets a list of resistance nucleotides and codons located within the promoter, derived from the list
+        of nucleotide mutations.
+        :param gene: The name of the gene.
+        :param nucleotide_mutations: The positions of the nucleotide mutations.
+        :return: The resistance positions (both nucleotide and codon positions).
+        """
+
+        # Get the mutations in the nucleotide (non-gene) part:
+        # Filter the list for negative coordinate positions.
+        nucleotide_part = list(filter(lambda x: (x._nucleotide_position_amr_gene < 0), nucleotide_mutations))
+        resistance_nucleotides = self._pointfinder_info.get_resistance_nucleotides(gene, nucleotide_part)
+
+        # Get the mutations in the coding part:
+        # Filter the list for non-negative coordinate positions.
+        codon_part = list(filter(lambda x: (x._nucleotide_position_amr_gene >= 0), nucleotide_mutations))
+        resistance_codons = self._pointfinder_info.get_resistance_codons(gene, codon_part)
+
+        # Combine and return the results:
+        return resistance_nucleotides + resistance_codons
+
     def get_organism(self):
         """
         Gets the particular organism of this database.
@@ -87,7 +109,8 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         A Class Method to get a list of organisms that are currently supported by staramr.
         :return: The list of organisms currently supported by staramr.
         """
-        return ['salmonella', 'campylobacter']
+        return ['salmonella', 'campylobacter', 'enterococcus_faecalis', 'enterococcus_faecium',
+                'escherichia_coli', 'helicobacter_pylori']
 
     @classmethod
     def get_organisms(cls, database_dir):

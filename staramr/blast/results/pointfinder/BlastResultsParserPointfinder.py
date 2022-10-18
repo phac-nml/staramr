@@ -4,6 +4,7 @@ from os import path
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 from staramr.blast.results.pointfinder.nucleotide.PointfinderHitHSPRNA import PointfinderHitHSPRNA
+from staramr.blast.results.pointfinder.nucleotide.PointfinderHitHSPPromoter import PointfinderHitHSPPromoter
 
 logger = logging.getLogger('BlastResultsParserPointfinder')
 
@@ -25,6 +26,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Contig
     Start
     End
+    Pointfinder Position
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
@@ -47,11 +49,13 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         logger.debug("database_name=%s", database_name)
         if (database_name == '16S_rrsD') or (database_name == '23S'):
             return PointfinderHitHSPRNA(file, blast_record)
+        elif ('promoter' in database_name):
+            return PointfinderHitHSPPromoter(file, blast_record, database_name)            
         else:
             return PointfinderHitHSP(file, blast_record)
 
     def _get_result(self, hit, db_mutation):
-        return [hit.get_genome_id(),
+        result = [hit.get_genome_id(),
                 hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")",
                 db_mutation.get_type(),
                 db_mutation.get_mutation_position(),
@@ -61,8 +65,11 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                 str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
                 hit.get_genome_contig_id(),
                 hit.get_genome_contig_start(),
-                hit.get_genome_contig_end()
+                hit.get_genome_contig_end(),
+                db_mutation.get_pointfinder_mutation_string()
                 ]
+
+        return result
 
     def _get_result_rows(self, hit, database_name):
         database_mutations = hit.get_mutations()
@@ -75,6 +82,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
         if (database_name == '16S_rrsD') or (database_name == '23S'):
             database_resistance_mutations = self._blast_database.get_resistance_nucleotides(gene, database_mutations)
+        elif ('promoter' in database_name):
+            database_resistance_mutations = self._blast_database.get_resistance_promoter(gene, database_mutations)
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_mutations=%s", database_resistance_mutations)

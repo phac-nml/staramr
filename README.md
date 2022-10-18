@@ -241,12 +241,12 @@ staramr db restore-default
 By default, the ResFinder/PointFinder/PlasmidFinder genes listed in [genes_to_exclude.tsv][] will be excluded from the final results. To pass a custom list of genes the option `--exclude-genes-file` can be used, where the file specified will contains a list of the sequence ids (one per line) from the ResFinder/PointFinder/PlasmidFinder databases. For example:
 
 ```
-#gene_id
+gene_id
 aac(6')-Iaa_1_NC_003197
 ColpVC_1__JX133088
 ```
 
-Please make sure to include `#gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
+Please make sure to include `gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
 
 # Output
 

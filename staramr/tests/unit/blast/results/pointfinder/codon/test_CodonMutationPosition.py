@@ -181,9 +181,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), '-TC', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del1I', 'Incorrect string')
 
     def testMutationPositionGapMiddle(self):
         mutation_position = 1
@@ -201,9 +201,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), 'A-C', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del1I', 'Incorrect string')
 
     def testMutationPositionGapEnd(self):
         mutation_position = 2
@@ -221,9 +221,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), 'AT-', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del1I', 'Incorrect string')
 
     def testMutationPositionGapMiddleEnd(self):
         mutation_position = 2
@@ -241,9 +241,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 1, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), 'AT-', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I1del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del1I', 'Incorrect string')
 
     def testMutationPositionGapStartMiddleEnd(self):
         mutation_position = 3
@@ -262,9 +262,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), '---', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I2del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del2I', 'Incorrect string')
 
     def testMutationPositionGapPreviousCodon(self):
         mutation_position = 3
@@ -282,9 +282,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), '---', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I2del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del2I', 'Incorrect string')
 
     def testMutationPositionGapLargerPreviousCodon(self):
         mutation_position = 3
@@ -302,9 +302,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), '---', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I2del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del2I', 'Incorrect string')
 
     def testMutationPositionGapBefore(self):
         mutation_position = 3
@@ -322,9 +322,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), 'A--', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I2del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')  # reversed
+        self.assertEqual(mutation.get_mutation_string_short(), 'del2I', 'Incorrect string')
 
     def testMutationPositionGapBeforeAfter(self):
         mutation_position = 3
@@ -342,9 +342,9 @@ class CodonMutationPositionTest(unittest.TestCase):
         self.assertEqual(mutation.get_mutation_position(), 2, 'Incorrect mutation start')
         self.assertEqual(mutation.get_database_amr_gene_codon(), 'ATC', 'Incorrect database codon')
         self.assertEqual(mutation.get_input_genome_codon(), 'A--', 'Incorrect query codon')
-        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'I', 'Incorrect database amino acid')
-        self.assertEqual(mutation.get_input_genome_mutation(), 'del', 'Incorrect query amino acid')
-        self.assertEqual(mutation.get_mutation_string_short(), 'I2del', 'Incorrect string')
+        self.assertEqual(mutation.get_database_amr_gene_mutation(), 'del', 'Incorrect database amino acid')  # actually reversed, see description in function
+        self.assertEqual(mutation.get_input_genome_mutation(), 'I', 'Incorrect query amino acid')
+        self.assertEqual(mutation.get_mutation_string_short(), 'del2I', 'Incorrect string')
 
     def testMutationPositionGapReferenceStart(self):
         mutation_position = 0

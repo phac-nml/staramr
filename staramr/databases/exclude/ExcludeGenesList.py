@@ -18,7 +18,7 @@ class ExcludeGenesList:
         Converts the exclude genes data to a list.
         :return: A list with genes to exclude.
         """
-        return self._data['#gene_id'].tolist()
+        return self._data['gene_id'].tolist()
 
     @classmethod
     def get_default_exclude_file(cls):
