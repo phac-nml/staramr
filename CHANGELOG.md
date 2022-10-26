@@ -1,3 +1,7 @@
+# Version 0.9.1
+
+* Fixed a bug that occured when parsing some plasmid FASTA record IDs.
+
 # Version 0.9.0
 
 * Updates to PointFinder database handling

@@ -199,5 +199,23 @@ class AMRDetectionPlasmid(unittest.TestCase):
                          msg='Wrong Predicted Phenotype value')
         self.assertEqual(summary_results['Plasmid'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Type')
 
+    def testParseUnderscoresBracketsInFASTA(self):
+        # Tests to ensure that the plasmid AMR detection can properly parse FASTA record IDs that have
+        # underscores within brackets. For example: "rep21_24_rep(CN1_plasmid2)_NC_022227". The "rep(CN1_plasmid2)"
+        # needs to be parsed as a single element.
+
+        file = path.join(self.test_data_dir, "plasmid-underscore-brackets.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
+
+        summary_results = self.amr_detection.get_summary_results()
+
+        self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows')
+
+        self.assertEqual(summary_results['Genotype'].iloc[0], 'None', msg='Wrong Genotype value')
+        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive',
+                         msg='Wrong Predicted Phenotype value')
+        self.assertEqual(summary_results['Plasmid'].iloc[0], 'rep21', msg='Wrong Plasmid Type')
+
 if __name__ == '__main__':
     unittest.main()
