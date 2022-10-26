@@ -1,3 +1,7 @@
+# Version 0.9.1
+
+* Fixed a bug that occured when parsing some plasmid FASTA record IDs.
+
 # Version 0.8.0
 
 * Fixed issue when using older version of pandas (#136) (0.8.0.dev0).
