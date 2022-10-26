@@ -27,7 +27,7 @@ class PlasmidfinderHitHSP(AMRHitHSP):
 
         logger.debug("record=%s", self._blast_record)
 
-        splitList = re.split('_', self.get_amr_gene_id())
+        splitList = re.split(r'_\s*(?![^()]*\))', self.get_amr_gene_id())
         re_search = list(filter(None, splitList))  # type: List[str]
 
         if not re_search:
