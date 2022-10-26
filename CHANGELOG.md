@@ -1,6 +1,7 @@
 # Version 0.9.1
 
-* Fixed a bug that occured when parsing some plasmid FASTA record IDs.
+* Fixed a bug that occured when parsing some plasmid FASTA record IDs ([PR 159](https://github.com/phac-nml/staramr/pull/159)).
+* Fixed issue where sometimes the extraction of error messages from `makeblastdb` was crashing leading to less useful errors ([PR 160](https://github.com/phac-nml/staramr/pull/160)).
 
 # Version 0.9.0
 
