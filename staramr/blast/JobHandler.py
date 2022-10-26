@@ -286,5 +286,7 @@ class JobHandler:
             subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
-            err_msg = re.findall('REF\|(.*?)\'', err_msg)[0]
+            err_msg_match = re.findall('REF\|(.*?)\'', err_msg)
+            if len(err_msg_match) > 0:
+                err_msg = err_msg_match[0]
             raise Exception('Could not run makeblastdb on file {}, error {}'.format(file, err_msg))
