@@ -1100,7 +1100,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.31, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '145/145', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ampC_promoter_size_53bp (C-42T)]',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_ampC_promoter_size_53bp-Cn42T.fsa')
@@ -1177,7 +1177,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.31, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.69, places=2, msg='Wrong overlap')  # Blast reports 100.69
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '146/145', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ampC_promoter_size_53bp (ins-13G)]',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin, amoxicillin/clavulanic acid, cefoxitin',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_ampC_promoter_size_53bp-n13insG.fsa')

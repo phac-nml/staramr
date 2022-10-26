@@ -2,6 +2,14 @@
 
 * Fixed a bug that occured when parsing some plasmid FASTA record IDs.
 
+# Version 0.9.0
+
+* Updates to PointFinder database handling
+    * Adds the ability to handle promoters (regions with both promoter nucleotide information and non-promoter codon information)
+    * Adds handling of insertions and deletions in nucleotide and codon sequence
+    * Updates list of supported PointFinder species to `salmonella`, `campylobacter`, `enterococcus_faecalis`, `enterococcus_faecium`, `escherichia_coli`, `helicobacter_pylori`.
+* Switch name `e.coli` to `escherichia_coli` in PointFinder gene-drug key to match organism name in PointFinder database.
+
 # Version 0.8.0
 
 * Fixed issue when using older version of pandas (#136) (0.8.0.dev0).
