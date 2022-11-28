@@ -25,11 +25,7 @@ jobs:
       matrix:
         include:
           - python-version: "3.7"
-            pandas-version: "0.23.0"
-            other-packages: "GitPython"
           - python-version: "3.11"
-            pandas-version: "1.5.2"
-            other-packages: ""
 
     steps:
       - uses: actions/checkout@v2
@@ -50,7 +46,7 @@ jobs:
           conda config --add channels conda-forge
           conda config --add channels bioconda
           conda install mamba
-          mamba install blast git mlst pandas==${{ matrix.pandas-version }} ${{ matrix.other-packages }} -y
+          mamba install blast git mlst -y
 
       - name: Setup python packages
         shell: bash -l {0}
