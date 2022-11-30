@@ -36,7 +36,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           miniconda-version: "latest"
-          activate-environment: foo
+          activate-environment: staramr-env
           python-version: ${{ matrix.python-version }}
 
       - name: Install conda packages
@@ -47,6 +47,7 @@ jobs:
           conda config --add channels defaults
           conda config --add channels bioconda
           conda config --add channels conda-forge
+          conda config --set channel_priority strict
           conda install mamba
           mamba install Cython blast git mlst ${{ matrix.other-packages }} -y
 
