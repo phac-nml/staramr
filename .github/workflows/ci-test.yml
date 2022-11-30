@@ -45,9 +45,8 @@ jobs:
           conda info
           conda list
           conda config --add channels defaults
-          conda config --add channels bioconda
           conda config --add channels conda-forge
-          conda config --set channel_priority strict
+          conda config --add channels bioconda
           conda install mamba
           mamba install Cython blast git mlst ${{ matrix.other-packages }} -y
 
