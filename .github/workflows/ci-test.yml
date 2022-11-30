@@ -24,9 +24,9 @@ jobs:
       fail-fast: False
       matrix:
         include:
-          - python-version: "3.6"
+          - python-version: "3.7"
             pandas-version: "0.23.0"
-            other-packages: "'biopython<1.80'"
+            other-packages: "numpy <1.23.5"
           - python-version: "3.10"
             pandas-version: "1.5.2"
             other-packages: ""
