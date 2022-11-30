@@ -156,31 +156,39 @@ staramr db restore-default
 
 ## Bioconda
 
+
+### Separate conda environment
+
 The easiest way to install `staramr` is through [Bioconda][bioconda] (we recommend using [mamba](https://mamba.readthedocs.io/) as an alternative to `conda`).
-
-```bash
-conda install mamba # Install mamba to make it easier to install later dependencies
-mamba install -c conda-forge -c bioconda -c defaults staramr
-```
-
-This will install the `staramr` Python package at the most recent version. Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
-
-```bash
-staramr --help
-```
-
-If you wish to use `staramr` in an isolated environment (in case dependencies conflict) you may alternatively install with:
 
 ```bash
 conda install mamba # Install mamba to make it easier to install later dependencies
 mamba create -c conda-forge -c bioconda -c defaults --name staramr staramr
 ```
 
-To run `staramr` in this case, you must first activate the environment.  That is:
+This will install the `staramr` software at the most recent version within the conda environment named `staramr`. Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
 
 ```bash
-conda activate staramr
+conda activte staramr # Activate conda environment
 staramr --help
+```
+
+### Same conda environment
+
+If, instead, you wish to install `staramr` to the current conda environment you can run:
+
+```bash
+mamba install -c conda-forge -c bioconda -c defaults staramr
+```
+
+You should now be able to run `staramr --help` and recieve a usage statement.
+
+### Using Python 3.6
+
+If you wish to install staramr within a conda environment with Python 3.6, you will have to include `'biopython <1.80'` as biopython >= 1.80 is [not compatible with Python 3.6](https://github.com/biopython/biopython/blob/master/NEWS.rst#18-november-2022-biopython-180).
+
+```bash
+mamba create -c conda-forge -c bioconda -c defaults --name staramr staramr python=3.6 'biopython <1.80'
 ```
 
 ## PyPI/Pip
