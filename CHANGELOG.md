@@ -1,3 +1,7 @@
+# Unreleased
+
+* Switched to only officially supporting Python 3.7+ due to recent incompatibilities with Python 3.6 and some Python packages (numpy, biopython, and others).
+
 # Version 0.9.1
 
 * Fixed a bug that occured when parsing some plasmid FASTA record IDs ([PR 159](https://github.com/phac-nml/staramr/pull/159)).

@@ -183,12 +183,12 @@ mamba install -c conda-forge -c bioconda -c defaults staramr
 
 You should now be able to run `staramr --help` and recieve a usage statement.
 
-### Using Python 3.6
+### Using Python 3.7
 
-If you wish to install staramr within a conda environment with Python 3.6, you will have to include `'biopython <1.80'` as biopython >= 1.80 is [not compatible with Python 3.6](https://github.com/biopython/biopython/blob/master/NEWS.rst#18-november-2022-biopython-180).
+If you wish to install staramr within a conda environment with Python 3.7, you will have to include `'numpy <1.23.5'` as numpy >= 1.23.5 is [not compatible with Python 3.7](https://github.com/numpy/numpy/releases/tag/v1.23.5).
 
 ```bash
-mamba create -c conda-forge -c bioconda -c defaults --name staramr staramr python=3.6 'biopython <1.80'
+mamba create -c conda-forge -c bioconda -c defaults --name staramr staramr python=3.7 'numpy <1.23.5'
 ```
 
 ## PyPI/Pip
@@ -237,7 +237,7 @@ staramr db restore-default
 
 ## Dependencies
 
-* Python 3.6+
+* Python 3.7+
 * BLAST+
 * Git
 * MLST
