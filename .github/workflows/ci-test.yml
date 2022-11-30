@@ -24,8 +24,12 @@ jobs:
       fail-fast: False
       matrix:
         include:
-          - python-version: "3.7"
+          - python-version: "3.6"
+            pandas-version: "0.23.0"
+            other-packages: "'biopython<1.80'"
           - python-version: "3.10"
+            pandas-version: "1.5.2"
+            other-packages: ""
 
     steps:
       - uses: actions/checkout@v2
@@ -46,7 +50,7 @@ jobs:
           conda config --add channels bioconda
           conda config --add channels conda-forge
           conda install mamba
-          mamba install blast git mlst -y
+          mamba install blast git mlst  pandas==${{ matrix.pandas-version }} ${{ matrix.other-packages }} -y
 
       - name: Setup python packages
         shell: bash -l {0}
