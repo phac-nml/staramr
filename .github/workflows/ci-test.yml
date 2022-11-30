@@ -25,7 +25,7 @@ jobs:
       matrix:
         include:
           - python-version: "3.7"
-            other-packages: "'numpy <1.23.5' 'pandas==1.4.2'"
+            other-packages: "'numpy <1.23.5'"
           - python-version: "3.10"
             other-packages: "'pandas==1.4.2'"
 
