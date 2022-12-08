@@ -25,9 +25,9 @@ jobs:
       matrix:
         include:
           - python-version: "3.7"
-            other-packages: "'numpy <1.23.5' 'pandas==1.4.2'"
+            other-packages: "mlst 'numpy <1.23.5' 'pandas <1.4'"
           - python-version: "3.10"
-            other-packages: "'pandas==1.4.2'"
+            other-packages: "'mlst==2.19.0'"
 
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
           conda config --add channels conda-forge
           conda config --add channels bioconda
           conda install mamba
-          mamba install Cython blast git mlst ${{ matrix.other-packages }} -y
+          mamba install Cython blast git ${{ matrix.other-packages }} -y
 
       - name: Setup python packages
         shell: bash -l {0}
