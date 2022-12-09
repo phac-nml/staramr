@@ -169,7 +169,7 @@ mamba create -c conda-forge -c bioconda -c defaults --name staramr staramr
 This will install the `staramr` software at the most recent version within the conda environment named `staramr`. Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
 
 ```bash
-conda activte staramr # Activate conda environment
+conda activate staramr # Activate conda environment
 staramr --help
 ```
 
