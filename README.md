@@ -156,32 +156,32 @@ staramr db restore-default
 
 ## Bioconda
 
+
+### Separate conda environment
+
 The easiest way to install `staramr` is through [Bioconda][bioconda] (we recommend using [mamba](https://mamba.readthedocs.io/) as an alternative to `conda`).
 
 ```bash
 conda install mamba # Install mamba to make it easier to install later dependencies
-mamba install -c bioconda -c conda-forge -c defaults staramr==0.7.2 pandas==1.1.5 mlst==2.19.0
+mamba create -c conda-forge -c bioconda -c defaults --name staramr staramr
 ```
 
-This will install the `staramr` Python package at version `0.7.2` (replace with whichever version you wish to install). Bioconda will install all necessary dependencies and databases (use `pandas==1.1.5` and `mlst==2.19.0` to solve issues installing the correct dependency versions). Once this is complete you can run:
+This will install the `staramr` software at the most recent version within the conda environment named `staramr`. Bioconda will install all necessary dependencies and databases. Once this is complete you can run:
 
 ```bash
+conda activte staramr # Activate conda environment
 staramr --help
 ```
 
-If you wish to use `staramr` in an isolated environment (in case dependencies conflict) you may alternatively install with:
+### Same conda environment
+
+If, instead, you wish to install `staramr` to the current conda environment you can run:
 
 ```bash
-conda install mamba # Install mamba to make it easier to install later dependencies
-mamba create -c bioconda -c conda-forge -c defaults --name staramr staramr==0.7.2 pandas==1.1.5 mlst==2.19.0
+mamba install -c conda-forge -c bioconda -c defaults staramr
 ```
 
-To run `staramr` in this case, you must first activate the environment.  That is:
-
-```bash
-source activate staramr
-staramr --help
-```
+You should now be able to run `staramr --help` and recieve a usage statement.
 
 ## PyPI/Pip
 
@@ -229,7 +229,7 @@ staramr db restore-default
 
 ## Dependencies
 
-* Python 3.6+
+* Python 3.7+
 * BLAST+
 * Git
 * MLST
