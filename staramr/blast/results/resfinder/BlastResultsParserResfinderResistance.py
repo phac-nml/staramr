@@ -56,7 +56,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
         return [[hit.get_genome_id(),
                  hit.get_amr_gene_name(),
                  arg_drug,
-                 cge_drug,  # TODO: needs integration
+                 cge_drug,
                  hit.get_pid(),
                  hit.get_plength(),
                  str(hit.get_hsp_length()) + "/" + str(hit.get_amr_gene_length()),
