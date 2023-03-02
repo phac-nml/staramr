@@ -18,13 +18,14 @@ A Class to handle scanning files for AMR genes and also include pheneotypes/resi
 
 class AMRDetectionResistance(AMRDetection):
 
-    def __init__(self, resfinder_database, arg_drug_table_resfinder, amr_detection_handler, arg_drug_table_pointfinder,
+    def __init__(self, resfinder_database, arg_drug_table_resfinder, cge_drug_table_resfinder, amr_detection_handler, arg_drug_table_pointfinder,
                  pointfinder_database=None, include_negative_results=False, output_dir=None, genes_to_exclude=[],
                  plasmidfinder_database=None):
         """
         Builds a new AMRDetectionResistance.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param arg_drug_table_resfinder: The staramr.databases.resistance.ARGDrugTable for searching for resfinder resistances.
+        :param cge_drug_table_resfinder: The staramr.databases.resistance.CGEDrugTable for searching for resfinder resistances.
         :param amr_detection_handler: The staramr.blast.JobHandler to use for scheduling BLAST jobs.
         :param arg_drug_table_pointfinder: The staramr.databases.resistance.ARGDrugTable for searching for pointfinder resistances.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
@@ -36,10 +37,12 @@ class AMRDetectionResistance(AMRDetection):
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude,
                          plasmidfinder_database=plasmidfinder_database)
         self._arg_drug_table_resfinder = arg_drug_table_resfinder
+        self._cge_drug_table_resfinder = cge_drug_table_resfinder
         self._arg_drug_table_pointfinder = arg_drug_table_pointfinder
 
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
         resfinder_parser = BlastResultsParserResfinderResistance(resfinder_blast_map, self._arg_drug_table_resfinder,
+                                                                 self._cge_drug_table_resfinder,
                                                                  self._resfinder_database, pid_threshold,
                                                                  plength_threshold, report_all,
                                                                  output_dir=self._output_dir,
