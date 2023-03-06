@@ -11,6 +11,7 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
+from staramr.databases.resistance.cge.CGEDrugTableResfinder import CGEDrugTableResfinder
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
 logger = logging.getLogger('AMRDetectionPlasmid')
@@ -30,6 +31,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
+        self.cge_drug_table = CGEDrugTableResfinder()
         self.plasmidfinder_database = PlasmidfinderBlastDatabase(
             self.plasmidfinder_dir)
         self.pointfinder_database = None
@@ -40,8 +42,9 @@ class AMRDetectionPlasmid(unittest.TestCase):
 
         self.outdir = tempfile.TemporaryDirectory()
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
-                                                    self.blast_handler, self.pointfinder_drug_table,
-                                                    self.pointfinder_database, output_dir=self.outdir.name)
+                                                    self.cge_drug_table, self.blast_handler,
+                                                    self.pointfinder_drug_table, self.pointfinder_database,
+                                                    output_dir=self.outdir.name)
 
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
 
@@ -81,8 +84,9 @@ class AMRDetectionPlasmid(unittest.TestCase):
              'plasmidfinder': plasmidfinder_database}, 2, self.blast_out.name)
         self.outdir = tempfile.TemporaryDirectory()
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
-                                               blast_handler, self.pointfinder_drug_table,
-                                               self.pointfinder_database, output_dir=self.outdir.name)
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, self.pointfinder_database,
+                                               output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "test-plasmids-seq.fsa")
         files = [file]
@@ -107,8 +111,9 @@ class AMRDetectionPlasmid(unittest.TestCase):
              'plasmidfinder': plasmidfinder_database}, 2, self.blast_out.name)
         self.outdir = tempfile.TemporaryDirectory()
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
-                                               blast_handler, self.pointfinder_drug_table,
-                                               self.pointfinder_database, output_dir=self.outdir.name)
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, self.pointfinder_database,
+                                               output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "test-plasmids-seq.fsa")
         files = [file]
