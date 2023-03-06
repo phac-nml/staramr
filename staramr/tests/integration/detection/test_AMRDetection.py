@@ -32,10 +32,11 @@ class AMRDetectionIT(unittest.TestCase):
         self.columns_resfinder = ('Isolate ID', 'Gene', '%Identity', '%Overlap',
                                   'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
 
+        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
-        self.cge_drug_table = CGEDrugTableResfinder()
+        self.cge_drug_table = CGEDrugTableResfinder(path.join(self.test_data_dir, 'phenotypes.txt'))
         self.plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir)
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
@@ -48,7 +49,6 @@ class AMRDetectionIT(unittest.TestCase):
                                                     self.pointfinder_drug_table, self.pointfinder_database,
                                                     output_dir=self.outdir.name)
 
-        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
         self.drug_key_resfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
                                                          'drug_key_resfinder_invalid.tsv')
         self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
@@ -127,6 +127,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')        
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -291,6 +294,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle-rc.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -349,6 +355,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
@@ -360,6 +369,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['End'], 1581, msg='Wrong end')
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies.fsa')
@@ -392,6 +404,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
@@ -403,6 +418,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['End'], 841, msg='Wrong end')
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name,
@@ -713,6 +731,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -804,6 +825,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')

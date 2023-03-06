@@ -28,10 +28,11 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.plasmidfinder_dir = blast_databases_repositories.get_repo_dir(
             'plasmidfinder')
 
+        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
-        self.cge_drug_table = CGEDrugTableResfinder()
+        self.cge_drug_table = CGEDrugTableResfinder(path.join(self.test_data_dir, 'phenotypes.txt'))
         self.plasmidfinder_database = PlasmidfinderBlastDatabase(
             self.plasmidfinder_dir)
         self.pointfinder_database = None
@@ -45,8 +46,6 @@ class AMRDetectionPlasmid(unittest.TestCase):
                                                     self.cge_drug_table, self.blast_handler,
                                                     self.pointfinder_drug_table, self.pointfinder_database,
                                                     output_dir=self.outdir.name)
-
-        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
 
     def tearDown(self):
         self.blast_out.cleanup()

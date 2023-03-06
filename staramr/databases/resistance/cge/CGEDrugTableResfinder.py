@@ -44,4 +44,4 @@ class CGEDrugTableResfinder(ARGDrugTable):
                            accession)
             return None
         else:
-            return self._drug_string_to_correct_separators(drug.iloc[0])
+            return drug.iloc[0]
