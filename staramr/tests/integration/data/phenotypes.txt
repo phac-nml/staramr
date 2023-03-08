@@ -1,2 +1,0 @@
-Gene_accession no.	Class	Phenotype	PMID	Mechanism of resistance	Notes	Required_gene
-blaIMP-42_1_AB753456	Beta-lactam	Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam	Unpublished	Enzymatic inactivation  Subclass B1
