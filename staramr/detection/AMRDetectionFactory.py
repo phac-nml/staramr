@@ -30,8 +30,11 @@ class AMRDetectionFactory:
         """
 
         if include_resistances:
-            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), CGEDrugTableResfinder(),
-                                          blast_handler, ARGDrugTablePointfinder(), pointfinder_database, 
+            phenotypes_file = resfinder_database.get_phenotypes_file()
+
+            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(),
+                                          CGEDrugTableResfinder(phenotypes_file), blast_handler,
+                                          ARGDrugTablePointfinder(), pointfinder_database, 
                                           include_negatives, output_dir=output_dir, genes_to_exclude=genes_to_exclude,
                                           plasmidfinder_database=plasmidfinder_database)
         else:

@@ -12,12 +12,10 @@ A Class used to load up and search a file containing gene/drug mappings for CGE 
 
 
 class CGEDrugTableResfinder(ARGDrugTable):
-    DATABASES_DIRECTORY = Path(__file__).absolute().parent.parent.parent
-    DEFAULT_FILE = os.path.join(DATABASES_DIRECTORY, "data", "dist", "resfinder", "phenotypes.txt")
     DTYPES = {'Gene_accession no.': str, 'Class': str, 'Phenotype': str, 'PMID': str,
               'Mechanism of resistance': str, "Notes": str, "Required_gene": str}
 
-    def __init__(self, file=DEFAULT_FILE):
+    def __init__(self, file):
         """
         Builds a new CGEDrugTableResfinder from the given file.
         :param file: The file containing the gene/drug mappings.

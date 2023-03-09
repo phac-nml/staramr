@@ -1,4 +1,5 @@
 import logging
+import os
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 
@@ -20,3 +21,6 @@ class ResfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_name(self):
         return 'resfinder'
+    
+    def get_phenotypes_file(self):
+        return os.path.join(self.database_dir, 'phenotypes.txt')

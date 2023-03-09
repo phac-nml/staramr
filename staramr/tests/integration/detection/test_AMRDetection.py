@@ -3,6 +3,7 @@ import os
 import tempfile
 import unittest
 from os import path
+from pathlib import Path
 
 import pandas as pd
 from Bio import SeqIO
@@ -36,7 +37,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
-        self.cge_drug_table = CGEDrugTableResfinder(path.join(self.test_data_dir, 'phenotypes.txt'))
+        self.cge_drug_table = CGEDrugTableResfinder(self.resfinder_database.get_phenotypes_file())
         self.plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir)
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
