@@ -88,6 +88,10 @@ class BlastResultsParserPointfinder(BlastResultsParser):
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
 
+        # TODO: pbp5 handling here / after here
+        print(database_resistance_mutations)
+        print(len(database_resistance_mutations))
+
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
         else:

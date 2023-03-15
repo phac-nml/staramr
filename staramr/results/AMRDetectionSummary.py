@@ -35,6 +35,10 @@ class AMRDetectionSummary:
             self._has_pointfinder = False
         self._quality_module_dataframe=quality_module_dataframe
 
+        # TODO: make pbp5 changes here?
+        print("print - summarizing pointfinder dataframe")
+        print(self._pointfinder_dataframe)
+
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:
         df_summary = resistance_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
             {'Gene': lambda x: (self.SEPARATOR + ' ').join(x)})

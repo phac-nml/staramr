@@ -16,6 +16,7 @@ from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import Plasmidfinder
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
+from staramr.databases.resistance.pointfinder.complex.ComplexMutationsList import ComplexMutationsList
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
@@ -118,7 +119,7 @@ class Search(SubCommand):
                                   help='Disable the default exclusion of some genes from ResFinder/PointFinder/PlasmidFinder [False].',
                                   required=False)
         report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
-                                  help='A containing a list of ResFinder/PointFinder/PlasmidFinder gene names to exclude from results [{}].'.format(
+                                  help='A list of ResFinder/PointFinder/PlasmidFinder gene names to exclude from results [{}].'.format(
                                       ExcludeGenesList.get_default_exclude_file()),
                                   default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
@@ -131,6 +132,11 @@ class Search(SubCommand):
                                   required=False)
         report_group.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
                                   help='Report all blast hits (vs. only top blast hits) [False].',
+                                  required=False)
+        report_group.add_argument('--complex-mutations-file', action='store', dest='complex_mutations_file',
+                                  help='A list of multiple PointFinder point mutations that together confer a single phenotype [{}].'.format(
+                                      ComplexMutationsList.get_default_complex_file()),
+                                  default=ComplexMutationsList.get_default_complex_file(),
                                   required=False)
 
         output_group = arg_parser.add_argument_group(title='Output',
