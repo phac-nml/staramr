@@ -28,7 +28,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
-                 report_all=False, output_dir=None, genes_to_exclude=[]):
+                 report_all=False, output_dir=None, genes_to_exclude=[], complex_mutations=None):
         """
         Creates a new BlastResultsParserPointfinderResistance.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -39,11 +39,14 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         :param report_all: Whether or not to report all blast hits.
         :param output_dir: The directory where output files are being written.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
+        :param complex_mutations: An object mapping a set of multiple point mutations to a single phenotype.
         """
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
         self._arg_drug_table = arg_drug_table
+        self._complex_mutations = complex_mutations
 
+    # TODO: This function exists to add phenotype information to the returned result
     def _get_result(self, hit, db_mutation):
 
         # We need to correct for Pointfinder codon insertions being off by 1.
@@ -75,3 +78,32 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 ]
 
         return result
+    
+    def _get_result_rows(self, hit, database_name):
+        database_resistance_mutations = self._get_resistance_mutations(hit, database_name)
+
+        # TODO: pbp5 handling here / after here
+        mutation_codes = []
+        print(database_name)
+        for mutation in database_resistance_mutations:
+            mutation_codes.append(str(database_name) + "(" + str(mutation.get_pointfinder_mutation_string()) + ")")
+        
+        print(mutation_codes)
+        print(len(database_resistance_mutations))
+        print("!!!!!!!!!!!!!!!!!!!!!!")
+        print(self._complex_mutations._data)
+
+        matches = self._complex_mutations.get_matches(mutation_codes)
+
+        if len(database_resistance_mutations) == 0:
+            logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
+        else:
+            results = []
+            for db_mutation in database_resistance_mutations:
+                logger.debug("multiple resistance mutations for [%s]: mutations=[%s], file=[%s]",
+                             hit.get_amr_gene_id(), database_resistance_mutations, hit.get_file())
+                results.append(self._get_result(hit, db_mutation))
+
+            return results
+
+        return None

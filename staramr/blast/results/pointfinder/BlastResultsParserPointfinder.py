@@ -70,8 +70,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                 ]
 
         return result
-
-    def _get_result_rows(self, hit, database_name):
+    
+    def _get_resistance_mutations(self, hit, database_name):
         database_mutations = hit.get_mutations()
 
         gene = hit.get_amr_gene_name()
@@ -85,12 +85,13 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         elif ('promoter' in database_name):
             database_resistance_mutations = self._blast_database.get_resistance_promoter(gene, database_mutations)
         else:
-            database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
+            database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations, complex_mutations=None)
         logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
 
-        # TODO: pbp5 handling here / after here
-        print(database_resistance_mutations)
-        print(len(database_resistance_mutations))
+        return database_resistance_mutations
+
+    def _get_result_rows(self, hit, database_name):
+        database_resistance_mutations = self._get_resistance_mutations(hit, database_name)
 
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())

@@ -17,6 +17,7 @@ from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
+from staramr.databases.resistance.pointfinder.complex.ComplexMutationsList import ComplexMutations
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 from staramr.results.QualityModule import QualityModule
 
@@ -32,6 +33,7 @@ class AMRDetection:
     def __init__(self, resfinder_database: ResfinderBlastDatabase, amr_detection_handler,
                  pointfinder_database: PointfinderBlastDatabase = None,
                  include_negative_results: bool = False, output_dir: str = None, genes_to_exclude: list = [],
+                 complex_mutations: ComplexMutations = None,
                  plasmidfinder_database: PlasmidfinderBlastDatabase = None) -> None:
         """
         Builds a new AMRDetection object.
@@ -42,6 +44,7 @@ class AMRDetection:
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
         :param output_dir: The directory where output fasta files are to be written into (None for no output fasta files).
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
+        :param complex_mutations: An object mapping a set of multiple point mutations to a single phenotype.
         """
         self._resfinder_database = resfinder_database
         self._amr_detection_handler = amr_detection_handler
@@ -57,6 +60,7 @@ class AMRDetection:
         self._output_dir = output_dir
 
         self._genes_to_exclude = genes_to_exclude
+        self._complex_mutations = complex_mutations
 
     # TODO: summary is created twice, same object though
     def _create_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
@@ -86,7 +90,8 @@ class AMRDetection:
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, self._pointfinder_database,
                                                            pid_threshold, plength_threshold, report_all,
                                                            output_dir=self._output_dir,
-                                                           genes_to_exclude=self._genes_to_exclude)
+                                                           genes_to_exclude=self._genes_to_exclude,
+                                                           complex_mutations=self._complex_mutations)
         return pointfinder_parser.parse_results()
 
     def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map: Dict[str, BlastResultsParser],

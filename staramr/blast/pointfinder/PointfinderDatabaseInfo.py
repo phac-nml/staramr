@@ -171,7 +171,7 @@ class PointfinderDatabaseInfo:
         else:
             raise GenotypePhenotypeMatchException("Error, no match for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
 
-    def get_resistance_codons(self, gene, codon_mutations):
+    def get_resistance_codons(self, gene, codon_mutations, complex_mutations=None):
         """
         Gets a list of resistance codons from the given gene and codon mutations.
         :param gene: The gene.
@@ -184,6 +184,11 @@ class PointfinderDatabaseInfo:
             match = self._get_resistance_codon_match(gene, codon_mutation)
             if len(match.index) > 0:
                 resistance_mutations.append(codon_mutation)
+        
+        # NEED TO POST PROCESS HERE TO WITH COMPLEX MUTATIONS
+        # NEED TO ADD ANOTHER ROW FOR EACH COMPLEX MUTATION
+        # if complex_mutations:
+        # resistance_mutations.append(...)
 
         return resistance_mutations
 
