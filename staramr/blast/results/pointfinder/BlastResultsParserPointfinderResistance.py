@@ -1,4 +1,5 @@
 import logging
+import pandas
 
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
@@ -82,28 +83,22 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     def _get_result_rows(self, hit, database_name):
         database_resistance_mutations = self._get_resistance_mutations(hit, database_name)
 
-        # TODO: pbp5 handling here / after here
-        mutation_codes = []
-        print(database_name)
-        for mutation in database_resistance_mutations:
-            mutation_codes.append(str(database_name) + "(" + str(mutation.get_pointfinder_mutation_string()) + ")")
-        
-        print(mutation_codes)
-        print(len(database_resistance_mutations))
-        print("!!!!!!!!!!!!!!!!!!!!!!")
-        print(self._complex_mutations._data)
-
-        matches = self._complex_mutations.get_matches(mutation_codes)
-
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
-        else:
-            results = []
-            for db_mutation in database_resistance_mutations:
-                logger.debug("multiple resistance mutations for [%s]: mutations=[%s], file=[%s]",
-                             hit.get_amr_gene_id(), database_resistance_mutations, hit.get_file())
-                results.append(self._get_result(hit, db_mutation))
+            return None
 
-            return results
+        results = []
+        for db_mutation in database_resistance_mutations:
+            logger.debug("multiple resistance mutations for [%s]: mutations=[%s], file=[%s]",
+                            hit.get_amr_gene_id(), database_resistance_mutations, hit.get_file())
+            results.append(self._get_result(hit, db_mutation))
 
-        return None
+        # TODO: pbp5 handling here / after here
+        # We ought to do this after results are processed, in case we need to account for any Pointfinder
+        # position corrections.
+        results_table = pandas.DataFrame(columns=self.COLUMNS, data=results)
+        matches = self._complex_mutations.get_matches(results_table, hit)
+        results.extend(matches)
+
+        return results
+
