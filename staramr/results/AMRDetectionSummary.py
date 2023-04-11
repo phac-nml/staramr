@@ -35,10 +35,6 @@ class AMRDetectionSummary:
             self._has_pointfinder = False
         self._quality_module_dataframe=quality_module_dataframe
 
-        # TODO: make pbp5 changes here?
-        print("print - summarizing pointfinder dataframe")
-        print(self._pointfinder_dataframe)
-
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:
         df_summary = resistance_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
             {'Gene': lambda x: (self.SEPARATOR + ' ').join(x)})
@@ -133,7 +129,8 @@ class AMRDetectionSummary:
         mlst_frame = self._mlst_dataframe
 
         if self._has_pointfinder:
-            resistance_frame = pd.concat([resistance_frame, self._pointfinder_dataframe], sort=True)
+            simplified_pointfinder = self._simplify_pointfinder_mutations()
+            resistance_frame = pd.concat([resistance_frame, simplified_pointfinder], sort=True)
 
         resistance_frame = self._compile_results(resistance_frame)
 
@@ -204,7 +201,7 @@ class AMRDetectionSummary:
             if self._pointfinder_dataframe is None:
                 point_frame = None
             else:
-                point_frame = self._pointfinder_dataframe.copy()
+                point_frame = self._simplify_pointfinder_mutations()
                 point_frame['Data Type'] = 'Resistance'
                 point_frame = point_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
                 point_frame = point_frame.reindex(columns=column_names)
@@ -242,3 +239,41 @@ class AMRDetectionSummary:
             resistance_frame = resistance_frame.fillna("")
 
         return resistance_frame
+    
+    def _simplify_pointfinder_mutations(self):
+
+        df = self._pointfinder_dataframe
+        result = self._pointfinder_dataframe.copy(deep=True)
+
+        if df is not None:
+
+            # Currently, the pointfinder table uses "Isolate ID" as an index, which is NOT
+            # unique. This refers to the gene the mutation is located within, as identified
+            # by BLAST. Since later operations in this method require unique indices, we
+            # need to create unique indices.
+            result = result.reset_index()
+            result["unique"] = range(0, len(result.index))
+            result = result.set_index("unique")
+
+            complex_mutations = df.loc[df['Type'] == "complex"]
+            
+            for complex in complex_mutations.iterrows():
+                # Get individual point mutations that comprise the complex mutation:
+                point_mutations = complex[1]["Gene"]
+                point_mutations = point_mutations.split(",")
+
+                for point in point_mutations:
+                    point = point.strip()
+                    index = result[result.Gene == point].index
+                    result = result.drop(index)
+
+
+            # Finally, return the index to be similar to the original passed dataframe.
+            # That is, having the non-unique "Isolate ID" as the index.
+            # Additionally remove the temporary "unique" column.
+            result = result.reset_index()
+            result = result.set_index("Isolate ID")
+            result = result.drop(columns="unique")
+
+        return result
+

@@ -29,7 +29,7 @@ class ComplexMutations:
         # We can't use "Pointfinder Position", because the gene is missing from it, and we can't use
         # "Gene", because those co-ords may contain a position correction for indels, meaning they
         # won't match the position expected in the database files.
-        mutation_codes = list(results_table["Isolate ID"] + "(" + results_table["Pointfinder Position"] + ")")
+        mutation_codes = list(results_table["Isolate ID"] + " (" + results_table["Pointfinder Position"] + ")")
 
         for row in self._data.itertuples():
             positions = re.split(', *', row.positions)
