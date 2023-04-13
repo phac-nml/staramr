@@ -44,14 +44,14 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self.organism in self.get_available_organisms()
 
-    def get_resistance_codons(self, gene, codon_mutations, complex_mutations=None):
+    def get_resistance_codons(self, gene, codon_mutations):
         """
         Gets a list of resistance codons from the given gene and codon mutations.
         :param gene: The gene.
         :param codon_mutations: The codon mutations.
         :return: The resistance codons.
         """
-        return self._pointfinder_info.get_resistance_codons(gene, codon_mutations, complex_mutations=None)
+        return self._pointfinder_info.get_resistance_codons(gene, codon_mutations)
 
     def get_phenotype(self, gene, codon_mutation):
         """
@@ -88,7 +88,7 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         # Get the mutations in the coding part:
         # Filter the list for non-negative coordinate positions.
         codon_part = list(filter(lambda x: (x._nucleotide_position_amr_gene >= 0), nucleotide_mutations))
-        resistance_codons = self._pointfinder_info.get_resistance_codons(gene, codon_part, complex_mutations=None)
+        resistance_codons = self._pointfinder_info.get_resistance_codons(gene, codon_part)
 
         # Combine and return the results:
         return resistance_nucleotides + resistance_codons

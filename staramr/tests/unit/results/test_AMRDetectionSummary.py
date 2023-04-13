@@ -189,7 +189,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGene(self):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table1_files, self.resfinder_table1, self.quality_module_table_single_file,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
@@ -198,7 +198,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithNegativesNonIncluded(self):
         files = ['file1', 'file2']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_single_file, self.plasmidfinder_table_empty)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_single_file, plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -209,7 +209,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithNegativesIncluded(self):
         files = ['file1', 'file2']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_two_files, self.plasmidfinder_table_empty)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_two_files, plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary(True)
 
@@ -222,7 +222,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithTwoNegativesIncluded(self):
         files = ['file1', 'file2', 'file3']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_three_files, self.plasmidfinder_table_empty)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_three_files, plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary(True)
 
@@ -237,7 +237,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderSingleGeneWithTwoNegativesIncludedDifferentOrder(self):
         files = ['file2', 'file1', 'file3']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_three_files, self.plasmidfinder_table_empty)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_three_files, plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary(True)
 
@@ -254,7 +254,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_resistance_files,
                                                     self.resfinder_table_mult_resistance,
                                                     self.quality_module_table_single_file,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -267,7 +267,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_gene_same_resistance_files,
                                                     self.resfinder_table_mult_gene_same_resistance,
                                                     self.quality_module_table_single_file,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -280,7 +280,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_same_gene_same_resistance_files,
                                                     self.resfinder_table_mult_same_gene_same_resistance,
                                                     self.quality_module_table_single_file,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -291,7 +291,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testResfinderMultipleFile(self):
         amr_detection_summary = AMRDetectionSummary(self.resfinder_table_mult_file_files,
-                                                    self.resfinder_table_mult_file, self.quality_module_table_two_files, self.plasmidfinder_table_empty)
+                                                    self.resfinder_table_mult_file, self.quality_module_table_two_files, plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -304,123 +304,123 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testPlasmidfinderSingleGene(self):
         amr_detection_summary = AMRDetectionSummary(self.plasmidfinder_table1_files, self.resfinder_table_empty,self.quality_module_table_file_4,
-                                                    self.plasmidfinder_table1)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table1)
 
         summary = amr_detection_summary.create_summary()
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
 
     def testPlasmidfinderSingleGeneWithNegativesNonIncluded(self):
         files = ['file4', 'file5']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5, self.plasmidfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5, plasmidfinder_dataframe=self.plasmidfinder_table1)
 
         summary = amr_detection_summary.create_summary()
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
 
     def testPlasmidfinderSingleGeneWithNegativesIncluded(self):
         files = ['file4', 'file5']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5, self.plasmidfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5, plasmidfinder_dataframe=self.plasmidfinder_table1)
 
         summary = amr_detection_summary.create_summary(True)
 
         self.assertEqual(2, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
         self.assertEqual('file5', summary.index[1], 'Negative file not included')
-        self.assertEqual('None', summary['Genotype'].iloc[1], 'Negative gene not valid')
+        self.assertEqual('None', summary['Plasmid'].iloc[1], 'Negative gene not valid')
 
     def testPlasmidfinderSingleGeneWithTwoNegativesIncluded(self):
         files = ['file4', 'file5', 'file6']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5_and_6, self.plasmidfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5_and_6, plasmidfinder_dataframe=self.plasmidfinder_table1)
 
         summary = amr_detection_summary.create_summary(True)
 
         self.assertEqual(3, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
         self.assertEqual('file5', summary.index[1], 'Negative file not included')
-        self.assertEqual('None', summary['Genotype'].iloc[1], 'Negative gene not valid')
+        self.assertEqual('None', summary['Plasmid'].iloc[1], 'Negative gene not valid')
         self.assertEqual('file6', summary.index[2], 'Negative file not included')
-        self.assertEqual('None', summary['Genotype'].iloc[2], 'Negative gene not valid')
+        self.assertEqual('None', summary['Plasmid'].iloc[2], 'Negative gene not valid')
 
     def testPlasmidfinderSingleGeneWithTwoNegativesIncludedDifferentOrder(self):
         files = ['file5', 'file4', 'file6']
-        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5_and_6, self.plasmidfinder_table1)
+        amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_file_4_and_5_and_6, plasmidfinder_dataframe=self.plasmidfinder_table1)
 
         summary = amr_detection_summary.create_summary(True)
 
         self.assertEqual(3, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
         self.assertEqual('file5', summary.index[1], 'Negative file not included')
-        self.assertEqual('None', summary['Genotype'].iloc[1], 'Negative gene not valid')
+        self.assertEqual('None', summary['Plasmid'].iloc[1], 'Negative gene not valid')
         self.assertEqual('file6', summary.index[2], 'Negative file not included')
-        self.assertEqual('None', summary['Genotype'].iloc[2], 'Negative gene not valid')
+        self.assertEqual('None', summary['Plasmid'].iloc[2], 'Negative gene not valid')
 
     def testPlasmidfinderMultipleGeneResistance(self):
         amr_detection_summary = AMRDetectionSummary(self.plasmidfinder_table_mult_resistance_files,
                                                     self.resfinder_table_empty,
                                                     self.quality_module_table_file_4,
-                                                    self.plasmidfinder_table_mult_resistance)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_mult_resistance)
 
         summary = amr_detection_summary.create_summary()
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S), IncFII(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S), IncFII(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
 
     def testPlasmidfinderMultipleGeneSameResistance(self):
         amr_detection_summary = AMRDetectionSummary(self.plasmidfinder_table_mult_gene_same_resistance_files,
                                                     self.resfinder_table_empty,
                                                     self.quality_module_table_file_4,
-                                                    self.plasmidfinder_table_mult_gene_same_resistance)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_mult_gene_same_resistance)
 
         summary = amr_detection_summary.create_summary()
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S), IncFII(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S), IncFII(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
 
     def testPlasmidfinderMultipleSameGeneSameResistance(self):
         amr_detection_summary = AMRDetectionSummary(self.plasmidfinder_table_mult_same_gene_same_resistance_files,
                                                     self.resfinder_table_empty,
                                                     self.quality_module_table_file_4,
-                                                    self.plasmidfinder_table_mult_same_gene_same_resistance)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_mult_same_gene_same_resistance)
 
         summary = amr_detection_summary.create_summary()
 
         self.assertEqual(1, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S), IncFII(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S), IncFII(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
 
     def testPlasmidfinderMultipleFile(self):
         amr_detection_summary = AMRDetectionSummary(self.plasmidfinder_table_mult_file_files,
-                                                    self.resfinder_table_empty, self.quality_module_table_file_4_and_5, self.plasmidfinder_table_mult_file)
+                                                    self.resfinder_table_empty, self.quality_module_table_file_4_and_5, plasmidfinder_dataframe=self.plasmidfinder_table_mult_file)
 
         summary = amr_detection_summary.create_summary()
 
         self.assertEqual(2, len(summary.index), 'Invalid number of rows in results')
 
         self.assertEqual('file4', summary.index[0], 'File name not equal')
-        self.assertEqual('IncFIB(S), IncFII(S)', summary['Genotype'].iloc[0], 'Genes not equal')
+        self.assertEqual('IncFIB(S), IncFII(S)', summary['Plasmid'].iloc[0], 'Genes not equal')
         self.assertEqual('file5', summary.index[1], 'File name not equal')
-        self.assertEqual('IncFIB(K)', summary['Genotype'].iloc[1], 'Genes not equal')
+        self.assertEqual('IncFIB(K)', summary['Plasmid'].iloc[1], 'Genes not equal')
 
     def testPointfinderSingleGene(self):
         amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_files, self.resfinder_table_empty,self.quality_module_table_single_file,
-                                                    self.pointfinder_table, self.plasmidfinder_table_empty)
+                                                    self.pointfinder_table, plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -432,7 +432,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
     def testPointfinderSingleMultipleGene(self):
         amr_detection_summary = AMRDetectionSummary(self.pointfinder_table_multiple_gene_files,
                                                     self.resfinder_table_empty, self.quality_module_table_single_file, self.pointfinder_table_multiple_gene,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -450,7 +450,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         files = ['file1']
 
         amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_single_file, df,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -462,7 +462,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
     def testPointfinderResfinderSingleGene(self):
         files = ['file1']
         amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table1, self.quality_module_table_single_file, self.pointfinder_table,
-                                                    self.plasmidfinder_table_empty)
+                                                    plasmidfinder_dataframe=self.plasmidfinder_table_empty)
 
         summary = amr_detection_summary.create_summary()
 
@@ -661,7 +661,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                                                               self.resfinder_table_empty.set_index('Isolate ID'),
                                                               self.quality_module_table_file_1,
                                                               self.pointfinder_table_empty.set_index('Isolate ID'),
-                                                              self.plasmidfinder_table_empty.set_index('Isolate ID'))
+                                                              plasmidfinder_dataframe=self.plasmidfinder_table_empty.set_index('Isolate ID'))
 
         detailed_summary = amr_detection_summary.create_detailed_summary()
 
@@ -684,7 +684,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
                                                               self.quality_module_table_file_1_and_2_and_4_and_5,
                                                               self.pointfinder_table_multiple_gene.set_index(
                                                                   'Isolate ID'),
-                                                              self.plasmidfinder_table_mult_file.set_index(
+                                                              plasmidfinder_dataframe=self.plasmidfinder_table_mult_file.set_index(
                                                                   'Isolate ID'))
 
         detailed_summary = amr_detection_summary.create_detailed_summary()

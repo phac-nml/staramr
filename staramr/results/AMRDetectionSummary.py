@@ -5,6 +5,8 @@ from typing import Set
 import pandas as pd
 from pandas import DataFrame
 
+pd.set_option('display.max_columns', None)
+
 logger = logging.getLogger("AMRDetectionSummary")
 
 """
@@ -31,6 +33,9 @@ class AMRDetectionSummary:
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
             self._pointfinder_dataframe = pointfinder_dataframe
+            print("*********")
+            print("PF DF in constructor")
+            print(pointfinder_dataframe)
         else:
             self._has_pointfinder = False
         self._quality_module_dataframe=quality_module_dataframe
@@ -128,6 +133,8 @@ class AMRDetectionSummary:
         plasmid_frame = self._plasmidfinder_dataframe
         mlst_frame = self._mlst_dataframe
 
+        print("Create summary")
+
         if self._has_pointfinder:
             simplified_pointfinder = self._simplify_pointfinder_mutations()
             resistance_frame = pd.concat([resistance_frame, simplified_pointfinder], sort=True)
@@ -143,7 +150,14 @@ class AMRDetectionSummary:
         resistance_columns = self._get_summary_resistance_columns()
 
         if plasmid_frame is not None:
+
+            print("plasmid frame before")
+            print(plasmid_frame)
+
             plasmid_frame = self._compile_plasmids(plasmid_frame)
+
+            print("plasmid frame after")
+            print(plasmid_frame)
 
             if resistance_frame.empty:
                 resistance_frame = pd.concat([resistance_frame, plasmid_frame])
@@ -153,6 +167,9 @@ class AMRDetectionSummary:
 
             resistance_frame = resistance_frame.fillna(value=fill_values)
             resistance_frame = resistance_frame.reindex(columns=resistance_columns)
+
+            print("resistance_frame")
+            print(resistance_frame)
 
         if mlst_frame is not None:
             mlst_merging_frame = mlst_frame[['Scheme', 'Sequence Type']]
@@ -164,6 +181,9 @@ class AMRDetectionSummary:
 
         #Rearranges the resistance frame so that the Quality Module column comes directly after Isolate ID
         resistance_frame = resistance_frame[['Quality Module'] + [col for col in resistance_frame if col not in ['Quality Module']]] 
+
+        print("final? resistance_frame")
+        print(resistance_frame)
 
         return resistance_frame.sort_index()
 
@@ -250,11 +270,19 @@ class AMRDetectionSummary:
             # Currently, the pointfinder table uses "Isolate ID" as an index, which is NOT
             # unique. This refers to the gene the mutation is located within, as identified
             # by BLAST. Since later operations in this method require unique indices, we
-            # need to create unique indices.
-            result = result.reset_index()
-            result["unique"] = range(0, len(result.index))
-            result = result.set_index("unique")
+            # need to use unique indices.
+            old_index = result.index.name
 
+            if old_index is not None:
+                # However, sometimes this function will be called with a dataframe that already
+                # has a default column with unique values for the index. In such a case, we cannot
+                # reset the index and restore later, because the default index name is "None"
+                # and if we try to restore to "None", the program will crash.
+                result = result.reset_index()
+
+            print("!!!!!!!!!!")
+            print("PF TABLE")
+            print(result)
             complex_mutations = df.loc[df['Type'] == "complex"]
             
             for complex in complex_mutations.iterrows():
@@ -267,13 +295,10 @@ class AMRDetectionSummary:
                     index = result[result.Gene == point].index
                     result = result.drop(index)
 
-
-            # Finally, return the index to be similar to the original passed dataframe.
-            # That is, having the non-unique "Isolate ID" as the index.
-            # Additionally remove the temporary "unique" column.
-            result = result.reset_index()
-            result = result.set_index("Isolate ID")
-            result = result.drop(columns="unique")
+            # Finally, return the index to be similar to the original passed dataframe, but only
+            # if the original index is not "None".
+            if old_index is not None:
+                result = result.set_index(old_index)
 
         return result
 

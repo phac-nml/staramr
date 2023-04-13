@@ -85,7 +85,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         elif ('promoter' in database_name):
             database_resistance_mutations = self._blast_database.get_resistance_promoter(gene, database_mutations)
         else:
-            database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations, complex_mutations=None)
+            database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
 
         return database_resistance_mutations

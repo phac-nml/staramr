@@ -90,8 +90,7 @@ class AMRDetection:
         pointfinder_parser = BlastResultsParserPointfinder(pointfinder_blast_map, self._pointfinder_database,
                                                            pid_threshold, plength_threshold, report_all,
                                                            output_dir=self._output_dir,
-                                                           genes_to_exclude=self._genes_to_exclude,
-                                                           complex_mutations=self._complex_mutations)
+                                                           genes_to_exclude=self._genes_to_exclude)
         return pointfinder_parser.parse_results()
 
     def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map: Dict[str, BlastResultsParser],
