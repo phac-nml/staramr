@@ -4,7 +4,7 @@ import pandas as pd
 import re
 
 """
-A Class used to parse out a list of point mutation complexes that together confer resistance.
+A class used to parse out a list of point mutation complexes that together confer resistance.
 """
 
 

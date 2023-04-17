@@ -33,9 +33,7 @@ class AMRDetectionSummary:
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
             self._pointfinder_dataframe = pointfinder_dataframe
-            print("*********")
-            print("PF DF in constructor")
-            print(pointfinder_dataframe)
+
         else:
             self._has_pointfinder = False
         self._quality_module_dataframe=quality_module_dataframe
@@ -133,8 +131,6 @@ class AMRDetectionSummary:
         plasmid_frame = self._plasmidfinder_dataframe
         mlst_frame = self._mlst_dataframe
 
-        print("Create summary")
-
         if self._has_pointfinder:
             simplified_pointfinder = self._simplify_pointfinder_mutations()
             resistance_frame = pd.concat([resistance_frame, simplified_pointfinder], sort=True)
@@ -151,13 +147,7 @@ class AMRDetectionSummary:
 
         if plasmid_frame is not None:
 
-            print("plasmid frame before")
-            print(plasmid_frame)
-
             plasmid_frame = self._compile_plasmids(plasmid_frame)
-
-            print("plasmid frame after")
-            print(plasmid_frame)
 
             if resistance_frame.empty:
                 resistance_frame = pd.concat([resistance_frame, plasmid_frame])
@@ -167,9 +157,6 @@ class AMRDetectionSummary:
 
             resistance_frame = resistance_frame.fillna(value=fill_values)
             resistance_frame = resistance_frame.reindex(columns=resistance_columns)
-
-            print("resistance_frame")
-            print(resistance_frame)
 
         if mlst_frame is not None:
             mlst_merging_frame = mlst_frame[['Scheme', 'Sequence Type']]
@@ -181,9 +168,6 @@ class AMRDetectionSummary:
 
         #Rearranges the resistance frame so that the Quality Module column comes directly after Isolate ID
         resistance_frame = resistance_frame[['Quality Module'] + [col for col in resistance_frame if col not in ['Quality Module']]] 
-
-        print("final? resistance_frame")
-        print(resistance_frame)
 
         return resistance_frame.sort_index()
 
@@ -280,9 +264,6 @@ class AMRDetectionSummary:
                 # and if we try to restore to "None", the program will crash.
                 result = result.reset_index()
 
-            print("!!!!!!!!!!")
-            print("PF TABLE")
-            print(result)
             complex_mutations = df.loc[df['Type'] == "complex"]
             
             for complex in complex_mutations.iterrows():

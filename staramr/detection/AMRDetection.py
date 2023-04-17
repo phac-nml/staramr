@@ -62,7 +62,6 @@ class AMRDetection:
         self._genes_to_exclude = genes_to_exclude
         self._complex_mutations = complex_mutations
 
-    # TODO: summary is created twice, same object though
     def _create_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
                             pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                             plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:
@@ -70,7 +69,6 @@ class AMRDetection:
                                                     pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
         return amr_detection_summary.create_summary(self._include_negative_results)
 
-    # TODO: second time
     def _create_detailed_amr_summary(self, files: List[str], resfinder_dataframe: DataFrame,quality_module_dataframe: DataFrame,
                                      pointfinder_dataframe: Optional[BlastResultsParserPointfinder],
                                      plasmidfinder_dataframe: DataFrame, mlst_dataframe: DataFrame) -> DataFrame:

@@ -47,7 +47,6 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         self._arg_drug_table = arg_drug_table
         self._complex_mutations = complex_mutations
 
-    # TODO: This function exists to add phenotype information to the returned result
     def _get_result(self, hit, db_mutation):
 
         # We need to correct for Pointfinder codon insertions being off by 1.
