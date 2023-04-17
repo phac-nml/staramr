@@ -18,6 +18,7 @@ from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrug
 from staramr.databases.resistance.cge.CGEDrugTableResfinder import CGEDrugTableResfinder
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
+from staramr.databases.resistance.pointfinder.complex.ComplexMutations import ComplexMutations
 
 logger = logging.getLogger('AMRDetectionIT')
 
@@ -709,6 +710,54 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
                          "records don't match")
+
+
+    def testPointfinderEnterococcusFaecium_pbp5_Success(self):
+        # This test evaluates the correctness of identifying a pbp5 complex mutation.
+        # That is, several pbp5 mutations that should together confer Ampacillin resistence.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name,
+                                               complex_mutations= ComplexMutations())
+
+        file = path.join(self.test_data_dir, "pbp5_20.fa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 80, 80, 80, 80, 100, 1000000, 1000, 300, 1000)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+
+        # 20 point mutations plus 1 (summarized) complex mutation:
+        self.assertEqual(len(pointfinder_results.index), 21, 'Wrong number of rows in result')
+
+        # Test one of the point mutations:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_20', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 216, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCA -> AGT (A -> S)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.28, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]',
+                         'Wrong phenotype')
+        
+        # Test one of the complex mutation:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_20', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'complex', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], "524, 527, 534, 566, 568, 585, 5100, 5144, 5172, 5177, 5204, 5216, 5324, 5485, 5496, 5499, 5525, 5586, 5629, 5667", msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'complex', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.28, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Ampicillin',
+                         'Wrong phenotype')
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')

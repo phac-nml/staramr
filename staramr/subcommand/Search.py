@@ -16,7 +16,7 @@ from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import Plasmidfinder
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
-from staramr.databases.resistance.pointfinder.complex.ComplexMutationsList import ComplexMutations
+from staramr.databases.resistance.pointfinder.complex.ComplexMutations import ComplexMutations
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException

@@ -17,7 +17,7 @@ from staramr.blast.results.BlastResultsParser import BlastResultsParser
 from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
-from staramr.databases.resistance.pointfinder.complex.ComplexMutationsList import ComplexMutations
+from staramr.databases.resistance.pointfinder.complex.ComplexMutations import ComplexMutations
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 from staramr.results.QualityModule import QualityModule
 

@@ -93,7 +93,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
             results.append(self._get_result(hit, db_mutation))
 
         # We ought to handle complex mutations after results are processed, in case we need to account
-        # for any Pointfinder position corrections (i.e. indels).   
+        # for any Pointfinder position corrections (i.e. indels).
         if self._complex_mutations:
             results_table = pandas.DataFrame(columns=self.COLUMNS, data=results)
             matches = self._complex_mutations.get_matches(results_table, hit)
