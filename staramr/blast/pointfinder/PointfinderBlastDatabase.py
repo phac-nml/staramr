@@ -1,6 +1,7 @@
 from os import path, listdir
 
 import pandas as pd
+import os
 
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.blast.pointfinder.PointfinderDatabaseInfo import PointfinderDatabaseInfo
@@ -102,6 +103,9 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_name(self):
         return 'pointfinder'
+    
+    def get_phenotypes_file(self):
+        return os.path.join(self.database_dir, self.organism, 'phenotypes.txt')
 
     @classmethod
     def get_available_organisms(cls):

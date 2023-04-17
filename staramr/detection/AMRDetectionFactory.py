@@ -1,6 +1,7 @@
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
 from staramr.databases.resistance.cge.CGEDrugTableResfinder import CGEDrugTableResfinder
+from staramr.databases.resistance.cge.CGEDrugTablePointfinder import CGEDrugTablePointfinder
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
@@ -30,12 +31,15 @@ class AMRDetectionFactory:
         """
 
         if include_resistances:
-            phenotypes_file = resfinder_database.get_phenotypes_file()
+            resfinder_phenotypes_file = resfinder_database.get_phenotypes_file()
+            pointfinder_phenotypes_file = pointfinder_database.get_phenotypes_file()
 
-            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(),
-                                          CGEDrugTableResfinder(phenotypes_file), blast_handler,
-                                          ARGDrugTablePointfinder(), pointfinder_database, 
-                                          include_negatives, output_dir=output_dir, genes_to_exclude=genes_to_exclude,
+            return AMRDetectionResistance(resfinder_database,
+                                          ARGDrugTableResfinder(), CGEDrugTableResfinder(resfinder_phenotypes_file),
+                                          blast_handler,
+                                          ARGDrugTablePointfinder(), CGEDrugTablePointfinder(pointfinder_phenotypes_file),
+                                          pointfinder_database, include_negatives, output_dir=output_dir,
+                                          genes_to_exclude=genes_to_exclude,
                                           plasmidfinder_database=plasmidfinder_database)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,

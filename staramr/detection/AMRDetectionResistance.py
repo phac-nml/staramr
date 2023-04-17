@@ -19,15 +19,16 @@ A Class to handle scanning files for AMR genes and also include pheneotypes/resi
 class AMRDetectionResistance(AMRDetection):
 
     def __init__(self, resfinder_database, arg_drug_table_resfinder, cge_drug_table_resfinder, amr_detection_handler, arg_drug_table_pointfinder,
-                 pointfinder_database=None, include_negative_results=False, output_dir=None, genes_to_exclude=[],
+                 cge_drug_table_pointfinder, pointfinder_database=None, include_negative_results=False, output_dir=None, genes_to_exclude=[],
                  plasmidfinder_database=None):
         """
         Builds a new AMRDetectionResistance.
         :param resfinder_database: The staramr.blast.resfinder.ResfinderBlastDatabase for the particular ResFinder database.
         :param arg_drug_table_resfinder: The staramr.databases.resistance.ARGDrugTable for searching for resfinder resistances.
-        :param cge_drug_table_resfinder: The staramr.databases.resistance.CGEDrugTable for searching for resfinder resistances.
+        :param cge_drug_table_resfinder: The CGEDrugTableResfinder for searching for resfinder resistances.
         :param amr_detection_handler: The staramr.blast.JobHandler to use for scheduling BLAST jobs.
         :param arg_drug_table_pointfinder: The staramr.databases.resistance.ARGDrugTable for searching for pointfinder resistances.
+        :param cge_drug_table_pointfinder: The CGEDrugTablePointfinder for searching for pointfinder resistances.
         :param pointfinder_database: The staramr.blast.pointfinder.PointfinderBlastDatabase to use for the particular PointFinder database.
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
         :param output_dir: The directory where output fasta files are to be written into (None for no output fasta files).
@@ -38,7 +39,9 @@ class AMRDetectionResistance(AMRDetection):
                          plasmidfinder_database=plasmidfinder_database)
         self._arg_drug_table_resfinder = arg_drug_table_resfinder
         self._cge_drug_table_resfinder = cge_drug_table_resfinder
+
         self._arg_drug_table_pointfinder = arg_drug_table_pointfinder
+        self._cge_drug_table_pointfinder = cge_drug_table_pointfinder
 
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
         resfinder_parser = BlastResultsParserResfinderResistance(resfinder_blast_map, self._arg_drug_table_resfinder,
@@ -52,6 +55,7 @@ class AMRDetectionResistance(AMRDetection):
     def _create_pointfinder_dataframe(self, pointfinder_blast_map, pid_threshold, plength_threshold, report_all):
         pointfinder_parser = BlastResultsParserPointfinderResistance(pointfinder_blast_map,
                                                                      self._arg_drug_table_pointfinder,
+                                                                     self._cge_drug_table_pointfinder,
                                                                      self._pointfinder_database,
                                                                      pid_threshold, plength_threshold, report_all,
                                                                      output_dir=self._output_dir,
