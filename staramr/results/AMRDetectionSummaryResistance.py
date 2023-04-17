@@ -22,7 +22,12 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         super().__init__(files, resfinder_dataframe,quality_module_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
 
     def _aggregate_phenotype(self, phenotype_series):
-        flattened_phenotype_list = [y.strip() for x in list(phenotype_series) for y in
+        # Replace "NaN" phenotypes with the string "None",
+        # which is in line with how the they're reported normally.
+        series = phenotype_series.copy()
+        series = series.fillna(value="None")
+
+        flattened_phenotype_list = [y.strip() for x in list(series) for y in
                                     x.split(self.SEPARATOR)]
 
         # Only remove None if there is more than one entry in this list

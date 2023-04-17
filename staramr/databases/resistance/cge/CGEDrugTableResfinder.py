@@ -35,6 +35,7 @@ class CGEDrugTableResfinder(ARGDrugTable):
         table = self._data
 
         gene_accession = str(gene_plus_variant) + "_" + str(accession)
+
         drug = table[(table['Class'] == drug_class) &
                      (table['Gene_accession no.'] == gene_accession)]['Phenotype']
         if (drug.empty):
