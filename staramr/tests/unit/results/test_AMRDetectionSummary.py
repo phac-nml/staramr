@@ -728,3 +728,32 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[9], 'Predicted Phenotype not equal')
         self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[11], 'Predicted Phenotype not equal')
+
+    def testSimplifyingPointfinderMutations(self):
+        df = pd.DataFrame([
+            ['file1', 'A', 'codon', 100, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'B', 'codon', 200, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'C', 'codon', 300, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'D', 'codon', 400, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'A, B, C', 'complex', "100, 200, 300", 'complex', 99.96, 100.0, '2637/2637']
+        ],
+            columns=self.columns_pointfinder)
+
+        result = AMRDetectionSummary._simplify_pointfinder_mutations(df)
+
+        # The result should contain 2 rows:
+        # - "D"
+        # - "A, B, C"
+        self.assertEqual(2, len(result))
+
+        row = result[result["Gene"] == "D"]
+        self.assertEqual(row["Type"].iloc[0], "codon", msg="Wrong type")
+        self.assertEqual(row["Position"].iloc[0], 400, msg="Wrong position")
+        self.assertEqual(row["Mutation"].iloc[0], "GCC -> CCC (A -> P)", msg="Wrong mutation")
+        self.assertEqual(row["HSP Length/Total Length"].iloc[0], "2637/2637", msg="Wrong lengths")
+
+        row = result[result["Gene"] == "A, B, C"]
+        self.assertEqual(row["Type"].iloc[0], "complex", msg="Wrong type")
+        self.assertEqual(row["Position"].iloc[0], "100, 200, 300", msg="Wrong position")
+        self.assertEqual(row["Mutation"].iloc[0], "complex", msg="Wrong mutation")
+        self.assertEqual(row["HSP Length/Total Length"].iloc[0], "2637/2637", msg="Wrong lengths")

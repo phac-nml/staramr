@@ -746,7 +746,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]',
                          'Wrong phenotype')
         
-        # Test one of the complex mutation:
+        # Test the complex mutation:
         result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], 'pbp5_20', msg='Wrong file')

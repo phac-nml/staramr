@@ -132,7 +132,7 @@ class AMRDetectionSummary:
         mlst_frame = self._mlst_dataframe
 
         if self._has_pointfinder:
-            simplified_pointfinder = self._simplify_pointfinder_mutations()
+            simplified_pointfinder = self._simplify_pointfinder_mutations(self._pointfinder_dataframe)
             resistance_frame = pd.concat([resistance_frame, simplified_pointfinder], sort=True)
 
         resistance_frame = self._compile_results(resistance_frame)
@@ -205,7 +205,7 @@ class AMRDetectionSummary:
             if self._pointfinder_dataframe is None:
                 point_frame = None
             else:
-                point_frame = self._simplify_pointfinder_mutations()
+                point_frame = self._simplify_pointfinder_mutations(self._pointfinder_dataframe)
                 point_frame['Data Type'] = 'Resistance'
                 point_frame = point_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
                 point_frame = point_frame.reindex(columns=column_names)
@@ -243,11 +243,11 @@ class AMRDetectionSummary:
             resistance_frame = resistance_frame.fillna("")
 
         return resistance_frame
-    
-    def _simplify_pointfinder_mutations(self):
 
-        df = self._pointfinder_dataframe
-        result = self._pointfinder_dataframe.copy(deep=True)
+    @staticmethod    
+    def _simplify_pointfinder_mutations(df):
+
+        result = df.copy(deep=True)
 
         if df is not None:
 
