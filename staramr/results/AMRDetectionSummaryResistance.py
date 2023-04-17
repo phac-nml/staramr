@@ -47,8 +47,9 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
             .sort_values(by=['Gene.Lower']) \
             .groupby(['Isolate ID'], sort=True) \
             .aggregate({'Gene': self._aggregate_gene,
-                'Predicted Phenotype': self._aggregate_phenotype})
-        return df_summary[['Gene', 'Predicted Phenotype']]
+                'Predicted Phenotype': self._aggregate_phenotype,
+                'CGE Predicted Phenotype': self._aggregate_phenotype})  # Same function, since operation is the same.
+        return df_summary[['Gene', 'Predicted Phenotype', 'CGE Predicted Phenotype']]
 
     def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Predicted Phenotype', 'Start', 'End']
@@ -57,10 +58,10 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         return {'Genotype': 'None', 'Predicted Phenotype': 'Sensitive'}
 
     def _get_summary_resistance_columns(self):
-        return ['Genotype', 'Predicted Phenotype', 'Plasmid']
+        return ['Genotype', 'Predicted Phenotype', 'CGE Predicted Phenotype', 'Plasmid']
 
     def _get_detailed_summary_columns(self):
-        return ['Gene', 'Data Type', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
+        return ['Gene', 'Data Type', 'Predicted Phenotype', 'CGE Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
                 'End', 'Accession']
 
     def _include_phenotype(self):
