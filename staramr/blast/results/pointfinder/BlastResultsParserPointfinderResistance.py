@@ -80,17 +80,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         return result
     
     def _get_result_rows(self, hit, database_name):
-        database_resistance_mutations = self._get_resistance_mutations(hit, database_name)
-
-        if len(database_resistance_mutations) == 0:
-            logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())
-            return None
-
-        results = []
-        for db_mutation in database_resistance_mutations:
-            logger.debug("multiple resistance mutations for [%s]: mutations=[%s], file=[%s]",
-                            hit.get_amr_gene_id(), database_resistance_mutations, hit.get_file())
-            results.append(self._get_result(hit, db_mutation))
+        results = super()._get_result_rows(hit, database_name)
 
         # We ought to handle complex mutations after results are processed, in case we need to account
         # for any Pointfinder position corrections (i.e. indels).
