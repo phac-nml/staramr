@@ -21,14 +21,15 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         """
         super().__init__(files, resfinder_dataframe,quality_module_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
 
-    def _aggregate_phenotype(self, phenotype_series):
+    @staticmethod
+    def aggregate_phenotype(phenotype_series):
         # Replace "NaN" phenotypes with the string "None",
         # which is in line with how the they're reported normally.
         series = phenotype_series.copy()
         series = series.fillna(value="None")
 
         flattened_phenotype_list = [y.strip() for x in list(series) for y in
-                                    x.split(self.SEPARATOR)]
+                                    x.split(AMRDetectionSummaryResistance.SEPARATOR)]
 
         # Only remove None if there is more than one entry in this list
         if len(flattened_phenotype_list) > 1 and 'None' in flattened_phenotype_list:
@@ -36,7 +37,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
 
         uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 
-        return (self.SEPARATOR + ' ').join(list(uniq_phenotype))
+        return (AMRDetectionSummaryResistance.SEPARATOR + ' ').join(list(uniq_phenotype))
 
     def _aggregate_gene(self, gene_series):
         return (self.SEPARATOR + ' ').join(list(gene_series))
@@ -52,8 +53,8 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
             .sort_values(by=['Gene.Lower']) \
             .groupby(['Isolate ID'], sort=True) \
             .aggregate({'Gene': self._aggregate_gene,
-                'Predicted Phenotype': self._aggregate_phenotype,
-                'CGE Predicted Phenotype': self._aggregate_phenotype})  # Same function, since operation is the same.
+                'Predicted Phenotype': self.aggregate_phenotype,
+                'CGE Predicted Phenotype': self.aggregate_phenotype})  # Same function, since operation is the same.
         return df_summary[['Gene', 'Predicted Phenotype', 'CGE Predicted Phenotype']]
 
     def _get_detailed_negative_columns(self):
