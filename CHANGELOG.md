@@ -1,6 +1,7 @@
 # Unreleased
 
 * Switched to only officially supporting Python 3.7+ due to recent incompatibilities with Python 3.6 and some Python packages (numpy, biopython, and others).
+* Adds the ability to handle "complex" pbp5 mutations. When appriopriate many pbp5 point mutations will be reported as a single mutation.
 
 # Version 0.9.1
 
