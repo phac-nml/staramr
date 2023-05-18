@@ -759,6 +759,44 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
 
+    def testPointfinderEnterococcusFaecium_pbp5_Failure(self):
+        # This test evaluates the correctness of NOT identifying a pbp5 complex mutation.
+        # The input will be missing one of the mandatory mutations (pbp5 (E629V)).
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name,
+                                               complex_mutations= ComplexMutations())
+
+        file = path.join(self.test_data_dir, "pbp5_19_failure.fa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 80, 80, 80, 80, 100, 1000000, 1000, 300, 1000)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+
+        # 19 point mutations, no summarized complex mutation:
+        self.assertEqual(len(pointfinder_results.index), 19, 'Wrong number of rows in result')
+
+        # Test one of the point mutations:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_19_failure', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 216, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCA -> AGT (A -> S)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.38, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]',
+                         'Wrong phenotype')
+        
+        # Test correct numbers of complex- and codon-type mutations:
+        self.assertEqual(len(pointfinder_results[pointfinder_results['Type'] == 'codon']), 19, 'Wrong number of codon mutations')
+        self.assertEqual(len(pointfinder_results[pointfinder_results['Type'] == 'complex']), 0, 'Wrong number of complex mutations')
+
     def testPointfinderEnterococcusFaecium_pbp5_3_m485a_Success(self):
         # This test evaluates the correctness of identifying a pbp5 complex mutation
         # with only the 3 mandatory mutations (pbp5 (M485A), pbp5 (E629V), pbp5 (P667S)).
