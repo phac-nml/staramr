@@ -14,6 +14,10 @@ class ComplexMutations:
     def __init__(self, file=DEFAULT_COMPLEX_FILE):
         self._data = pd.read_csv(file, sep='\t')
 
+        # Convert strings to integer lists for positions:
+        self._data["positions"] = self._data["positions"].apply(lambda str: re.split(', *', str))
+        self._data["mandatory"] = self._data["mandatory"].apply(lambda str: re.split(', *', str))
+
     @classmethod
     def get_default_mutation_file(cls):
         """
@@ -32,11 +36,9 @@ class ComplexMutations:
         mutation_codes = list(str(hit.get_amr_gene_name()) + " (" + results_table["Pointfinder Position"] + ")")
 
         for row in self._data.itertuples():
-            positions = re.split(', *', row.positions)
-            mandatory = re.split(', *', row.mandatory)
 
-            if set(mandatory).issubset(set(mutation_codes)):
-                intersection = list(set(positions).intersection(set(mutation_codes)))
+            if set(row.mandatory).issubset(set(mutation_codes)):
+                intersection = list(set(row.positions).intersection(set(mutation_codes)))
 
                 # Sorting, because it makes output reproducable.
                 # .sort() is in-place.
