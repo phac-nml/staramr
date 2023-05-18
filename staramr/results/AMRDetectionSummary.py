@@ -5,8 +5,6 @@ from typing import Set
 import pandas as pd
 from pandas import DataFrame
 
-pd.set_option('display.max_columns', None)
-
 logger = logging.getLogger("AMRDetectionSummary")
 
 """
