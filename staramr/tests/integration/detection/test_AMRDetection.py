@@ -714,7 +714,7 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testPointfinderEnterococcusFaecium_pbp5_Success(self):
         # This test evaluates the correctness of identifying a pbp5 complex mutation.
-        # That is, several pbp5 mutations that should together confer Ampacillin resistence.
+        # That is, several pbp5 mutations that should together confer ampicillin resistence.
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
@@ -756,14 +756,14 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 98.28, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Ampicillin',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
 
     def testPointfinderEnterococcusFaecium_pbp5_3_m485a_Success(self):
         # This test evaluates the correctness of identifying a pbp5 complex mutation
         # with only the 3 mandatory mutations (pbp5 (M485A), pbp5 (E629V), pbp5 (P667S)).
         # Note that the mutation at position 485 is to an "A".
-        # The complex mutation should confer Ampacillin resistence.
+        # The complex mutation should confer ampicillin resistence.
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
@@ -805,14 +805,14 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.656, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Ampicillin',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
 
     def testPointfinderEnterococcusFaecium_pbp5_3_m485t_Success(self):
         # This test evaluates the correctness of identifying a pbp5 complex mutation
         # with only the 3 mandatory mutations (pbp5 (M485T), pbp5 (E629V), pbp5 (P667S)).
         # Note that the mutation at position 485 is to an "T".
-        # The complex mutation should confer Ampacillin resistence.
+        # The complex mutation should confer ampicillin resistence.
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
@@ -854,7 +854,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.705, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'Ampicillin',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
