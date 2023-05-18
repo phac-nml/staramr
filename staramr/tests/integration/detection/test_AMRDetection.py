@@ -1401,6 +1401,23 @@ class AMRDetectionIT(unittest.TestCase):
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['pbp5'].seq.upper(), records['pbp5'].seq.upper().replace('-', ''), "records don't match")
 
+    def testResfinderCGEPredictedPhenotypes(self):
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-start.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90,0,0,0,0,0)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         msg='Wrong phenotypes.')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         msg='Wrong CGE-predicted phenotypes.')
+
 
 if __name__ == '__main__':
     unittest.main()

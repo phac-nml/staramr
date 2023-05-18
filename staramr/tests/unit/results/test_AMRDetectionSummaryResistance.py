@@ -62,6 +62,8 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         self.assertEqual('blaIMP-42', summary['Genotype'].iloc[0], 'Genes not equal')
         self.assertEqual('ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
+        self.assertEqual('ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
+                         summary['CGE Predicted Phenotype'].iloc[0], 'CGE phenotypes not equal')
 
     def testResfinderDuplicateResistances(self):
         amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_duplicate_resistances,self.quality_module_table)
@@ -74,6 +76,8 @@ class AMRDetectionSummaryResistanceTest(unittest.TestCase):
         self.assertEqual('blaCTX-M-55, blaIMP-42', summary['Genotype'].iloc[0], 'Genes not equal')
         self.assertEqual('ampicillin, ceftriaxone',
                          summary['Predicted Phenotype'].iloc[0], 'Phenotypes not equal')
+        self.assertEqual('ampicillin, ceftriaxone',
+                         summary['CGE Predicted Phenotype'].iloc[0], 'CGE phenotypes not equal')
 
     def testPointfinder(self):
         amr_detection_summary = AMRDetectionSummaryResistance(self.files, self.resfinder_table_empty,self.quality_module_table,
