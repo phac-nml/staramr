@@ -21,9 +21,15 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         """
         super().__init__(files, resfinder_dataframe,quality_module_dataframe, pointfinder_dataframe, plasmidfinder_dataframe, mlst_dataframe)
 
-    def _aggregate_phenotype(self, phenotype_series):
-        flattened_phenotype_list = [y.strip() for x in list(phenotype_series) for y in
-                                    x.split(self.SEPARATOR)]
+    @staticmethod
+    def aggregate_phenotype(phenotype_series):
+        # Replace "NaN" phenotypes with the string "None",
+        # which is in line with how the they're reported normally.
+        series = phenotype_series.copy()
+        series = series.fillna(value="None")
+
+        flattened_phenotype_list = [y.strip() for x in list(series) for y in
+                                    x.split(AMRDetectionSummaryResistance.SEPARATOR)]
 
         # Only remove None if there is more than one entry in this list
         if len(flattened_phenotype_list) > 1 and 'None' in flattened_phenotype_list:
@@ -31,7 +37,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
 
         uniq_phenotype = OrderedDict.fromkeys(flattened_phenotype_list)
 
-        return (self.SEPARATOR + ' ').join(list(uniq_phenotype))
+        return (AMRDetectionSummaryResistance.SEPARATOR + ' ').join(list(uniq_phenotype))
 
     def _aggregate_gene(self, gene_series):
         return (self.SEPARATOR + ' ').join(list(gene_series))
@@ -47,8 +53,9 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
             .sort_values(by=['Gene.Lower']) \
             .groupby(['Isolate ID'], sort=True) \
             .aggregate({'Gene': self._aggregate_gene,
-                'Predicted Phenotype': self._aggregate_phenotype})
-        return df_summary[['Gene', 'Predicted Phenotype']]
+                'Predicted Phenotype': self.aggregate_phenotype,
+                'CGE Predicted Phenotype': self.aggregate_phenotype})  # Same function, since operation is the same.
+        return df_summary[['Gene', 'Predicted Phenotype', 'CGE Predicted Phenotype']]
 
     def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Predicted Phenotype', 'Start', 'End']
@@ -57,10 +64,10 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         return {'Genotype': 'None', 'Predicted Phenotype': 'Sensitive'}
 
     def _get_summary_resistance_columns(self):
-        return ['Genotype', 'Predicted Phenotype', 'Plasmid']
+        return ['Genotype', 'Predicted Phenotype', 'CGE Predicted Phenotype', 'Plasmid']
 
     def _get_detailed_summary_columns(self):
-        return ['Gene', 'Data Type', 'Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
+        return ['Gene', 'Data Type', 'Predicted Phenotype', 'CGE Predicted Phenotype', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start',
                 'End', 'Accession']
 
     def _include_phenotype(self):

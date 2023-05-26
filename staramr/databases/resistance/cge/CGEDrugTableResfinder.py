@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
+from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
 
 logger = logging.getLogger("CGEDrugTableResfinder")
 
@@ -35,11 +36,15 @@ class CGEDrugTableResfinder(ARGDrugTable):
         table = self._data
 
         gene_accession = str(gene_plus_variant) + "_" + str(accession)
-        drug = table[(table['Class'] == drug_class) &
-                     (table['Gene_accession no.'] == gene_accession)]['Phenotype']
+        drug = table[(table['Gene_accession no.'] == gene_accession)]['Phenotype']
+
         if (drug.empty):
             logger.warning("No drug found for drug_class=%s, gene=%s, accession=%s", drug_class, gene_plus_variant,
                            accession)
             return None
+        elif len(drug) > 1:
+            logger.warning("Multiple entries found for drug_class=%s, gene=%s, accession=%s", drug_class,
+                           gene_plus_variant, accession)
+            return AMRDetectionSummaryResistance.aggregate_phenotype(drug)
         else:
             return drug.iloc[0]

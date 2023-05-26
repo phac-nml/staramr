@@ -1,6 +1,7 @@
 # Unreleased
 
 * Switched to only officially supporting Python 3.7+ due to recent incompatibilities with Python 3.6 and some Python packages (numpy, biopython, and others).
+* Resfinder CGE-predicted phenotypes are now reported in the summary and detailed summary alongside existing predictions.
 
 # Version 0.9.1
 
