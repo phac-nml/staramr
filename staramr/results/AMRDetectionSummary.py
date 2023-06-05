@@ -160,8 +160,6 @@ class AMRDetectionSummary:
             mlst_merging_frame = mlst_frame[['Scheme', 'Sequence Type']]
             resistance_frame = resistance_frame.merge(mlst_merging_frame, on='Isolate ID', how='left')
 
-
-
         resistance_frame = resistance_frame.merge(self._quality_module_dataframe, on='Isolate ID', how='left')
 
         #Rearranges the resistance frame so that the Quality Module column comes directly after Isolate ID
