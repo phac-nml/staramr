@@ -1,4 +1,5 @@
 import logging
+import pandas
 
 from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
 from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
@@ -28,7 +29,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
-                 report_all=False, output_dir=None, genes_to_exclude=[]):
+                 report_all=False, output_dir=None, genes_to_exclude=[], complex_mutations=None):
         """
         Creates a new BlastResultsParserPointfinderResistance.
         :param file_blast_map: A map/dictionary linking input files to BLAST results files.
@@ -39,10 +40,12 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         :param report_all: Whether or not to report all blast hits.
         :param output_dir: The directory where output files are being written.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
+        :param complex_mutations: An object mapping a set of multiple point mutations to a single phenotype.
         """
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
         self._arg_drug_table = arg_drug_table
+        self._complex_mutations = complex_mutations
 
     def _get_result(self, hit, db_mutation):
 
@@ -75,3 +78,20 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 ]
 
         return result
+    
+    def _get_result_rows(self, hit, database_name):
+        results = super()._get_result_rows(hit, database_name)
+
+        # We ought to handle complex mutations after results are processed, in case we need to account
+        # for any Pointfinder position corrections (i.e. indels).
+        if self._complex_mutations:
+            results_table = pandas.DataFrame(columns=self.COLUMNS, data=results)
+            matches = self._complex_mutations.get_matches(results_table, hit)
+            
+            if results is not None:
+                results.extend(matches)
+            else:
+                results = matches
+
+        return results
+

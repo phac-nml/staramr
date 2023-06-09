@@ -19,7 +19,7 @@ A Class to handle scanning files for AMR genes and also include pheneotypes/resi
 class AMRDetectionResistance(AMRDetection):
 
     def __init__(self, resfinder_database, arg_drug_table_resfinder, cge_drug_table_resfinder, amr_detection_handler, arg_drug_table_pointfinder,
-                 pointfinder_database=None, include_negative_results=False, output_dir=None, genes_to_exclude=[],
+                 pointfinder_database=None, include_negative_results=False, output_dir=None, genes_to_exclude=[], complex_mutations=None,
                  plasmidfinder_database=None):
         """
         Builds a new AMRDetectionResistance.
@@ -32,6 +32,7 @@ class AMRDetectionResistance(AMRDetection):
         :param include_negative_results:  If True, include files lacking AMR genes in the resulting summary table.
         :param output_dir: The directory where output fasta files are to be written into (None for no output fasta files).
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
+        :param complex_mutations: An object mapping a set of multiple point mutations to a single phenotype.
         """
         super().__init__(resfinder_database, amr_detection_handler, pointfinder_database, include_negative_results,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude,
@@ -39,6 +40,7 @@ class AMRDetectionResistance(AMRDetection):
         self._arg_drug_table_resfinder = arg_drug_table_resfinder
         self._cge_drug_table_resfinder = cge_drug_table_resfinder
         self._arg_drug_table_pointfinder = arg_drug_table_pointfinder
+        self._complex_mutations = complex_mutations
 
     def _create_resfinder_dataframe(self, resfinder_blast_map, pid_threshold, plength_threshold, report_all):
         resfinder_parser = BlastResultsParserResfinderResistance(resfinder_blast_map, self._arg_drug_table_resfinder,
@@ -55,7 +57,8 @@ class AMRDetectionResistance(AMRDetection):
                                                                      self._pointfinder_database,
                                                                      pid_threshold, plength_threshold, report_all,
                                                                      output_dir=self._output_dir,
-                                                                     genes_to_exclude=self._genes_to_exclude)
+                                                                     genes_to_exclude=self._genes_to_exclude,
+                                                                     complex_mutations=self._complex_mutations)
         return pointfinder_parser.parse_results()
 
     def _create_plasmidfinder_dataframe(self, plasmidfinder_blast_map, pid_threshold, plength_threshold, report_all):

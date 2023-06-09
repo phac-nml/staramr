@@ -70,8 +70,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
                 ]
 
         return result
-
-    def _get_result_rows(self, hit, database_name):
+    
+    def _get_resistance_mutations(self, hit, database_name):
         database_mutations = hit.get_mutations()
 
         gene = hit.get_amr_gene_name()
@@ -87,6 +87,11 @@ class BlastResultsParserPointfinder(BlastResultsParser):
         else:
             database_resistance_mutations = self._blast_database.get_resistance_codons(gene, database_mutations)
         logger.debug("database_resistance_mutations=%s", database_resistance_mutations)
+
+        return database_resistance_mutations
+
+    def _get_result_rows(self, hit, database_name):
+        database_resistance_mutations = self._get_resistance_mutations(hit, database_name)
 
         if len(database_resistance_mutations) == 0:
             logger.debug("No mutations for id=[%s], file=[%s]", hit.get_amr_gene_id(), hit.get_file())

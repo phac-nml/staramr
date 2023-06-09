@@ -16,6 +16,7 @@ from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import Plasmidfinder
 from staramr.blast.pointfinder.PointfinderBlastDatabase import PointfinderBlastDatabase
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.exclude.ExcludeGenesList import ExcludeGenesList
+from staramr.databases.resistance.pointfinder.complex.ComplexMutations import ComplexMutations
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.detection.AMRDetectionFactory import AMRDetectionFactory
 from staramr.exceptions.CommandParseException import CommandParseException
@@ -118,7 +119,7 @@ class Search(SubCommand):
                                   help='Disable the default exclusion of some genes from ResFinder/PointFinder/PlasmidFinder [False].',
                                   required=False)
         report_group.add_argument('--exclude-genes-file', action='store', dest='exclude_genes_file',
-                                  help='A containing a list of ResFinder/PointFinder/PlasmidFinder gene names to exclude from results [{}].'.format(
+                                  help='A list of ResFinder/PointFinder/PlasmidFinder gene names to exclude from results [{}].'.format(
                                       ExcludeGenesList.get_default_exclude_file()),
                                   default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
@@ -131,6 +132,11 @@ class Search(SubCommand):
                                   required=False)
         report_group.add_argument('--report-all-blast', action='store_true', dest='report_all_blast',
                                   help='Report all blast hits (vs. only top blast hits) [False].',
+                                  required=False)
+        report_group.add_argument('--complex-mutations-file', action='store', dest='complex_mutations_file',
+                                  help='A list of multiple PointFinder point mutations that together confer a single phenotype [{}].'.format(
+                                      ComplexMutations.get_default_mutation_file()),
+                                  default=ComplexMutations.get_default_mutation_file(),
                                   required=False)
 
         output_group = arg_parser.add_argument_group(title='Output',
@@ -243,8 +249,9 @@ class Search(SubCommand):
                           nprocs, include_negatives,
                           include_resistances, hits_output, pid_threshold, plength_threshold_resfinder,
                           plength_threshold_pointfinder, plength_threshold_plasmidfinder, report_all_blast,
-                          genes_to_exclude, files, ignore_invalid_files, mlst_scheme,genome_size_lower_bound,
-                          genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs):
+                          genes_to_exclude, complex_mutations, files, ignore_invalid_files, mlst_scheme,
+                          genome_size_lower_bound, genome_size_upper_bound, minimum_N50_value, minimum_contig_length,
+                          unacceptable_num_contigs):
         """
         Runs AMR detection and generates results.
         :param database_repos: The database repos object.
@@ -261,6 +268,7 @@ class Search(SubCommand):
         :param plength_threshold_plasmidfinder: The plength threshold for plasmidfinder.
         :param report_all_blast: Whether or not to report all BLAST results.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
+        :param complex_mutations: An object mapping a set of multiple point mutations to a single phenotype.
         :param files: The list of files to scan.
         :param ignore_invalid_files: Skips over invalid input files.
         :param mlst_scheme: Specifys scheme name MLST uses.
@@ -283,7 +291,8 @@ class Search(SubCommand):
                                                         include_negatives=include_negatives,
                                                         include_resistances=include_resistances,
                                                         output_dir=hits_output,
-                                                        genes_to_exclude=genes_to_exclude)
+                                                        genes_to_exclude=genes_to_exclude,
+                                                        complex_mutations=complex_mutations)
             amr_detection.run_amr_detection(files,pid_threshold, plength_threshold_resfinder,
                                             plength_threshold_pointfinder, plength_threshold_plasmidfinder,genome_size_lower_bound,
                                             genome_size_upper_bound,minimum_N50_value,minimum_contig_length,unacceptable_num_contigs,
@@ -464,6 +473,10 @@ class Search(SubCommand):
                     args.exclude_genes_file)
                 exclude_genes = ExcludeGenesList(args.exclude_genes_file).tolist()
 
+        logger.info("Will report complex mutations listed in [%s]",
+                    args.complex_mutations_file)        
+        complex_mutations = ComplexMutations(args.complex_mutations_file)
+
         results = self._generate_results(database_repos=database_repos,
                                          resfinder_database=resfinder_database,
                                          pointfinder_database=pointfinder_database,
@@ -478,6 +491,7 @@ class Search(SubCommand):
                                          plength_threshold_plasmidfinder=args.plength_threshold_plasmidfinder,
                                          report_all_blast=args.report_all_blast,
                                          genes_to_exclude=exclude_genes,
+                                         complex_mutations=complex_mutations,
                                          files=args.files,
                                          ignore_invalid_files=args.ignore_valid_files,
                                          mlst_scheme=args.mlst_scheme,
