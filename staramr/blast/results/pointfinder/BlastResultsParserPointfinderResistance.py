@@ -87,7 +87,11 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         if self._complex_mutations:
             results_table = pandas.DataFrame(columns=self.COLUMNS, data=results)
             matches = self._complex_mutations.get_matches(results_table, hit)
-            results.extend(matches)
+            
+            if results is not None:
+                results.extend(matches)
+            else:
+                results = matches
 
         return results
 
