@@ -78,7 +78,7 @@ class AMRDetectionSummary:
 
             if self._include_phenotype():
                 negative_resistance_entries = pd.DataFrame(
-                    [[x, 'None', 'Sensitive', '', ''] for x in negative_res_names_set],
+                    [[x, 'None', 'Susceptible', '', ''] for x in negative_res_names_set],
                     columns=negative_columns).set_index('Isolate ID')
             else:
                 negative_resistance_entries = pd.DataFrame([[x, 'None', '', ''] for x in negative_res_names_set],

@@ -124,7 +124,7 @@ class Search(SubCommand):
                                   default=ExcludeGenesList.get_default_exclude_file(),
                                   required=False)
         report_group.add_argument('--exclude-negatives', action='store_true', dest='exclude_negatives',
-                                  help='Exclude negative results (those sensitive to antimicrobials) [False].',
+                                  help='Exclude negative results (those susceptible to antimicrobials) [False].',
                                   required=False)
         report_group.add_argument('--exclude-resistance-phenotypes', action='store_true',
                                   dest='exclude_resistance_phenotypes',
