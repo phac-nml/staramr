@@ -4,6 +4,7 @@
 * Adds the ability to handle "complex" pbp5 mutations. When appriopriate many pbp5 point mutations will be reported as a single mutation.
 * Resfinder CGE-predicted phenotypes are now reported in the summary and detailed summary alongside existing predictions.
 * Corrected a typo in the position for acrB in the PointFinder drug key table.
+* Changed the word sensitive to susceptible in outputs.
 
 # Version 0.9.1
 
