@@ -597,7 +597,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
 
         self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
-        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
 
     def testDetailedSummary_noRes_noPlasmid(self):
         point_table = self.pointfinder_table
@@ -676,7 +676,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
 
         self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
-        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
 
     def testDetailedSummary_multiFiles(self):
         amr_detection_summary = AMRDetectionSummaryResistance(self.detailed_summary_multi_files,
@@ -726,8 +726,8 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('IncFIB(K)', detailed_summary['Gene'].iloc[10], 'Genes not equal')
         self.assertEqual('None', detailed_summary['Gene'].iloc[11], 'Genes not equal')
 
-        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[9], 'Predicted Phenotype not equal')
-        self.assertEqual('Sensitive', detailed_summary['Predicted Phenotype'].iloc[11], 'Predicted Phenotype not equal')
+        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[9], 'Predicted Phenotype not equal')
+        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[11], 'Predicted Phenotype not equal')
 
     def testSimplifyingPointfinderMutations(self):
         df = pd.DataFrame([
