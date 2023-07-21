@@ -67,7 +67,7 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
         A Class Method to get a list of plasmidfinder databases that are currently supported by staramr.
         :return: The list of database_type currently supported by staramr.
         """
-        return ['gram_positive', 'enterobacteriaceae', 'enterobacteriales']
+        return ['gram_positive', 'enterobacteriales']
 
     @classmethod
     def get_config_table(cls, database_dir: str) -> pd.DataFrame:
