@@ -5,6 +5,7 @@
 * Resfinder CGE-predicted phenotypes are now reported in the summary and detailed summary alongside existing predictions.
 * Corrected a typo in the position for acrB in the PointFinder drug key table.
 * Removed "enterobacteriaceae" from the list of supported PlasmindFinder databases.
+* Changed the word sensitive to susceptible in outputs.
 
 # Version 0.9.1
 

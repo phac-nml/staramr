@@ -199,7 +199,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows')
 
         self.assertEqual(summary_results['Genotype'].iloc[0], 'None', msg='Wrong Genotype value')
-        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive',
+        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Susceptible',
                          msg='Wrong Predicted Phenotype value')
         self.assertEqual(summary_results['Plasmid'].iloc[0], 'IncFII(pKPX1)', msg='Wrong Plasmid Type')
 
@@ -217,7 +217,7 @@ class AMRDetectionPlasmid(unittest.TestCase):
         self.assertEqual(len(summary_results.index), 1, 'Wrong number of rows')
 
         self.assertEqual(summary_results['Genotype'].iloc[0], 'None', msg='Wrong Genotype value')
-        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Sensitive',
+        self.assertEqual(summary_results['Predicted Phenotype'].iloc[0], 'Susceptible',
                          msg='Wrong Predicted Phenotype value')
         self.assertEqual(summary_results['Plasmid'].iloc[0], 'rep21', msg='Wrong Plasmid Type')
 

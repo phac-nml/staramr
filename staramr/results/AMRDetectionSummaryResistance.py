@@ -61,7 +61,7 @@ class AMRDetectionSummaryResistance(AMRDetectionSummary):
         return ['Isolate ID', 'Gene', 'Predicted Phenotype', 'Start', 'End']
 
     def _get_summary_empty_values(self):
-        return {'Genotype': 'None', 'Predicted Phenotype': 'Sensitive'}
+        return {'Genotype': 'None', 'Predicted Phenotype': 'Susceptible'}
 
     def _get_summary_resistance_columns(self):
         return ['Genotype', 'Predicted Phenotype', 'CGE Predicted Phenotype', 'Plasmid']
