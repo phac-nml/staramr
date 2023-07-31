@@ -202,3 +202,19 @@ class PointfinderDatabaseInfo:
                 resistance_mutations.append(nucleotide_mutation)
 
         return resistance_mutations
+
+    def get_notes(self, gene, mutation):
+        """
+        Gets the note associated with a particular mutation from the Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :return: A string containtain the Note, if it exists.
+        """
+
+        matches = self._get_resistance_codon_match(gene, mutation)
+
+        # There's a chance of having multiple matches:
+        notes = '; '.join(matches["Notes"])
+
+        return notes

@@ -26,6 +26,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     Start
     End
     Pointfinder Position
+    Notes
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
@@ -74,7 +75,8 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 hit.get_genome_contig_id(),
                 hit.get_genome_contig_start(),
                 hit.get_genome_contig_end(),
-                db_mutation.get_pointfinder_mutation_string()
+                db_mutation.get_pointfinder_mutation_string(),
+                self._blast_database.get_notes(hit.get_amr_gene_id(), db_mutation)
                 ]
 
         return result
