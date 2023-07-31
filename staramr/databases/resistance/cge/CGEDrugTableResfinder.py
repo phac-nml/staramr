@@ -48,3 +48,19 @@ class CGEDrugTableResfinder(ARGDrugTable):
             return AMRDetectionSummaryResistance.aggregate_phenotype(drug)
         else:
             return drug.iloc[0]
+        
+    def get_notes(self, gene_plus_variant, accession):
+        """
+        Gets the notes for a gene (plus variant of gene encoded in ResFinder database) and accession.
+        :param gene_plus_variant: The gene plus variant (e.g., {gene}_{variant} = {blaIMP-58}_{1}).
+        :param accession: The accession in the resfinder database (e.g., KU647281).
+        :return: The notes.
+        """
+        table = self._data
+
+        gene_accession = str(gene_plus_variant) + "_" + str(accession)
+        matches = table[(table['Gene_accession no.'] == gene_accession)]
+
+        notes = '; '.join(matches["Notes"])
+
+        return notes
