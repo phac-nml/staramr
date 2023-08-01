@@ -60,6 +60,7 @@ class CGEDrugTableResfinder(ARGDrugTable):
 
         gene_accession = str(gene_plus_variant) + "_" + str(accession)
         matches = table[(table['Gene_accession no.'] == gene_accession)]
+        matches = matches.fillna("-")
 
         notes = '; '.join(matches["Notes"])
 

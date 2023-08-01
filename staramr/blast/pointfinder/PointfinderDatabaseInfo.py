@@ -213,6 +213,7 @@ class PointfinderDatabaseInfo:
         """
 
         matches = self._get_resistance_codon_match(gene, mutation)
+        matches = matches.fillna("-")
 
         # There's a chance of having multiple matches:
         notes = '; '.join(matches["Notes"])
