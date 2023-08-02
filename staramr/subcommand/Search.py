@@ -80,7 +80,7 @@ class Search(SubCommand):
         arg_parser.add_argument('--ignore-invalid-files', action='store_true', dest='ignore_valid_files',
                                 help='Skips over invalid input files', required=False)
         arg_parser.add_argument('--mlst-scheme', action='store', dest='mlst_scheme',
-                              help='Specify scheme name, visit https://github.com/tseemann/mlst/tree/master/db/pubmlst for supported scheme genera available. [None] ', required=False)
+                              help='Specify scheme name, visit https://github.com/tseemann/mlst/blob/master/db/scheme_species_map.tab for supported scheme genus available. [None] ', required=False)
 
         arg_parser.add_argument('--genome-size-lower-bound', action='store', dest='genome_size_lower_bound', type=int,
                                 help='The lower bound for our genome size for the quality metrics. Defaults to 4 Mbp. [4000000].',
