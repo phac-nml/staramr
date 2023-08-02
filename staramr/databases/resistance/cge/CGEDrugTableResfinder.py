@@ -54,14 +54,16 @@ class CGEDrugTableResfinder(ARGDrugTable):
         Gets the notes for a gene (plus variant of gene encoded in ResFinder database) and accession.
         :param gene_plus_variant: The gene plus variant (e.g., {gene}_{variant} = {blaIMP-58}_{1}).
         :param accession: The accession in the resfinder database (e.g., KU647281).
-        :return: The notes.
+        :return: A string containtain the Notes, if they exist, or the empty string ("") if
+                 there are no Notes.
         """
         table = self._data
 
         gene_accession = str(gene_plus_variant) + "_" + str(accession)
         matches = table[(table['Gene_accession no.'] == gene_accession)]
-        matches = matches.fillna("-")
+        matches = matches.fillna("")
 
-        notes = '; '.join(matches["Notes"])
+        # There's a chance of having multiple matches:
+        notes = ';'.join(matches["Notes"])
 
         return notes

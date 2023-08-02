@@ -63,8 +63,8 @@ class ComplexMutations:
                         hit.get_genome_contig_id(),
                         hit.get_genome_contig_start(),
                         hit.get_genome_contig_end(),
-                        ", ".join(intersection)
-                        ]
+                        ", ".join(intersection),
+                        "This mutation represents a combination of multiple individual mutations."]  # The notes.
 
                 matches.append(result)
 

@@ -62,7 +62,7 @@ class CGEDrugTableResfinderTest(unittest.TestCase):
         accession = "HM367617"
 
         notes = self.cge_drug_table.get_notes(gene_plus_variant, accession)
-        self.assertEqual(notes, "-", "The notes do not match.")
+        self.assertEqual(notes, "", "The notes do not match.")
 
         # aac(6')-Ib-cr_1_DQ303918	[...]	[MIC of ciprofloxacin does not always ...]
         # (duplicate entry)
@@ -72,5 +72,5 @@ class CGEDrugTableResfinderTest(unittest.TestCase):
         notes = self.cge_drug_table.get_notes(gene_plus_variant, accession)
         print(notes)
         self.assertEqual(notes,
-                         "MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542; MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542",
+                         "MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542;MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542",
                          "The notes do not match.")

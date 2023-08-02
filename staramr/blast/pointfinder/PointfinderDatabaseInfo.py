@@ -209,13 +209,14 @@ class PointfinderDatabaseInfo:
 
         :param gene: The gene.
         :param mutation: The mutation.
-        :return: A string containtain the Note, if it exists.
+        :return: A string containtain the Notes, if they exist, or the empty string ("") if
+                 there are no Notes.
         """
 
         matches = self._get_resistance_codon_match(gene, mutation)
-        matches = matches.fillna("-")
+        matches = matches.fillna("")
 
         # There's a chance of having multiple matches:
-        notes = '; '.join(matches["Notes"])
+        notes = ';'.join(matches["Notes"])
 
         return notes
