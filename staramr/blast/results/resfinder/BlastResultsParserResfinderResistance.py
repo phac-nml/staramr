@@ -19,7 +19,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
     End
     Accession
     Sequence
-    Notes
+    CGE Notes
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, cge_drug_table, blast_database, pid_threshold,

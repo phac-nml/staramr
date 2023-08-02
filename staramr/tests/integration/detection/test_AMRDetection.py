@@ -464,7 +464,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
-        self.assertEqual(result['Notes'].iloc[0], '', msg='The notes do not match.')  # empty string (no notes)
+        self.assertEqual(result['CGE Notes'].iloc[0], '', msg='The notes do not match.')  # empty string (no notes)
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -746,7 +746,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]',
                          'Wrong phenotype')
-        self.assertEqual(result['Notes'].iloc[0], 
+        self.assertEqual(result['CGE Notes'].iloc[0], 
                          'The nineteen pbp5 mutations must be present simultaneously for resistance phenotype',
                          msg='The notes do not match.')
         
@@ -762,7 +762,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
-        self.assertEqual(result['Notes'].iloc[0],
+        self.assertEqual(result['CGE Notes'].iloc[0],
                          'This mutation represents a combination of multiple individual mutations.',
                          msg='The notes do not match.')  # empty string (no notes)
 

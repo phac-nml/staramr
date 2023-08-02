@@ -26,7 +26,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     Start
     End
     Pointfinder Position
-    Notes
+    CGE Notes
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,

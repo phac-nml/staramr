@@ -27,7 +27,7 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Start
     End
     Pointfinder Position
-    Notes
+    CGE Notes
     '''.strip().split('\n')]
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
