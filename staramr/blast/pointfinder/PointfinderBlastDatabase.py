@@ -102,6 +102,17 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
     def get_name(self):
         return 'pointfinder'
+    
+    def get_notes(self, gene, mutation):
+        """
+        Gets the note associated with a particular mutation from the Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :return: A string containtain the Note, if it exists.
+        """
+
+        return self._pointfinder_info.get_notes(gene, mutation)
 
     @classmethod
     def get_available_organisms(cls):

@@ -10,12 +10,12 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
 
     def setUp(self):
         pandas_pointfinder_table = pd.DataFrame([
-            ['gyrA', 'gyrA', 1, 1, 'ATC', 'I', 'F', 'Quinolones', 15848289],
-            ['gyrA', 'gyrA', 1, 2, 'GAT', 'D', 'N,H', 'Quinolones', 15848289],
+            ['gyrA', 'gyrA', 1, 1, 'ATC', 'I', 'F', 'Quinolones', 15848289, "NOTE FOR MUTATION1"],
+            ['gyrA', 'gyrA', 1, 2, 'GAT', 'D', 'N,H', 'Quinolones', 15848289, "NOTE FOR MUTATION2"],
         ],
             columns=(
                 'Gene_ID', 'Gene_name', 'No of mutations needed', 'Codon_pos', 'Ref_nuc', 'Ref_codon', 'Res_codon',
-                'Resistance', 'PMID'))
+                'Resistance', 'PMID', 'Notes'))
 
         self.database = PointfinderDatabaseInfo.from_pandas_table(pandas_pointfinder_table)
 
@@ -100,3 +100,19 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
 
     def testGetResfinderPhenotypeMissingFail(self):
         self.assertRaises(Exception, self.database.get_phenotype, 'gyrA', self.mutation_missing)
+
+    def test_get_notes(self):
+
+        # Mutation 1
+        gene = "gyrA"
+        mutation = self.mutation1
+
+        notes = self.database.get_notes(gene, mutation)
+        self.assertEqual(notes, "NOTE FOR MUTATION1", "The notes do not match.")
+
+        # Mutation 2
+        gene = "gyrA"
+        mutation = self.mutation2
+
+        notes = self.database.get_notes(gene, mutation)
+        self.assertEqual(notes, "NOTE FOR MUTATION2", "The notes do not match.")

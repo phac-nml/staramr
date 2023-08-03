@@ -19,6 +19,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
     End
     Accession
     Sequence
+    CGE Notes
     '''.strip().split('\n')]
 
     def __init__(self, file_blast_map, arg_drug_table, cge_drug_table, blast_database, pid_threshold,
@@ -64,5 +65,7 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
                  hit.get_genome_contig_start(),
                  hit.get_genome_contig_end(),
                  hit.get_amr_gene_accession(),
-                 hit.get_genome_contig_hsp_seq()
+                 hit.get_genome_contig_hsp_seq(),
+                 self._cge_drug_table.get_notes(hit.get_amr_gene_name_with_variant(),
+                                                hit.get_amr_gene_accession())
                  ]]

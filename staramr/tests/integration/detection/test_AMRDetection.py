@@ -464,6 +464,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0], '', msg='The notes do not match.')  # empty string (no notes)
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -745,6 +746,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0], 
+                         'The nineteen pbp5 mutations must be present simultaneously for resistance phenotype',
+                         msg='The notes do not match.')
         
         # Test the complex mutation:
         result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L)']
@@ -758,6 +762,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0],
+                         'This mutation represents a combination of multiple individual mutations.',
+                         msg='The notes do not match.')  # empty string (no notes)
 
     def testPointfinderEnterococcusFaecium_pbp5_Failure(self):
         # This test evaluates the correctness of NOT identifying a pbp5 complex mutation.
