@@ -220,3 +220,21 @@ class PointfinderDatabaseInfo:
         notes = ';'.join(matches["Notes"])
 
         return notes
+
+    def get_cge_predicted_phenotype(self, gene, mutation):
+        """
+        Gets the phenotype associated with a particular mutation from the Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :return: A string containing the phenotype, if it exists, or the empty string ("") if
+                 there is no phenotype.
+        """
+
+        matches = self._get_resistance_codon_match(gene, mutation)
+        matches = matches.fillna("")
+
+        # There's a chance of having multiple matches:
+        notes = ';'.join(matches["Resistance"])
+
+        return notes
