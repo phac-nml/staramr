@@ -25,7 +25,7 @@ jobs:
       matrix:
         include:
           - python-version: "3.7"
-            other-packages: "mlst 'numpy <1.23.5' 'pandas <1.4'"
+            other-packages: "mlst 'numpy <1.23.5' 'pandas <2'"
 
     steps:
       - uses: actions/checkout@v2
