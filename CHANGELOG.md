@@ -1,5 +1,6 @@
 # Unreleased
 
+* Added CGE-predicted phenotypes to Pointfinder output.
 * The resfinder.tsv and pointfinder.tsv outputs now contain a Notes column.
 * Updated the help description of the --mlst-scheme parameter to include a more useful link for available schemas.
 * Switched to only officially supporting Python 3.7+ due to recent incompatibilities with Python 3.6 and some Python packages (numpy, biopython, and others).
