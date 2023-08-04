@@ -60,7 +60,7 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         arg_drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_amr_gene_id(),
                                              mutation_position)
         
-        cge_drug = self._blast_database.get_cge_predicted_phenotype(hit.get_amr_gene_id(), db_mutation)
+        cge_drug = self._blast_database.get_cge_phenotype(hit.get_amr_gene_id(), db_mutation)
 
         gene_name = hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")"
 

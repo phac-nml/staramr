@@ -53,15 +53,6 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self._pointfinder_info.get_resistance_codons(gene, codon_mutations)
 
-    def get_phenotype(self, gene, codon_mutation):
-        """
-        Gets the phenotype for a given gene and codon mutation from PointFinder.
-        :param gene: The gene.
-        :param codon_mutation: The codon mutation.
-        :return: A string describing the phenotype.
-        """
-        return self._pointfinder_info.get_phenotype(gene, codon_mutation)
-
     def get_resistance_nucleotides(self, gene, nucleotide_mutations):
         """
         Gets a list of resistance nucleotides from the given gene and nucleotide mutations.
@@ -123,7 +114,7 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         :return: A string containtain the phenotype, if it exists.
         """
 
-        return self._pointfinder_info.cge_predicted_phenotype(gene, mutation)
+        return self._pointfinder_info.get_phenotype(gene, mutation)
 
     @classmethod
     def get_available_organisms(cls):
