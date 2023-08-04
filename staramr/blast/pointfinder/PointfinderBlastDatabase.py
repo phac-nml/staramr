@@ -53,7 +53,7 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         """
         return self._pointfinder_info.get_resistance_codons(gene, codon_mutations)
 
-    def get_cge_predicted_phenotype(self, gene, codon_mutation):
+    def get_phenotype(self, gene, codon_mutation):
         """
         Gets the phenotype for a given gene and codon mutation from PointFinder.
         :param gene: The gene.

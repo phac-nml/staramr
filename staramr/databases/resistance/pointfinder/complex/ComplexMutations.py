@@ -54,7 +54,7 @@ class ComplexMutations:
                 result = [hit.get_genome_id(),
                         ", ".join(intersection), # Technically these are also Pointfinder co-ords
                         row.phenotype,
-                        "N/A", #  CGE-predicted phenotype
+                        "N/A",  # CGE-predicted phenotype
                         "complex",  # Type
                         ", ".join(mutation_positions),
                         "complex", # Creating a mutation string would be confusing for this.
