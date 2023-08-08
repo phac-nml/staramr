@@ -221,6 +221,6 @@ class PointfinderDatabaseInfo:
         matches = matches.fillna("")
 
         # There's a chance of having multiple matches:
-        notes = ';'.join(matches["Resistance"])
+        resistances = ';'.join(matches["Resistance"])
 
-        return notes
+        return resistances
