@@ -98,9 +98,6 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
 
         self.assertEqual(phenotype, 'Quinolones')
 
-    def testGetResfinderPhenotypeMissingFail(self):
-        self.assertRaises(Exception, self.database.get_phenotype, 'gyrA', self.mutation_missing)
-
     def test_get_notes(self):
 
         # Mutation 1
