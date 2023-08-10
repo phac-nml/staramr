@@ -1628,6 +1628,46 @@ class AMRDetectionIT(unittest.TestCase):
                          'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          msg='Wrong CGE-predicted phenotypes.')
 
+    def testPointfinderEcoliD87NSuccess(self):
+        # Specifically tests how to handle duplicate entries in the Pointfinder database.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'escherichia_coli')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "gyrA-D87N.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (D87N)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'gyrA-D87N', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 87, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GAC -> AAC (D -> N)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2628/2628', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid;Nalidixic acid,Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0], 'D87G or D87Y confer resistance to nalidixic acid only, if occurring alone. Unknown phenotype if D87H occurs alone;D87G or D87Y confer resistance to nalidixic acid only, if occurring alone. Unknown phenotype if D87H occurs alone', msg='The notes do not match.')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-D87N.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['gyrA_1_CP073768.1'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+
+
 
 if __name__ == '__main__':
     unittest.main()
