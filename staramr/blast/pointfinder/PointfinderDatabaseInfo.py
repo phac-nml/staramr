@@ -6,8 +6,6 @@ import Bio.Seq
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
 
-from staramr.exceptions.GenotypePhenotypeMatchException import GenotypePhenotypeMatchException
-
 """
 A Class storing information about the specific PointFinder database.
 """
