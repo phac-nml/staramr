@@ -41,4 +41,10 @@ class ARGDrugTable:
         :param drug: The drug string.
         :return: The drug string with correct separators/spacing.
         """
-        return ', '.join(drug.split(','))
+
+        if type(drug) is str:
+            result = ', '.join(drug.split(','))
+        else:
+            result = drug
+
+        return result
