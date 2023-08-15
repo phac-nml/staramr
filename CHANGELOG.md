@@ -1,5 +1,6 @@
 # Unreleased
 
+* Upgraded to pandas version 2.
 * Added CGE-predicted phenotypes to Pointfinder output.
 * The resfinder.tsv and pointfinder.tsv outputs now contain a Notes column.
 * Updated the help description of the --mlst-scheme parameter to include a more useful link for available schemas.
