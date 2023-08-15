@@ -24,8 +24,8 @@ jobs:
       fail-fast: False
       matrix:
         include:
-          - python-version: "3.7"
-            other-packages: "mlst 'numpy <1.23.5' 'pandas <2'"
+          - python-version: "3.9"
+            other-packages: "mlst numpy pandas"
 
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +47,7 @@ jobs:
           conda config --add channels bioconda
           conda install -n base conda-libmamba-solver
           conda config --set solver libmamba
-          conda install Cython blast git ${{ matrix.other-packages }} -y
+          conda install Cython blast git perl-list-moreutils ${{ matrix.other-packages }} -y
 
       - name: Setup python packages
         shell: bash -l {0}
