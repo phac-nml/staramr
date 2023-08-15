@@ -203,7 +203,7 @@ class Search(SubCommand):
         settings_dataframe.to_excel(writer, 'Settings')
         self._resize_columns({'Settings': settings_dataframe}, writer, max_width=75, text_wrap=False)
 
-        writer.save()
+        writer.close()
 
     def _resize_columns(self, sheetname_dataframe, writer, max_width, text_wrap=True):
         """
@@ -555,7 +555,7 @@ class Search(SubCommand):
             logger.info("Writing Excel to [%s]", output_excel)
             settings_dataframe = pd.DataFrame.from_dict(settings, orient='index')
             settings_dataframe.index.name = 'Key'
-            settings_dataframe.set_axis(['Value'], axis='columns', inplace=True)
+            settings_dataframe = settings_dataframe.set_axis(['Value'], axis='columns', copy=False)
 
             self._print_dataframes_to_excel(output_excel,
                                             amr_detection.get_summary_results(),
