@@ -17,4 +17,5 @@ class ARGDrugTablePointfinderTest(unittest.TestCase):
         drug = self.arg_drug_table.get_drug("escherichia_coli", "parC", 57)
 
         # Specifically, we're interested in it not crashing, and the current behaviour is to return NaN.
+        print("The drug is: " + str(drug))
         self.assertTrue(math.isnan(drug))
