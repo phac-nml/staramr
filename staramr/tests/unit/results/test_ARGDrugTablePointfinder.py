@@ -1,6 +1,6 @@
 import logging
 import unittest
-import math
+import pandas
 
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 
@@ -16,6 +16,7 @@ class ARGDrugTablePointfinderTest(unittest.TestCase):
         # Tests when the entry for the drug is "None"
         drug = self.arg_drug_table.get_drug("escherichia_coli", "parC", 57)
 
-        # Specifically, we're interested in it not crashing, and the current behaviour is to return NaN.
-        print("The drug is: " + str(drug))
-        self.assertTrue(math.isnan(drug))
+        # Specifically, we're interested in it not crashing.
+        # Depending on the version of pandas, this may return NaN or None.
+        # Checking for NA using the pandas function helps capture this variability.
+        self.assertTrue(pandas.isna(drug))
