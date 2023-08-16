@@ -1,5 +1,6 @@
 # Unreleased
 
+* Fixed an issue where the string "None" in the drug table would be parsed differently by different versions of pandas (#175).
 * Upgraded to pandas version 2.
 * Added CGE-predicted phenotypes to Pointfinder output.
 * The resfinder.tsv and pointfinder.tsv outputs now contain a Notes column.
