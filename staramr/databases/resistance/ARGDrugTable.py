@@ -44,6 +44,10 @@ class ARGDrugTable:
 
         if type(drug) is str:
             result = ', '.join(drug.split(','))
+        elif drug is None:
+            # This is because in some versions of pandas<2, pd.isna(None) is False,
+            # where in pandas>2, pd.isna(None) is True.
+            result = pd.NA
         else:
             result = drug
 

@@ -18,6 +18,5 @@ class ARGDrugTablePointfinderTest(unittest.TestCase):
 
         # Specifically, we're interested in it not crashing.
         # Depending on the version of pandas, this may return NaN or None.
-        # Checking for NA using the pandas function helps capture this variability.
-        print("drug is: " + str(drug))
+        # pandas>2 will catch None, whereas pandas<2 will not catch None.
         self.assertTrue(pandas.isna(drug))
