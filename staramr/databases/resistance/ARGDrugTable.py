@@ -24,7 +24,9 @@ class ARGDrugTable:
         self._file = file
 
         if file is not None:
-            self._data = pd.read_csv(file, sep='\t', dtype=self.DTYPES)
+            # "None" is recognized as a NA/NaN string in pandas 2.
+            # However, in pandas < 2, "None" is not a default NA value, so we must be explicit.
+            self._data = pd.read_csv(file, sep='\t', dtype=self.DTYPES, na_values="None")
 
     def get_resistance_table_info(self):
         """
@@ -44,10 +46,6 @@ class ARGDrugTable:
 
         if type(drug) is str:
             result = ', '.join(drug.split(','))
-        elif drug is None:
-            # This is because in some versions of pandas<2, pd.isna(None) is False,
-            # where in pandas>2, pd.isna(None) is True.
-            result = pd.NA
         else:
             result = drug
 
