@@ -49,7 +49,7 @@ class CGEDrugTableResfinder(ARGDrugTable):
         else:
             return drug.iloc[0]
         
-    def get_notes(self, gene_plus_variant, accession):
+    def get_cge_notes(self, gene_plus_variant, accession):
         """
         Gets the notes for a gene (plus variant of gene encoded in ResFinder database) and accession.
         :param gene_plus_variant: The gene plus variant (e.g., {gene}_{variant} = {blaIMP-58}_{1}).

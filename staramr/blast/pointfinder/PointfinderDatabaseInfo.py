@@ -187,38 +187,22 @@ class PointfinderDatabaseInfo:
 
         return resistance_mutations
 
-    def get_notes(self, gene, mutation):
-        """
-        Gets the note associated with a particular mutation from the Pointfinder Database table.
-
-        :param gene: The gene.
-        :param mutation: The mutation.
-        :return: A string containtain the Notes, if they exist, or the empty string ("") if
-                 there are no Notes.
-        """
-
-        matches = self._get_resistance_codon_match(gene, mutation)
-        matches = matches.fillna("")
-
-        # There's a chance of having multiple matches:
-        notes = ';'.join(matches["Notes"])
-
-        return notes
-
-    def get_phenotype(self, gene, mutation):
+    def get_value(self, gene, mutation, attribute):
         """
         Gets the phenotype associated with a particular mutation from the Pointfinder Database table.
 
         :param gene: The gene.
         :param mutation: The mutation.
-        :return: A string containing the phenotype, if it exists, or the empty string ("") if
-                 there is no phenotype.
+        :param attribute: The attribute to get (ex: "Resistance", "PMID", etc.)
+        :return: A string containing the attribute for the passed gene and
+                 mutation, if it exists, or the empty string ("") if the
+                 attribute is missing.
         """
 
         matches = self._get_resistance_codon_match(gene, mutation)
         matches = matches.fillna("")
 
         # There's a chance of having multiple matches:
-        resistances = ';'.join(matches["Resistance"])
+        results = ';'.join(matches[attribute])
 
-        return resistances
+        return results
