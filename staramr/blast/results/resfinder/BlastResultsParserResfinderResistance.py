@@ -66,6 +66,6 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
                  hit.get_genome_contig_end(),
                  hit.get_amr_gene_accession(),
                  hit.get_genome_contig_hsp_seq(),
-                 self._cge_drug_table.get_notes(hit.get_amr_gene_name_with_variant(),
+                 self._cge_drug_table.get_cge_notes(hit.get_amr_gene_name_with_variant(),
                                                 hit.get_amr_gene_accession())
                  ]]

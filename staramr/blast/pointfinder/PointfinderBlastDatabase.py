@@ -94,16 +94,16 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
     def get_name(self):
         return 'pointfinder'
     
-    def get_notes(self, gene, mutation):
+    def get_cge_notes(self, gene, mutation):
         """
         Gets the note associated with a particular mutation from the Pointfinder Database table.
 
         :param gene: The gene.
         :param mutation: The mutation.
-        :return: A string containtain the Note, if it exists.
+        :return: A string containing the note, if it exists.
         """
 
-        return self._pointfinder_info.get_notes(gene, mutation)
+        return self._pointfinder_info.get_value(gene, mutation, "Notes")
 
     def get_cge_phenotype(self, gene, mutation):
         """
@@ -111,10 +111,45 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
 
         :param gene: The gene.
         :param mutation: The mutation.
-        :return: A string containtain the phenotype, if it exists.
+        :return: A string containing the phenotype, if it exists.
         """
 
-        return self._pointfinder_info.get_phenotype(gene, mutation)
+        return self._pointfinder_info.get_value(gene, mutation, "Resistance")
+
+    def get_cge_pmid(self, gene, mutation):
+        """
+        Gets the PMID associated with a particular mutation from the Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :return: A string (not integer) containing the PMID, if it exists.
+        """
+
+        return self._pointfinder_info.get_value(gene, mutation, "PMID")
+
+    def get_cge_required_mutation(self, gene, mutation):
+        """
+        Gets the required mutation associated with a particular mutation from
+        the Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :return: A string containing the required mutation, if it exists.
+        """
+
+        return self._pointfinder_info.get_value(gene, mutation, "Required_mut")
+
+    def get_cge_mechanism(self, gene, mutation):
+        """
+        Gets the mechanism associated with a particular mutation from the
+        Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :return: A string containing the mechanism, if it exists.
+        """
+
+        return self._pointfinder_info.get_value(gene, mutation, "Mechanism")
 
     @classmethod
     def get_available_organisms(cls):

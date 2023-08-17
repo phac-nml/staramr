@@ -94,22 +94,22 @@ class PointfinderDatabaseInfoTest(unittest.TestCase):
         self.assertEqual(resistance_mutations, [], "Did not pick up correct mutations")
 
     def testGetResfinderPhenotype(self):
-        phenotype = self.database.get_phenotype('gyrA', self.mutation1)
+        phenotype = self.database.get_value('gyrA', self.mutation1, "Resistance")
 
         self.assertEqual(phenotype, 'Quinolones')
 
-    def test_get_notes(self):
+    def test_get_cge_notes(self):
 
         # Mutation 1
         gene = "gyrA"
         mutation = self.mutation1
 
-        notes = self.database.get_notes(gene, mutation)
+        notes = self.database.get_value(gene, mutation, "Notes")
         self.assertEqual(notes, "NOTE FOR MUTATION1", "The notes do not match.")
 
         # Mutation 2
         gene = "gyrA"
         mutation = self.mutation2
 
-        notes = self.database.get_notes(gene, mutation)
+        notes = self.database.get_value(gene, mutation, "Notes")
         self.assertEqual(notes, "NOTE FOR MUTATION2", "The notes do not match.")

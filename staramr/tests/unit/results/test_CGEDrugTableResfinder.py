@@ -48,20 +48,20 @@ class CGEDrugTableResfinderTest(unittest.TestCase):
                          "Tobramycin, Dibekacin, Amikacin, Sisomicin, Netilmicin, Fluoroquinolone, Ciprofloxacin",
                          "The drug does not match.")
 
-    def test_get_notes(self):
+    def test_get_cge_notes(self):
 
         # ant(2'')-Ia_1_X04555	[...]	Alternative name aadB
         gene_plus_variant = "ant(2'')-Ia_1"
         accession = "X04555"
 
-        notes = self.cge_drug_table.get_notes(gene_plus_variant, accession)
+        notes = self.cge_drug_table.get_cge_notes(gene_plus_variant, accession)
         self.assertEqual(notes, "Alternative name aadB", "The notes do not match.")
 
         # ant(2'')-Ia_10_HM367617	[...]	[NO NOTES]
         gene_plus_variant = "ant(2'')-Ia_10"
         accession = "HM367617"
 
-        notes = self.cge_drug_table.get_notes(gene_plus_variant, accession)
+        notes = self.cge_drug_table.get_cge_notes(gene_plus_variant, accession)
         self.assertEqual(notes, "", "The notes do not match.")
 
         # aac(6')-Ib-cr_1_DQ303918	[...]	[MIC of ciprofloxacin does not always ...]
@@ -69,7 +69,7 @@ class CGEDrugTableResfinderTest(unittest.TestCase):
         gene_plus_variant = "aac(6')-Ib-cr_1"
         accession = "DQ303918"
 
-        notes = self.cge_drug_table.get_notes(gene_plus_variant, accession)
+        notes = self.cge_drug_table.get_cge_notes(gene_plus_variant, accession)
         print(notes)
         self.assertEqual(notes,
                          "MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542;MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542",
