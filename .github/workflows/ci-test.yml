@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DATABASE_COMMITS: '--resfinder-commit fa32d9a3cf0c12ec70ca4e90c45c0d590ee810bd --pointfinder-commit 8c694b9f336153e6d618b897b3b4930961521eb8 --plasmidfinder-commit 1a443a19a1142aa1018ef62f0bdbfd871b79eab6'
+      DATABASE_COMMITS: '--resfinder-commit fa32d9a3cf0c12ec70ca4e90c45c0d590ee810bd --pointfinder-commit 8c694b9f336153e6d618b897b3b4930961521eb8 --plasmidfinder-commit c18e08c17a5988d4f075fc1171636e47546a323d'
     
     strategy:
       fail-fast: False
