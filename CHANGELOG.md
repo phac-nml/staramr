@@ -1,5 +1,6 @@
 # Unreleased
 
+* Updated the Plasmidfinder database to use the January 18th 2023 release.
 * Fixed an issue where the string "None" in the drug table would be parsed differently by different versions of pandas (#175).
 * Upgraded to pandas version 2.
 * Added the CGE-predicted phenotypes, PMID, Mechanism, and the Required Mutation columns to the Pointfinder output.
