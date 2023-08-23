@@ -16,32 +16,32 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Quality Module | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
-|------------|----------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|---------------|-----------|---------------------------------------------------|-------------------------|
-| SRR1952908 | Passed         | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                |                         |
-| SRR1952926 | Passed         | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4794071       | 225380    | 50                                                |                         |
+| Isolate ID | Quality Module | Genotype | Predicted Phenotype | CGE Predicted Phenotype | Plasmid | Scheme | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | Passed | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline  | Spectinomycin, Streptomycin, Amoxicillin, Ampicillin, Cephalothin, Piperacillin, Ticarcillin, Chloramphenicol, Nalidixic acid, Ciprofloxacin, Sulfamethoxazole, Doxycycline, Tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1-I(Alpha) | senterica_achtman_2 | 11 | 4785500 | 250423 | 41 |
+| SRR1952926 | Passed | blaTEM-57, gyrA (S83Y), tet(A) | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline |      Amoxicillin, Ampicillin, Cephalothin, Piperacillin, Ticarcillin, Nalidixic acid, Ciprofloxacin, Doxycycline, Tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1-I(Alpha) | senterica_achtman_2 | 11 | 4785451 | 228311 | 40 |
 
 **out/detailed_summary.tsv**:
 
-| Isolate ID | Data             | Data Type  | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
-|------------|------------------|------------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
-| SRR1952908 | ST11 (senterica) | MLST       |                     |           |          |                         |             |       |      |           |
-| SRR1952908 | ColpVC           | Plasmid    |                     | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426 | JX133088  |
-| SRR1952908 | aadA1            | Resistance | streptomycin        | 100       | 100      | 792/792                 | contig00030 | 5355  | 4564 | JQ414041  |
+| Isolate ID | Data | Data Type | Predicted Phenotype | CGE Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Accession |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | ST11 (senterica_achtman_2) | MLST |  |  |  |  |  |  |  |  |  |
+| SRR1952908 | ColpVC | Plasmid |  |  | 98.96 | 100.0 | 193/193 | contig00038 | 1618 | 1426 | JX133088 |
+| SRR1952908 | aadA1 | Resistance | streptomycin | Spectinomycin, Streptomycin | 100.0 | 100.0 | 792/792 | contig00030 | 5355 | 4564 | JQ414041 |
 
 **out/resfinder.tsv**:
 
-| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession | Sequence|
-|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|---------|
-| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  | ATGA    |
-| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  | ATGT    |
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Accession | Sequence | CGE Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | sul3 | sulfisoxazole | Sulfamethoxazole | 100.00 | 100.00 | 792/792 | contig00030 | 2091 | 2882 | AJ459418 | ATGA[...] | |
+| SRR1952908 | tet(A) | tetracycline | Doxycycline, Tetracycline | 99.92 | 97.80 | 1247/1275 | contig00032 | 1476 | 2722 | AF534183 | ATGT[...] | |
 
 **out/pointfinder.tsv**:
 
-| Isolate ID  | Gene         | Predicted Phenotype                | Type   | Position  | Mutation             | %Identity  | %Overlap  | HSP Length/Total Length  | Contig       | Start   | End    |
-|-------------|--------------|------------------------------------|--------|-----------|----------------------|------------|-----------|--------------------------|--------------|---------|--------|
-| SRR1952908  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00008  | 22801   | 20165  |
-| SRR1952926  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00011  | 157768  | 160404 |
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | Type | Position | Mutation | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Pointfinder Position | CGE Notes | CGE Required Mutation | CGE Mechanism | CGE PMID |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | Nalidixic acid,Ciprofloxacin | codon | 83 | TCC -> TAC (S -> Y) | 99.96 | 100.00 | 2637/2637 | contig00008 | 22801 | 20165 | S83Y |  |  | Target modification | 7492118,10471553 |
+| SRR1952926 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | Nalidixic acid,Ciprofloxacin | codon | 83 | TCC -> TAC (S -> Y) | 99.96 | 100.00 | 2637/2637 | contig00011 | 157768 | 160404 | S83Y |  |  | Target modification | 7492118,10471553 |
 
 **out/plasmidfinder.tsv**:
 
@@ -54,8 +54,8 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 | Isolate ID | Scheme    | Sequence Type | Locus 1 | Locus 2 | Locus 3 | Locus 4 | Locus 5 | Locus 6 | Locus 7  |
 |------------|-----------|---------------|---------|---------|---------|---------|---------|---------|----------|
-| SRR1952908 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
-| SRR1952926 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952908 | senterica_achtman_2 | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952926 | senterica_achtman_2 | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
 
 # Table of Contents
 
@@ -69,6 +69,9 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [PyPI/Pip](#pypipip)
   * [Latest Code](#latest-code)
   * [Dependencies](#dependencies)
+- [Input](#input)
+  * [List of genes to exclude](#list-of-genes-to-exclude)
+  * [Complex mutations](#complex-mutations)
 - [Output](#output)
   * [summary.tsv](#summarytsv)
   * [detailed_summary.tsv](#detailed_summarytsv)
@@ -248,6 +251,26 @@ ColpVC_1__JX133088
 
 Please make sure to include `gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
 
+## Complex Mutations
+
+Complex mutations describe multiple point mutations that must be simultaneously present in order to confer resistance. One such example is the multiple pbp5 mutations that must be present in Enterococcus faecium in order to confer ampicillin resistance. These complex mutations may be specified by the user using a TSV-formatted file with the following format:
+
+| positions | mandatory | phenotype |
+| --- | --- | --- |
+| gene (mutation1), gene (mutation2) | gene (mutation1) | phenotype |
+
+Where `positions` is all the point mutations to group into the complex mutation (optional and mandatory), `mandatory` is all the point mutations that must be present for the complex mutation to be reported (`mandatory` is a subset of `positions`), and `phenotype` is the phenotype that is conferred when this set of mutations is present. To see a specific example of this, please look at the default `complex_mutations.tsv` file [included with StarAMR](staramr/databases/resistance/pointfinder/complex/data/complex_mutations.tsv). The mutation will be reported in the `pointfinder.tsv` file similar to as follows:
+
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | Type | Position | Mutation | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Pointfinder Position | CGE Notes | CGE Required Mutation | CGE Mechanism | CGE PMID |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pbp5 | pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L) | ampicillin | - | complex | 524, 527, 534, 566, 568, 585, 5100, 5144, 5172, 5177, 5204, 5216, 5324, 5485, 5496, 5499, 5525, 5586, 5629, 5667 | complex | 98.28 | 100.00 | 2037/2037 | pbp5_1_AAK43724.1 | 1 | 2037 | pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L) | - | - | - | - |
+
+The complex mutation TSV file may be specifed on the command line when running Pointfinder:
+
+```
+staramr search --pointfinder-organism enterococcus_faecium -o out pbp5.fa --complex-mutations-file complex_mutations.tsv
+```
+
 # Output
 
 There are 8 different output files produced by `staramr`:
@@ -271,6 +294,7 @@ The **summary.tsv** output file generated by `staramr` contains the following co
 * __Quality Module__: The isolate/genome file(s) pass/fail result(s) for the quality metrics
 * __Genotype__: The AMR genotype of the isolate.
 * __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for the isolate.
+* __CGE Predicted Phenotype__: The CGE-predicted AMR phenotype (drug resistances) for the isolate.
 * __Plasmid__: Plasmid types that were found for the isolate.
 * __Scheme__: The MLST scheme used
 * __Sequence Type__: The sequence type that's assigned when combining all allele types
@@ -281,11 +305,10 @@ The **summary.tsv** output file generated by `staramr` contains the following co
 
 ### Example
 
-| Isolate ID | Quality Module | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
-|------------|----------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|---------------|-----------|---------------------------------------------------|-------------------------|
-| SRR1952908 | Passed         | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                |                         |
-| SRR1952926 | Passed         | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4794071       | 225380    | 50                                                |                         |
-
+| Isolate ID | Quality Module | Genotype | Predicted Phenotype | CGE Predicted Phenotype | Plasmid | Scheme | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | Passed | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline  | Spectinomycin, Streptomycin, Amoxicillin, Ampicillin, Cephalothin, Piperacillin, Ticarcillin, Chloramphenicol, Nalidixic acid, Ciprofloxacin, Sulfamethoxazole, Doxycycline, Tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1-I(Alpha) | senterica_achtman_2 | 11 | 4785500 | 250423 | 41 |
+| SRR1952926 | Passed | blaTEM-57, gyrA (S83Y), tet(A) | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline |      Amoxicillin, Ampicillin, Cephalothin, Piperacillin, Ticarcillin, Nalidixic acid, Ciprofloxacin, Doxycycline, Tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1-I(Alpha) | senterica_achtman_2 | 11 | 4785451 | 228311 | 40 |
 
 ## detailed_summary.tsv
 
@@ -295,6 +318,7 @@ The **detailed_summary.tsv** output file generated by `staramr` contains the fol
 * __Data__: The particular gene detected from ResFinder, PlasmidFinder, PointFinder, or the sequence type.
 * __Data Type__: The type of gene (Resistance or Plasmid), or MLST.
 * __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) found in ResFinder/PointFinder. Plasmids will be left blank by default.
+* __CGE Predicted Phenotype__: The CGE-predicted AMR phenotype (drug resistances) found in ResFinder/PointFinder. Plasmids will be left blank by default.
 * __%Identity__: The % identity of the top BLAST HSP to the gene.
 * __%Overlap__: THe % overlap of the top BLAST HSP to the gene (calculated as __hsp length/total length * 100__).
 * __HSP Length/Total Length__ The top BLAST HSP length over the gene total length (nucleotides).
@@ -304,11 +328,12 @@ The **detailed_summary.tsv** output file generated by `staramr` contains the fol
 * __Accession__: The accession of the gene from either ResFinder or PlasmidFinder  database.
 
 ### Example
-| Isolate ID | Data             | Data Type | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
-|------------|------------------|-----------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
-| SRR1952908 | ST11 (senterica) | MLST      |                     |           |          |                         |             |       |      |           |
-| SRR1952908 | ColpVC           | Plasmid   |                     | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426 | JX133088  |
-| SRR1952908 | IncFIB(S)        | Plasmid   |                     | 98.91     | 100      | 643/643                 | contig00024 | 10302 | 9660 | FN432031  |
+
+| Isolate ID | Data | Data Type | Predicted Phenotype | CGE Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Accession |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | ST11 (senterica_achtman_2) | MLST |  |  |  |  |  |  |  |  |  |
+| SRR1952908 | ColpVC | Plasmid |  |  | 98.96 | 100.0 | 193/193 | contig00038 | 1618 | 1426 | JX133088 |
+| SRR1952908 | aadA1 | Resistance | streptomycin | Spectinomycin, Streptomycin | 100.0 | 100.0 | 792/792 | contig00030 | 5355 | 4564 | JQ414041 |
 
 ## resfinder.tsv
 
@@ -317,6 +342,7 @@ The **resfinder.tsv** output file generated by `staramr` contains the following 
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
 * __Gene__: The particular AMR gene detected.
 * __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for this gene.
+* __CGE Predicted Phenotype__: The CGE-predicted AMR phenotype (drug resistances) for this gene.
 * __%Identity__: The % identity of the top BLAST HSP to the AMR gene.
 * __%Overlap__: THe % overlap of the top BLAST HSP to the AMR gene (calculated as __hsp length/total length * 100__).
 * __HSP Length/Total Length__ The top BLAST HSP length over the AMR gene total length (nucleotides).
@@ -325,13 +351,14 @@ The **resfinder.tsv** output file generated by `staramr` contains the following 
 * __End__: The end of the AMR gene.
 * __Accession__: The accession of the AMR gene in the ResFinder database.
 * __Sequence__: The AMR Gene sequence
+* __CGE Notes__: Any CGE notes associated with the prediction.
 
 ### Example
 
-| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession | Sequence|
-|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|---------|
-| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  | ATGA    |
-| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  | ATGT    |
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Accession | Sequence | CGE Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | sul3 | sulfisoxazole | Sulfamethoxazole | 100.00 | 100.00 | 792/792 | contig00030 | 2091 | 2882 | AJ459418 | ATGA[...] | |
+| SRR1952908 | tet(A) | tetracycline | Doxycycline, Tetracycline | 99.92 | 97.80 | 1247/1275 | contig00032 | 1476 | 2722 | AF534183 | ATGT[...] | |
 
 ## pointfinder.tsv
 
@@ -340,6 +367,7 @@ The **pointfinder.tsv** output file generated by `staramr` contains the followin
 * __Isolate ID__: The id of the isolate/genome file(s) passed to `staramr`.
 * __Gene__: The particular AMR gene detected, with the point mutation within.
 * __Predicted Phenotype__: The predicted AMR phenotype (drug resistances) for this gene.
+* __CGE Predicted Phenotype__: The CGE-predicted AMR phenotype (drug resistances) for this gene.
 * __Type__: The type of this mutation from PointFinder (either **codon** or **nucleotide**).
 * __Position__: The position of the mutation. For **codon** type, the position is the codon number in the gene, for **nucleotide** type it is the nucleotide number.
 * __Mutation__: The particular mutation. For **codon** type lists the codon mutation, for **nucleotide** type lists the single nucleotide mutation.
@@ -349,13 +377,18 @@ The **pointfinder.tsv** output file generated by `staramr` contains the followin
 * __Contig__: The contig id containing this AMR gene.
 * __Start__: The start of the AMR gene (will be greater than __End__ if on minus strand).
 * __End__: The end of the AMR gene.
+* __Pointfinder Position__: The Pointfinder-adjusted position, which may be off by one from the sequence position in the case of some indels.
+* __CGE Notes__: Any CGE notes associated with the prediction.
+* __CGE Required Mutation__: Any additional mutations that CGE predicts are required to confer the CGE predicted phenotype.
+* __CGE Mechanism__: The CGE-reported mechanism.
+* __CGE PMID__: The PMID ID associated with the CGE prediction.
 
 ### Example
 
-| Isolate ID  | Gene         | Predicted Phenotype                | Type   | Position  | Mutation             | %Identity  | %Overlap  | HSP Length/Total Length  | Contig       | Start   | End    |
-|-------------|--------------|------------------------------------|--------|-----------|----------------------|------------|-----------|--------------------------|--------------|---------|--------|
-| SRR1952908  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00008  | 22801   | 20165  |
-| SRR1952926  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00011  | 157768  | 160404 |
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | Type | Position | Mutation | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Pointfinder Position | CGE Notes | CGE Required Mutation | CGE Mechanism | CGE PMID |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | Nalidixic acid,Ciprofloxacin | codon | 83 | TCC -> TAC (S -> Y) | 99.96 | 100.00 | 2637/2637 | contig00008 | 22801 | 20165 | S83Y |  |  | Target modification | 7492118,10471553 |
+| SRR1952926 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | Nalidixic acid,Ciprofloxacin | codon | 83 | TCC -> TAC (S -> Y) | 99.96 | 100.00 | 2637/2637 | contig00011 | 157768 | 160404 | S83Y |  |  | Target modification | 7492118,10471553 |
 
 ## plasmidfinder.tsv
 
@@ -391,8 +424,8 @@ The **mlst.tsv** output file generated by `staramr` contains the following colum
 
 | Isolate ID | Scheme    | Sequence Type | Locus 1 | Locus 2 | Locus 3 | Locus 4 | Locus 5 | Locus 6 | Locus 7  |
 |------------|-----------|---------------|---------|---------|---------|---------|---------|---------|----------|
-| SRR1952908 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
-| SRR1952926 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952908 | senterica_achtman_2 | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952926 | senterica_achtman_2 | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
 
 ## settings.txt
 
