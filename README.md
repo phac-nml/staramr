@@ -16,18 +16,18 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/summary.tsv**:
 
-| Isolate ID | Quality Module | Genotype                                                  | Predicted Phenotype                                                                                       | Plasmid                             | Scheme    | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
-|------------|----------------|-----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------|-----------|---------------|---------------|-----------|---------------------------------------------------|-------------------------|
-| SRR1952908 | Passed         | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4796082       | 225419    | 59                                                |                         |
-| SRR1952926 | Passed         | blaTEM-57, gyrA (S83Y), tet(A)                            | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline                                               | ColpVC, IncFIB(S), IncFII(S), IncI1 | senterica | 11            | 4794071       | 225380    | 50                                                |                         |
+| Isolate ID | Quality Module | Genotype | Predicted Phenotype | CGE Predicted Phenotype | Plasmid | Scheme | Sequence Type | Genome Length | N50 value | Number of Contigs Greater Than Or Equal To 300 bp | Quality Module Feedback |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | Passed | aadA1, aadA2, blaTEM-57, cmlA1, gyrA (S83Y), sul3, tet(A) | streptomycin, ampicillin, chloramphenicol, ciprofloxacin I/R, nalidixic acid, sulfisoxazole, tetracycline  | Spectinomycin, Streptomycin, Amoxicillin, Ampicillin, Cephalothin, Piperacillin, Ticarcillin, Chloramphenicol, Nalidixic acid, Ciprofloxacin, Sulfamethoxazole, Doxycycline, Tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1-I(Alpha) | senterica_achtman_2 | 11 | 4785500 | 250423 | 41 |
+| SRR1952926 | Passed | blaTEM-57, gyrA (S83Y), tet(A) | ampicillin, ciprofloxacin I/R, nalidixic acid, tetracycline |      Amoxicillin, Ampicillin, Cephalothin, Piperacillin, Ticarcillin, Nalidixic acid, Ciprofloxacin, Doxycycline, Tetracycline | ColpVC, IncFIB(S), IncFII(S), IncI1-I(Alpha) | senterica_achtman_2 | 11 | 4785451 | 228311 | 40 |
 
 **out/detailed_summary.tsv**:
 
-| Isolate ID | Data             | Data Type  | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession |
-|------------|------------------|------------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|
-| SRR1952908 | ST11 (senterica) | MLST       |                     |           |          |                         |             |       |      |           |
-| SRR1952908 | ColpVC           | Plasmid    |                     | 98.96     | 100      | 193/193                 | contig00038 | 1618  | 1426 | JX133088  |
-| SRR1952908 | aadA1            | Resistance | streptomycin        | 100       | 100      | 792/792                 | contig00030 | 5355  | 4564 | JQ414041  |
+| Isolate ID | Data | Data Type | Predicted Phenotype | CGE Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Accession |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | ST11 (senterica_achtman_2) | MLST |  |  |  |  |  |  |  |  |  |
+| SRR1952908 | ColpVC | Plasmid |  |  | 98.96 | 100.0 | 193/193 | contig00038 | 1618 | 1426 | JX133088 |
+| SRR1952908 | aadA1 | Resistance | streptomycin | Spectinomycin, Streptomycin | 100.0 | 100.0 | 792/792 | contig00030 | 5355 | 4564 | JQ414041 |
 
 **out/resfinder.tsv**:
 
