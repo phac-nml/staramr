@@ -38,10 +38,10 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/pointfinder.tsv**:
 
-| Isolate ID  | Gene         | Predicted Phenotype                | Type   | Position  | Mutation             | %Identity  | %Overlap  | HSP Length/Total Length  | Contig       | Start   | End    |
-|-------------|--------------|------------------------------------|--------|-----------|----------------------|------------|-----------|--------------------------|--------------|---------|--------|
-| SRR1952908  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00008  | 22801   | 20165  |
-| SRR1952926  | gyrA (S83Y)  | ciprofloxacin I/R, nalidixic acid  | codon  | 83        | TCC -> TAC (S -> Y)  | 99.96      | 100.00    | 2637/2637                | contig00011  | 157768  | 160404 |
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | Type | Position | Mutation | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Pointfinder Position | CGE Notes | CGE Required Mutation | CGE Mechanism | CGE PMID |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | Nalidixic acid,Ciprofloxacin | codon | 83 | TCC -> TAC (S -> Y) | 99.96 | 100.00 | 2637/2637 | contig00008 | 22801 | 20165 | S83Y |  |  | Target modification | 7492118,10471553 |
+| SRR1952926 | gyrA (S83Y) | ciprofloxacin I/R, nalidixic acid | Nalidixic acid,Ciprofloxacin | codon | 83 | TCC -> TAC (S -> Y) | 99.96 | 100.00 | 2637/2637 | contig00011 | 157768 | 160404 | S83Y |  |  | Target modification | 7492118,10471553 |
 
 **out/plasmidfinder.tsv**:
 
