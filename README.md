@@ -54,8 +54,8 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 | Isolate ID | Scheme    | Sequence Type | Locus 1 | Locus 2 | Locus 3 | Locus 4 | Locus 5 | Locus 6 | Locus 7  |
 |------------|-----------|---------------|---------|---------|---------|---------|---------|---------|----------|
-| SRR1952908 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
-| SRR1952926 | senterica | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952908 | senterica_achtman_2 | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
+| SRR1952926 | senterica_achtman_2 | 11            | aroC(5) | dnaN(2) | hemD(3) | hisD(7) | purE(6) | sucA(6) | thrA(11) |
 
 # Table of Contents
 
