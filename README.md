@@ -31,10 +31,10 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
 
 **out/resfinder.tsv**:
 
-| Isolate ID | Gene   | Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig      | Start | End  | Accession | Sequence|
-|------------|--------|---------------------|-----------|----------|-------------------------|-------------|-------|------|-----------|---------|
-| SRR1952908 | sul3   | sulfisoxazole       | 100       | 100      | 792/792                 | contig00030 | 2091  | 2882 | AJ459418  | ATGA    |
-| SRR1952908 | tet(A) | tetracycline        | 99.92     | 97.8     | 1247/1275               | contig00032 | 1476  | 2722 | AF534183  | ATGT    |
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Accession | Sequence | CGE Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SRR1952908 | sul3 | sulfisoxazole | Sulfamethoxazole | 100.00 | 100.00 | 792/792 | contig00030 | 2091 | 2882 | AJ459418 | ATGA[...] | |
+| SRR1952908 | tet(A) | tetracycline | Doxycycline, Tetracycline | 99.92 | 97.80 | 1247/1275 | contig00032 | 1476 | 2722 | AF534183 | ATGT[...] | |
 
 **out/pointfinder.tsv**:
 
