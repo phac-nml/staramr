@@ -69,6 +69,9 @@ staramr search -o out --pointfinder-organism salmonella *.fasta
   * [PyPI/Pip](#pypipip)
   * [Latest Code](#latest-code)
   * [Dependencies](#dependencies)
+- [Input](#input)
+  * [List of genes to exclude](#list-of-genes-to-exclude)
+  * [Complex mutations](#complex-mutations)
 - [Output](#output)
   * [summary.tsv](#summarytsv)
   * [detailed_summary.tsv](#detailed_summarytsv)
@@ -247,6 +250,26 @@ ColpVC_1__JX133088
 ```
 
 Please make sure to include `gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
+
+## Complex Mutations
+
+Complex mutations describe multiple point mutations that must be simultaneously present in order to confer resistance. One such example is the multiple pbp5 mutations that must be present in Enterococcus faecium in order to confer ampicillin resistance. These complex mutations may be specified by the user using a TSV-formatted file with the following format:
+
+| positions | mandatory | phenotype |
+| --- | --- | --- |
+| gene (mutation1), gene (mutation2) | gene (mutation1) | phenotype |
+
+Where `positions` is all the point mutations to group into the complex mutation (optional and mandatory), `mandatory` is all the point mutations that must be present for the complex mutation to be reported (`mandatory` is a subset of `positions`), and `phenotype` is the phenotype that is conferred when this set of mutations is present. To see a specific example of this, please look at the default `complex_mutations.tsv` file [included with StarAMR](staramr/databases/resistance/pointfinder/complex/data/complex_mutations.tsv). The mutation will be reported in the `pointfinder.tsv` file similar to as follows:
+
+| Isolate ID | Gene | Predicted Phenotype | CGE Predicted Phenotype | Type | Position | Mutation | %Identity | %Overlap | HSP Length/Total Length | Contig | Start | End | Pointfinder Position | CGE Notes | CGE Required Mutation | CGE Mechanism | CGE PMID |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pbp5 | pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L) | ampicillin | - | complex | 524, 527, 534, 566, 568, 585, 5100, 5144, 5172, 5177, 5204, 5216, 5324, 5485, 5496, 5499, 5525, 5586, 5629, 5667 | complex | 98.28 | 100.00 | 2037/2037 | pbp5_1_AAK43724.1 | 1 | 2037 | pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L) | - | - | - | - |
+
+The complex mutation TSV file may be specifed on the command line when running Pointfinder:
+
+```
+staramr search --pointfinder-organism enterococcus_faecium -o out pbp5.fa --complex-mutations-file complex_mutations.tsv
+```
 
 # Output
 
