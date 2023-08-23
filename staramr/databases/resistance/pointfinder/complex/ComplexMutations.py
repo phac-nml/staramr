@@ -65,7 +65,7 @@ class ComplexMutations:
                         hit.get_genome_contig_start(),
                         hit.get_genome_contig_end(),
                         ", ".join(intersection),
-                        "This mutation represents a combination of multiple individual mutations.", # The notes.
+                        pd.NA, # The CGE notes.
                         pd.NA,
                         pd.NA,
                         pd.NA]
