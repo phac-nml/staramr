@@ -1,4 +1,4 @@
-# Unreleased
+# Version 0.10.0
 
 * Updated the Plasmidfinder database to use the January 18th 2023 release.
 * Fixed an issue where the string "None" in the drug table would be parsed differently by different versions of pandas (#175).
