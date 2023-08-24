@@ -1,5 +1,6 @@
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
+from staramr.databases.resistance.cge.CGEDrugTableResfinder import CGEDrugTableResfinder
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
 
@@ -14,7 +15,7 @@ class AMRDetectionFactory:
         pass
 
     def build(self, plasmidfinder_database, resfinder_database, blast_handler, pointfinder_database, include_negatives,
-              include_resistances=False, output_dir=None, genes_to_exclude=[]):
+              include_resistances=False, output_dir=None, genes_to_exclude=[], complex_mutations=None):
         """
         Builds a new AMRDetection object.
         :param plasmidfinder_database: The staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase to use for the particular PlasmidFinder database.
@@ -25,13 +26,18 @@ class AMRDetectionFactory:
         :param include_resistances: If True, include predicted drug resistances in output.
         :param output_dir: The directory where output files are being written.
         :param genes_to_exclude: A list of gene IDs to exclude from the results.
+        :param complex_mutations: An object mapping a set of multiple point mutations to a single phenotype.
         :return: A new AMRDetection object.
         """
 
         if include_resistances:
-            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(), blast_handler,
-                                          ARGDrugTablePointfinder(), pointfinder_database, include_negatives,
-                                          output_dir=output_dir, genes_to_exclude=genes_to_exclude,
+            phenotypes_file = resfinder_database.get_phenotypes_file()
+
+            return AMRDetectionResistance(resfinder_database, ARGDrugTableResfinder(),
+                                          CGEDrugTableResfinder(phenotypes_file), blast_handler,
+                                          ARGDrugTablePointfinder(), pointfinder_database, 
+                                          include_negatives, output_dir=output_dir, genes_to_exclude=genes_to_exclude,
+                                          complex_mutations=complex_mutations,
                                           plasmidfinder_database=plasmidfinder_database)
         else:
             return AMRDetection(resfinder_database, blast_handler, pointfinder_database, include_negatives,

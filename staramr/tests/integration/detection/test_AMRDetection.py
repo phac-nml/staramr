@@ -3,6 +3,7 @@ import os
 import tempfile
 import unittest
 from os import path
+from pathlib import Path
 
 import pandas as pd
 from Bio import SeqIO
@@ -14,8 +15,10 @@ from staramr.blast.resfinder.ResfinderBlastDatabase import ResfinderBlastDatabas
 from staramr.databases.AMRDatabasesManager import AMRDatabasesManager
 from staramr.databases.resistance.pointfinder.ARGDrugTablePointfinder import ARGDrugTablePointfinder
 from staramr.databases.resistance.resfinder.ARGDrugTableResfinder import ARGDrugTableResfinder
+from staramr.databases.resistance.cge.CGEDrugTableResfinder import CGEDrugTableResfinder
 from staramr.detection.AMRDetection import AMRDetection
 from staramr.detection.AMRDetectionResistance import AMRDetectionResistance
+from staramr.databases.resistance.pointfinder.complex.ComplexMutations import ComplexMutations
 
 logger = logging.getLogger('AMRDetectionIT')
 
@@ -31,9 +34,11 @@ class AMRDetectionIT(unittest.TestCase):
         self.columns_resfinder = ('Isolate ID', 'Gene', '%Identity', '%Overlap',
                                   'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
 
+        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
         self.resfinder_database = ResfinderBlastDatabase(self.resfinder_dir)
         self.resfinder_drug_table = ARGDrugTableResfinder()
         self.pointfinder_drug_table = ARGDrugTablePointfinder()
+        self.cge_drug_table = CGEDrugTableResfinder(self.resfinder_database.get_phenotypes_file())
         self.plasmidfinder_database = PlasmidfinderBlastDatabase(self.plasmidfinder_dir)
         self.pointfinder_database = None
         self.blast_out = tempfile.TemporaryDirectory()
@@ -42,10 +47,10 @@ class AMRDetectionIT(unittest.TestCase):
 
         self.outdir = tempfile.TemporaryDirectory()
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
-                                                    self.blast_handler, self.pointfinder_drug_table,
-                                                    self.pointfinder_database, output_dir=self.outdir.name)
+                                                    self.cge_drug_table, self.blast_handler,
+                                                    self.pointfinder_drug_table, self.pointfinder_database,
+                                                    output_dir=self.outdir.name)
 
-        self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
         self.drug_key_resfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
                                                          'drug_key_resfinder_invalid.tsv')
         self.drug_key_pointfinder_invalid_file = path.join(self.test_data_dir, 'gene-drug-tables',
@@ -71,8 +76,9 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResfinderExcludeGeneListSuccess(self):
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
-                                                    self.blast_handler, self.pointfinder_drug_table,
-                                                    self.pointfinder_database, output_dir=self.outdir.name,
+                                                    self.cge_drug_table, self.blast_handler,
+                                                    self.pointfinder_drug_table, self.pointfinder_database,
+                                                    output_dir=self.outdir.name,
                                                     genes_to_exclude=["aac(6')-Iaa_1_NC_003197"])
 
         file = path.join(self.test_data_dir, "test-aminoglycoside.fsa")
@@ -84,8 +90,9 @@ class AMRDetectionIT(unittest.TestCase):
 
     def testResFinderCorrectSeq(self):
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
-                                                    self.blast_handler, self.pointfinder_drug_table,
-                                                    self.pointfinder_database, output_dir=self.outdir.name,)
+                                                    self.cge_drug_table, self.blast_handler,
+                                                    self.pointfinder_drug_table, self.pointfinder_database,
+                                                    output_dir=self.outdir.name,)
 
         file = path.join(self.test_data_dir, "test-resfinder-correct-seq.fsa")
         files = [file]
@@ -122,6 +129,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')        
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -162,8 +172,9 @@ class AMRDetectionIT(unittest.TestCase):
     def testResfinderBetaLactam2MutationsSuccessNoMatchDrugTable(self):
         resfinder_drug_table = ARGDrugTableResfinder(self.drug_key_resfinder_invalid_file)
         self.amr_detection = AMRDetectionResistance(self.resfinder_database, resfinder_drug_table,
-                                                    self.blast_handler, self.pointfinder_drug_table,
-                                                    self.pointfinder_database, output_dir=self.outdir.name)
+                                                    self.cge_drug_table, self.blast_handler,
+                                                    self.pointfinder_drug_table, self.pointfinder_database,
+                                                    output_dir=self.outdir.name)
 
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
         files = [file]
@@ -285,6 +296,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-del-middle-rc.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -343,6 +357,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
@@ -354,6 +371,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['End'], 1581, msg='Wrong end')
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_beta-lactam-blaIMP-42-mut-2-two-copies.fsa')
@@ -386,6 +406,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         'Wrong phenotype')
 
         result = resfinder_results.iloc[1]
         self.assertEqual(result['Gene'], 'blaIMP-42', 'Wrong gene for result')
@@ -397,6 +420,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['End'], 841, msg='Wrong end')
         self.assertEqual(result['Predicted Phenotype'],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name,
@@ -415,7 +441,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -437,6 +464,11 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid,Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0], '', msg='The notes do not match.')  # empty string (no notes)
+        self.assertEqual(result['CGE PMID'].iloc[0], '7492118', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], 'gyrA_G81C.S.H.D', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -450,7 +482,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, 
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -472,6 +505,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid,Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '7492118;10471553', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], 'gyrA_D87K', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-S83I.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -518,7 +555,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -540,6 +578,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2590/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid,Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '7492118', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], 'gyrA_G81C.S.H.D', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P-del-end.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -553,7 +595,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -570,7 +613,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -586,7 +630,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -602,7 +647,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -628,6 +674,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid,Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '7492118', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], 'gyrA_G81C.S.H.D', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A67P-rc.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -641,7 +691,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -667,6 +718,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Spectinomycin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '12402084', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_16S_rrsD-1T1065.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -677,11 +732,227 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(expected_records['16S_rrsD'].seq.upper(), records['16S_rrsD'].seq.upper(),
                          "records don't match")
 
+
+    def testPointfinderEnterococcusFaecium_pbp5_Success(self):
+        # This test evaluates the correctness of identifying a pbp5 complex mutation.
+        # That is, several pbp5 mutations that should together confer ampicillin resistence.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name,
+                                               complex_mutations= ComplexMutations())
+
+        file = path.join(self.test_data_dir, "pbp5_20.fa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 80, 80, 80, 80, 100, 1000000, 1000, 300, 1000)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+
+        # 20 point mutations plus 1 (summarized) complex mutation:
+        self.assertEqual(len(pointfinder_results.index), 21, 'Wrong number of rows in result')
+
+        # Test one of the point mutations:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_20', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 216, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCA -> AGT (A -> S)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.28, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]', 'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Ampicillin', 'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0], 
+                         'The nineteen pbp5 mutations must be present simultaneously for resistance phenotype',
+                         msg='The notes do not match.')
+        self.assertEqual(result['CGE PMID'].iloc[0], '25182648', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+
+        # Test the complex mutation:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S), pbp5 (A499T), pbp5 (A68T), pbp5 (D204G), pbp5 (E100Q), pbp5 (E525D), pbp5 (E629V), pbp5 (E85D), pbp5 (G66E), pbp5 (K144Q), pbp5 (L177I), pbp5 (M485A), pbp5 (N496K), pbp5 (P667S), pbp5 (R34Q), pbp5 (S27G), pbp5 (T172A), pbp5 (T324A), pbp5 (V24A), pbp5 (V586L)']
+
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_20', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'complex', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], "524, 527, 534, 566, 568, 585, 5100, 5144, 5172, 5177, 5204, 5216, 5324, 5485, 5496, 5499, 5525, 5586, 5629, 5667", msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'complex', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.28, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin', 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE Predicted Phenotype'].iloc[0]), 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE Notes'].iloc[0]), msg='The notes do not match.')
+        self.assertTrue(pd.isna(result['CGE PMID'].iloc[0]), msg='The PMIDs do not match.')
+        self.assertTrue(pd.isna(result['CGE Mechanism'].iloc[0]), msg='The mechanisms do not match.')
+        self.assertTrue(pd.isna(result['CGE Required Mutation'].iloc[0]), msg='The required mutation(s) do not match.')
+
+    def testPointfinderEnterococcusFaecium_pbp5_Failure(self):
+        # This test evaluates the correctness of NOT identifying a pbp5 complex mutation.
+        # The input will be missing one of the mandatory mutations (pbp5 (E629V)).
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name,
+                                               complex_mutations= ComplexMutations())
+
+        file = path.join(self.test_data_dir, "pbp5_19_failure.fa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 80, 80, 80, 80, 100, 1000000, 1000, 300, 1000)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+
+        # 19 point mutations, no summarized complex mutation:
+        self.assertEqual(len(pointfinder_results.index), 19, 'Wrong number of rows in result')
+
+        # Test one of the point mutations:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (A216S)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_19_failure', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 216, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GCA -> AGT (A -> S)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 98.38, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (A216S)]',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Ampicillin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '25182648', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+
+        # Test correct numbers of complex- and codon-type mutations:
+        self.assertEqual(len(pointfinder_results[pointfinder_results['Type'] == 'codon']), 19, 'Wrong number of codon mutations')
+        self.assertEqual(len(pointfinder_results[pointfinder_results['Type'] == 'complex']), 0, 'Wrong number of complex mutations')
+
+    def testPointfinderEnterococcusFaecium_pbp5_3_m485a_Success(self):
+        # This test evaluates the correctness of identifying a pbp5 complex mutation
+        # with only the 3 mandatory mutations (pbp5 (M485A), pbp5 (E629V), pbp5 (P667S)).
+        # Note that the mutation at position 485 is to an "A".
+        # The complex mutation should confer ampicillin resistence.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name,
+                                               complex_mutations= ComplexMutations())
+
+        file = path.join(self.test_data_dir, "pbp5_3_m485a.fa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 80, 80, 80, 80, 100, 1000000, 1000, 300, 1000)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+
+        # 3 point mutations plus 1 (summarized) complex mutation:
+        self.assertEqual(len(pointfinder_results.index), 4, 'Wrong number of rows in result')
+
+        # Test one of the point mutations:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (E629V)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_3_m485a', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 629, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GAA -> GTT (E -> V)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.656, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (E629V)]',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Ampicillin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '25182648', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+        
+        # Test the complex mutation:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (E629V), pbp5 (M485A), pbp5 (P667S)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_3_m485a', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'complex', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], "5485, 5629, 5667", msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'complex', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.656, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
+                         'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE Predicted Phenotype'].iloc[0]), 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE PMID'].iloc[0]), msg='The PMIDs do not match.')
+        self.assertTrue(pd.isna(result['CGE Mechanism'].iloc[0]), msg='The mechanisms do not match.')
+        self.assertTrue(pd.isna(result['CGE Required Mutation'].iloc[0]), msg='The required mutation(s) do not match.')
+
+    def testPointfinderEnterococcusFaecium_pbp5_3_m485t_Success(self):
+        # This test evaluates the correctness of identifying a pbp5 complex mutation
+        # with only the 3 mandatory mutations (pbp5 (M485T), pbp5 (E629V), pbp5 (P667S)).
+        # Note that the mutation at position 485 is to an "T".
+        # The complex mutation should confer ampicillin resistence.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name,
+                                               complex_mutations= ComplexMutations())
+
+        file = path.join(self.test_data_dir, "pbp5_3_m485t.fa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 80, 80, 80, 80, 100, 1000000, 1000, 300, 1000)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+
+        # 3 point mutations plus 1 (summarized) complex mutation:
+        self.assertEqual(len(pointfinder_results.index), 4, 'Wrong number of rows in result')
+
+        # Test one of the point mutations:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (E629V)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_3_m485t', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 629, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GAA -> GTT (E -> V)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.705, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[pbp5 (E629V)]',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Ampicillin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '25182648', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+        
+        # Test the complex mutation:
+        result = pointfinder_results[pointfinder_results['Gene'] == 'pbp5 (E629V), pbp5 (M485T), pbp5 (P667S)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'pbp5_3_m485t', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'complex', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], "5485, 5629, 5667", msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'complex', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.705, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
+                         'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE Predicted Phenotype'].iloc[0]), 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE PMID'].iloc[0]), msg='The PMIDs do not match.')
+        self.assertTrue(pd.isna(result['CGE Mechanism'].iloc[0]), msg='The mechanisms do not match.')
+        self.assertTrue(pd.isna(result['CGE Required Mutation'].iloc[0]), msg='The required mutation(s) do not match.')
+
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -697,6 +968,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S_gyrA_beta-lactam.fsa')
@@ -721,6 +995,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Spectinomycin',
+                         'Wrong phenotype')
 
         result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
@@ -732,6 +1008,8 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2637/2637', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid,Ciprofloxacin',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_16S_gyrA_beta-lactam.fsa')
@@ -747,7 +1025,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name, genes_to_exclude=['gyrA'])
 
@@ -771,7 +1050,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -787,6 +1067,9 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.73, places=2, msg='Wrong pid')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'resfinder_16S-rc_gyrA-rc_beta-lactam.fsa')
@@ -811,6 +1094,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1544/1544', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'spectinomycin',
                          'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Spectinomycin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '12402084', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
 
         result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (A67P)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
@@ -834,7 +1121,8 @@ class AMRDetectionIT(unittest.TestCase):
                          "records don't match")
 
     def testResfinderExcludeNonMatches(self):
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, self.blast_handler,
                                                self.pointfinder_drug_table, self.pointfinder_database,
                                                include_negative_results=False, output_dir=self.outdir.name)
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
@@ -855,7 +1143,8 @@ class AMRDetectionIT(unittest.TestCase):
                          "records don't match")
 
     def testResfinderIncludeNonMatches(self):
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, self.blast_handler,
                                                self.pointfinder_drug_table, self.pointfinder_database,
                                                include_negative_results=True, output_dir=self.outdir.name)
         file_beta_lactam = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-mut-2.fsa")
@@ -884,7 +1173,8 @@ class AMRDetectionIT(unittest.TestCase):
                          "records don't match")
 
     def testNonMatches(self):
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, self.blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, self.blast_handler,
                                                self.pointfinder_drug_table, self.pointfinder_database,
                                                include_negative_results=True, output_dir=self.outdir.name)
         files = [path.join(self.test_data_dir, "non-match.fsa")]
@@ -903,7 +1193,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -924,6 +1215,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2592/2592', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin, nalidixic acid', 'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid, Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '8384814', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-A70T.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -937,7 +1232,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -959,6 +1255,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2912/2912', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0],
                          'erythromycin, azithromycin, telithromycin, clindamycin', 'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Azithromycin, Erythromycin, Clindamycin, Telithromycin', 'Wrong phenotype')
+        self.assertEqual(result['CGE PMID'].iloc[0], '16713726', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_23S-A2075G.fsa')
         records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
@@ -1080,7 +1380,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'escherichia_coli')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1118,7 +1419,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'mycobacterium_tuberculosis')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1157,7 +1459,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'escherichia_coli')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1196,7 +1499,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'escherichia_coli')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1235,7 +1539,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'neisseria_gonorrhoeae')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1276,7 +1581,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'neisseria_gonorrhoeae')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1316,7 +1622,8 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'enterococcus_faecium')
         blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
                                      self.blast_out.name)
-        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table, blast_handler,
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
                                                self.pointfinder_drug_table, pointfinder_database,
                                                output_dir=self.outdir.name)
 
@@ -1346,6 +1653,66 @@ class AMRDetectionIT(unittest.TestCase):
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
         self.assertEqual(expected_records['pbp5'].seq.upper(), records['pbp5'].seq.upper().replace('-', ''), "records don't match")
+
+    def testResfinderCGEPredictedPhenotypes(self):
+        file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-start.fsa")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 91, 90, 90,0,0,0,0,0)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'blaIMP-42']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'ampicillin, amoxicillin/clavulanic acid, cefoxitin, ceftriaxone, meropenem',
+                         msg='Wrong phenotypes.')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Amoxicillin, Amoxicillin+Clavulanic acid, Ampicillin, Ampicillin+Clavulanic acid, Cefepime, Cefixime, Cefotaxime, Cefoxitin, Ceftazidime, Ertapenem, Imipenem, Meropenem, Piperacillin, Piperacillin+Tazobactam',
+                         msg='Wrong CGE-predicted phenotypes.')
+
+    def testPointfinderEcoliD87NSuccess(self):
+        # Specifically tests how to handle duplicate entries in the Pointfinder database.
+        pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'escherichia_coli')
+        blast_handler = JobHandler({'resfinder': self.resfinder_database, 'pointfinder': pointfinder_database}, 2,
+                                     self.blast_out.name)
+        amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
+                                               self.cge_drug_table, blast_handler,
+                                               self.pointfinder_drug_table, pointfinder_database,
+                                               output_dir=self.outdir.name)
+
+        file = path.join(self.test_data_dir, "gyrA-D87N.fsa")
+        files = [file]
+        amr_detection.run_amr_detection(files, 99, 99, 90, 90,0,0,0,0,0)
+
+        pointfinder_results = amr_detection.get_pointfinder_results()
+        self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = pointfinder_results[pointfinder_results['Gene'] == 'gyrA (D87N)']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertEqual(result.index[0], 'gyrA-D87N', msg='Wrong file')
+        self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
+        self.assertEqual(result['Position'].iloc[0], 87, msg='Wrong codon position')
+        self.assertEqual(result['Mutation'].iloc[0], 'GAC -> AAC (D -> N)', msg='Wrong mutation')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.96, places=2, msg='Wrong pid')
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2628/2628', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ciprofloxacin I/R, nalidixic acid',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], 'Nalidixic acid;Nalidixic acid,Ciprofloxacin', 'Wrong phenotype')
+        self.assertEqual(result['CGE Notes'].iloc[0], 'D87G or D87Y confer resistance to nalidixic acid only, if occurring alone. Unknown phenotype if D87H occurs alone;D87G or D87Y confer resistance to nalidixic acid only, if occurring alone. Unknown phenotype if D87H occurs alone', msg='The notes do not match.')
+        self.assertEqual(result['CGE PMID'].iloc[0], '12654733,12654733,12654733,22878251,12654733,1850972;12654733,12654733,12654733,22878251,12654733,1850972', msg='The PMIDs do not match.')
+        self.assertEqual(result['CGE Mechanism'].iloc[0], 'Target modification;Target modification', msg='The mechanisms do not match.')
+        self.assertEqual(result['CGE Required Mutation'].iloc[0], ';gyrA_S83L.W.A.V', msg='The required mutation(s) do not match.')
+
+        hit_file = path.join(self.outdir.name, 'pointfinder_gyrA-D87N.fsa')
+        records = SeqIO.to_dict(SeqIO.parse(hit_file, 'fasta'))
+
+        self.assertEqual(len(records), 1, 'Wrong number of hit records')
+
+        expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
+        self.assertEqual(expected_records['gyrA_1_CP073768.1'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+
 
 
 if __name__ == '__main__':

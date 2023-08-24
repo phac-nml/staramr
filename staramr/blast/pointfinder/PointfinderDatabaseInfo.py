@@ -6,8 +6,6 @@ import Bio.Seq
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 from staramr.blast.results.pointfinder.codon.CodonInsertionPosition import CodonInsertionPosition
 
-from staramr.exceptions.GenotypePhenotypeMatchException import GenotypePhenotypeMatchException
-
 """
 A Class storing information about the specific PointFinder database.
 """
@@ -157,20 +155,6 @@ class PointfinderDatabaseInfo:
     def _get_resistance_nucleotide_match(self, gene, nucleotide_mutations):
         return self._get_resistance_codon_match(gene, nucleotide_mutations)
 
-    def get_phenotype(self, gene, codon_mutation):
-        """
-        Gets the phenotype for a given gene and codon mutation from PointFinder.
-        :param gene: The gene.
-        :param codon_mutation: The codon mutation.
-        :return: A string describing the phenotype.
-        """
-        match = self._get_resistance_codon_match(gene, codon_mutation)
-
-        if len(match.index) > 0:
-            return match['Resistance'].iloc[0]
-        else:
-            raise GenotypePhenotypeMatchException("Error, no match for gene=" + str(gene) + ", codon_mutation=" + str(codon_mutation))
-
     def get_resistance_codons(self, gene, codon_mutations):
         """
         Gets a list of resistance codons from the given gene and codon mutations.
@@ -202,3 +186,23 @@ class PointfinderDatabaseInfo:
                 resistance_mutations.append(nucleotide_mutation)
 
         return resistance_mutations
+
+    def get_value(self, gene, mutation, attribute):
+        """
+        Gets the phenotype associated with a particular mutation from the Pointfinder Database table.
+
+        :param gene: The gene.
+        :param mutation: The mutation.
+        :param attribute: The attribute to get (ex: "Resistance", "PMID", etc.)
+        :return: A string containing the attribute for the passed gene and
+                 mutation, if it exists, or the empty string ("") if the
+                 attribute is missing.
+        """
+
+        matches = self._get_resistance_codon_match(gene, mutation)
+        matches = matches.fillna("")
+
+        # There's a chance of having multiple matches:
+        results = ';'.join(matches[attribute])
+
+        return results

@@ -8,3 +8,4 @@ include staramr/tests/integration/data/gene-drug-tables/*.tsv
 include staramr/tests/unit/data/*.fasta
 recursive-include staramr/databases/data/dist/ *
 include staramr/databases/resistance/data/*
+include staramr/databases/resistance/pointfinder/complex/data/*

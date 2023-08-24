@@ -16,7 +16,7 @@ class AMRDatabasesManager:
     DEFAULT_COMMITS = {
         'resfinder': 'fa32d9a3cf0c12ec70ca4e90c45c0d590ee810bd', # 2022-05-24
         'pointfinder': '8c694b9f336153e6d618b897b3b4930961521eb8', # 2021-02-01
-        'plasmidfinder': '1a443a19a1142aa1018ef62f0bdbfd871b79eab6', # 2021-11-29
+        'plasmidfinder': 'c18e08c17a5988d4f075fc1171636e47546a323d', # 2023-01-18
     }
 
     def __init__(self, database_dir: str, sub_dirs: bool = False) -> None:

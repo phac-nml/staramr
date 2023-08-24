@@ -1,3 +1,18 @@
+# Unreleased
+
+* Updated the Plasmidfinder database to use the January 18th 2023 release.
+* Fixed an issue where the string "None" in the drug table would be parsed differently by different versions of pandas (#175).
+* Upgraded to pandas version 2.
+* Added the CGE-predicted phenotypes, PMID, Mechanism, and the Required Mutation columns to the Pointfinder output.
+* The resfinder.tsv and pointfinder.tsv outputs now contain a Notes column.
+* Updated the help description of the --mlst-scheme parameter to include a more useful link for available schemas.
+* Switched to only officially supporting Python 3.7+ due to recent incompatibilities with Python 3.6 and some Python packages (numpy, biopython, and others).
+* Adds the ability to handle "complex" pbp5 mutations. When appriopriate many pbp5 point mutations will be reported as a single mutation.
+* Resfinder CGE-predicted phenotypes are now reported in the summary and detailed summary alongside existing predictions.
+* Corrected a typo in the position for acrB in the PointFinder drug key table.
+* Removed "enterobacteriaceae" from the list of supported PlasmindFinder databases.
+* Changed the word sensitive to susceptible in outputs.
+
 # Version 0.9.1
 
 * Fixed a bug that occured when parsing some plasmid FASTA record IDs ([PR 159](https://github.com/phac-nml/staramr/pull/159)).
