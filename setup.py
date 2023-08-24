@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 
 from staramr import __version__
 
@@ -33,7 +33,7 @@ setup(name='staramr',
           'green>=2.13.0',
           'coloredlogs>=10.0'
       ],
-      packages=find_packages(),
+      packages=find_namespace_packages(),
       include_package_data=True,
       scripts=['bin/staramr'],
       setup_requires = ['green']
