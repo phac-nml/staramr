@@ -37,12 +37,12 @@ class PointfinderDatabaseInfo:
 
         with open(file) as f:
             line = f.readline()
-        
+
         line = line.lstrip("#")
         column_names = line.split()
 
         pointfinder_info = pd.read_csv(file, sep='\t', index_col=False, comment='#', header=None, names=column_names)
-
+        pointfinder_info["PMID"] = pointfinder_info["PMID"].astype(str)
         return cls(pointfinder_info, file)
 
     @classmethod
@@ -53,7 +53,7 @@ class PointfinderDatabaseInfo:
         :return: A new PointfinderDatabaseInfo.
         """
         return cls(database_info_dataframe)
-    
+
     @staticmethod
     def to_codons(regex_match):
         # Sometimes, the regex will match a string with a comma and return multiple matches.
@@ -120,7 +120,7 @@ class PointfinderDatabaseInfo:
                         # so we need to convert to nucleotide coordinates before making the comparison.
                     & (table['Ref_codon'] == codon_mutation.get_database_amr_gene_mutation())
                     & (table['Res_codon'].str.contains(codon_mutation.get_input_genome_mutation(), regex=False))]
-        
+
         # We need to handle codon insertions as a special case:
         # Pointfinder mis-reports the position of codon insertions. For example:
         # ref:     ACG --- ACG
