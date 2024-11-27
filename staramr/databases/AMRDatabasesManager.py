@@ -14,7 +14,7 @@ class AMRDatabasesManager:
     # Update to commits corresponding to dates listed on <https://cge.cbs.dtu.dk/services/ResFinder/> (and PlasmidFinder)
     # As of May 26, 2022
     DEFAULT_COMMITS = {
-        'resfinder': 'fa32d9a3cf0c12ec70ca4e90c45c0d590ee810bd', # 2022-05-24
+        'resfinder': 'd1e607b8989260c7b6a3fbce8fa3204ecfc09022', # 2024-08-08
         'pointfinder': '8c694b9f336153e6d618b897b3b4930961521eb8', # 2021-02-01
         'plasmidfinder': 'c18e08c17a5988d4f075fc1171636e47546a323d', # 2023-01-18
     }

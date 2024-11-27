@@ -107,7 +107,7 @@ class BlastResultsParser:
         for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
             for hit in self._select_hits_to_include(hits_non_overlapping):
                 blast_results = self._get_result_rows(hit, database_name)
-                if blast_results is not None:
+                if blast_results is not None and database_name != "all":
                     logger.debug("record = %s", blast_results)
                     results.extend(blast_results)
                     hit_seq_records.append(hit.get_seq_record())
