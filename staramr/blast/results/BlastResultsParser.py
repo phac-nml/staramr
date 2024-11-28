@@ -91,6 +91,13 @@ class BlastResultsParser:
         pass
 
     def _handle_blast_hit(self, in_file, database_name, blast_file, results, hit_seq_records):
+        ignore_database = ["all", "campylobacter",
+        "enterococcus_faecalis", "enterococcus_faecium",
+        "escherichia_coli", "helicobacter_pylori", "klebsiella",
+        "mycobacterium_tuberculosis", "neisseria_gonorrhoeae",
+        "plasmodium_falciparum", "salmonella",
+        "staphylococcus_aureus"]
+
         blast_table = pd.read_csv(blast_file, sep='\t', header=None, names=JobHandler.BLAST_COLUMNS,
                                   index_col=False).astype(
             dtype={'qseqid': np.str_, 'sseqid': np.str_})
@@ -107,7 +114,7 @@ class BlastResultsParser:
         for hits_non_overlapping in partitions.get_hits_nonoverlapping_regions():
             for hit in self._select_hits_to_include(hits_non_overlapping):
                 blast_results = self._get_result_rows(hit, database_name)
-                if blast_results is not None and database_name != "all":
+                if blast_results is not None and database_name not in ignore_database:
                     logger.debug("record = %s", blast_results)
                     results.extend(blast_results)
                     hit_seq_records.append(hit.get_seq_record())

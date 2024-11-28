@@ -12,6 +12,16 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
         """
         super().__init__(file, blast_record)
 
+    def get_amr_gene_name(self):
+        """
+        Gets the particular gene name for the PointfinderHitHSPRNA hit.
+        :return: The gene name.
+        """
+
+        # This is explicitly overriding the parent class's function
+        # because we want to return this gene name without modification.
+        return self._blast_record['qseqid']
+
     def _get_mutation_positions(self, start):
         mutation_positions = []
 
