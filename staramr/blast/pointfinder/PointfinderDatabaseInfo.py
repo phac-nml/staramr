@@ -41,7 +41,7 @@ class PointfinderDatabaseInfo:
         line = line.lstrip("#")
         column_names = line.split()
 
-        pointfinder_info = pd.read_csv(file, sep='\t', index_col=False, comment='#', header=None, names=column_names)
+        pointfinder_info = pd.read_csv(file, sep=r'\t|\s{4,}', index_col=False, comment='#', header=None, names=column_names, engine='python')
 
         return cls(pointfinder_info, file)
 

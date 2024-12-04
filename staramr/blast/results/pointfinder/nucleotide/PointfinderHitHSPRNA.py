@@ -17,10 +17,19 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
         Gets the particular gene name for the PointfinderHitHSPRNA hit.
         :return: The gene name.
         """
+        name = self._blast_record['qseqid']
 
-        # This is explicitly overriding the parent class's function
-        # because we want to return this gene name without modification.
-        return self._blast_record['qseqid']
+        # CGE has been changing FASTA record headers to include accession
+        # numbers, which need to be removed. See PointfinderHitHSP.get_amr_gene_name()
+        # for more information. Naming schemes are also inconsistent:
+        # pointfinder/campylobacter/23S.fsa -> 23S_1_LR134511.1
+        # pointfinder/neisseria_gonorrhoeae/23S-rRNA-a1.fsa -> 23S-rRNA-a1_1_AE004969.1
+        if name.startswith("16S_rrsD"): name = "16S_rrsD"
+        elif name.startswith("16S"): name = "16S"
+        elif name.startswith("23S"): name = "23S"
+        else: name = name.split("_")[0]
+
+        return name
 
     def _get_mutation_positions(self, start):
         mutation_positions = []

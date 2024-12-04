@@ -1226,7 +1226,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['gyrA'].seq.upper(), records['gyrA_1_LR134511.1'].seq.upper(), "records don't match")
 
     def testPointfinderCampylobacterA2075GSuccess(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'campylobacter')
@@ -1266,7 +1266,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['23S'].seq.upper(), records['23S'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['23S'].seq.upper(), records['23S_1_LR134511.1'].seq.upper(), "records don't match")
 
     """
     def testPointfinderEFaecalisS97NSuccess(self):
@@ -1652,7 +1652,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['pbp5'].seq.upper(), records['pbp5'].seq.upper().replace('-', ''), "records don't match")
+        self.assertEqual(expected_records['pbp5'].seq.upper(), records['pbp5_1_AAK43724.1'].seq.upper().replace('-', ''), "records don't match")
 
     def testResfinderCGEPredictedPhenotypes(self):
         file = path.join(self.test_data_dir, "beta-lactam-blaIMP-42-ins-start.fsa")
@@ -1711,7 +1711,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['gyrA_1_CP073768.1'].seq.upper(), records['gyrA'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['gyrA_1_CP073768.1'].seq.upper(), records['gyrA_1_CP073768.1'].seq.upper(), "records don't match")
 
 
 
