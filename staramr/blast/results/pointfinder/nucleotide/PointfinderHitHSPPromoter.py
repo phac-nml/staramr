@@ -106,14 +106,14 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
         Parses the name of the database in order to obtain the promoter offset.
         The database name is expected to have the following format:
 
-        [GENENAME]_promoter_size_[SIZE]bp
+        [GENENAME]-promoter-size-[SIZE]bp
 
         example:
 
-        embA_promoter_size_115bp
+        embA-promoter-size-115bp
         """
 
-        tokens = database_name.split("_")  # split the name into tokens
+        tokens = database_name.split("-")  # split the name into tokens
         size_string = tokens[len(tokens) - 1]  # get the last token
         size = int(size_string.replace('bp', ''))  # remove the 'bp' and convert to an int
 
