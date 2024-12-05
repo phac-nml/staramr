@@ -1,6 +1,7 @@
 from staramr.blast.results.pointfinder.PointfinderHitHSP import PointfinderHitHSP
 from staramr.blast.results.pointfinder.codon.CodonMutationPosition import CodonMutationPosition
 from staramr.blast.results.pointfinder.nucleotide.NucleotideMutationPosition import NucleotideMutationPosition
+import re
 
 
 class PointfinderHitHSPPromoter(PointfinderHitHSP):
@@ -118,3 +119,20 @@ class PointfinderHitHSPPromoter(PointfinderHitHSP):
         size = int(size_string.replace('bp', ''))  # remove the 'bp' and convert to an int
 
         self.offset = size
+
+    def get_amr_gene_name(self):
+        """
+        Gets the particular gene name for the PointfinderHitHSPPromoter hit.
+        :return: The gene name.
+        """
+        name = self._blast_record['qseqid']
+
+        # CGE has been changing FASTA record headers to include accession
+        # numbers, which need to be removed. See PointfinderHitHSP.get_amr_gene_name()
+        # for more information. Furthermore, promoters seem to use the form
+        # "ampC-promoter", whereas the resistens-overview.txt file expects the form
+        # "ampC_promoter_size_53bp".
+        # Ex: ampC-promoter_1_CP037449.1 -> ampC_promoter
+        name = re.sub(r'(.+promoter).+', r'\1', name) # Grab everything up to and include "promoter"
+        name = name.replace('-', "_")
+        return name

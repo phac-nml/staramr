@@ -107,6 +107,14 @@ class PointfinderDatabaseInfo:
         & (table['Gene_ID'].str.contains('16S') == False)
         & (table['Gene_ID'].str.contains('23S') == False), "Res_codon"].str.replace('[A-Z,]+', self.to_codons, regex=True)
 
+        # We need to correct for the mismatch between promter's FASTA record ID
+        # and the associated gene ID in the resistens-overview.txt file. For example:
+        # FASTA Record ID: >ampC-promoter_1_CP037449.1
+        # Gene ID: ampC_promoter_size_53bp
+        # The gene ID seems to be derived from the file name (ampC-promoter-size-53bp.fsa),
+        # although that still contains mismatching hyphens and underscores.
+        table[['Gene_ID']] = table[['Gene_ID']].replace({r'(.+promoter).+' : r'\1'}, regex=True)
+
     def _get_resistance_codon_match(self, gene, codon_mutation):
         table = self._pointfinder_info
 

@@ -24,7 +24,7 @@ class PointfinderHitHSPRNA(PointfinderHitHSP):
         # for more information. Naming schemes are also inconsistent:
         # pointfinder/campylobacter/23S.fsa -> 23S_1_LR134511.1
         # pointfinder/neisseria_gonorrhoeae/23S-rRNA-a1.fsa -> 23S-rRNA-a1_1_AE004969.1
-        if name.startswith("16S_rrsD"): name = "16S_rrsD"
+        if name.startswith("16S_rrs"): name = name.split("_")[0] + "_" + name.split("_")[1]
         elif name.startswith("16S"): name = "16S"
         elif name.startswith("23S"): name = "23S"
         else: name = name.split("_")[0]
