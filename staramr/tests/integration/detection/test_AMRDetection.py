@@ -1431,7 +1431,7 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
-        result = pointfinder_results[pointfinder_results['Gene'] == 'ahpC_promoter_size_180bp (F10I)']
+        result = pointfinder_results[pointfinder_results['Gene'] == 'ahpC_promoter (F10I)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], 'ahpC_promoter_size_180bp-F10I', msg='Wrong file')
         self.assertEqual(result['Type'].iloc[0], 'codon', msg='Wrong type')
@@ -1440,7 +1440,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.87, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '768/768', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ahpC_promoter_size_180bp (F10I)]',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ahpC_promoter (F10I)]',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_ahpC_promoter_size_180bp-F10I.fsa')
@@ -1449,7 +1449,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['ahpC_promoter_size_180bp'].seq.upper(), records['ahpC_promoter_size_180bp'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['ahpC_promoter_size_180bp'].seq.upper(), records['ahpC-promoter_1_CP049108.1'].seq.upper(), "records don't match")
 
     def testPointfinderEscherichiaColin13insGSuccess(self):
         # Insert a G at -13 in the promoter.
@@ -1471,7 +1471,7 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
-        result = pointfinder_results[pointfinder_results['Gene'] == 'ampC_promoter_size_53bp (ins-13G)']
+        result = pointfinder_results[pointfinder_results['Gene'] == 'ampC_promoter (ins-13G)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], 'ampC_promoter_size_53bp-n13insG', msg='Wrong file')
         self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
@@ -1489,7 +1489,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC_promoter_size_53bp'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC-promoter_1_CP037449.1'].seq.upper(), "records don't match")
 
     def testPointfinderEscherichiaColin16insGTSuccess(self):
         # Insert a GT at -16 in the promoter.
@@ -1511,7 +1511,7 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
-        result = pointfinder_results[pointfinder_results['Gene'] == 'ampC_promoter_size_53bp (ins-16GT)']
+        result = pointfinder_results[pointfinder_results['Gene'] == 'ampC_promoter (ins-16GT)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], 'ampC_promoter_size_53bp-n16insGT', msg='Wrong file')
         self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
@@ -1520,7 +1520,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 98.639, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 101.38, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '147/145', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ampC_promoter_size_53bp (ins-16GT)]',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[ampC_promoter (ins-16GT)]',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_ampC_promoter_size_53bp-n16insGT.fsa')
@@ -1529,7 +1529,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC_promoter_size_53bp'].seq.upper(), "records don't match")
+        self.assertEqual(expected_records['ampC_promoter_size_53bp'].seq.upper(), records['ampC-promoter_1_CP037449.1'].seq.upper(), "records don't match")
 
     def testPointfinderNeisseriaGonorrhoeaen57delSuccess(self):
         # Delete the A nucleotide at -57 in the promoter.
@@ -1551,7 +1551,7 @@ class AMRDetectionIT(unittest.TestCase):
         pointfinder_results = amr_detection.get_pointfinder_results()
         self.assertEqual(len(pointfinder_results.index), 1, 'Wrong number of rows in result')
 
-        result = pointfinder_results[pointfinder_results['Gene'] == 'mtrR_promoter_size_66bp (del-57A)']
+        result = pointfinder_results[pointfinder_results['Gene'] == 'mtrR_promoter (del-57A)']
         self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
         self.assertEqual(result.index[0], 'mtrR_promoter_size_66bp-n57del', msg='Wrong file')
         self.assertEqual(result['Type'].iloc[0], 'nucleotide', msg='Wrong type')
@@ -1560,7 +1560,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Identity'].iloc[0], 99.86, places=2, msg='Wrong pid')
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.0, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '699/699', msg='Wrong lengths')
-        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[mtrR_promoter_size_66bp (del-57A)]',
+        self.assertEqual(result['Predicted Phenotype'].iloc[0], 'unknown[mtrR_promoter (del-57A)]',
                          'Wrong phenotype')
 
         hit_file = path.join(self.outdir.name, 'pointfinder_mtrR_promoter_size_66bp-n57del.fsa')
@@ -1569,7 +1569,7 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(len(records), 1, 'Wrong number of hit records')
 
         expected_records = SeqIO.to_dict(SeqIO.parse(file, 'fasta'))
-        self.assertEqual(expected_records['mtrR_promoter_size_66bp'].seq.upper(), records['mtrR_promoter_size_66bp'].seq.upper().replace('-', ''), "records don't match")
+        self.assertEqual(expected_records['mtrR_promoter_size_66bp'].seq.upper(), records['mtrR-promoter_1_CP012026.1'].seq.upper().replace('-', ''), "records don't match")
 
     def testPointfinderNeisseriaGonorrhoeae78delSuccess(self):
         # Delete the GTT/V nucleotides/codon at pos 78 (nucleotide coords) / pos 27 (codon coords)
