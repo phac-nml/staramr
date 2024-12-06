@@ -48,7 +48,8 @@ class BlastResultsParserPointfinder(BlastResultsParser):
 
     def _create_hit(self, file, database_name, blast_record):
         logger.debug("database_name=%s", database_name)
-        if (database_name == '16S_rrsD') or (database_name == '23S'):
+        if (database_name.startswith('16S_rrs') or database_name.startswith('16S-rrs') \
+            or (database_name == '23S')):
             return PointfinderHitHSPRNA(file, blast_record)
         elif ('promoter' in database_name):
             return PointfinderHitHSPPromoter(file, blast_record, database_name)            
