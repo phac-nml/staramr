@@ -47,73 +47,73 @@ salmonella	parE	514	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	521	ciprofloxacin I/R,nalidixic acid
 salmonella	16S_rrsD	1065	spectinomycin
 salmonella	16S_rrsD	1192	spectinomycin
-salmonella	parC	57	None
-salmonella	acrB	717	azithromycin
-escherichia_coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	82	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	83	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	84	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	87	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	106	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	196	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrB	136	aminocoumarin
-escherichia_coli	gyrB	426	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrB	447	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	56	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	57	None
-escherichia_coli	parC	60	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	78	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	80	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	84	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	108	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	416	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	423	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	439	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	444	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	458	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	460	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	464	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	470	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	475	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	476	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parE	529	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	pmrA	39	colistin
-escherichia_coli	pmrA	81	colistin
-escherichia_coli	pmrB	161	colistin
-escherichia_coli	folP	64	sulfisoxazole
-escherichia_coli	rpoB	146	rifamycin
-escherichia_coli	rpoB	513	rifamycin
-escherichia_coli	rpoB	526	rifamycin
-escherichia_coli	rpoB	529	rifamycin
-escherichia_coli	rpoB	531	rifamycin
-escherichia_coli	rpoB	533	rifamycin
-escherichia_coli	rpoB	563	rifamycin
-escherichia_coli	rpoB	564	rifamycin
-escherichia_coli	rpoB	687	rifamycin
-escherichia_coli	23S	2059	erythromycin,azithromycin
-escherichia_coli	16S_rrsB	523	streptomycin
-escherichia_coli	16S_rrsB	527	streptomycin
-escherichia_coli	16S_rrsB	528	streptomycin
-escherichia_coli	16S_rrsB	964	tetracycline
-escherichia_coli	16S_rrsB	1053	tetracycline
-escherichia_coli	16S_rrsB	1054	tetracycline
-escherichia_coli	16S_rrsB	1055	tetracycline
-escherichia_coli	16S_rrsB	1058	tetracycline
-escherichia_coli	16S_rrsB	1064	spectinomycin
-escherichia_coli	16S_rrsB	1066	spectinomycin
-escherichia_coli	16S_rrsB	1068	spectinomycin
-escherichia_coli	16S_rrsB	1406	gentamicin,kanamycin,tobramycin
-escherichia_coli	16S_rrsB	1408	gentamicin,kanamycin,neomycin,paromomycin
-escherichia_coli	16S_rrsC	794	kasugamicin
-escherichia_coli	16S_rrsC	926	kasugamicin
-escherichia_coli	16S_rrsC	1519	kasugamicin
-escherichia_coli	16S_rrsH	1192	spectinomycin
-escherichia_coli	ampC_promoter	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+salmonella	parC	57	
+salmonella	acrB	171	azithromycin
+e.coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	82	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	83	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	84	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	87	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	106	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrA	196	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrB	136	aminocoumarin
+e.coli	gyrB	426	ciprofloxacin I/R,nalidixic acid
+e.coli	gyrB	447	ciprofloxacin I/R,nalidixic acid
+e.coli	parC	56	ciprofloxacin I/R,nalidixic acid
+e.coli	parC	57	
+e.coli	parC	60	ciprofloxacin I/R,nalidixic acid
+e.coli	parC	78	ciprofloxacin I/R,nalidixic acid
+e.coli	parC	80	ciprofloxacin I/R,nalidixic acid
+e.coli	parC	84	ciprofloxacin I/R,nalidixic acid
+e.coli	parC	108	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	416	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	423	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	439	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	444	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	458	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	460	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	464	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	470	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	475	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	476	ciprofloxacin I/R,nalidixic acid
+e.coli	parE	529	ciprofloxacin I/R,nalidixic acid
+e.coli	pmrA	39	colistin
+e.coli	pmrA	81	colistin
+e.coli	pmrB	161	colistin
+e.coli	folP	64	sulfisoxazole
+e.coli	rpoB	146	rifamycin
+e.coli	rpoB	513	rifamycin
+e.coli	rpoB	526	rifamycin
+e.coli	rpoB	529	rifamycin
+e.coli	rpoB	531	rifamycin
+e.coli	rpoB	533	rifamycin
+e.coli	rpoB	563	rifamycin
+e.coli	rpoB	564	rifamycin
+e.coli	rpoB	687	rifamycin
+e.coli	23S	2059	erythromycin,azithromycin
+e.coli	16S_rrsB	523	streptomycin
+e.coli	16S_rrsB	527	streptomycin
+e.coli	16S_rrsB	528	streptomycin
+e.coli	16S_rrsB	964	tetracycline
+e.coli	16S_rrsB	1053	tetracycline
+e.coli	16S_rrsB	1054	tetracycline
+e.coli	16S_rrsB	1055	tetracycline
+e.coli	16S_rrsB	1058	tetracycline
+e.coli	16S_rrsB	1064	spectinomycin
+e.coli	16S_rrsB	1066	spectinomycin
+e.coli	16S_rrsB	1068	spectinomycin
+e.coli	16S_rrsB	1406	gentamicin,kanamycin,tobramycin
+e.coli	16S_rrsB	1408	gentamicin,kanamycin,neomycin,paromomycin
+e.coli	16S_rrsC	794	kasugamicin
+e.coli	16S_rrsC	926	kasugamicin
+e.coli	16S_rrsC	1519	kasugamicin
+e.coli	16S_rrsH	1192	spectinomycin
+e.coli	ampC_promoter_size_53bp	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+e.coli	ampC_promoter_size_53bp	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+e.coli	ampC_promoter_size_53bp	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+e.coli	ampC_promoter_size_53bp	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 campylobacter	gyrA	70	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	85	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
