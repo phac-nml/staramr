@@ -194,13 +194,13 @@ class Search(SubCommand):
         for name in ['Summary', 'Detailed_Summary', 'ResFinder', 'PointFinder', 'PlasmidFinder', 'MLST_Summary']:
             if name in sheetname_dataframe:
                 if name == 'Summary':
-                    sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 2], float_format="%0.2f",na_rep=self.BLANK)
+                    sheetname_dataframe[name].to_excel(writer, sheet_name=name, freeze_panes=[1, 2], float_format="%0.2f",na_rep=self.BLANK)
                 else:
-                    sheetname_dataframe[name].to_excel(writer, name, freeze_panes=[1, 1], float_format="%0.2f",na_rep=self.BLANK)
+                    sheetname_dataframe[name].to_excel(writer, sheet_name=name, freeze_panes=[1, 1], float_format="%0.2f",na_rep=self.BLANK)
                 
         self._resize_columns(sheetname_dataframe, writer, max_width=50)
 
-        settings_dataframe.to_excel(writer, 'Settings')
+        settings_dataframe.to_excel(writer, sheet_name='Settings')
         self._resize_columns({'Settings': settings_dataframe}, writer, max_width=75, text_wrap=False)
 
         writer.close()
