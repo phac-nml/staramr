@@ -145,7 +145,7 @@ If you wish to update to the latest ResFinder, PointFinder, and PlasmidFinder da
 staramr db update --update-default
 ```
 
-If you wish to switch to specific git commits of either ResFinder, PointFinder, or PlasmidFinder databases you may also pass `--resfinder-commit [COMMIT]`, `--pointfinder-commit [COMMIT]`, and `--plasmidfinder-commit [COMMIT]`. However, please note that because of compatibility issues arising from changes in the source databases, this functionality is largely unsupported and is unlikely to work for versions of the databases that the StarAMR release wasn't released with.
+If you wish to switch to specific git commits of either ResFinder, PointFinder, or PlasmidFinder databases you may also pass `--resfinder-commit [COMMIT]`, `--pointfinder-commit [COMMIT]`, and `--plasmidfinder-commit [COMMIT]`. However, please note that because of compatibility issues arising from changes in the source databases, this functionality is largely unsupported and is unlikely to work for versions of the databases that StarAMR wasn't released with.
 
 ## Restore Database
 
