@@ -1,5 +1,8 @@
 # Unreleased
 
+* Removed ARG drug key entries with "None" or missing resistance.
+* The ARG drug key for salmonella acrB 717 has changed to acrB 171.
+
 # Version 0.10.0
 
 * Updated the Plasmidfinder database to use the January 18th 2023 release.
