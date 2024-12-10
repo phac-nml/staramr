@@ -110,10 +110,10 @@ escherichia_coli	16S_rrsC	794	kasugamicin
 escherichia_coli	16S_rrsC	926	kasugamicin
 escherichia_coli	16S_rrsC	1519	kasugamicin
 escherichia_coli	16S_rrsH	1192	spectinomycin
-escherichia_coli	ampC_promoter_size_53bp	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter_size_53bp	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter_size_53bp	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter_size_53bp	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 campylobacter	gyrA	70	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	85	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	86	ciprofloxacin,nalidixic acid

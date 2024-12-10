@@ -28,7 +28,17 @@ class PointfinderHitHSP(AMRHitHSP):
         Gets the particular gene name for the PointFinder hit.
         :return: The gene name.
         """
-        return self._blast_record['qseqid']
+
+        # As far back as 2020, CGE has been editing the FASTA file
+        # record headings used by Pointfinder to include accession
+        # numbers (pmrA -> pmrA_1_CP055130.1). This seems to be part
+        # of a larger initiative by CGE to move from the
+        # resistens-overview.txt file to a new phenotypes.txt file.
+        # However, we need to use the new FASTA record headers with
+        # the legacy resistens-overview.txt names, which unfortunately
+        # requires modifying the gene names back
+        # (pmrA_1_CP055130.1 -> pmrA).
+        return self._blast_record['qseqid'].split("_")[0]
 
     def _get_mutation_positions(self, start):
         mutation_positions = []
