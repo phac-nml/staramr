@@ -145,7 +145,7 @@ If you wish to update to the latest ResFinder, PointFinder, and PlasmidFinder da
 staramr db update --update-default
 ```
 
-If you wish to switch to specific git commits of either ResFinder, PointFinder, or PlasmidFinder databases you may also pass `--resfinder-commit [COMMIT]`, `--pointfinder-commit [COMMIT]`, and `--plasmidfinder-commit [COMMIT]`.
+If you wish to switch to specific git commits of either ResFinder, PointFinder, or PlasmidFinder databases you may also pass `--resfinder-commit [COMMIT]`, `--pointfinder-commit [COMMIT]`, and `--plasmidfinder-commit [COMMIT]`. However, please note that because of compatibility issues arising from changes in the source databases, this functionality is largely unsupported and is unlikely to work for versions of the databases that the StarAMR release wasn't released with.
 
 ## Restore Database
 
@@ -245,11 +245,11 @@ By default, the ResFinder/PointFinder/PlasmidFinder genes listed in [genes_to_ex
 
 ```
 gene_id
-aac(6')-Iaa_1_NC_003197
-ColpVC_1__JX133088
+gyrA_1_CP073768.1
+pmrB_1_CP051284.1
 ```
 
-Please make sure to include `gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`.
+Please make sure to include `gene_id` in the first line. The default exclusion list can also be disabled with `--no-exclude-genes`. Gene IDs must exactly match the FASTA record IDs provided in the source databases.
 
 ## Complex Mutations
 
@@ -504,7 +504,7 @@ Restores the default database for `staramr`.
 
 # Caveats
 
-This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *salmonella*, *campylobacter* are currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
+This software is still a work-in-progress.  In particular, not all organisms stored in the PointFinder database are supported (only *enterococcus_faecalis*, *helicobacter_pylori*, *enterococcus_faecium*, *campylobacter*, *escherichia_coli*, *salmonella* are currently supported). Additionally, the predicted phenotypes are for microbiological resistance and *not* clinical resistance. Phenotype/drug resistance predictions are an experimental feature which is continually being improved.
 
 `staramr` only works on assembled genomes and not directly on reads. A quick genome assembler you could use is [Shovill][shovill]. Or, you may also wish to try out the [ResFinder webservice][resfinder-web],  or the command-line tools [rgi][] or [ariba][] which will work on sequence reads as well as genome assemblies.  You may also wish to check out the [CARD webservice][card-web]. 
 
