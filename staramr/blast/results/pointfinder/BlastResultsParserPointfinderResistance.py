@@ -60,12 +60,12 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
         else:
             mutation_position = db_mutation.get_mutation_position()
 
-        arg_drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_amr_gene_id(),
+        arg_drug = self._arg_drug_table.get_drug(self._blast_database.get_organism(), hit.get_amr_gene_name(),
                                              mutation_position)
         
-        cge_drug = self._blast_database.get_cge_phenotype(hit.get_amr_gene_id(), db_mutation)
+        cge_drug = self._blast_database.get_cge_phenotype(hit.get_amr_gene_name(), db_mutation)
 
-        gene_name = hit.get_amr_gene_id() + " (" + db_mutation.get_mutation_string_short() + ")"
+        gene_name = hit.get_amr_gene_name() + " (" + db_mutation.get_mutation_string_short() + ")"
 
         if arg_drug is None:
             arg_drug = 'unknown[' + gene_name + ']'
@@ -87,10 +87,10 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
                 hit.get_genome_contig_start(),
                 hit.get_genome_contig_end(),
                 db_mutation.get_pointfinder_mutation_string(),
-                self._blast_database.get_cge_notes(hit.get_amr_gene_id(), db_mutation),
-                self._blast_database.get_cge_required_mutation(hit.get_amr_gene_id(), db_mutation),
-                self._blast_database.get_cge_mechanism(hit.get_amr_gene_id(), db_mutation),
-                self._blast_database.get_cge_pmid(hit.get_amr_gene_id(), db_mutation),
+                self._blast_database.get_cge_notes(hit.get_amr_gene_name(), db_mutation),
+                self._blast_database.get_cge_required_mutation(hit.get_amr_gene_name(), db_mutation),
+                self._blast_database.get_cge_mechanism(hit.get_amr_gene_name(), db_mutation),
+                self._blast_database.get_cge_pmid(hit.get_amr_gene_name(), db_mutation),
                 ]
 
         return result

@@ -1,3 +1,11 @@
+# Version 0.11.0
+
+* Updated the Resfinder database to use the 2024-08-06 release.
+* Updated the Pointfinder database to use the 2024-08-08 release.
+* The Resfinder and Pointfinder databases now use FASTA record IDs with accession numbers (ex: `pmrA` -> `pmrA_1_CP055130.1`). StarAMR has been updated to support this, but database backwards compatibility is unlikely.
+* The `genes_to_exclude` is affected by the above change and must now use gene IDs that exactly match the new FASTA record IDs with accession IDs.
+* Removed ARG drug key entries with "None" or missing resistance.
+
 # Version 0.10.0
 
 * Updated the Plasmidfinder database to use the January 18th 2023 release.

@@ -75,8 +75,8 @@ class PlasmidfinderBlastDatabase(AbstractBlastDatabase):
         A Class Method to get the config table from the plasmidfinder database root directory.
         :return: A DataFrame containing the config table.
         """
-        config = pd.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
-                             names=['db_prefix', 'name', 'description'])
+        config = pd.read_csv(path.join(database_dir, 'config'), sep=r'\t|\s{4,}', comment='#', header=None,
+                             names=['db_prefix', 'name', 'description'], engine='python')
         return config
 
     @classmethod

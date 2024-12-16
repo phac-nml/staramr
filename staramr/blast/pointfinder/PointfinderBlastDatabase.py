@@ -167,8 +167,8 @@ class PointfinderBlastDatabase(AbstractBlastDatabase):
         :param database_dir: The PointFinder database root directory.
         :return: A list of organisms.
         """
-        config = pd.read_csv(path.join(database_dir, 'config'), sep='\t', comment='#', header=None,
-                             names=['db_prefix', 'name', 'description'])
+        config = pd.read_csv(path.join(database_dir, 'config'), sep=r'\t|\s{4,}', comment='#', header=None,
+                             names=['db_prefix', 'name', 'description'], engine='python')
         return config['db_prefix'].tolist()
 
     @classmethod

@@ -47,7 +47,6 @@ salmonella	parE	514	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	521	ciprofloxacin I/R,nalidixic acid
 salmonella	16S_rrsD	1065	spectinomycin
 salmonella	16S_rrsD	1192	spectinomycin
-salmonella	parC	57	None
 salmonella	acrB	717	azithromycin
 escherichia_coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
@@ -62,7 +61,6 @@ escherichia_coli	gyrB	136	aminocoumarin
 escherichia_coli	gyrB	426	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrB	447	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	parC	56	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	57	None
 escherichia_coli	parC	60	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	parC	78	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	parC	80	ciprofloxacin I/R,nalidixic acid
@@ -110,10 +108,10 @@ escherichia_coli	16S_rrsC	794	kasugamicin
 escherichia_coli	16S_rrsC	926	kasugamicin
 escherichia_coli	16S_rrsC	1519	kasugamicin
 escherichia_coli	16S_rrsH	1192	spectinomycin
-escherichia_coli	ampC_promoter_size_53bp	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter_size_53bp	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter_size_53bp	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	ampC_promoter_size_53bp	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-42	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 campylobacter	gyrA	70	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	85	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
