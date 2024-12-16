@@ -47,7 +47,7 @@ salmonella	parE	514	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	521	ciprofloxacin I/R,nalidixic acid
 salmonella	16S_rrsD	1065	spectinomycin
 salmonella	16S_rrsD	1192	spectinomycin
-salmonella	acrB	171	azithromycin
+salmonella	acrB	717	azithromycin
 escherichia_coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
