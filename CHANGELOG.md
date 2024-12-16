@@ -1,4 +1,4 @@
-# Unreleased
+# Version 0.11.0
 
 * Updated the Resfinder database to use the 2024-08-06 release.
 * Updated the Pointfinder database to use the 2024-08-08 release.
