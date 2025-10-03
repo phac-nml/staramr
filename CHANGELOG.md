@@ -1,3 +1,7 @@
+# Version 0.11.1
+
+- Remove `parse_seqids` from `makeblastdb` command. Fixes issue with contig headers greater than 50 characters. [PR #225](https://github.com/phac-nml/staramr/pull/225)
+
 # Version 0.11.0
 
 * Updated the Resfinder database to use the 2024-08-06 release.

@@ -280,7 +280,7 @@ class JobHandler:
             raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
 
     def _make_blast_db(self, path: str, file: str) -> None:
-        command = ['makeblastdb', '-in', path, '-dbtype', 'nucl', '-parse_seqids']
+        command = ['makeblastdb', '-in', path, '-dbtype', 'nucl']
         logger.debug(' '.join(command))
         try:
             subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
