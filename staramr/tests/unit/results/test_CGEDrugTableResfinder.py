@@ -72,5 +72,5 @@ class CGEDrugTableResfinderTest(unittest.TestCase):
         notes = self.cge_drug_table.get_cge_notes(gene_plus_variant, accession)
         print(notes)
         self.assertEqual(notes,
-                         "MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542;MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542",
+                         "MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542",
                          "The notes do not match.")
