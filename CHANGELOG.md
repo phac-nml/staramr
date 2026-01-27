@@ -1,3 +1,8 @@
+# Unreleased
+
+* Updated the Resfinder database to use the 2025-05-04 / 2.6.0 release.
+* Updated the Plasmidfinder database to use the 2025-09-10 / 2.2.0 release.
+
 # Version 0.11.1
 
 - Remove `parse_seqids` from `makeblastdb` command. Fixes issue with contig headers greater than 50 characters. [PR #225](https://github.com/phac-nml/staramr/pull/225)
