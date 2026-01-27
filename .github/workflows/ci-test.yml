@@ -25,7 +25,7 @@ jobs:
       matrix:
         include:
           - python-version: "3.9"
-            other-packages: "mlst numpy pandas"
+            other-packages: "mlst numpy pandas coloredlogs"
 
     steps:
       - uses: actions/checkout@v2
