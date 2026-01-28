@@ -59,7 +59,7 @@ class AMRDetectionMLST(unittest.TestCase):
         mlst_results = self.amr_detection.get_mlst_results()
 
         self.assertEqual(len(mlst_results.index), 1, 'Wrong number of results detected')
-        self.assertEqual(len(mlst_results.columns), 9, 'Wrong number of columns detected')
+        self.assertEqual(len(mlst_results.columns), 11, 'Wrong number of columns detected')
 
         self.assertTrue(mlst_results['Scheme'].iloc[0] in ['salmonella', 'senterica', 'senterica_achtman_2'], msg='Wrong Scheme')
         self.assertTrue(mlst_results['Sequence Type'].iloc[0] in ['-', '1'], msg='Wrong Sequence Type')
@@ -79,7 +79,7 @@ class AMRDetectionMLST(unittest.TestCase):
         mlst_results = self.amr_detection.get_mlst_results()
 
         self.assertEqual(len(mlst_results.index), 1, 'Wrong number of results detected')
-        self.assertEqual(len(mlst_results.columns), 2, 'Wrong number of columns detected')
+        self.assertEqual(len(mlst_results.columns), 4, 'Wrong number of columns detected')
 
         self.assertEqual(mlst_results['Scheme'].iloc[0], '-', msg='Scheme is found, expected none')
         self.assertEqual(mlst_results['Sequence Type'].iloc[0], '-', msg='Sequence Type is found, expected none')

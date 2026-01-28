@@ -142,7 +142,7 @@ class JobHandler:
 
     def _schedule_mlst(self, file: str, mlst_scheme: str) -> str:
 
-        command = ['mlst']
+        command = ['mlst', '--full']
 
         if mlst_scheme is not None:
             command.extend(['--scheme', mlst_scheme])
