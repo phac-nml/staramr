@@ -25,7 +25,7 @@ jobs:
       matrix:
         include:
           - python-version: "3.9"
-            other-packages: "mlst>=v2.32.2 numpy pandas coloredlogs biopython=1.85 gitpython"
+            other-packages: "mlst>=2.32.2 numpy pandas coloredlogs biopython=1.85 gitpython"
 
     steps:
       - uses: actions/checkout@v2
