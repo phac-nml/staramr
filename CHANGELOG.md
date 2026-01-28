@@ -1,7 +1,8 @@
 # Unreleased
 
-* Updated the Resfinder database to use the 2025-05-04 / 2.6.0 release. [PR #232](https://github.com/phac-nml/staramr/pull/232)
-* Updated the Plasmidfinder database to use the 2025-09-10 / 2.2.0 release.[PR #232](https://github.com/phac-nml/staramr/pull/232)
+- Updated the Resfinder database to use the 2025-05-04 / 2.6.0 release. [PR #232](https://github.com/phac-nml/staramr/pull/232)
+- Updated the Plasmidfinder database to use the 2025-09-10 / 2.2.0 release. [PR #232](https://github.com/phac-nml/staramr/pull/232)
+- Updated StarAMR to use the `--full` option of MLST. [PR #233](https://github.com/phac-nml/staramr/pull/233)
 
 # Version 0.11.1
 
