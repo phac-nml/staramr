@@ -61,15 +61,15 @@ class AMRDetectionMLST(unittest.TestCase):
         self.assertEqual(len(mlst_results.index), 1, 'Wrong number of results detected')
         self.assertEqual(len(mlst_results.columns), 11, 'Wrong number of columns detected')
 
-        self.assertTrue(mlst_results['Scheme'].iloc[0] in ['salmonella', 'senterica', 'senterica_achtman_2'], msg='Wrong Scheme')
-        self.assertTrue(mlst_results['Sequence Type'].iloc[0] in ['-', '1'], msg='Wrong Sequence Type')
+        self.assertEqual(mlst_results['Scheme'].iloc[0], 'salmonella', msg='Wrong Scheme')
+        self.assertEqual(mlst_results['Sequence Type'].iloc[0], '1', msg='Wrong Sequence Type')
         self.assertEqual(mlst_results['Locus 1'].iloc[0], 'aroC(1)', msg='Wrong Locus 1 Result')
         self.assertEqual(mlst_results['Locus 2'].iloc[0], 'dnaN(1)', msg='Wrong Locus 2 Result')
         self.assertEqual(mlst_results['Locus 3'].iloc[0], 'hemD(1)', msg='Wrong Locus 3 Result')
         self.assertEqual(mlst_results['Locus 4'].iloc[0], 'hisD(1)', msg='Wrong Locus 4 Result')
         self.assertEqual(mlst_results['Locus 5'].iloc[0], 'purE(1)', msg='Wrong Locus 5 Result')
         self.assertEqual(mlst_results['Locus 6'].iloc[0], 'sucA(1)', msg='Wrong Locus 6 Result')
-        self.assertTrue(mlst_results['Locus 7'].iloc[0] in ['thrA(5)', 'thrA(5,783)'], msg='Wrong Locus 7 Result')
+        self.assertEqual(mlst_results['Locus 7'].iloc[0], 'thrA(5)', msg='Wrong Locus 7 Result')
 
     def testNoMLSTResults(self):
         file = path.join(self.test_data_dir, "gyrA-S97N.fsa")
