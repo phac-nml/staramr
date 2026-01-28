@@ -235,7 +235,7 @@ staramr db restore-default
 * Python 3.7+
 * BLAST+
 * Git
-* MLST
+* MLST 2.32.2+
 
 # Input
 
