@@ -12,17 +12,6 @@ Class used to parse out BLAST results for PlasmidFinder, including phenotyhpes/r
 
 
 class BlastResultsParserPlasmidfinderResistance(BlastResultsParserPlasmidfinder):
-    COLUMNS = [x.strip() for x in '''
-    Isolate ID
-    Gene
-    %Identity
-    %Overlap
-    HSP Length/Total Length
-    Contig
-    Start
-    End
-    Accession
-    '''.strip().split('\n')]
 
     def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: PlasmidfinderBlastDatabase,
                  pid_threshold: float, plength_threshold: float,

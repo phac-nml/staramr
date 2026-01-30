@@ -3,48 +3,44 @@ import unittest
 import pandas as pd
 
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
+from staramr.blast.results.resfinder.BlastResultsParserResfinderResistance import BlastResultsParserResfinderResistance
+from staramr.blast.results.pointfinder.BlastResultsParserPointfinderResistance import BlastResultsParserPointfinderResistance
 
 
 class AMRDetectionSummaryResistanceTest(unittest.TestCase):
 
     def setUp(self):
-        self.columns_resfinder = ('Isolate ID', 'Gene', 'Predicted Phenotype', 'CGE Predicted Phenotype', '%Identity', '%Overlap',
-                                  'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
-        self.columns_pointfinder = ('Isolate ID', 'Gene', 'Predicted Phenotype', 'Type', 'Position', 'Mutation',
-                                    '%Identity', '%Overlap', 'HSP Length/Total Length')
         self.columns_quality_module = ('Isolate ID','Genome Length','N50 value','Number of Contigs Under 1000 bp','Quality Module','Quality Module Feedback')
 
         # Resfinder tables
-        self.resfinder_table_empty = pd.DataFrame([],
-                                                  columns=self.columns_resfinder)
+        self.resfinder_table_empty = pd.DataFrame([], columns=BlastResultsParserResfinderResistance.COLUMNS).astype(BlastResultsParserResfinderResistance.DTYPES)
 
         self.resfinder_table = pd.DataFrame([
             ['file1', 'blaIMP-42', 'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem',
              'ampicillin, amoxi/clav, cefoxitin, ceftriaxone, meropenem', 99.73, 100.00,
-             '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456']
+             '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456', "ATCG", "CGE Notes"]
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinderResistance.COLUMNS).astype(BlastResultsParserResfinderResistance.DTYPES)
 
         self.resfinder_table_duplicate_resistances = pd.DataFrame([
             ['file1', 'blaIMP-42', 'ampicillin', 'ampicillin', 99.73, 100.00,
-             '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456'],
+             '741/741', 'blaIMP-42_1_AB753456', 1, 741, 'AB753456', "ATCG", "CGE Notes"],
             ['file1', 'blaCTX-M-55', 'ampicillin, ceftriaxone', 'ampicillin, ceftriaxone', 99.73, 100.00,
-             '741/741', 'x', 1, 741, 'AB753456']
+             '741/741', 'x', 1, 741, 'AB753456', "ATCG", "CGE Notes"]
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinderResistance.COLUMNS).astype(BlastResultsParserResfinderResistance.DTYPES)
 
         self.pointfinder_table = pd.DataFrame([
-            ['file1', 'gyrA', 'ciprofloxacin I/R, nalidixic acid', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
-             '2637/2637'],
+            ['file1', 'gyrA', 'ciprofloxacin I/R, nalidixic acid', 'ciprofloxacin I/R, nalidixic acid', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0,
+             '2637/2637', 'contig1', 1000, 3637, 'A67P', 'CGE Notes', 'CGE Required Mutation', 'CGE Mechanism', 'CGE PMID'],
         ],
-            columns=self.columns_pointfinder)
+            columns=BlastResultsParserPointfinderResistance.COLUMNS).astype(BlastResultsParserPointfinderResistance.DTYPES)
 
         self.pointfinder_table_duplicate = pd.DataFrame([
-            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96,
-             100.0,
-             '2637/2637'],
+            ['file1', 'gyrA', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'ampicillin, ceftriaxone, ciprofloxacin I/R', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96,
+             100.0, '2637/2637', 'contig1', 1000, 3637, 'A67P', 'CGE Notes', 'CGE Required Mutation', 'CGE Mechanism', 'CGE PMID'],
         ],
-            columns=self.columns_pointfinder)
+            columns=BlastResultsParserPointfinderResistance.COLUMNS).astype(BlastResultsParserPointfinderResistance.DTYPES)
 
         self.quality_module_table = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],],
             columns=self.columns_quality_module).set_index('Isolate ID')

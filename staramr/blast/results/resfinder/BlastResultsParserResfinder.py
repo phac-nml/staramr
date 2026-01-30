@@ -25,6 +25,19 @@ class BlastResultsParserResfinder(BlastResultsParser):
     End
     Accession
     '''.strip().split('\n')]
+
+    DTYPES = {
+        "Isolate ID": str,
+        "Gene": str,
+        "%Identity": float,
+        "%Overlap": float,
+        "HSP Length/Total Length": str,
+        "Contig": str,
+        "Start": int,
+        "End": int,
+        "Accession": str
+    }
+
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
     def __init__(self, file_blast_map: Dict[str, BlastResultsParser], blast_database: ResfinderBlastDatabase,

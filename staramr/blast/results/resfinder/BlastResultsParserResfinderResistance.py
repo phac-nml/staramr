@@ -22,6 +22,22 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
     CGE Notes
     '''.strip().split('\n')]
 
+    DTYPES = {
+        "Isolate ID": str,
+        "Gene": str,
+        "Predicted Phenotype": str,
+        "CGE Predicted Phenotype": str,
+        "%Identity": float,
+        "%Overlap": float,
+        "HSP Length/Total Length": str,
+        "Contig": str,
+        "Start": int,
+        "End": int,
+        "Accession": str,
+        "Sequence": str,
+        "CGE Notes": str
+    }
+
     def __init__(self, file_blast_map, arg_drug_table, cge_drug_table, blast_database, pid_threshold,
                  plength_threshold, report_all=False, output_dir=None, genes_to_exclude=[]):
         """

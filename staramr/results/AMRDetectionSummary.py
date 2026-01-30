@@ -8,7 +8,7 @@ from pandas import DataFrame
 logger = logging.getLogger("AMRDetectionSummary")
 
 """
-Summarizes both ResFinder, PointFinder, and PlasmidFinder database results into a single table.
+Summarizes ResFinder, PointFinder, and PlasmidFinder database results into a single table.
 """
 
 
@@ -207,7 +207,10 @@ class AMRDetectionSummary:
                 point_frame = point_frame.reindex(columns=column_names)
 
             if resistance_frame is not None:
-                resistance_frame = pd.concat([resistance_frame, point_frame], sort=True)
+                if resistance_frame.empty:
+                    resistance_frame = point_frame
+                else:
+                    resistance_frame = pd.concat([resistance_frame, point_frame], sort=True)
 
         if include_negatives:
             if plasmid_frame is not None:
