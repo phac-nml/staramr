@@ -106,7 +106,7 @@ class AMRDetectionSummary:
                                                 columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
         negative_plasmid_entries['Data Type'] = 'Plasmid'
 
-        if negative_entries is None:
+        if negative_entries is None or negative_entries.empty:
             negative_entries = negative_plasmid_entries
         else:
             negative_entries = pd.concat([negative_entries, negative_plasmid_entries], sort=True)
