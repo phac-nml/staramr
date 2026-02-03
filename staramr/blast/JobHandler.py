@@ -7,8 +7,6 @@ from concurrent.futures import ThreadPoolExecutor
 from os import path
 from typing import Dict, List
 
-from Bio.Blast.Applications import NcbiblastnCommandline
-
 from staramr.blast.AbstractBlastDatabase import AbstractBlastDatabase
 from staramr.exceptions.BlastProcessError import BlastProcessError
 
@@ -271,13 +269,21 @@ class JobHandler:
             raise Exception('Error, pointfinder has not been configured')
 
     def _launch_blast(self, query, db, output) -> None:
-        blast_out_format = '"6 ' + ' '.join(self.BLAST_COLUMNS) + '"'
+        blast_out_format = '6 ' + ' '.join(self.BLAST_COLUMNS)
 
-        blastn_command = NcbiblastnCommandline(query=query, db=db, evalue=0.001, outfmt=blast_out_format, out=output)
-        stdout, stderr = blastn_command()
+        command = ['blastn', '-out', output, '-outfmt', blast_out_format, '-query', query, '-db', db, '-evalue', '0.001']
+        logger.debug(' '.join(command))
 
-        if stderr:
-            raise Exception("error with [" + str(blastn_command) + "], stderr=" + stderr)
+        try:
+            subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+        except subprocess.CalledProcessError as e:
+            err_msg = str(e.stderr.strip())
+            err_msg_match = re.findall('REF\|(.*?)\'', err_msg)
+
+            if len(err_msg_match) > 0:
+                err_msg = err_msg_match[0]
+            raise Exception('Could not run blastn with query file {} and database file {}, error {}'.format(query, db, err_msg))
 
     def _make_blast_db(self, path: str, file: str) -> None:
         command = ['makeblastdb', '-in', path, '-dbtype', 'nucl']
