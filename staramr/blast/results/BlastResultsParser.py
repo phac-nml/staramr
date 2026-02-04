@@ -79,8 +79,9 @@ class BlastResultsParser:
             else:
                 logger.debug("No output directory defined for blast hits, skipping writing file")
 
-        result = pd.DataFrame(results, columns=self.COLUMNS).sort_values(by=self.SORT_COLUMNS)
+        result = pd.DataFrame(results, columns=self.COLUMNS)
         result = result.astype(self.DTYPES)
+        result = result.sort_values(by=self.SORT_COLUMNS)
         result = result.set_index(self.INDEX)
 
         return result
