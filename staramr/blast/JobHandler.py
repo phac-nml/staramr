@@ -279,10 +279,6 @@ class JobHandler:
 
         except subprocess.CalledProcessError as e:
             err_msg = str(e.stderr.strip())
-            err_msg_match = re.findall(r'REF\|(.*?)\'', err_msg)
-
-            if len(err_msg_match) > 0:
-                err_msg = err_msg_match[0]
             raise Exception('Could not run blastn with query file {} and database file {}, error {}'.format(query, db, err_msg))
 
     def _make_blast_db(self, path: str, file: str) -> None:
