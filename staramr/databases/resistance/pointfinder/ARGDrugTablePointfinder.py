@@ -1,4 +1,5 @@
 import logging
+import pandas
 from os import path
 
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
@@ -12,7 +13,7 @@ A Class used to load up and search a file containing gene/drug mappings for Poin
 
 class ARGDrugTablePointfinder(ARGDrugTable):
     DEFAULT_FILE = path.join(ARGDrugTable.DEFAULT_DATA_DIR, 'ARG_drug_key_pointfinder.tsv')
-    DTYPES = {'Organism': str, 'Gene': str, 'Codon Pos.': int, 'Drug': str}
+    DTYPES = {'Organism': pandas.StringDtype(), 'Gene': pandas.StringDtype(), 'Codon Pos.': int, 'Drug': pandas.StringDtype()}
 
     def __init__(self, file=DEFAULT_FILE):
         """

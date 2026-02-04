@@ -1,7 +1,7 @@
 from os import path
 from typing import Dict, List, Optional
 
-import pandas as pd
+import pandas
 
 from staramr.blast.plasmidfinder.PlasmidfinderBlastDatabase import PlasmidfinderBlastDatabase
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
@@ -26,15 +26,15 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
     '''.strip().split('\n')]
 
     DTYPES = {
-        "Isolate ID": str,
-        "Gene": str,
+        "Isolate ID": pandas.StringDtype(),
+        "Gene": pandas.StringDtype(),
         "%Identity": float,
         "%Overlap": float,
-        "HSP Length/Total Length": str,
-        "Contig": str,
+        "HSP Length/Total Length": pandas.StringDtype(),
+        "Contig": pandas.StringDtype(),
         "Start": int,
         "End": int,
-        "Accession": str
+        "Accession": pandas.StringDtype()
     }
 
     SORT_COLUMNS = ['Isolate ID', 'Gene']
@@ -56,7 +56,7 @@ class BlastResultsParserPlasmidfinder(BlastResultsParser):
         super().__init__(file_blast_map, blast_database, pid_threshold, plength_threshold, report_all,
                          output_dir=output_dir, genes_to_exclude=genes_to_exclude)
 
-    def _create_hit(self, file: str, database_name: str, blast_record: pd.Series) -> PlasmidfinderHitHSP:
+    def _create_hit(self, file: str, database_name: str, blast_record: pandas.Series) -> PlasmidfinderHitHSP:
         return PlasmidfinderHitHSP(file, blast_record)
 
     def _get_result_rows(self, hit: PlasmidfinderHitHSP, database_name: str) -> list:

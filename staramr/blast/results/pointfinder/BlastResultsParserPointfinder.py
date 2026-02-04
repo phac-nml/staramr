@@ -1,4 +1,5 @@
 import logging
+import pandas
 from os import path
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
@@ -31,19 +32,19 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     '''.strip().split('\n')]
 
     DTYPES = {
-        "Isolate ID": str,
-        "Gene": str,
-        "Type": str,
-        "Position": str, # These are ints, but sometimes (ex: complex mutations) they are strings like: "5485, 5629, 5667"
-        "Mutation": str,
+        "Isolate ID": pandas.StringDtype(),
+        "Gene": pandas.StringDtype(),
+        "Type": pandas.StringDtype(),
+        "Position": pandas.StringDtype(), # These are ints, but sometimes (ex: complex mutations) they are strings like: "5485, 5629, 5667"
+        "Mutation": pandas.StringDtype(),
         "%Identity": float,
         "%Overlap": float,
-        "HSP Length/Total Length": str,
-        "Contig": str,
+        "HSP Length/Total Length": pandas.StringDtype(),
+        "Contig": pandas.StringDtype(),
         "Start": int,
         "End": int,
-        "Pointfinder Position": str, # This is actually a string like: "C-42T", "ins-16GT", etc.
-        "CGE Notes": str
+        "Pointfinder Position": pandas.StringDtype(), # This is actually a string like: "C-42T", "ins-16GT", etc.
+        "CGE Notes": pandas.StringDtype()
     }
 
     SORT_COLUMNS = ['Isolate ID', 'Gene']

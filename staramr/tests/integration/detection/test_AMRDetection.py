@@ -785,11 +785,11 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertAlmostEqual(result['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin', 'Wrong phenotype')
-        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], '', 'Wrong phenotype')
-        self.assertEqual(result['CGE Notes'].iloc[0], '', msg='The notes do not match.')
-        self.assertEqual(result['CGE PMID'].iloc[0], '', msg='The PMIDs do not match.')
-        self.assertEqual(result['CGE Mechanism'].iloc[0], '', msg='The mechanisms do not match.')
-        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+        self.assertTrue(pd.isna(result['CGE Predicted Phenotype'].iloc[0]), 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE Notes'].iloc[0]), msg='The notes do not match.')
+        self.assertTrue(pd.isna(result['CGE PMID'].iloc[0]), msg='The PMIDs do not match.')
+        self.assertTrue(pd.isna(result['CGE Mechanism'].iloc[0]), msg='The mechanisms do not match.')
+        self.assertTrue(pd.isna(result['CGE Required Mutation'].iloc[0]), msg='The required mutation(s) do not match.')
 
     def testPointfinderEnterococcusFaecium_pbp5_Failure(self):
         # This test evaluates the correctness of NOT identifying a pbp5 complex mutation.
@@ -885,10 +885,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
-        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], '', 'Wrong phenotype')
-        self.assertEqual(result['CGE PMID'].iloc[0], '', msg='The PMIDs do not match.')
-        self.assertEqual(result['CGE Mechanism'].iloc[0], '', msg='The mechanisms do not match.')
-        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+        self.assertTrue(pd.isna(result['CGE Predicted Phenotype'].iloc[0]), 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE PMID'].iloc[0]), msg='The PMIDs do not match.')
+        self.assertTrue(pd.isna(result['CGE Mechanism'].iloc[0]), msg='The mechanisms do not match.')
+        self.assertTrue(pd.isna(result['CGE Required Mutation'].iloc[0]), msg='The required mutation(s) do not match.')
 
     def testPointfinderEnterococcusFaecium_pbp5_3_m485t_Success(self):
         # This test evaluates the correctness of identifying a pbp5 complex mutation
@@ -942,10 +942,10 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(result['HSP Length/Total Length'].iloc[0], '2037/2037', msg='Wrong lengths')
         self.assertEqual(result['Predicted Phenotype'].iloc[0], 'ampicillin',
                          'Wrong phenotype')
-        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0], '', 'Wrong phenotype')
-        self.assertEqual(result['CGE PMID'].iloc[0], '', msg='The PMIDs do not match.')
-        self.assertEqual(result['CGE Mechanism'].iloc[0], '', msg='The mechanisms do not match.')
-        self.assertEqual(result['CGE Required Mutation'].iloc[0], '', msg='The required mutation(s) do not match.')
+        self.assertTrue(pd.isna(result['CGE Predicted Phenotype'].iloc[0]), 'Wrong phenotype')
+        self.assertTrue(pd.isna(result['CGE PMID'].iloc[0]), msg='The PMIDs do not match.')
+        self.assertTrue(pd.isna(result['CGE Mechanism'].iloc[0]), msg='The mechanisms do not match.')
+        self.assertTrue(pd.isna(result['CGE Required Mutation'].iloc[0]), msg='The required mutation(s) do not match.')
 
     def testResfinderPointfinderSalmonella_16S_C1065T_gyrA_A67_beta_lactam_Success(self):
         pointfinder_database = PointfinderBlastDatabase(self.pointfinder_dir, 'salmonella')

@@ -1,3 +1,5 @@
+import pandas
+
 from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
 
 """
@@ -23,19 +25,19 @@ class BlastResultsParserResfinderResistance(BlastResultsParserResfinder):
     '''.strip().split('\n')]
 
     DTYPES = {
-        "Isolate ID": str,
-        "Gene": str,
-        "Predicted Phenotype": str,
-        "CGE Predicted Phenotype": str,
+        "Isolate ID": pandas.StringDtype(),
+        "Gene": pandas.StringDtype(),
+        "Predicted Phenotype": pandas.StringDtype(),
+        "CGE Predicted Phenotype": pandas.StringDtype(),
         "%Identity": float,
         "%Overlap": float,
-        "HSP Length/Total Length": str,
-        "Contig": str,
+        "HSP Length/Total Length": pandas.StringDtype(),
+        "Contig": pandas.StringDtype(),
         "Start": int,
         "End": int,
-        "Accession": str,
-        "Sequence": str,
-        "CGE Notes": str
+        "Accession": pandas.StringDtype(),
+        "Sequence": pandas.StringDtype(),
+        "CGE Notes": pandas.StringDtype()
     }
 
     def __init__(self, file_blast_map, arg_drug_table, cge_drug_table, blast_database, pid_threshold,

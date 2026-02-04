@@ -666,14 +666,14 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
         self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
 
-        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
-        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
 
         self.assertEqual('None', detailed_summary['Gene'].iloc[0], 'Genes not equal')
         self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
 
-        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
-        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
 
     def testDetailedSummary_multiFiles(self):
         amr_detection_summary = AMRDetectionSummaryResistance(self.detailed_summary_multi_files,
