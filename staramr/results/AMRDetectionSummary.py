@@ -59,7 +59,12 @@ class AMRDetectionSummary:
         negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
 
-        return pd.concat([resistance_frame, negative_entries], sort=True)
+        if negative_entries.empty:
+            result = resistance_frame
+        else:
+            result = pd.concat([resistance_frame, negative_entries], sort=True)
+
+        return result
 
     def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Start', 'End']
@@ -228,7 +233,7 @@ class AMRDetectionSummary:
 
             plasmid_frame = plasmid_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
 
-            if resistance_frame is not None:
+            if resistance_frame is not None and plasmid_frame is not None and not plasmid_frame.empty:
                 resistance_frame = pd.concat([resistance_frame, plasmid_frame], sort=True)
                 resistance_frame = resistance_frame.reindex(columns=column_names)
                 resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
