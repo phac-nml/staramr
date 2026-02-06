@@ -8,7 +8,7 @@ from pandas import DataFrame
 logger = logging.getLogger("AMRDetectionSummary")
 
 """
-Summarizes both ResFinder, PointFinder, and PlasmidFinder database results into a single table.
+Summarizes ResFinder, PointFinder, and PlasmidFinder database results into a single table.
 """
 
 
@@ -59,7 +59,12 @@ class AMRDetectionSummary:
         negative_entries = pd.DataFrame([[x, 'None'] for x in negative_names_set],
                                         columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
 
-        return pd.concat([resistance_frame, negative_entries], sort=True)
+        if negative_entries.empty:
+            result = resistance_frame
+        else:
+            result = pd.concat([resistance_frame, negative_entries], sort=True)
+
+        return result
 
     def _get_detailed_negative_columns(self):
         return ['Isolate ID', 'Gene', 'Start', 'End']
@@ -106,12 +111,17 @@ class AMRDetectionSummary:
                                                 columns=('Isolate ID', 'Gene')).set_index('Isolate ID')
         negative_plasmid_entries['Data Type'] = 'Plasmid'
 
-        if negative_entries is None:
+        if negative_entries is None or negative_entries.empty:
             negative_entries = negative_plasmid_entries
         else:
             negative_entries = pd.concat([negative_entries, negative_plasmid_entries], sort=True)
 
-        return pd.concat([resistance_frame, negative_entries], sort=True)
+        if negative_entries.empty:
+            result = resistance_frame
+        else:
+            result = pd.concat([resistance_frame, negative_entries], sort=True)
+
+        return result
 
     def _get_summary_empty_values(self):
         return {'Genotype': 'None'}
@@ -170,6 +180,21 @@ class AMRDetectionSummary:
     def _get_detailed_summary_columns(self):
         return ['Gene', 'Data Type', '%Identity', '%Overlap', 'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession']
 
+    def _get_detailed_summary_columns_dtypes(self):
+        dtypes = {
+            'Gene': pd.StringDtype(),
+            'Data Type': pd.StringDtype(),
+            '%Identity': float,
+            '%Overlap': float,
+            'HSP Length/Total Length': pd.StringDtype(),
+            'Contig': pd.StringDtype(),
+            'Start': int,
+            'End': int,
+            'Accession': pd.StringDtype()
+        }
+
+        return dtypes
+
     def create_detailed_summary(self, include_negatives: bool = True) -> DataFrame:
         mlst_merging_frame = None
 
@@ -205,9 +230,13 @@ class AMRDetectionSummary:
                 point_frame['Data Type'] = 'Resistance'
                 point_frame = point_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
                 point_frame = point_frame.reindex(columns=column_names)
+                point_frame = point_frame.astype(self._get_detailed_summary_columns_dtypes())
 
             if resistance_frame is not None:
-                resistance_frame = pd.concat([resistance_frame, point_frame], sort=True)
+                if resistance_frame.empty:
+                    resistance_frame = point_frame
+                elif not point_frame.empty:
+                    resistance_frame = pd.concat([resistance_frame, point_frame], sort=True)
 
         if include_negatives:
             if plasmid_frame is not None:
@@ -225,7 +254,7 @@ class AMRDetectionSummary:
 
             plasmid_frame = plasmid_frame.round({'%Identity': self.FLOAT_DECIMALS, '%Overlap': self.FLOAT_DECIMALS})
 
-            if resistance_frame is not None:
+            if resistance_frame is not None and plasmid_frame is not None and not plasmid_frame.empty:
                 resistance_frame = pd.concat([resistance_frame, plasmid_frame], sort=True)
                 resistance_frame = resistance_frame.reindex(columns=column_names)
                 resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])

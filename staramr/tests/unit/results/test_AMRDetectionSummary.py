@@ -6,6 +6,9 @@ from os import path
 
 from staramr.results.AMRDetectionSummary import AMRDetectionSummary
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
+from staramr.blast.results.resfinder.BlastResultsParserResfinder import BlastResultsParserResfinder
+from staramr.blast.results.pointfinder.BlastResultsParserPointfinder import BlastResultsParserPointfinder
+from staramr.blast.results.plasmidfinder.BlastResultsParserPlasmidfinder import BlastResultsParserPlasmidfinder
 
 logger = logging.getLogger('AMRDetectionSummaryTest')
 
@@ -14,25 +17,19 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def setUp(self):
         self.test_data_dir = path.join(path.dirname(__file__), '..', 'data')
-        self.columns_resfinder = ('Isolate ID', 'Gene', '%Identity', '%Overlap',
-                                  'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
-        self.columns_pointfinder = ('Isolate ID', 'Gene', 'Type', 'Position', 'Mutation',
-                                    '%Identity', '%Overlap', 'HSP Length/Total Length')
-        self.columns_plasmidfinder = ('Isolate ID', 'Gene', '%Identity', '%Overlap',
-                                      'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession')
+
         self.columns_quality_module = ('Isolate ID','Genome Length','N50 value','Number of Contigs Under 1000 bp','Quality Module','Quality Module Feedback')
         self.detailed_summary = ('Isolate ID', 'Gene', 'Predicted Phenotype', '%Identity', '%Overlap',
                                  'HSP Length/Total Length', 'Contig', 'Start', 'End', 'Accession', 'Data Type')
 
         # Resfinder tables
-        self.resfinder_table_empty = pd.DataFrame([],
-                                                  columns=self.columns_resfinder)
+        self.resfinder_table_empty = pd.DataFrame([], columns=BlastResultsParserResfinder.COLUMNS).astype(BlastResultsParserResfinder.DTYPES)
 
         self.resfinder_table1 = pd.DataFrame([
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'blaIMP-42_1_AB753456', 1, 741,
              'AB753456'],
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinder.COLUMNS).astype(BlastResultsParserResfinder.DTYPES)
         self.resfinder_table1_files = ['file1']
 
         self.resfinder_table_mult_resistance = pd.DataFrame([
@@ -41,7 +38,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file1', 'newGene', 99.73, 100.00, '741/741', 'newGene', 1, 741,
              'AB753456'],
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinder.COLUMNS).astype(BlastResultsParserResfinder.DTYPES)
         self.resfinder_table_mult_resistance_files = ['file1']
 
         self.resfinder_table_mult_gene_same_resistance = pd.DataFrame([
@@ -50,7 +47,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file1', 'newGene', 99.73, 100.00, '741/741', 'newGene', 1, 741,
              'AB753456'],
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinder.COLUMNS).astype(BlastResultsParserResfinder.DTYPES)
         self.resfinder_table_mult_gene_same_resistance_files = ['file1']
 
         self.resfinder_table_mult_same_gene_same_resistance = pd.DataFrame([
@@ -59,7 +56,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file1', 'blaIMP-42', 99.73, 100.00, '741/741', 'newGene', 1, 741,
              'AB753456'],
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinder.COLUMNS).astype(BlastResultsParserResfinder.DTYPES)
         self.resfinder_table_mult_same_gene_same_resistance_files = ['file1']
 
         self.resfinder_table_mult_file = pd.DataFrame([
@@ -70,18 +67,18 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file2', 'blaIMP-42', 99.73, 100.00, '741/741', 'newGene', 1, 741,
              'AB753456'],
         ],
-            columns=self.columns_resfinder)
+            columns=BlastResultsParserResfinder.COLUMNS).astype(BlastResultsParserResfinder.DTYPES)
         self.resfinder_table_mult_file_files = ['file1', 'file2']
 
         # Plasmidfinder tables
         self.plasmidfinder_table_empty = pd.DataFrame([],
-                                                      columns=self.columns_plasmidfinder)
+                                                      columns=BlastResultsParserPlasmidfinder.COLUMNS).astype(BlastResultsParserPlasmidfinder.DTYPES)
 
         self.plasmidfinder_table1 = pd.DataFrame([
             ['file4', 'IncFIB(S)', 100.00, 100.00, '643/643', 'ref|NC_003277.2|', 17653, 17011,
              'FN432031'],
         ],
-            columns=self.columns_plasmidfinder)
+            columns=BlastResultsParserPlasmidfinder.COLUMNS).astype(BlastResultsParserPlasmidfinder.DTYPES)
         self.plasmidfinder_table1_files = ['file4']
 
         self.plasmidfinder_table_mult_resistance = pd.DataFrame([
@@ -90,7 +87,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file4', 'IncFII(S)', 100.00, 100.00, '262/262', 'ref|NC_003277.2|', 1665, 1926,
              'CP000858'],
         ],
-            columns=self.columns_plasmidfinder)
+            columns=BlastResultsParserPlasmidfinder.COLUMNS).astype(BlastResultsParserPlasmidfinder.DTYPES)
         self.plasmidfinder_table_mult_resistance_files = ['file4']
 
         self.plasmidfinder_table_mult_gene_same_resistance_files = ['file4']
@@ -101,7 +98,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file4', 'IncFII(S)', 100.00, 100.00, '262/262', 'ref|NC_003277.2|', 1665, 1926,
              'CP000858'],
         ],
-            columns=self.columns_plasmidfinder)
+            columns=BlastResultsParserPlasmidfinder.COLUMNS).astype(BlastResultsParserPlasmidfinder.DTYPES)
 
         self.plasmidfinder_table_mult_same_gene_same_resistance_files = ['file4']
 
@@ -111,7 +108,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file4', 'IncFII(S)', 100.00, 100.00, '262/262', 'ref|NC_003277.2|', 1665, 1926,
              'CP000858'],
         ],
-            columns=self.columns_plasmidfinder)
+            columns=BlastResultsParserPlasmidfinder.COLUMNS).astype(BlastResultsParserPlasmidfinder.DTYPES)
 
         self.plasmidfinder_table_mult_file_files = ['file4', 'file5']
 
@@ -123,24 +120,24 @@ class AMRDetectionSummaryTest(unittest.TestCase):
             ['file5', 'IncFIB(K)', 98.93, 100.00, '560/560', 'ref|NC_006856.1|', 118238, 117679,
              'JN233704'],
         ],
-            columns=self.columns_plasmidfinder)
+            columns=BlastResultsParserPlasmidfinder.COLUMNS).astype(BlastResultsParserPlasmidfinder.DTYPES)
 
         # Pointfinder tables
         self.pointfinder_table = pd.DataFrame([
-            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contig1', 1000, 3637, 'A67P', 'No notes.'],
         ],
-            columns=self.columns_pointfinder)
+            columns=BlastResultsParserPointfinder.COLUMNS).astype(BlastResultsParserPointfinder.DTYPES)
         self.pointfinder_table_files = ['file1']
 
         self.pointfinder_table_multiple_gene = pd.DataFrame([
-            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
-            ['file1', 'gyrAB', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contig1', 1000, 3637, 'A67P', 'No notes.'],
+            ['file1', 'gyrAB', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contig2', 1000, 3637, 'A67P', 'No notes.'],
         ],
-            columns=self.columns_pointfinder)
+            columns=BlastResultsParserPointfinder.COLUMNS).astype(BlastResultsParserPointfinder.DTYPES)
         self.pointfinder_table_multiple_gene_files = ['file1']
 
         self.pointfinder_table_empty = pd.DataFrame([],
-                                                    columns=self.columns_pointfinder)
+                                                    columns=BlastResultsParserPointfinder.COLUMNS).astype(BlastResultsParserPointfinder.DTYPES)
 
         self.quality_module_table_single_file = pd.DataFrame([['file1',6000000,11000,0,'Pass',''],],
                                     columns=self.columns_quality_module).set_index('Isolate ID')
@@ -443,10 +440,10 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testPointfinderSingleMultipleGeneSame(self):
         df = pd.DataFrame([
-            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
-            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
+            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contig1', 1000, 3637, 'A67P', 'No notes.'],
+            ['file1', 'gyrA', 'codon', 67, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contig1', 1000, 3637, 'A67P', 'No notes.']
         ],
-            columns=self.columns_pointfinder)
+            columns=BlastResultsParserPointfinder.COLUMNS).astype(BlastResultsParserPointfinder.DTYPES)
         files = ['file1']
 
         amr_detection_summary = AMRDetectionSummary(files, self.resfinder_table_empty, self.quality_module_table_single_file, df,
@@ -669,14 +666,14 @@ class AMRDetectionSummaryTest(unittest.TestCase):
         self.assertEqual('file1', detailed_summary.index[0], 'File name not equal')
         self.assertEqual('file1', detailed_summary.index[1], 'File name not equal')
 
-        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
-        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
+        self.assertEqual('Resistance', detailed_summary['Data Type'].iloc[0], 'Incorrect Data Type')
+        self.assertEqual('Plasmid', detailed_summary['Data Type'].iloc[1], 'Incorrect Data Type')
 
         self.assertEqual('None', detailed_summary['Gene'].iloc[0], 'Genes not equal')
         self.assertEqual('None', detailed_summary['Gene'].iloc[1], 'Genes not equal')
 
-        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
-        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
+        self.assertEqual('Susceptible', detailed_summary['Predicted Phenotype'].iloc[0], 'Predicted Phenotype not equal')
+        self.assertEqual('', detailed_summary['Predicted Phenotype'].iloc[1], 'Predicted Phenotype not equal')
 
     def testDetailedSummary_multiFiles(self):
         amr_detection_summary = AMRDetectionSummaryResistance(self.detailed_summary_multi_files,
@@ -731,13 +728,13 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
     def testSimplifyingPointfinderMutations(self):
         df = pd.DataFrame([
-            ['file1', 'A', 'codon', 100, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
-            ['file1', 'B', 'codon', 200, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
-            ['file1', 'C', 'codon', 300, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
-            ['file1', 'D', 'codon', 400, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637'],
-            ['file1', 'A, B, C', 'complex', "100, 200, 300", 'complex', 99.96, 100.0, '2637/2637']
+            ['file1', 'A', 'codon', 100, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contigA', 1000, 3637, 'A67P', 'No notes.'],
+            ['file1', 'B', 'codon', 200, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contigB', 1000, 3637, 'A67P', 'No notes.'],
+            ['file1', 'C', 'codon', 300, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contigC', 1000, 3637, 'A67P', 'No notes.'],
+            ['file1', 'D', 'codon', 400, 'GCC -> CCC (A -> P)', 99.96, 100.0, '2637/2637', 'contigD', 1000, 3637, 'A67P', 'No notes.'],
+            ['file1', 'A, B, C', 'complex', "100, 200, 300", 'complex', 99.96, 100.0, '2637/2637', 'contigABC', 1000, 3637, 'complex', 'No notes.']
         ],
-            columns=self.columns_pointfinder)
+            columns=BlastResultsParserPointfinder.COLUMNS).astype(BlastResultsParserPointfinder.DTYPES)
 
         result = AMRDetectionSummary._simplify_pointfinder_mutations(df)
 
@@ -748,7 +745,7 @@ class AMRDetectionSummaryTest(unittest.TestCase):
 
         row = result[result["Gene"] == "D"]
         self.assertEqual(row["Type"].iloc[0], "codon", msg="Wrong type")
-        self.assertEqual(row["Position"].iloc[0], 400, msg="Wrong position")
+        self.assertEqual(row["Position"].iloc[0], '400', msg="Wrong position")
         self.assertEqual(row["Mutation"].iloc[0], "GCC -> CCC (A -> P)", msg="Wrong mutation")
         self.assertEqual(row["HSP Length/Total Length"].iloc[0], "2637/2637", msg="Wrong lengths")
 
