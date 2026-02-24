@@ -50,27 +50,11 @@ salmonella	16S_rrsD	1192	spectinomycin
 salmonella	parC	57	
 salmonella	acrB	171	azithromycin
 salmonella	acrB	717	azithromycin
-salmonella	acrB	717	azithromycin
-salmonella	parE	458	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	416	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	529	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	460	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	475	ciprofloxacin I/R,nalidixic acid
-salmonella	parC	80	ciprofloxacin I/R,nalidixic acid
 salmonella	gyrB	464	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrB	466	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	83	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	83	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	83	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	83	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	87	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	87	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	87	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrA	81	ciprofloxacin I/R,nalidixic acid
-salmonella	gyrB	464	ciprofloxacin I/R
-salmonella	gyrA	119	ciprofloxacin I/R,nalidixic acid
-salmonella	parE	460	ciprofloxacin I/R,nalidixic acid
-salmonella	parE	458	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
@@ -137,20 +121,11 @@ escherichia_coli	ampC_promoter	-32	ampicillin,amoxicillin/clavulanic acid,cefoxi
 escherichia_coli	ampC_promoter	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 escherichia_coli	ampC_promoter	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 escherichia_coli	gyrA	104	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	90	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	ampC	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	parC	56	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	84	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	84	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	80	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrB	464	ciprofloxacin I/R
 escherichia_coli	rpoB	511	rifamycin
-escherichia_coli	gyrA	82	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	108	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	parC	78	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	ampC	-14	ampicillin,amoxicillin/clavulanic acid,cefoxitin
-escherichia_coli	parE	460	ciprofloxacin I/R,nalidixic acid
 campylobacter	gyrA	70	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	85	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
@@ -162,18 +137,6 @@ campylobacter	cmeR	86	erythromycin,azithromycin,telithromycin,clindamycin
 campylobacter	L22	103	erythromycin
 campylobacter	rpsL	43	streptomycin
 campylobacter	rpsL	88	streptomycin
-campylobacter	rpsL	88	streptomycin
 campylobacter	rplV	103	erythromycin
-campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
-campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
-campylobacter	23S	2075	erythromycin,azithromycin,telithromycin,clindamycin
-campylobacter	23S	2074	erythromycin,azithromycin,telithromycin,clindamycin
-campylobacter	23S	2074	erythromycin,azithromycin,telithromycin,clindamycin
-campylobacter	23S	2074	erythromycin,azithromycin,telithromycin,clindamycin
-campylobacter	gyrA	90	ciprofloxacin,nalidixic acid
-campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
-campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
 campylobacter	rplV	86	erythromycin
-campylobacter	rpsL	43	streptomycin
-campylobacter	gyrA	104	ciprofloxacin,nalidixic acid
 campylobacter	rplV	88	erythromycin
