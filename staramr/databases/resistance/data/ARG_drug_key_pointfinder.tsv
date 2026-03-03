@@ -122,10 +122,9 @@ escherichia_coli	ampC_promoter	-13	ampicillin,amoxicillin/clavulanic acid,cefoxi
 escherichia_coli	ampC_promoter	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 escherichia_coli	gyrA	104	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	90	ciprofloxacin I/R,nalidixic acid
-escherichia_coli	ampC	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 escherichia_coli	gyrB	464	ciprofloxacin I/R
 escherichia_coli	rpoB	511	rifamycin
-escherichia_coli	ampC	-14	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	ampC_promoter	-14	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 campylobacter	gyrA	70	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	85	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
