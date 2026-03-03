@@ -2282,7 +2282,6 @@ beta-lactam	penA_1	AF515059	ampicillin
 beta-lactam	POM-1_1	GU002295	ampicillin,amoxicillin/clavulanic acid,cefoxitin,ceftriaxone,meropenem
 beta-lactam	blaTEM-1		ampicillin
 beta-lactam	blaHER-3		ampicillin
-beta-lactam	ampC_C-42T		ampicillin,amoxicillin/clavulanic acid,cefoxitin
 beta-lactam	blaOXA-577		ampicillin
 beta-lactam	blaOXA-578		ampicillin
 beta-lactam	blaOXA-594		ampicillin
