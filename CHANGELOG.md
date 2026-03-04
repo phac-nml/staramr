@@ -6,6 +6,7 @@
 - StarAMR now only supports MLST v2.32.2 and greater. [PR #233](https://github.com/phac-nml/staramr/pull/233)
 - StarAMR now supports BioPython v1.86 and greater. [PR #234](https://github.com/phac-nml/staramr/pull/234)
 - Fixed many instances of warnings from BioPython and Pandas. [PR #234](https://github.com/phac-nml/staramr/pull/234)
+- Updated the gene to drug mappings. [PR #236](https://github.com/phac-nml/staramr/pull/236)
 
 # Version 0.11.1
 
