@@ -117,25 +117,34 @@ class AMRDetection:
 
     def _create_mlst_dataframe(self, mlst_data: str) -> DataFrame:
 
-        columns = ['Isolate ID', 'Scheme', 'Sequence Type']
+        columns = ['Isolate ID', 'Scheme', 'Sequence Type', 'Status', 'Score']
         curr_data = []
         max_columns = 0
         extension = None
 
         mlst_split = mlst_data.splitlines()
 
-        # Parse and format the current row
-        for row in mlst_split:
-            array_format = re.split('\t', row)
-            num_columns = len(array_format)
+        if len(mlst_split) >= 1:
+            # Parse and format the current row
+            for row in mlst_split[1:]: # Skip the header row
+                # Row format: [FILE\tSCHEME\tST\tSTATUS\tSCORE\tALLELES]
+                # Where: ALLELES is seperated with ";". Ex: adk(7);atpA(1);gmk(1)
 
-            # We want the file name without the extension
-            array_format[0] = path.basename(path.splitext(array_format[0])[0])
+                tokens = re.split('\t', row)
+                array_format = tokens[:-1]
 
-            if max_columns < num_columns:
-                max_columns = num_columns
+                if len(tokens[-1]) > 0:
+                    array_format += re.split(';', tokens[-1])
 
-            curr_data.append(array_format)
+                num_columns = len(array_format)
+
+                # We want the file name without the extension
+                array_format[0] = path.basename(path.splitext(array_format[0])[0])
+
+                if max_columns < num_columns:
+                    max_columns = num_columns
+
+                curr_data.append(array_format)
 
         # Go through each row and append additional columns for the dataframes
         curr_data = list(map(lambda x: self._generate_empty_columns(x, max_columns, len(x)), curr_data))

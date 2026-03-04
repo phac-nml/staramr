@@ -47,7 +47,13 @@ salmonella	parE	514	ciprofloxacin I/R,nalidixic acid
 salmonella	parE	521	ciprofloxacin I/R,nalidixic acid
 salmonella	16S_rrsD	1065	spectinomycin
 salmonella	16S_rrsD	1192	spectinomycin
+salmonella	parC	57	
 salmonella	acrB	717	azithromycin
+salmonella	parE	416	ciprofloxacin I/R,nalidixic acid
+salmonella	parE	529	ciprofloxacin I/R,nalidixic acid
+salmonella	parE	460	ciprofloxacin I/R,nalidixic acid
+salmonella	parE	475	ciprofloxacin I/R,nalidixic acid
+salmonella	gyrB	464	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	51	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	67	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrA	81	ciprofloxacin I/R,nalidixic acid
@@ -61,6 +67,7 @@ escherichia_coli	gyrB	136	aminocoumarin
 escherichia_coli	gyrB	426	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	gyrB	447	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	parC	56	ciprofloxacin I/R,nalidixic acid
+escherichia_coli	parC	57	
 escherichia_coli	parC	60	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	parC	78	ciprofloxacin I/R,nalidixic acid
 escherichia_coli	parC	80	ciprofloxacin I/R,nalidixic acid
@@ -112,6 +119,11 @@ escherichia_coli	ampC_promoter	-42	ampicillin,amoxicillin/clavulanic acid,cefoxi
 escherichia_coli	ampC_promoter	-32	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 escherichia_coli	ampC_promoter	-13	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 escherichia_coli	ampC_promoter	-12	ampicillin,amoxicillin/clavulanic acid,cefoxitin
+escherichia_coli	gyrA	104	ciprofloxacin I/R,nalidixic acid
+escherichia_coli	gyrA	90	ciprofloxacin I/R,nalidixic acid
+escherichia_coli	gyrB	464	ciprofloxacin I/R
+escherichia_coli	rpoB	511	rifamycin
+escherichia_coli	ampC_promoter	-14	ampicillin,amoxicillin/clavulanic acid,cefoxitin
 campylobacter	gyrA	70	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	85	ciprofloxacin,nalidixic acid
 campylobacter	gyrA	86	ciprofloxacin,nalidixic acid
@@ -123,3 +135,6 @@ campylobacter	cmeR	86	erythromycin,azithromycin,telithromycin,clindamycin
 campylobacter	L22	103	erythromycin
 campylobacter	rpsL	43	streptomycin
 campylobacter	rpsL	88	streptomycin
+campylobacter	rplV	103	erythromycin
+campylobacter	rplV	86	erythromycin
+campylobacter	rplV	88	erythromycin

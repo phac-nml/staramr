@@ -235,7 +235,7 @@ staramr db restore-default
 * Python 3.7+
 * BLAST+
 * Git
-* MLST
+* MLST 2.32.2+
 
 # Input
 
@@ -443,7 +443,31 @@ The **settings.txt** file contains the particular settings used to run `staramr`
 
 ### Example
 
-![Settings Output Example](images/settings_example.png)
+```
+command_line                  = staramr search -o out staramr/tests/integration/data/16S-rc_gyrA-rc_beta-lactam.fsa
+version                       = 0.11.1
+start_time                    = 2026-02-26 14:09:48
+end_time                      = 2026-02-26 14:09:49
+total_minutes                 = 0.01
+resfinder_db_dir              = staramr/databases/data/dist/resfinder
+resfinder_db_url              = https://bitbucket.org/genomicepidemiology/resfinder_db.git
+resfinder_db_commit           = 65c9ba3b680d13fe5eb13ec78bf1a4160ef4c6d7
+resfinder_db_date             = Sun, 04 May 2025 18:02
+pointfinder_db_dir            = staramr/databases/data/dist/pointfinder
+pointfinder_db_url            = https://bitbucket.org/genomicepidemiology/pointfinder_db.git
+pointfinder_db_commit         = 694919f59a38980204009e7ade76bf319cb7df0b
+pointfinder_db_date           = Thu, 08 Aug 2024 11:57
+pointfinder_organisms_all     = campylobacter, enterococcus_faecalis, enterococcus_faecium, escherichia_coli, helicobacter_pylori, klebsiella, mycobacterium_tuberculosis, neisseria_gonorrhoeae, plasmodium_falciparum, salmonella, staphylococcus_aureus
+pointfinder_organisms_valid   = campylobacter, enterococcus_faecalis, enterococcus_faecium, escherichia_coli, helicobacter_pylori, salmonella
+plasmidfinder_db_dir          = staramr/databases/data/dist/plasmidfinder
+plasmidfinder_db_url          = https://bitbucket.org/genomicepidemiology/plasmidfinder_db.git
+plasmidfinder_db_commit       = 49c24c1c9401fa175fbcfdbd4b37227a160baca4
+plasmidfinder_db_date         = Wed, 10 Sep 2025 18:56
+mlst_version                  = 2.32.2
+pointfinder_organism          = None
+pointfinder_gene_drug_version = 070623
+resfinder_gene_drug_version   = 072423
+```
 
 ## hits/
 
@@ -470,37 +494,214 @@ A tutorial guiding you though the usage of `staramr`, interpreting the results, 
 
 Main `staramr` command. Can be used to set global options (primarily `--verbose`).
 
-![Main Command](images/main_command.png)
+```
+usage: staramr [-h] [--verbose] [-V] {search,db} ...
+
+Do AMR detection for genes and point mutations
+
+positional arguments:
+  {search,db}    Subcommand for AMR detection.
+    search       Search for AMR genes
+    db           Download ResFinder/PointFinder/PlasmidFinder databases
+
+options:
+  -h, --help     show this help message and exit
+  --verbose      Turn on verbose logging [False].
+  -V, --version  show program's version number and exit
+```
 
 ## Search
 
 Searches input FASTA files for AMR genes.
 
-![Search Command](images/search_command.png)
+```
+usage: staramr search [-h] [--pointfinder-organism POINTFINDER_ORGANISM] [--plasmidfinder-database-type PLASMIDFINDER_DATABASE_TYPE] [-d DATABASE]
+                      [-n NPROCS] [--ignore-invalid-files] [--mlst-scheme MLST_SCHEME] [--genome-size-lower-bound GENOME_SIZE_LOWER_BOUND]
+                      [--genome-size-upper-bound GENOME_SIZE_UPPER_BOUND] [--minimum-N50-value MINIMUM_N50_VALUE]
+                      [--minimum-contig-length MINIMUM_CONTIG_LENGTH] [--unacceptable-number-contigs UNACCEPTABLE_NUM_CONTIGS]
+                      [--pid-threshold PID_THRESHOLD] [--percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER]
+                      [--percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER]
+                      [--percent-length-overlap-plasmidfinder PLENGTH_THRESHOLD_PLASMIDFINDER] [--no-exclude-genes]
+                      [--exclude-genes-file EXCLUDE_GENES_FILE] [--exclude-negatives] [--exclude-resistance-phenotypes] [--report-all-blast]
+                      [--complex-mutations-file COMPLEX_MUTATIONS_FILE] [-o OUTPUT_DIR] [--output-summary OUTPUT_SUMMARY]
+                      [--output-detailed-summary OUTPUT_DETAILED_SUMMARY] [--output-resfinder OUTPUT_RESFINDER]
+                      [--output-pointfinder OUTPUT_POINTFINDER] [--output-plasmidfinder OUTPUT_PLASMIDFINDER] [--output-settings OUTPUT_SETTINGS]
+                      [--output-excel OUTPUT_EXCEL] [--output-hits-dir HITS_OUTPUT_DIR] [--output-mlst OUTPUT_MLST]
+                      files [files ...]
+
+positional arguments:
+  files
+
+options:
+  -h, --help            show this help message and exit
+  --pointfinder-organism POINTFINDER_ORGANISM
+                        The organism to use for pointfinder. Validated: {'enterococcus_faecium', 'helicobacter_pylori', 'campylobacter', 'escherichia_coli', 'enterococcus_faecalis', 'salmonella'}. All: {'mycobacterium_tuberculosis', 'klebsiella', 'staphylococcus_aureus', 'plasmodium_falciparum', 'enterococcus_faecium', 'helicobacter_pylori', 'campylobacter', 'escherichia_coli', 'neisseria_gonorrhoeae', 'enterococcus_faecalis', 'salmonella'}. Defaults to disabling search for point mutations. [None].
+  --plasmidfinder-database-type PLASMIDFINDER_DATABASE_TYPE
+                        The database type to use for plasmidfinder {gram_positive, enterobacteriales}. Defaults to using all available database types to search for plasmids. [None].
+  -d DATABASE, --database DATABASE
+                        The directory containing the resfinder/pointfinder/plasmidfinder databases [staramr/staramr/databases/data].
+  -n NPROCS, --nprocs NPROCS
+                        The number of processing cores to use [24].
+  --ignore-invalid-files
+                        Skips over invalid input files
+  --mlst-scheme MLST_SCHEME
+                        Specify scheme name, visit https://github.com/tseemann/mlst/tree/master/db/pubmlst for supported scheme genera available. [None] 
+  --genome-size-lower-bound GENOME_SIZE_LOWER_BOUND
+                        The lower bound for our genome size for the quality metrics. Defaults to 4 Mbp. [4000000].
+  --genome-size-upper-bound GENOME_SIZE_UPPER_BOUND
+                        The upper bound for our genome size for the quality metrics. Defaults to 6 Mbp. [6000000].
+  --minimum-N50-value MINIMUM_N50_VALUE
+                        The minimum N50 value for the quality metrics. Defaults to 10000. [10000].
+  --minimum-contig-length MINIMUM_CONTIG_LENGTH
+                        The minimum contig length for the quality metrics. Defaults to 300 bp. [300].
+  --unacceptable-number-contigs UNACCEPTABLE_NUM_CONTIGS
+                        The minimum, unacceptable number of contigs which are equal to or above the minimum contig length for our quality metrics. Defaults to 1000. [1000].
+
+BLAST Thresholds:
+  --pid-threshold PID_THRESHOLD
+                        The percent identity threshold [98.0].
+  --percent-length-overlap-resfinder PLENGTH_THRESHOLD_RESFINDER
+                        The percent length overlap for resfinder results [60.0].
+  --percent-length-overlap-pointfinder PLENGTH_THRESHOLD_POINTFINDER
+                        The percent length overlap for pointfinder results [95.0].
+  --percent-length-overlap-plasmidfinder PLENGTH_THRESHOLD_PLASMIDFINDER
+                        The percent length overlap for resfinder results [60.0].
+
+Reporting options:
+  --no-exclude-genes    Disable the default exclusion of some genes from ResFinder/PointFinder/PlasmidFinder [False].
+  --exclude-genes-file EXCLUDE_GENES_FILE
+                        A list of ResFinder/PointFinder/PlasmidFinder gene names to exclude from results [staramr/databases/exclude/data/genes_to_exclude.tsv].
+  --exclude-negatives   Exclude negative results (those susceptible to antimicrobials) [False].
+  --exclude-resistance-phenotypes
+                        Exclude predicted antimicrobial resistances [False].
+  --report-all-blast    Report all blast hits (vs. only top blast hits) [False].
+  --complex-mutations-file COMPLEX_MUTATIONS_FILE
+                        A list of multiple PointFinder point mutations that together confer a single phenotype [staramr/databases/resistance/pointfinder/complex/data/complex_mutations.tsv].
+
+Output:
+  Use either --output-dir or specify individual output files
+
+  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
+                        The output directory for results [None].
+  --output-summary OUTPUT_SUMMARY
+                        The name of the output file containing the summary results. Not be be used with '--output-dir'. [None]
+  --output-detailed-summary OUTPUT_DETAILED_SUMMARY
+                        The name of the output file containing the detailed summary results. Not be be used with '--output-dir'. [None]
+  --output-resfinder OUTPUT_RESFINDER
+                        The name of the output file containing the resfinder results. Not be be used with '--output-dir'. [None]
+  --output-pointfinder OUTPUT_POINTFINDER
+                        The name of the output file containing the pointfinder results. Not be be used with '--output-dir'. [None]
+  --output-plasmidfinder OUTPUT_PLASMIDFINDER
+                        The name of the output file containing the plasmidfinder results. Not be be used with '--output-dir'. [None]
+  --output-settings OUTPUT_SETTINGS
+                        The name of the output file containing the settings. Not be be used with '--output-dir'. [None]
+  --output-excel OUTPUT_EXCEL
+                        The name of the output file containing the excel results. Not be be used with '--output-dir'. [None]
+  --output-hits-dir HITS_OUTPUT_DIR
+                        The name of the directory to contain the BLAST hit files. Not be be used with '--output-dir'. [None]
+  --output-mlst OUTPUT_MLST
+                        The name of the output file containing the mlst results. Not be be used with '--output-dir'. [None]
+
+Example:
+        staramr search -o out *.fasta
+                Searches the files *.fasta for AMR genes using only the ResFinder database, storing results in the out/ directory.
+
+        staramr search --pointfinder-organism salmonella --output-excel results.xlsx *.fasta
+                Searches *.fasta for AMR genes using ResFinder and PointFinder database with the passed organism, storing results in results.xlsx.
+```
 
 ## Database Build
 
 Downloads and builds the ResFinder, PointFinder, and PlasmidFinder databases.
 
-![Database Build Command](images/database_build_command.png)
+```
+usage: staramr db build [-h] [--dir DESTINATION] [--resfinder-commit RESFINDER_COMMIT] [--pointfinder-commit POINTFINDER_COMMIT]
+                        [--plasmidfinder-commit PLASMIDFINDER_COMMIT]
+
+options:
+  -h, --help            show this help message and exit
+  --dir DESTINATION     The directory to download the databases into [staramr/staramr/databases/data].
+  --resfinder-commit RESFINDER_COMMIT
+                        The specific git commit for the resfinder database [latest].
+  --pointfinder-commit POINTFINDER_COMMIT
+                        The specific git commit for the pointfinder database [latest].
+  --plasmidfinder-commit PLASMIDFINDER_COMMIT
+                        The specific git commit for the plasmidfinder database [latest].
+
+Example:
+        staramr db build
+                Builds a new ResFinder/PointFinder/PlasmidFinder database under staramr/databases/data if it does not exist
+
+        staramr db build --dir databases
+                Builds a new ResFinder/PointFinder/PlasmidFinder database under databases/
+```
 
 ## Database Update
 
 Updates an existing download of the ResFinder, PointFinder, and PlasmidFinder databases.
 
-![Database Update Command](images/database_update_command.png)
+```
+usage: staramr db update [-h] [-d] [--resfinder-commit RESFINDER_COMMIT] [--pointfinder-commit POINTFINDER_COMMIT]
+                         [--plasmidfinder-commit PLASMIDFINDER_COMMIT]
+                         [directories ...]
+
+positional arguments:
+  directories
+
+options:
+  -h, --help            show this help message and exit
+  -d, --update-default  Updates default database directory (staramr/databases/data).
+  --resfinder-commit RESFINDER_COMMIT
+                        The specific git commit for the resfinder database [latest].
+  --pointfinder-commit POINTFINDER_COMMIT
+                        The specific git commit for the pointfinder database [latest].
+  --plasmidfinder-commit PLASMIDFINDER_COMMIT
+                        The specific git commit for the plasmidfinder database [latest].
+
+Example:
+        staramr db update databases/
+                Updates the ResFinder/PointFinder/PlasmidFinder database under databases/
+
+        staramr db update -d
+                Updates the default ResFinder/PointFinder/PlasmidFinder database under staramr/databases/data
+```
 
 ## Database Info
 
 Prints information about an existing build of the ResFinder/PointFinder/PlasmidFinder databases.
 
-![Database Info Command](images/database_info_command.png)
+```
+usage: staramr db info [-h] [directories ...]
+
+positional arguments:
+  directories
+
+options:
+  -h, --help   show this help message and exit
+
+Example:
+        staramr db info
+                Prints information about the default database in staramr/databases/data
+
+        staramr db info databases
+                Prints information on the database stored in databases/
+```
 
 ## Database Restore Default
 
 Restores the default database for `staramr`.
 
-![Database Restore Default Command](images/database_restore_command.png)
+```
+usage: staramr db restore-default [-h] [-f]
+
+options:
+  -h, --help   show this help message and exit
+  -f, --force  Force restore without asking for confirmation.
+
+Example:
+        staramr db restore-default
+                Restores the default ResFinder/PointFinder/PlasmidFinder database
+```
 
 # Caveats
 

@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+import pandas
 
 from staramr.databases.resistance.ARGDrugTable import ARGDrugTable
 from staramr.results.AMRDetectionSummaryResistance import AMRDetectionSummaryResistance
@@ -13,8 +14,8 @@ A Class used to load up and search a file containing gene/drug mappings for CGE 
 
 
 class CGEDrugTableResfinder(ARGDrugTable):
-    DTYPES = {'Gene_accession no.': str, 'Class': str, 'Phenotype': str, 'PMID': str,
-              'Mechanism of resistance': str, "Notes": str, "Required_gene": str}
+    DTYPES = {'Gene_accession no.': pandas.StringDtype(), 'Class': pandas.StringDtype(), 'Phenotype': pandas.StringDtype(), 'PMID': pandas.StringDtype(),
+              'Mechanism of resistance': pandas.StringDtype(), "Notes": pandas.StringDtype(), "Required_gene": pandas.StringDtype()}
 
     def __init__(self, file):
         """

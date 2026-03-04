@@ -33,6 +33,27 @@ class BlastResultsParserPointfinderResistance(BlastResultsParserPointfinder):
     CGE PMID
     '''.strip().split('\n')]
 
+    DTYPES = {
+        "Isolate ID": pandas.StringDtype(),
+        "Gene": pandas.StringDtype(),
+        "Predicted Phenotype": pandas.StringDtype(),
+        "CGE Predicted Phenotype": pandas.StringDtype(),
+        "Type": pandas.StringDtype(),
+        "Position": pandas.StringDtype(), # These are ints, but sometimes (ex: complex mutations) they are strings like: "5485, 5629, 5667"
+        "Mutation": pandas.StringDtype(),
+        "%Identity": float,
+        "%Overlap": float,
+        "HSP Length/Total Length": pandas.StringDtype(),
+        "Contig": pandas.StringDtype(),
+        "Start": int,
+        "End": int,
+        "Pointfinder Position": pandas.StringDtype(), # This is actually a string like: "C-42T", "ins-16GT", etc.
+        "CGE Notes": pandas.StringDtype(),
+        "CGE Required Mutation": pandas.StringDtype(),
+        "CGE Mechanism": pandas.StringDtype(),
+        "CGE PMID": pandas.StringDtype()
+    }
+
     def __init__(self, file_blast_map, arg_drug_table, blast_database, pid_threshold, plength_threshold,
                  report_all=False, output_dir=None, genes_to_exclude=[], complex_mutations=None):
         """

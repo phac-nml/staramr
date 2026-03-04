@@ -1,4 +1,5 @@
 import logging
+import pandas
 from os import path
 
 from staramr.blast.results.BlastResultsParser import BlastResultsParser
@@ -29,6 +30,23 @@ class BlastResultsParserPointfinder(BlastResultsParser):
     Pointfinder Position
     CGE Notes
     '''.strip().split('\n')]
+
+    DTYPES = {
+        "Isolate ID": pandas.StringDtype(),
+        "Gene": pandas.StringDtype(),
+        "Type": pandas.StringDtype(),
+        "Position": pandas.StringDtype(), # These are ints, but sometimes (ex: complex mutations) they are strings like: "5485, 5629, 5667"
+        "Mutation": pandas.StringDtype(),
+        "%Identity": float,
+        "%Overlap": float,
+        "HSP Length/Total Length": pandas.StringDtype(),
+        "Contig": pandas.StringDtype(),
+        "Start": int,
+        "End": int,
+        "Pointfinder Position": pandas.StringDtype(), # This is actually a string like: "C-42T", "ins-16GT", etc.
+        "CGE Notes": pandas.StringDtype()
+    }
+
     SORT_COLUMNS = ['Isolate ID', 'Gene']
 
     def __init__(self, file_blast_map, blast_database, pid_threshold, plength_threshold, report_all=False,
