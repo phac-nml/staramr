@@ -1,3 +1,7 @@
+# Version 0.12.1
+
+- Updating Biopython minimum version to v.1.86 in setup.py file. [PR #239](https://github.com/phac-nml/staramr/pull/239)
+
 # Version 0.12.0
 
 - Updated the Resfinder database to use the 2025-05-04 / 2.6.0 release. [PR #232](https://github.com/phac-nml/staramr/pull/232)
