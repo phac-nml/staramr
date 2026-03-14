@@ -265,6 +265,12 @@ class AMRDetectionSummary:
             resistance_frame = resistance_frame.sort_values(['Isolate ID', 'Data Type', 'Gene'])
 
         if resistance_frame is not None:
+            # Restore Start/End to int after concats that may upcast to float (e.g. with negative_entries)
+            for col in ['Start', 'End']:
+                if col in resistance_frame.columns:
+                    resistance_frame[col] = pd.to_numeric(
+                        resistance_frame[col], errors='coerce'
+                    ).astype(pd.Int64Dtype())
             resistance_frame = resistance_frame.fillna("")
 
         return resistance_frame
