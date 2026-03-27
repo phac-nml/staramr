@@ -1,3 +1,7 @@
+# Unreleased
+
+- Fixed a problem where sometimes integers in the output (ex: start and end positions) would be converted to floats. [PR #243](https://github.com/phac-nml/staramr/pull/243)
+
 # Version 0.12.1
 
 - Updating Biopython minimum version to v.1.86 in setup.py file. [PR #239](https://github.com/phac-nml/staramr/pull/239)
