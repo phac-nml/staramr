@@ -158,8 +158,8 @@ class AMRDetectionPlasmid(unittest.TestCase):
         plasmid_type = detailed_summary_results[detailed_summary_results['Data'] == "rep1"]
         self.assertEqual(len(plasmid_type.index), 1, 'Wrong number of results detected')
         self.assertEqual(plasmid_type['Predicted Phenotype'].iloc[0], '', msg='Wrong predicted phenotype')
-        self.assertAlmostEqual(plasmid_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
-        self.assertAlmostEqual(plasmid_type['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(plasmid_type['%Identity'].iloc[0], '100.0', msg='Wrong pid')
+        self.assertEqual(plasmid_type['%Overlap'].iloc[0], '100.0', msg='Wrong overlap')
         self.assertEqual(plasmid_type['Accession'].iloc[0], 'AY357120', msg='Wrong accession')
         self.assertEqual(plasmid_type['HSP Length/Total Length'].iloc[0], '1491/1491', msg='Wrong lengths')
         self.assertEqual(plasmid_type['Data Type'].iloc[0], 'Plasmid', msg='Wrong data type')
@@ -167,8 +167,8 @@ class AMRDetectionPlasmid(unittest.TestCase):
         res_type = detailed_summary_results[detailed_summary_results['Data'] == "tet(47)"]
         self.assertEqual(len(res_type.index), 1, 'Wrong number of results detected')
         self.assertEqual(res_type['Predicted Phenotype'].iloc[0], 'tetracycline', msg='Wrong predicted phenotype')
-        self.assertAlmostEqual(res_type['%Identity'].iloc[0], 100.00, places=2, msg='Wrong pid')
-        self.assertAlmostEqual(res_type['%Overlap'].iloc[0], 100.00, places=2, msg='Wrong overlap')
+        self.assertEqual(res_type['%Identity'].iloc[0], '100.0', msg='Wrong pid')
+        self.assertEqual(res_type['%Overlap'].iloc[0], '100.0', msg='Wrong overlap')
         self.assertEqual(res_type['Accession'].iloc[0], 'KR857681', msg='Wrong accession')
         self.assertEqual(res_type['HSP Length/Total Length'].iloc[0], '1248/1248', msg='Wrong lengths')
         self.assertEqual(res_type['Data Type'].iloc[0], 'Resistance', msg='Wrong data type')
