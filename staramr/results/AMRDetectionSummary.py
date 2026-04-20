@@ -25,15 +25,29 @@ class AMRDetectionSummary:
         :param pointfinder_dataframe: The pd.DataFrame containing the PointFinder results.
         """
         self._names = [path.splitext(path.basename(x))[0] for x in files]
-        self._resfinder_dataframe = resfinder_dataframe
-        self._plasmidfinder_dataframe = plasmidfinder_dataframe
-        self._mlst_dataframe = mlst_dataframe
+
+        if resfinder_dataframe is not None:
+            self._resfinder_dataframe = resfinder_dataframe.astype(pd.StringDtype())
+        else:
+            self._resfinder_dataframe = None
+
+        if plasmidfinder_dataframe is not None:
+            self._plasmidfinder_dataframe = plasmidfinder_dataframe.astype(pd.StringDtype())
+        else:
+            self._plasmidfinder_dataframe = None
+
+        if mlst_dataframe is not None:
+            self._mlst_dataframe = mlst_dataframe.astype(pd.StringDtype())
+        else:
+            self._mlst_dataframe = None
+
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
-            self._pointfinder_dataframe = pointfinder_dataframe
-
+            self._pointfinder_dataframe = pointfinder_dataframe.astype(pd.StringDtype())
         else:
             self._has_pointfinder = False
+            self._pointfinder_dataframe = None
+
         self._quality_module_dataframe=quality_module_dataframe
 
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:

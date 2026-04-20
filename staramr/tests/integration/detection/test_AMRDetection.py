@@ -1120,6 +1120,14 @@ class AMRDetectionIT(unittest.TestCase):
         self.assertEqual(expected_records2['16S_rrsD'].seq.upper(), records['16S-rrsD_1_CP049983.1'].seq.upper(),
                          "records don't match")
 
+        detailed_summary_results = amr_detection.get_detailed_summary_results()
+        resistance = detailed_summary_results[detailed_summary_results['Data'] == "blaIMP-42"]
+
+        self.assertEqual(resistance['%Identity'].iloc[0], '99.73', msg='Wrong pid')
+        self.assertEqual(resistance['%Overlap'].iloc[0], '100.0', msg='Wrong overlap')
+        self.assertEqual(resistance['Start'].iloc[0], '4381', msg='Wrong start')
+        self.assertEqual(resistance['End'].iloc[0], '5121', msg='Wrong end')
+
     def testResfinderExcludeNonMatches(self):
         amr_detection = AMRDetectionResistance(self.resfinder_database, self.resfinder_drug_table,
                                                self.cge_drug_table, self.blast_handler,
