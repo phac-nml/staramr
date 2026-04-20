@@ -117,6 +117,8 @@ class AMRDetection:
 
     def _create_mlst_dataframe(self, mlst_data: str) -> DataFrame:
 
+        MLST_HEADER_ROW = "FILE\tSCHEME\tST\tSTATUS\tSCORE\tALLELES"
+
         columns = ['Isolate ID', 'Scheme', 'Sequence Type', 'Status', 'Score']
         curr_data = []
         max_columns = 0
@@ -126,9 +128,15 @@ class AMRDetection:
 
         if len(mlst_split) >= 1:
             # Parse and format the current row
-            for row in mlst_split[1:]: # Skip the header row
+            for row in mlst_split:
                 # Row format: [FILE\tSCHEME\tST\tSTATUS\tSCORE\tALLELES]
                 # Where: ALLELES is seperated with ";". Ex: adk(7);atpA(1);gmk(1)
+
+                # Skip the header row.
+                # The header row may appear multiple times as the output
+                # from multiple runs is concatenated together.
+                if row == MLST_HEADER_ROW:
+                    continue
 
                 tokens = re.split('\t', row)
                 array_format = tokens[:-1]
