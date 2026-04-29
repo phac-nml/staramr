@@ -1,4 +1,4 @@
-# Unreleased
+# Version 0.12.2
 
 - Fixed a problem where sometimes integers in the output (ex: start and end positions) would be converted to floats. [PR #243](https://github.com/phac-nml/staramr/pull/243)
 - Fixed a bug where extra MLST header lines were included in the MLST output when StarAMR was run with multiple input files. [PR #246](https://github.com/phac-nml/staramr/pull/246)
