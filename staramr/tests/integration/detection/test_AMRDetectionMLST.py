@@ -83,3 +83,50 @@ class AMRDetectionMLST(unittest.TestCase):
 
         self.assertEqual(mlst_results['Scheme'].iloc[0], '-', msg='Scheme is found, expected none')
         self.assertEqual(mlst_results['Sequence Type'].iloc[0], '-', msg='Sequence Type is found, expected none')
+
+    def testMLSTMultiple(self):
+        files = [path.join(self.test_data_dir, "test-mlst-summary.fsa"), # Salmonella
+                 path.join(self.test_data_dir, "gyrA-S97N.fsa"), # None
+                 path.join(self.test_data_dir, "gyrA-S83I.fsa")] # None
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
+
+        mlst_results = self.amr_detection.get_mlst_results()
+
+        self.assertEqual(len(mlst_results.index), 3, 'Wrong number of results detected')
+        self.assertEqual(len(mlst_results.columns), 11, 'Wrong number of columns detected')
+
+        self.assertEqual(mlst_results['Scheme'].iloc[0], 'salmonella', msg='Wrong Scheme')
+        self.assertEqual(mlst_results['Sequence Type'].iloc[0], '1', msg='Wrong Sequence Type')
+        self.assertEqual(mlst_results['Status'].iloc[0], 'PERFECT', msg='Wrong Status')
+        self.assertEqual(mlst_results['Score'].iloc[0], '100', msg='Wrong Score')
+        self.assertEqual(mlst_results['Locus 1'].iloc[0], 'aroC(1)', msg='Wrong Locus 1 Result')
+        self.assertEqual(mlst_results['Locus 2'].iloc[0], 'dnaN(1)', msg='Wrong Locus 2 Result')
+        self.assertEqual(mlst_results['Locus 3'].iloc[0], 'hemD(1)', msg='Wrong Locus 3 Result')
+        self.assertEqual(mlst_results['Locus 4'].iloc[0], 'hisD(1)', msg='Wrong Locus 4 Result')
+        self.assertEqual(mlst_results['Locus 5'].iloc[0], 'purE(1)', msg='Wrong Locus 5 Result')
+        self.assertEqual(mlst_results['Locus 6'].iloc[0], 'sucA(1)', msg='Wrong Locus 6 Result')
+        self.assertEqual(mlst_results['Locus 7'].iloc[0], 'thrA(5)', msg='Wrong Locus 7 Result')
+
+        self.assertEqual(mlst_results['Scheme'].iloc[1], '-', msg='Wrong Scheme')
+        self.assertEqual(mlst_results['Sequence Type'].iloc[1], '-', msg='Wrong Sequence Type')
+        self.assertEqual(mlst_results['Status'].iloc[1], 'NONE', msg='Wrong Status')
+        self.assertEqual(mlst_results['Score'].iloc[1], '0', msg='Wrong Score')
+        self.assertEqual(mlst_results['Locus 1'].iloc[1], '-', msg='Wrong Locus 1 Result')
+        self.assertEqual(mlst_results['Locus 2'].iloc[1], '-', msg='Wrong Locus 2 Result')
+        self.assertEqual(mlst_results['Locus 3'].iloc[1], '-', msg='Wrong Locus 3 Result')
+        self.assertEqual(mlst_results['Locus 4'].iloc[1], '-', msg='Wrong Locus 4 Result')
+        self.assertEqual(mlst_results['Locus 5'].iloc[1], '-', msg='Wrong Locus 5 Result')
+        self.assertEqual(mlst_results['Locus 6'].iloc[1], '-', msg='Wrong Locus 6 Result')
+        self.assertEqual(mlst_results['Locus 7'].iloc[1], '-', msg='Wrong Locus 7 Result')
+
+        self.assertEqual(mlst_results['Scheme'].iloc[2], '-', msg='Wrong Scheme')
+        self.assertEqual(mlst_results['Sequence Type'].iloc[2], '-', msg='Wrong Sequence Type')
+        self.assertEqual(mlst_results['Status'].iloc[2], 'NONE', msg='Wrong Status')
+        self.assertEqual(mlst_results['Score'].iloc[2], '0', msg='Wrong Score')
+        self.assertEqual(mlst_results['Locus 1'].iloc[2], '-', msg='Wrong Locus 1 Result')
+        self.assertEqual(mlst_results['Locus 2'].iloc[2], '-', msg='Wrong Locus 2 Result')
+        self.assertEqual(mlst_results['Locus 3'].iloc[2], '-', msg='Wrong Locus 3 Result')
+        self.assertEqual(mlst_results['Locus 4'].iloc[2], '-', msg='Wrong Locus 4 Result')
+        self.assertEqual(mlst_results['Locus 5'].iloc[2], '-', msg='Wrong Locus 5 Result')
+        self.assertEqual(mlst_results['Locus 6'].iloc[2], '-', msg='Wrong Locus 6 Result')
+        self.assertEqual(mlst_results['Locus 7'].iloc[2], '-', msg='Wrong Locus 7 Result')
