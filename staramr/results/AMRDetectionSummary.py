@@ -6,6 +6,7 @@ import pandas as pd
 from pandas import DataFrame
 
 logger = logging.getLogger("AMRDetectionSummary")
+FLOAT_PRECISION = 2
 
 """
 Summarizes ResFinder, PointFinder, and PlasmidFinder database results into a single table.
@@ -26,29 +27,27 @@ class AMRDetectionSummary:
         """
         self._names = [path.splitext(path.basename(x))[0] for x in files]
 
-        if resfinder_dataframe is not None:
-            self._resfinder_dataframe = resfinder_dataframe.astype(pd.StringDtype())
-        else:
-            self._resfinder_dataframe = None
-
-        if plasmidfinder_dataframe is not None:
-            self._plasmidfinder_dataframe = plasmidfinder_dataframe.astype(pd.StringDtype())
-        else:
-            self._plasmidfinder_dataframe = None
-
-        if mlst_dataframe is not None:
-            self._mlst_dataframe = mlst_dataframe.astype(pd.StringDtype())
-        else:
-            self._mlst_dataframe = None
+        self._resfinder_dataframe = self._convert_to_string_dataframe(resfinder_dataframe)
+        self._plasmidfinder_dataframe = self._convert_to_string_dataframe(plasmidfinder_dataframe)
+        self._mlst_dataframe = self._convert_to_string_dataframe(mlst_dataframe)
 
         if pointfinder_dataframe is not None:
             self._has_pointfinder = True
-            self._pointfinder_dataframe = pointfinder_dataframe.astype(pd.StringDtype())
+            self._pointfinder_dataframe = self._convert_to_string_dataframe(pointfinder_dataframe)
         else:
             self._has_pointfinder = False
             self._pointfinder_dataframe = None
 
         self._quality_module_dataframe=quality_module_dataframe
+
+    def _convert_to_string_dataframe(self, dataframe):
+        if dataframe is None:
+            return dataframe
+
+        dataframe = dataframe.round(FLOAT_PRECISION)
+        dataframe = dataframe.astype(pd.StringDtype())
+
+        return dataframe
 
     def _compile_results(self, resistance_frame: DataFrame) -> DataFrame:
         df_summary = resistance_frame.sort_values(by=['Gene']).groupby(['Isolate ID']).aggregate(
