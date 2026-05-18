@@ -25,7 +25,7 @@ class QualityModuleTest(unittest.TestCase):
         quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Exactly-Minimum-Value', quality_module.index[0], 'File name not equal')
-        self.assertEqual(100, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
+        self.assertEqual(100, quality_module['N50 value'].iloc[0], 'N50 value not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range [{},{}] ; N50 value is not greater than the specified minimum value [{}]'.format(self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value), quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -36,7 +36,7 @@ class QualityModuleTest(unittest.TestCase):
         quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-One-BP-Larger-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
-        self.assertEqual(101, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
+        self.assertEqual(101, quality_module['N50 value'].iloc[0], 'N50 value not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range [{},{}]'.format(self.genome_size_lower_bound,self.genome_size_upper_bound), quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -47,7 +47,7 @@ class QualityModuleTest(unittest.TestCase):
         quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Smaller-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
-        self.assertEqual(20, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
+        self.assertEqual(20, quality_module['N50 value'].iloc[0], 'N50 value not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range [{},{}] ; N50 value is not greater than the specified minimum value [{}]'.format(self.genome_size_lower_bound,self.genome_size_upper_bound,self.minimum_N50_value), quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -58,7 +58,7 @@ class QualityModuleTest(unittest.TestCase):
         quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Much-Larger-Than-Minimum-Value', quality_module.index[0], 'File name not equal')
-        self.assertEqual(1000, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
+        self.assertEqual(1000, quality_module['N50 value'].iloc[0], 'N50 value not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range [{},{}]'.format(self.genome_size_lower_bound,self.genome_size_upper_bound), quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -70,7 +70,7 @@ class QualityModuleTest(unittest.TestCase):
         quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Calculation', quality_module.index[0], 'File name not equal')
-        self.assertEqual(102, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
+        self.assertEqual(102, quality_module['N50 value'].iloc[0], 'N50 value not equal')
         self.assertEqual('Passed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('', quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -81,7 +81,7 @@ class QualityModuleTest(unittest.TestCase):
         quality_module=quality_module.create_quality_module_dataframe()
         self.assertEqual(1, len(quality_module.index), 'Invalid number of rows in results')
         self.assertEqual('test-N50-Unaffected-By-Empty-Contigs', quality_module.index[0], 'File name not equal')
-        self.assertEqual(101, quality_module['N50 value'].iloc[0], 'N50 vlaue not equal')
+        self.assertEqual(101, quality_module['N50 value'].iloc[0], 'N50 value not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('Genome length is not within the acceptable length range [{},{}]'.format(self.genome_size_lower_bound,self.genome_size_upper_bound), quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
 
@@ -150,7 +150,7 @@ class QualityModuleTest(unittest.TestCase):
         self.assertEqual(600, quality_module['Genome Length'].iloc[0], 'Genome length not equal')
         self.assertEqual('Failed', quality_module['Quality Module'].iloc[0], 'Quality result not equal')
         self.assertEqual('N50 value is not greater than the specified minimum value [{}]'.format(self.minimum_N50_value), quality_module['Quality Module Feedback'].iloc[0], 'Quality feedback not equal')
-    
+
     #NCO=Number of contigs with length above minimum contig length	NCU=Number of contigs with length under minimum contig length	NC=Number of contigs whose length is exactly minimum contig length
     def testNCExactlyUnacceptable(self):
         file = path.join(self.test_data_dir, "test-NC-Exactly-Unacceptable.fasta")
