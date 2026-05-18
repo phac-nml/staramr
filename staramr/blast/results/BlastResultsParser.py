@@ -72,7 +72,7 @@ class BlastResultsParser:
             if self._output_dir:
                 out_file = self._get_out_file_name(file)
                 if hit_seq_records:
-                    logger.debug("Writting hits to %s", out_file)
+                    logger.debug("Writing hits to %s", out_file)
                     Bio.SeqIO.write(hit_seq_records, out_file, 'fasta')
                 else:
                     logger.debug("No hits found, skipping writing output file to %s", out_file)
