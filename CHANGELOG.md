@@ -1,6 +1,7 @@
 # Unreleased
 
 - Added multiple CmlA and FloR entries to the Resfinder-associated gene-drug key so that if they are identified as a high-scoring BLAST match to a query, their phenotypes are reported instead of "Unknown[...]". [PR #250](https://github.com/phac-nml/staramr/pull/250)
+- Limited the precision in output tables to 2 decimal places. [PR #251](https://github.com/phac-nml/staramr/pull/251/changes)
 
 # Version 0.12.2
 
