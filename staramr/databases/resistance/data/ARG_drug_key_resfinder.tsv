@@ -2716,6 +2716,16 @@ phenicol	cml_1	M22614	chloramphenicol
 phenicol	cmlV_1	U09991	chloramphenicol
 phenicol	floR_1	AF071555	chloramphenicol,florfenicol
 phenicol	floR_2	AF118107	chloramphenicol,florfenicol
+phenicol	FloR_3	CP029595	chloramphenicol,florfenicol
+phenicol	FloR_4	CP136914	chloramphenicol,florfenicol
+phenicol	FloR_5	CP030849	chloramphenicol,florfenicol
+phenicol	FloR_6	CP131474	chloramphenicol,florfenicol
+phenicol	FloR_7	CP125947	chloramphenicol,florfenicol
+phenicol	FloR_8	KU548456	chloramphenicol,florfenicol
+phenicol	FloR_9	CP042967	chloramphenicol,florfenicol
+phenicol	FloR_10	CP020121	chloramphenicol,florfenicol
+phenicol	FloR_11	MG879028	chloramphenicol,florfenicol
+phenicol	FloR_12	KX364409	chloramphenicol,florfenicol
 phenicol	fexA_1	AJ549214	chloramphenicol,florfenicol
 phenicol	fexA_2	AM408573	chloramphenicol,florfenicol
 phenicol	pexA_1	HM537013	chloramphenicol,florfenicol
@@ -2742,6 +2752,14 @@ phenicol	cmlA4		chloramphenicol
 phenicol	catB11		chloramphenicol
 phenicol	cmlA		chloramphenicol
 phenicol	cmlA6		chloramphenicol
+phenicol	CmlA2_1	NG_047657	chloramphenicol
+phenicol	CmlA4_1	NG_047651	chloramphenicol
+phenicol	CmlA5_1	NG_047653	chloramphenicol
+phenicol	CmlA6_1	NG_047655	chloramphenicol
+phenicol	CmlA7_1	JQ639792	chloramphenicol
+phenicol	CmlA8_1	NG_051879	chloramphenicol
+phenicol	CmlA9_1	JN406319	chloramphenicol
+phenicol	CmlA10_1	AJ867810	chloramphenicol
 phenicol	optrA		chloramphenicol,florfenicol,linezolid
 phenicol	poxtA		chloramphenicol,florfenicol
 phenicol	oqxA		chloramphenicol,naladixic acid,ciprofloxacin,trimethoprim
