@@ -1801,5 +1801,25 @@ class AMRDetectionIT(unittest.TestCase):
                          'Chloramphenicol,Florphenicol', # There is a spelling error (Florfenicol) in the 2025-05-04 version of the database that was corrected in a 2025-05-14 commit (but has yet to be included in a tagged release).
                          'Wrong phenotype')
 
+    def testResfinder_Precision(self):
+        file = path.join(self.test_data_dir, "floR_1_AF071555_modified.fasta")
+        files = [file]
+        self.amr_detection.run_amr_detection(files, 99, 90, 90, 90,0,0,0,0,0)
+
+        resfinder_results = self.amr_detection.get_resfinder_results()
+        self.assertEqual(len(resfinder_results.index), 1, 'Wrong number of rows in result')
+
+        result = resfinder_results[resfinder_results['Gene'] == 'floR']
+        self.assertEqual(len(result.index), 1, 'Wrong number of results detected')
+        self.assertAlmostEqual(result['%Identity'].iloc[0], 99.92, places=2, msg='Wrong pid') # Without limiting precision: 99.917
+        self.assertAlmostEqual(result['%Overlap'].iloc[0], 99.67, places=2, msg='Wrong overlap') # Without limiting precision: 99.67078189300412
+        self.assertEqual(result['HSP Length/Total Length'].iloc[0], '1211/1215', msg='Wrong lengths')
+        self.assertEqual(result['Predicted Phenotype'].iloc[0],
+                         'chloramphenicol, florfenicol',
+                         'Wrong phenotype')
+        self.assertEqual(result['CGE Predicted Phenotype'].iloc[0],
+                         'Chloramphenicol, Florfenicol',
+                         'Wrong phenotype')
+
 if __name__ == '__main__':
     unittest.main()
